@@ -2,7 +2,7 @@ import tiktoken
 from IPython.display import display, Markdown
 import copy 
 from babydragon.core.vector_index import MemoryIndex
-from babydragon.oai_utils.utils import  check_dict
+from babydragon.oai_utils.utils import  check_dict, mark_question
 
 class MemoryThread:
     """this class is used to keep track of the memory thread and the total number of tokens all memories should subclass this class
