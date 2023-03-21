@@ -1,6 +1,6 @@
 from babydragon.chat.chat import Chat
 from babydragon.pandas_integration.pandas_index import PandasIndex
-from babydragon.memory_chat.memory_chat import FifoVectorChat
+from babydragon.chat.memory_chat import FifoVectorChat
 import tiktoken
 from babydragon.oai_utils.utils import mark_question, mark_system, mark_answer
 

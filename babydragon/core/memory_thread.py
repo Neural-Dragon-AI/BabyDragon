@@ -57,11 +57,9 @@ class MemoryThread:
             # update the total number of tokens
             self.memory_thread.append(message_dict)
             self.total_tokens += message_tokens
-            return True    
         else :
             display(Markdown("The memory thread is full, the last message was not added"))
-            return False
-
+            
     
                     
     def find_message(self,message_dict: dict, last=False):
@@ -151,13 +149,11 @@ class FifoMemory(MemoryThread):
         #move the message at the index idx to the longterm_memory
         display(Markdown("The memory thread is full, the oldest message with index {} was moved to the longterm memory".format(idx)))
         message = copy.deepcopy(self.memory_thread[idx])
-        print("preso il messagio e provo a ad aggiungerlo al longterm", message)
-        status = self.longterm_thread.add_message(message)
-        if status:
-            print("ho aggiunto il messaggio al longterm")
-            self.remove_message(idx=idx)
-        else:
-            raise Exception("The longterm memory is bugged")    
+        # print("preso il messagio e provo a ad aggiungerlo al longterm", message)
+        self.longterm_thread.add_message(message)
+
+        self.remove_message(idx=idx)
+    
         
     def add_message(self,message_dict: dict):
         # message_dict = {"role": role, "content": content}
@@ -173,12 +169,12 @@ class FifoMemory(MemoryThread):
                 
                 self.to_longterm(idx=0)
             super().add_message(message_dict)
-            return True
+            
         else:
             #add the message_dict to the memory_thread
             # update the total number of tokens
             super().add_message(message_dict)
-            return True 
+            
         
 class VectorMemory(MemoryThread, MemoryIndex):
     """ vector memory, creates a faiss index with the messages and allows to search for similar messages, memory threads can be composed in similarity order or in (TODO) chronological order 
@@ -188,16 +184,16 @@ class VectorMemory(MemoryThread, MemoryIndex):
         MemoryIndex.__init__(self, index = index, name = name)
         self.max_context = max_context
         
-    def index_message(self,message_dict: dict, verbose = True):
+    def index_message(self,message_dict: dict, verbose =False):
         """index a message in the faiss index, the message is embedded and the id is saved in the ids list
         """
         message_dict = check_dict(message_dict)
         self.add_to_index(value = message_dict, verbose = verbose)
 
     def add_message(self,message_dict: dict):
-        print("checking the dict")
+        # print("checking the dict")
         message_dict = check_dict(message_dict)
-        print("trying to add the message")
+        # print("trying to add the message")
         super().add_message(message_dict)
         self.index_message(message_dict) 
         return True
