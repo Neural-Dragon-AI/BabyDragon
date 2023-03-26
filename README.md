@@ -1,5 +1,8 @@
 # BabyDragon 
 
+``` 
+python -m pip install --editable path_to\DndGpt
+```
 * Simply track a history of messages until capacity. Done
 * Fifo Queue - Done
 * Vector Storage, memory is created by filling the context only with messages from the storage, 
