@@ -28,7 +28,7 @@ class PandasChat(PandasIndex, Chat):
         return system_prompt.format(index_descrpiton = index_description)
     
     def get_hint_prompt(self, question):
-        hints = self.get_token_bound_hints(question, k = 10)
+        hints = self.get_token_bound_hints(question, k = 10, max_context = self.max_context)
         hints_string = "\n ".join(hints)
         prefix= "I am going to ask you a question and you should use the hints to answer it. The hints are:\n{hints_string}"
         questionintro ="The question is: {question}"
@@ -45,22 +45,7 @@ class PandasChat(PandasIndex, Chat):
         # display(Markdown(str(prompt)))
         return prompt, mark_question(question)
 
-    def get_token_bound_hints(self, query, k = 10):
-        context_tokens = 0
-        if len(self.values) > 0 :
-            top_k = self.faiss_query(query, k = min(k, len(self.values)))
-            # print("top_k: ", top_k)
-            top_k_hint = []
-            for hint in top_k:
-                #mark the message and gets the length in tokens
-                message_tokens = len(self.tokenizer.encode(hint))
-                if context_tokens+message_tokens <= self.max_context:
-                    top_k_hint+=[hint]
-                    context_tokens += message_tokens
-            #inver the top_k_prompt to start from the most similar message
-            # top_k_hint.reverse()
-            #reverse the prompt so that last is the most similar message
-        return top_k_hint
+    
     
 # here we write a fifo vectorchat with a PandasIndex as external source of information, we can not subclass PandasIndex because many 
 # methods are overlapping 

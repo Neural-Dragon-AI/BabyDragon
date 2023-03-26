@@ -48,3 +48,5 @@ class PandasIndex(MemoryIndex):
                 embeddings.append(embedding)
 
         return values, embeddings if embeddings_col is not None else None
+
+    
