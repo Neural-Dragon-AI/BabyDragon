@@ -1,3 +1,9 @@
 
 *.pyc
-BabyDragon.egg-info\*
+# Ignore egg-info directory
+**egg-info/
+
+# Ignore all files within egg-info directory
+**egg-info/*
+
+outs/*
