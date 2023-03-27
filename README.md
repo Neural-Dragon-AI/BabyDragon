@@ -1,7 +1,7 @@
 # BabyDragon 
 
 ``` 
-python -m pip install --editable path_to\DndGpt
+python -m pip install --editable path_to\BabyDragon
 ```
 * Simply track a history of messages until capacity. Done
 * Fifo Queue - Done
