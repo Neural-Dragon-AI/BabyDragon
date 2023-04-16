@@ -6,40 +6,43 @@ In the context of the general LLM working memory class framework, this Python co
 
  The working memory class includes the following agents:
 
-1. Short-term Memory: GitMemory
-2. Episodic Memory: CommitIndex
-3. Associative Memory: External Code Repositories
-4. Goal Definition: Meta-code
-5. Self-prompting: Draft Script Iteration
-6. Output Format Definition: Python Code
+1. Short-term Memory: GitMemory - Stores the current state of the user's codebase.
+2. Episodic Memory: CommitIndex - Manages the history of draft script iterations, mimicking git code modifications.
+3. Associative Memory: External Code Repositories - Contains external libraries and resources for providing context during code generation.
+4. Goal Definition: Meta-code - Represents the user's goal in a structured format that guides the code generation process.
+5. Self-prompting: Draft Script Iteration - Enables the model to iteratively refine the draft script based on user input, context, and goal.
+6. Output Format Definition: Python Code - Ensures the generated code conforms to Python syntax and style guidelines.
 
 ## Python Code Generation Workflow
 
-1. User specifies the desired class or method objective in natural language.
-
-2. GitMemory loads the user's current codebase into a vector storage, parsed with the libcst library.
-
-3. A meta-code definition of the goal is generated.
-
-4. A query into GitMemory and the associative memory (containing other libraries and resources) is used to create the context for the task.
-
-5. A draft of the class or method is prepared.
+1. User provides the desired class or method objective in natural language.
+2. GitMemory imports the user's current codebase into a vector storage, utilizing the libcst library for parsing.
+3. A meta-code representation of the user's goal is generated.
+4. A query leveraging GitMemory and the associative memory (which includes external libraries and resources) establishes the task context.
+5. An initial draft of the class or method is created based on the context.
+6. Modifications to the draft code are generated, considering the meta-code and context resources.
+7. The updated draft code is validated for consistency and compared with the user's goal based on the meta-code.
+8. If the updated draft passes validation and meets the user's goal, it is stored in the commit index. Otherwise, the draft is rolled back to the previous state.
 
 ## CommitIndex for Draft Script
 
-1. The episodic memory of the draft script is handled like a git code modification.
-
-2. Each writing operation corresponds to a commit, with a time-ordered vector index to handle each iteration, a commit name, and a message to describe the reason.
-
-3. The git message contains a save of the state of the working memory that pushed it, so it can be replicated.
-
-4. Both the target class and the meta-code definition of the class are stored in the CommitIndex structure for easy rollbacks and memory modifications.
+1. The episodic memory for the draft script is managed similarly to a git code modification.
+2. Each writing operation is treated as a commit, with a time-ordered vector index for tracking iterations, a commit name, and a message explaining the rationale.
+3. The git message stores the state of the working memory that triggered the commit, enabling replication.
+4. Both the target class and the meta-code representation are maintained within the CommitIndex structure, simplifying rollbacks and memory modifications.
 
 ## Short-term and Contextual Memory
 
-1. The short-term memory of the agent is composed of the GitMemory of the repo hosting the code generation target.
+1. The short-term memory of the agent comprises the GitMemory of the repository containing the code generation target.
+2. Contextual memory consists of additional GitHub repositories and coding resources accessible to the model.
 
-2. The contextual memory is composed of other GitHub repositories and coding resources that the model has access to.
+## Additional Workflow Steps
+
+1. If the updated draft is stored in the commit index, tests are run, and performance metrics are analyzed.
+2. Documentation is generated, and a peer review is requested for the updated draft.
+3. If tests pass and performance metrics meet expectations, the updated draft incorporates feedback from the peer review, documentation is finalized, and the final draft is stored in the commit index.
+4. If tests fail or performance metrics are unsatisfactory, the draft is rolled back to the previous state.
+
 
 ## HighLevel Specification of the WorkingMemory Loop
 ```
