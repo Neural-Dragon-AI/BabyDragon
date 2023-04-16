@@ -1,6 +1,10 @@
 # Working Memory Concept for Python Code Generation
 
-The working memory class for generating Python code combines various components to generate contextually appropriate and coherent code based on user inputs. The working memory class includes the following agents:
+The working memory class for generating Python code is a specialized implementation of the general working memory concept in large language models (LLMs). It is designed to provide the LLM with a contextual and coherent framework for generating Python code based on user inputs, incorporating various components of the working memory, such as short-term memory, episodic memory, associative memory, goal definition, self-prompting, and output format definition.
+
+In the context of the general LLM working memory class framework, this Python code generation working memory class aims to enhance the LLM's ability to understand, process, and generate code that adheres to user-defined goals and constraints. By leveraging the different memory components, the working memory class efficiently processes user input, retrieves relevant information, and iteratively refines the generated code until it aligns with the user's objectives.
+
+ The working memory class includes the following agents:
 
 1. Short-term Memory: GitMemory
 2. Episodic Memory: CommitIndex
