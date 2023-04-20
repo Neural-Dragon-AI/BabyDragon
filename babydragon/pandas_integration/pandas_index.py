@@ -1,7 +1,7 @@
 import pandas as pd
 import copy
 import os
-from babydragon.core.vector_index import MemoryIndex
+from babydragon.memory.indexes.memory_index import MemoryIndex
 
 class PandasIndex(MemoryIndex):
     def __init__(self, pandaframe, columns=None, name='panda_index', save_path=None, in_place=True, embeddings_col=None):
