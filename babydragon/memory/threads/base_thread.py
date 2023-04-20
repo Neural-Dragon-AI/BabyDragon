@@ -241,18 +241,18 @@ class BaseThread:
                 messages.append(message_dict)
         return messages if len(messages) > 0 else None
     
-    def token_bound_history(self, max_tokens: int, max_history = None,  role: Union[str,None] = None ):
-        """
-        Get all messages before a specific time in the memory thread with a specific role. starting from the last message and going backwards."""
+    def token_bound_history(self, max_tokens: int, max_history=None, role: Union[str, None]=None):
         messages = []
+        indices = []
         tokens = 0
         if max_history is None:
             max_history = len(self.memory_thread)
-    
+
         for idx, message_dict in enumerate(reversed(self.memory_thread)):
             if tokens + self.message_tokens[idx] < max_tokens and (role is None or message_dict["role"] == role) and idx < max_history:
                 messages.append(message_dict)
+                indices.append(len(self.memory_thread) - 1 - idx)
                 tokens += self.message_tokens[idx]
             else:
                 break
-        return messages if len(messages) > 0 else None
+        return messages, indices if len(messages) > 0 else (None, None)
