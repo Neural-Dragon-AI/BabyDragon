@@ -4,34 +4,68 @@ import tiktoken
 from IPython.display import display, Markdown
 from babydragon.oai_utils.utils import mark_question, mark_system, mark_answer, get_mark_from_response , get_str_from_response, check_dict
 from babydragon.chat.prompts.default_prompts import default_system_prompt, default_user_prompt
+from typing import Callable, Tuple, List
+from typing import List, Tuple, Union, Dict
 
 
 class Prompter:
-    """This class handles the system and user prompts and the prompt_func, by subclassing and overriding the prompt_func you can change the way the prompts are composed"""
+    """
+    This class handles the system and user prompts and the prompt_func. By subclassing and overriding the
+    prompt_func, you can change the way the prompts are composed.
+    """
 
-    def __init__(self, system_prompt=None, user_prompt=None):
+    def __init__(self, system_prompt: str = None, user_prompt: str = None):
+        """
+        Initialize the Prompter with system and user prompts.
+
+        :param system_prompt: A string representing the system prompt.
+        :param user_prompt: A string representing the user prompt.
+        """
         if system_prompt is None:
             self.system_prompt = default_system_prompt
         if user_prompt is None:
             self.user_prompt = default_user_prompt
-        self.prompt_func = self.one_shot_prompt
+        self.prompt_func: Callable[[str], Tuple[List[str], str]] = self.one_shot_prompt
 
-    def one_shot_prompt(self, message):
-        #compose the prompt for the chat-gpt api
-        prompt = [mark_system(self.system_prompt)]+ [mark_question(self.user_prompt.format(question=message))]
+    def one_shot_prompt(self, message: str) -> Tuple[List[str], str]:
+        """
+        Compose the prompt for the chat-gpt API.
+
+        :param message: A string representing the user message.
+        :return: A tuple containing a list of strings representing the prompt and a string representing the marked question.
+        """
+        prompt = [mark_system(self.system_prompt)] + [mark_question(self.user_prompt.format(question=message))]
         return prompt, mark_question(self.user_prompt.format(question=message))
 
-    def update_system_prompt(self, new_prompt):
+    def update_system_prompt(self, new_prompt: str) -> None:
+        """
+        Update the system prompt.
+
+        :param new_prompt: A string representing the new system prompt.
+        """
         self.system_prompt = new_prompt
 
-    def update_user_prompt(self, new_prompt):
+    def update_user_prompt(self, new_prompt: str) -> None:
+        """
+        Update the user prompt.
+
+        :param new_prompt: A string representing the new user prompt.
+        """
         self.user_prompt = new_prompt
 
-
 class BaseChat:
-    """this is the base class for chatbots, it defines the basic functions that a chatbot should have, mainly the calls to chat-gpt api, and a basic gradio interface
-    it has a prompt func that acts as a placeholder for a call to chat-gpt api without any additional messages, it can be overriden by subclasses to add additional messages to the prompt"""
-    def __init__(self, model, max_output_tokens = 1000):
+    """
+    This is the base class for chatbots, defining the basic functions that a chatbot should have, mainly the calls to
+    chat-gpt API, and a basic Gradio interface. It has a prompt_func that acts as a placeholder for a call to chat-gpt
+    API without any additional messages. It can be overridden by subclasses to add additional messages to the prompt.
+    """
+    def __init__(self, model: str = None, max_output_tokens: int = 1000):
+        """
+        Initialize the BaseChat with a model and max_output_tokens.
+
+        :param model: A string representing the chat model to be used.
+        :param max_output_tokens: An integer representing the maximum number of output tokens.
+        """
         if model is None:
             self.model = "gpt-3.5-turbo"
         else:
@@ -44,10 +78,23 @@ class BaseChat:
         self.prompts = []
         self.prompt_func = self.identity_prompter
 
-    def identity_prompter(self, message):
+    def identity_prompter(self, message: str) -> Tuple[str, str]:
+        """
+        A simple identity prompter that takes a message and returns the message marked as a question.
+
+        :param message: A string representing the user message.
+        :return: A tuple containing the marked question and the original message.
+        """
         return mark_question(message), message
 
-    def chat_response(self, prompt, max_output_tokens = None):
+    def chat_response(self, prompt: List[str], max_output_tokens: int = None) -> Tuple[Dict, bool]:
+        """
+        Call the OpenAI API with the given prompt and maximum number of output tokens.
+
+        :param prompt: A list of strings representing the prompt to send to the API.
+        :param max_output_tokens: An integer representing the maximum number of output tokens.
+        :return: A tuple containing the API response as a dictionary and a boolean indicating success.
+        """
         if max_tokens is None:
             max_tokens = self.max_output_tokens
         try:
@@ -64,10 +111,23 @@ class BaseChat:
             self.failed_responses.append(fail_response)
             return fail_response , False
 
-    def reply(self,message):
-        return self.query(message)["content"]
+    def reply(self, message: str, verbose : bool = True) -> str:
+        """
+        Reply to a given message using the chatbot.
+
+        :param message: A string representing the user message.
+        :return: A string representing the chatbot's response.
+        """
+        return self.query(message, verbose)["content"]
     
-    def query(self, message, verbose = True):
+    def query(self, message: str, verbose: bool = True) -> str:
+        """
+        Query the chatbot with a given message, optionally showing the input and output messages as Markdown.
+
+        :param message: A string representing the user message.
+        :param verbose: A boolean indicating whether to display input and output messages as Markdown.
+        :return: A string representing the chatbot's response.
+        """
         self.inputs.append(message)
         prompt, _ = self.prompt_func(message)
         self.prompts.append(str(prompt))
@@ -83,7 +143,14 @@ class BaseChat:
         else:
             raise Exception("OpenAI API Error inside query function")
 
-    def run_text(self, text, state):
+    def run_text(self, text: str, state: List[Tuple[str, str]]) -> Tuple[List[Tuple[str, str]], List[Tuple[str, str]]]:
+        """
+        Process the user's text input and update the chat state.
+
+        :param text: A string representing the user input.
+        :param state: A list of tuples representing the current chat state.
+        :return: A tuple containing the updated chat state as two lists of tuples.
+        """
         print("===============Running run_text =============")
         print("Inputs:", text)
         try: 
@@ -96,6 +163,9 @@ class BaseChat:
         return state, state
 
     def gradio(self):
+        """
+        Create and launch a Gradio interface for the chatbot.
+        """
         with gr.Blocks(css="#chatbot .overflow-y-auto{height:500px}") as demo:
             chatbot = gr.Chatbot(elem_id="chatbot", label="NeuralDragonAI Alpha-V0.1")
             state = gr.State([])
@@ -112,8 +182,8 @@ class BaseChat:
 
 class Chat(BaseChat, Prompter):
     """This class combines the BaseChat and Prompter classes to create a oneshot chatbot with a system and user prompt"""
-    def __init__(self, max_output_tokens=1000, system_prompt=None, user_prompt=None):
-        BaseChat.__init__(self, max_output_tokens=max_output_tokens)
+    def __init__(self,  model: str = None, max_output_tokens: int = 1000, system_prompt: str = None, user_prompt: str = None) -> None:
+        BaseChat.__init__(self, model= model, max_output_tokens=max_output_tokens)
         Prompter.__init__(self, system_prompt=system_prompt, user_prompt=user_prompt)
 
 
