@@ -1,8 +1,7 @@
 import tiktoken
 from IPython.display import display, Markdown
-import copy 
 from babydragon.memory.indexes.memory_index import MemoryIndex
-from babydragon.oai_utils.utils import  check_dict, mark_question
+from babydragon.utils.oai import  check_dict, mark_question
 import time
 from typing import Optional, Any, Dict, Union
 

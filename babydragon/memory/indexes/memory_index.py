@@ -9,7 +9,7 @@ import numpy as np
 import tiktoken
 from IPython.display import Markdown, display
 
-from babydragon.oai_utils.utils import OpenAiEmbedder
+from babydragon.utils.oai import OpenAiEmbedder
 from typing import List, Optional, Union, Dict, Tuple 
 
 

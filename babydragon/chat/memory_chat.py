@@ -1,26 +1,33 @@
 from babydragon.memory.threads.fifo_thread import FifoThread
 from babydragon.memory.threads.vector_thread import VectorThread
 from babydragon.memory.threads.base_thread import BaseThread
-from babydragon.chat.chat import BaseChat, Prompter
-from babydragon.oai_utils.utils import mark_question, mark_system, mark_answer
+from babydragon.chat.chat import BaseChat, Prompter, Chat
+from babydragon.utils.oai import mark_question, mark_system, mark_answer
 
 
 
 from typing import List, Tuple
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Dict, Union
+from babydragon.memory.indexes.memory_index import MemoryIndex 
+from babydragon.memory.indexes.pandas_index import PandasIndex
 
 
 
-class FifoChat(FifoThread, BaseChat, Prompter):
+class FifoChat(FifoThread, Chat, Prompter):
     """
     A chatbot class that combines FIFO Memory Thread, BaseChat, and Prompter. The oldest messages are removed first
     when reaching the max_memory limit. The memory is defined in terms of tokens, and outs are passed to the
     longterm_memory. The lucid_memory is a redundant memory that stores all the messages.
     """
 
-    def __init__(self, model: Optional[str] = None, system_prompt: Optional[str] = None, user_prompt: Optional[str] = None, name: str = 'fifo_memory', max_fifo_memory: int = 2048, max_output_tokens: int = 1000, longterm_thread: Optional[BaseThread] =None):
+    def __init__(self, model: Optional[str] = None,
+                 indices: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None, 
+                  system_prompt: Optional[str] = None, user_prompt: Optional[str] = None, name: str = 'fifo_memory',
+                  max_index_memory: int = 400,  max_fifo_memory: int = 2048, max_output_tokens: int = 1000, 
+                  longterm_thread: Optional[BaseThread] =None):
+        
         FifoThread.__init__(self, name=name, max_memory=max_fifo_memory, longterm_thread=longterm_thread)
-        BaseChat.__init__(self, model= model, max_output_tokens=max_output_tokens)
+        Chat.__init__(self, model= model,indices= indices,  max_output_tokens=max_output_tokens, max_index_memory=max_index_memory)
         Prompter.__init__(self, system_prompt=system_prompt, user_prompt=user_prompt)
         self.prompt_func = self.fifo_memory_prompt
 
@@ -59,9 +66,9 @@ class VectorChat(VectorThread, BaseChat, Prompter):
     filling the memory with the k most similar messages to the question until the max prompt memory tokens are reached.
     """
 
-    def __init__(self, model: Optional[str] = None, index: Optional[str] = None, name: str = 'vector_memory', max_vector_memory: int = 2048, max_output_tokens: int = 1000, system_prompt: str = None, user_prompt: str = None):
-        VectorThread.__init__(self, index=index, name=name, max_context=max_vector_memory)
-        BaseChat.__init__(self, model= model, max_output_tokens=max_output_tokens)
+    def __init__(self, model: Optional[str] = None, indices: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None,  name: str = 'vector_memory',  max_index_memory: int = 400,  max_vector_memory: int = 2048, max_output_tokens: int = 1000, system_prompt: str = None, user_prompt: str = None):
+        VectorThread.__init__(self, name=name, max_context=max_vector_memory)
+        Chat.__init__(self, model= model,indices= indices,  max_output_tokens=max_output_tokens, max_index_memory=max_index_memory)
         Prompter.__init__(self, system_prompt=system_prompt, user_prompt=user_prompt)
         self.max_vector_memory = self.max_context
         self.prompt_func = self.vector_memory_prompt
@@ -115,12 +122,12 @@ class FifoVectorChat(FifoThread, BaseChat, Prompter):
     A chatbot class that combines FIFO Memory Thread, Vector Memory Thread, BaseChat, and Prompter.
     The memory prompt is constructed by including both FIFO memory and Vector memory.
     """
-    def __init__(self, model: str = None, system_prompt: str = None, user_prompt: str = None, name: str = 'fifo_vector_memory', max_memory: int = 2048, max_output_tokens: int = 1000, longterm_thread: Optional[VectorThread] = None, longterm_frac: float = 0.5):
+    def __init__(self, model: str = None, indices: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None,  system_prompt: str = None, user_prompt: str = None, name: str = 'fifo_vector_memory', max_memory: int = 2048,  max_index_memory: int = 400,  max_output_tokens: int = 1000, longterm_thread: Optional[VectorThread] = None, longterm_frac: float = 0.5):
         self.total_max_memory = max_memory
 
         self.setup_longterm_memory(longterm_thread, max_memory, longterm_frac)
         FifoThread.__init__(self, name=name, max_memory=self.max_fifo_memory, longterm_thread=self.longterm_thread)
-        BaseChat.__init__(self, model=model, max_output_tokens=max_output_tokens)
+        Chat.__init__(self, model= model,indices= indices,  max_output_tokens=max_output_tokens, max_index_memory=max_index_memory)
         Prompter.__init__(self, system_prompt=system_prompt, user_prompt=user_prompt)
         self.prompt_func = self.fifovector_memory_prompt
         self.prompt_list = []
@@ -137,7 +144,7 @@ class FifoVectorChat(FifoThread, BaseChat, Prompter):
             self.longterm_frac = longterm_frac
             self.max_fifo_memory = int(max_memory * (1-self.longterm_frac))
             self.max_vector_memory = max_memory - self.max_fifo_memory    
-            self.longterm_thread = VectorThread(None, 'longterm_memory', max_context=self.max_vector_memory)
+            self.longterm_thread = VectorThread(name= 'longterm_memory', max_context=self.max_vector_memory)
         else:
             self.longterm_thread = longterm_thread
             self.max_vector_memory = self.longterm_thread.max_context

@@ -7,7 +7,7 @@ class MemoryKernel(MemoryIndex):
     def __init__(self, values, embeddings, name="memory_kernel", save_path=None):
         super().__init__(values, embeddings, name, save_path)
         self.create_k_hop_index()
-        
+
     def cos_sim(self, a, b):
         """
         Computes the cosine similarity cos_sim(a[i], b[j]) for all i and j.
@@ -17,7 +17,7 @@ class MemoryKernel(MemoryIndex):
             a = np.array(a)
 
         if not isinstance(b, np.ndarray):
-            b = np.array(b)
+            b = np.array(b) 
 
         if len(a.shape) == 1:
             a = a[np.newaxis, :]

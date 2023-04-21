@@ -1,6 +1,6 @@
 from babydragon.memory.threads.base_thread import BaseThread
 from babydragon.memory.indexes.memory_index import MemoryIndex
-from babydragon.oai_utils.utils import check_dict, mark_question
+from babydragon.utils.oai import check_dict, mark_question
 import faiss
 import numpy as np
 
@@ -8,9 +8,9 @@ class VectorThread(BaseThread, MemoryIndex):
     """ vector BaseThread, creates a faiss index with the messages and allows to search for similar messages, memory BaseThread can return messages in either similarity or chronological order 
       add a parameter to choose the order of the messages
     """
-    def __init__(self, index = None, name= 'vector_memory', max_context = 2048, max_memory = None, use_mark = False):
+    def __init__(self, name= 'vector_memory', max_context = 2048, use_mark = False):
         super().__init__(name= name , max_memory= None)
-        MemoryIndex.__init__(self, index = index, name = name)
+        MemoryIndex.__init__(self, index = None, name = name)
         self.max_context = max_context
         self.use_mark = use_mark
         self.local_index = faiss.IndexFlatIP(self.embedder.get_embedding_size())
