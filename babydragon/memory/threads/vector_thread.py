@@ -62,25 +62,72 @@ class VectorThread(BaseThread, MemoryIndex):
             sorted_messages = [self.memory_thread[i] for i in sorted_indices]
         return sorted_messages, sorted_scores, sorted_indices
     
-    def weighted_query(self, query, k: int = 10, max_tokens: int = 4000, history_k: int = 10, decay_factor: float = 0.5):
-        sorted_messages, sorted_scores, sorted_indices = self.sorted_query(query, k, max_tokens)
-        recent_messages, recent_indices = self.token_bound_history(max_tokens, max_history=history_k)
+    def weighted_query(self, query, k: int = 10, max_tokens: int = 4000, decay_factor: float = 0.1, temporal_weight: float = 0.5, order_by: str = 'chronological', reverse: bool = False) -> list:
+        """ Returns the k most similar messages to the query, sorted in either similarity or chronological order. The results are weighted by a combination of similarity scores and temporal weights.
+        The temporal weights are computed using an exponential decay function with the decay factor as the decay rate. The temporal weight of the most recent message is 1 and the temporal weight of the oldest message is 0.
+        The temporal weight of a message is multiplied by the temporal_weight parameter to control the relative importance of the temporal weights. The default value of 0.5 means that the temporal weights are equally important as the similarity scores.
+        The order_by parameter controls the order of the results. If it is set to 'similarity', the results are sorted in similarity order. If it is set to 'chronological', the results are sorted in chronological order with the most recent message first.
+        If reverse is True, the results are sorted in reverse chronological order with the oldest message first.
+        """
+        # Validate order_by parameter
+        if order_by not in ('similarity', 'chronological'):
+            raise ValueError("Invalid value for order_by parameter. It should be either 'similarity' or 'chronological'.")
 
-        combined_messages = sorted_messages + recent_messages
-        combined_indices = sorted_indices + recent_indices
-        combined_embeddings = np.vstack([self.embeddings[i] for i in sorted_indices] + [self.embed(msg["content"]) for msg in recent_messages])
-        self.local_index.add(combined_embeddings)
+        # Get similarity-based results
+        sim_messages, sim_scores, sim_indices = self.sorted_query(query, k, max_tokens=max_tokens)
+        
+        # Get token-bound history
+        hist_messages, hist_indices = self.token_bound_history(max_tokens=max_tokens)
+        
+        # Combine messages and indices
+        combined_messages = sim_messages + hist_messages
+        combined_indices = sim_indices + hist_indices
+        
+        # Create the local_index and populate it
+        self.local_index = MemoryIndex(name='local_index')
+        for message in combined_messages:
+            self.local_index.add_to_index(value=message, verbose=False)
+        
+        # Perform a new query on the combined index
+        new_query_results, new_query_scores, new_query_indices = self.local_index.token_bound_query(query, k=len(combined_messages), max_tokens=max_tokens)
+        
+        # Compute temporal weights
+        temporal_weights = [np.exp(-decay_factor * i) for i in range(len(combined_messages))]
+        temporal_weights = [w / sum(temporal_weights) for w in temporal_weights]  # Normalize the temporal weights
+        
+        # Combine similarity scores and temporal weights
+        weighted_scores = []
+        for i in range(len(new_query_scores)):
+            sim_score = new_query_scores[i]
+            temp_weight = temporal_weights[combined_indices.index(new_query_indices[i])]
+            weighted_score = (1 - temporal_weight) * sim_score + temporal_weight * temp_weight
+            weighted_scores.append(weighted_score)
+        
+        # Sort the results based on the order_by parameter
+        if order_by == 'similarity':
+            sorting_key = lambda k: weighted_scores[k]
+        elif order_by == 'chronological':  # order_by == 'chronological'
+            sorting_key = lambda k: new_query_indices[k]
+        else:
+            raise ValueError("Invalid value for order_by parameter. It should be either 'similarity' or 'chronological'.")
 
-        _, local_indices = self.local_index.search(self.embed(query).reshape(1, -1), len(self.local_index))
+        sorted_indices = [new_query_indices[i] for i in sorted(range(len(new_query_indices)), key=sorting_key, reverse=not reverse)]
+        sorted_results = [new_query_results[i] for i in sorted(range(len(new_query_results)), key=sorting_key, reverse=not reverse)]
+        sorted_scores = [weighted_scores[i] for i in sorted(range(len(weighted_scores)), key=sorting_key, reverse=not reverse)]
 
-        weights = [np.exp(-decay_factor * i) for i in range(len(combined_indices))]
-        weighted_scores = [sorted_scores[i] * weights[i] for i in local_indices[0]]
+        # Return only the top k results without exceeding max_tokens
+        final_results, final_scores, final_indices = [], [], []
+        current_tokens = 0
+        for i in range(min(k, len(sorted_results))):
+            message_tokens = self.get_message_tokens(sorted_results[i])
+            if current_tokens + message_tokens <= max_tokens:
+                final_results.append(sorted_results[i])
+                final_scores.append(sorted_scores[i])
+                final_indices.append(sorted_indices[i])
+                current_tokens += message_tokens
+            else:
+                break
+        
+        return final_results, final_scores, final_indices
 
-        sorted_weighted_indices = sorted(range(len(weighted_scores)), key=lambda x: weighted_scores[x], reverse=True)
-        weighted_results = [combined_messages[i] for i in sorted_weighted_indices]
-
-        self.local_index.reset()
-
-        return weighted_results
-    
 

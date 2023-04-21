@@ -36,3 +36,13 @@ def check_dict(message_dict):
         elif type(message_dict) is not dict:
             raise Exception("The message_dict should be a dictionary or a [dictionary] instead it is ", message_dict, type(message_dict))  
         return message_dict
+
+def get_mark_from_response(response):
+        #return the answer from the response
+        role = response['choices'][0]["message"]["role"]
+        message = response['choices'][0]["message"]["content"]
+        return {"role": role, "content": message}
+
+def get_str_from_response(response):
+        #return the answer from the response
+        return response['choices'][0]["message"]["content"]
