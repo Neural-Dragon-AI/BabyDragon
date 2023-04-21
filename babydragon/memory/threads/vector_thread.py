@@ -3,24 +3,25 @@ from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.utils.oai import check_dict, mark_question
 import faiss
 import numpy as np
+from typing import Optional
 
 class VectorThread(BaseThread, MemoryIndex):
     """ vector BaseThread, creates a faiss index with the messages and allows to search for similar messages, memory BaseThread can return messages in either similarity or chronological order 
       add a parameter to choose the order of the messages
     """
     def __init__(self, name= 'vector_memory', max_context = 2048, use_mark = False):
-        super().__init__(name= name , max_memory= None)
+        BaseThread.__init__(self,name= name , max_memory= None)
         MemoryIndex.__init__(self, index = None, name = name)
         self.max_context = max_context
         self.use_mark = use_mark
         self.local_index = faiss.IndexFlatIP(self.embedder.get_embedding_size())
         
-    def index_message(self,message_dict: dict, verbose: bool =False):
+    def index_message(self,message: str , verbose: bool =False):
         """index a message in the faiss index, the message is embedded and added to the index
         self.values and self.embeddings and self.index are updated
         """
-        message_dict = check_dict(message_dict)
-        self.add_to_index(value = message_dict, verbose = verbose)
+        
+        self.add_to_index(value = message, verbose = verbose)
 
     def add_message(self, message_dict: dict, verbose: bool = False):
         """add a message to the memory thread, the message is embedded and added to the index
@@ -29,11 +30,9 @@ class VectorThread(BaseThread, MemoryIndex):
         # print("checking the dict")
         message_dict = check_dict(message_dict)
         # print("trying to add the message")
-        super().add_message(message_dict)
-        if not self.use_mark:
-            message = message_dict["content"]
-        else:
-            message= message_dict
+        BaseThread.add_message(self,message_dict)
+        # print(message_dict)
+        message = message_dict["content"]
         self.index_message(message, verbose = verbose)
         return True
     

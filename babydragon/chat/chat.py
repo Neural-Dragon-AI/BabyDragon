@@ -8,21 +8,20 @@ from babydragon.chat.base_chat import BaseChat, Prompter
 class Chat(BaseChat, Prompter):
     """
     This class combines the BaseChat and Prompter classes to create a oneshot chatbot with a system and user prompt,
-    and the ability to handle multiple indices.
+    and the ability to handle multiple index_dict.
     """
 
-    def __init__(self, model: str = None, max_output_tokens: int = 1000, system_prompt: str = None, user_prompt: str = None, indices: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None, max_index_memory: int = 1000) -> None:
+    def __init__(self, model: str = None, max_output_tokens: int = 1000, system_prompt: str = None, user_prompt: str = None, index_dict: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None, max_index_memory: int = 1000) -> None:
         BaseChat.__init__(self, model=model, max_output_tokens=max_output_tokens)
         Prompter.__init__(self, system_prompt=system_prompt, user_prompt=user_prompt)
-        self.indices = indices
+        self.index_dict = index_dict
         self.setup_indices(max_index_memory)
-       
             
     def setup_indices(self,max_index_memory):
-        """ setup the indices for the chatbot. Change the system and user prompts to the index prompts if they are not user defined if there is an index. 
+        """ setup the index_dict for the chatbot. Change the system and user prompts to the index prompts if they are not user defined if there is an index. 
         """
-        if self.indices is not None:
-            self.current_index = list(self.indices.keys())[0]
+        if self.index_dict is not None:
+            self.current_index = list(self.index_dict.keys())[0]
             self.system_prompt = INDEX_SYSTEM_PROMPT if self.user_defined_system_prompt is False else self.system_prompt
             self.user_prompt = self.get_index_hints if self.user_defined_user_prompt is False else self.user_prompt
             self.max_index_memory = max_index_memory
@@ -41,7 +40,7 @@ class Chat(BaseChat, Prompter):
             max_tokens = self.max_index_memory
         hints = []
         if self.current_index is not None:
-            index_instance = self.indices[self.current_index]
+            index_instance = self.index_dict[self.current_index]
             if isinstance(index_instance, PandasIndex) or isinstance(index_instance, MemoryIndex):
                 hints, _, _ = index_instance.token_bound_query(question, k=k, max_tokens=max_tokens)         
             else:
@@ -60,9 +59,9 @@ class Chat(BaseChat, Prompter):
         :param index_name: A string representing the index name or None to clear the current index.
         :raise ValueError: If the provided index name is not available.
         """
-        if self.indices is None:
-            raise ValueError("No indices are available.")
-        elif index_name in self.indices:
+        if self.index_dict is None:
+            raise ValueError("No index_dict are available.")
+        elif index_name in self.index_dict:
             self.current_index = index_name
         elif index_name is None:
             self.current_index = None

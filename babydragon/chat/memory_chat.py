@@ -13,7 +13,7 @@ from babydragon.memory.indexes.pandas_index import PandasIndex
 
 
 
-class FifoChat(FifoThread, Chat, Prompter):
+class FifoChat(FifoThread, Chat):
     """
     A chatbot class that combines FIFO Memory Thread, BaseChat, and Prompter. The oldest messages are removed first
     when reaching the max_memory limit. The memory is defined in terms of tokens, and outs are passed to the
@@ -21,14 +21,14 @@ class FifoChat(FifoThread, Chat, Prompter):
     """
 
     def __init__(self, model: Optional[str] = None,
-                 indices: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None, 
+                 index_dict: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None, 
                   system_prompt: Optional[str] = None, user_prompt: Optional[str] = None, name: str = 'fifo_memory',
                   max_index_memory: int = 400,  max_fifo_memory: int = 2048, max_output_tokens: int = 1000, 
                   longterm_thread: Optional[BaseThread] =None):
         
         FifoThread.__init__(self, name=name, max_memory=max_fifo_memory, longterm_thread=longterm_thread)
-        Chat.__init__(self, model= model,indices= indices,  max_output_tokens=max_output_tokens, max_index_memory=max_index_memory)
-        Prompter.__init__(self, system_prompt=system_prompt, user_prompt=user_prompt)
+        Chat.__init__(self, model= model,index_dict= index_dict,  max_output_tokens=max_output_tokens, max_index_memory=max_index_memory, system_prompt=system_prompt, user_prompt=user_prompt)
+
         self.prompt_func = self.fifo_memory_prompt
 
     def fifo_memory_prompt(self, message: str) -> Tuple[List[dict], dict]:
@@ -38,8 +38,9 @@ class FifoChat(FifoThread, Chat, Prompter):
         :param message: A string representing the user message.
         :return: A tuple containing a list of strings as the prompt and the marked question.
         """
-        prompt = [mark_system(self.system_prompt)] + self.memory_thread + [mark_question(self.user_prompt.format(question=message))]
-        return prompt, mark_question(self.user_prompt.format(question=message))
+        marked_question = mark_question(self.user_prompt(message))
+        prompt = [mark_system(self.system_prompt)] + self.memory_thread + [marked_question]
+        return prompt, marked_question 
 
 
     def query(self, question: str, verbose: bool = True) -> str:
@@ -60,20 +61,19 @@ class FifoChat(FifoThread, Chat, Prompter):
 
         return answer
     
-class VectorChat(VectorThread, BaseChat, Prompter):
+class VectorChat(VectorThread, Chat):
     """
     A chatbot class that combines Vector Memory Thread, BaseChat, and Prompter. Memory prompt is constructed by
     filling the memory with the k most similar messages to the question until the max prompt memory tokens are reached.
     """
 
-    def __init__(self, model: Optional[str] = None, indices: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None,  name: str = 'vector_memory',  max_index_memory: int = 400,  max_vector_memory: int = 2048, max_output_tokens: int = 1000, system_prompt: str = None, user_prompt: str = None):
+    def __init__(self, model: Optional[str] = None, index_dict: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None,  name: str = 'vector_memory',  max_index_memory: int = 400,  max_vector_memory: int = 2048, max_output_tokens: int = 1000, system_prompt: str = None, user_prompt: str = None):
         VectorThread.__init__(self, name=name, max_context=max_vector_memory)
-        Chat.__init__(self, model= model,indices= indices,  max_output_tokens=max_output_tokens, max_index_memory=max_index_memory)
-        Prompter.__init__(self, system_prompt=system_prompt, user_prompt=user_prompt)
+        Chat.__init__(self, model= model,index_dict= index_dict,  max_output_tokens=max_output_tokens, max_index_memory=max_index_memory, system_prompt=system_prompt, user_prompt=user_prompt)
         self.max_vector_memory = self.max_context
         self.prompt_func = self.vector_memory_prompt
 
-    def vector_memory_prompt(self, question: str, k: int = 10) -> Tuple[List[dict], dict]: 
+    def vector_memory_prompt(self, message: str, k: int = 10) -> Tuple[List[dict], dict]: 
         """
         Combine system prompt, k most similar messages to the question, and the user prompt.
 
@@ -81,11 +81,12 @@ class VectorChat(VectorThread, BaseChat, Prompter):
         :param k: The number of most similar messages to include in the prompt.
         :return: A tuple containing a list of strings as the prompt and the marked question.
         """
-        sorted_messages, sorted_scores, sorted_indices = self.sorted_query(question, k=k, max_tokens = self.max_vector_memory,reverse_order=True) 
-        prompt = [mark_system(self.system_prompt)] + sorted_messages + [mark_question(self.user_prompt.format(question=question))]
-        return prompt, mark_question(self.user_prompt.format(question=question))
+        sorted_messages, sorted_scores, sorted_indices = self.sorted_query(message, k=k, max_tokens = self.max_vector_memory,reverse=True) 
+        marked_question = mark_question(self.user_prompt(message))
+        prompt = [mark_system(self.system_prompt)] + sorted_messages + [marked_question]
+        return prompt, marked_question
     
-    def weighted_memory_prompt(self, question: str, k: int = 10, decay_factor: float = 0.1, temporal_weight: float = 0.5) -> Tuple[List[dict], dict]:
+    def weighted_memory_prompt(self, message: str, k: int = 10, decay_factor: float = 0.1, temporal_weight: float = 0.5) -> Tuple[List[dict], dict]:
         """
         Combine system prompt, weighted k most similar messages to the question, and the user prompt.
 
@@ -95,9 +96,10 @@ class VectorChat(VectorThread, BaseChat, Prompter):
         :param temporal_weight: A float representing the weight of the temporal aspect.
         :return: A tuple containing a list of strings as the prompt and the marked question.
         """
-        weighted_messages, weighted_scores, weighted_indices = self.weighted_query(question, k=k, max_tokens = self.max_vector_memory,decay_factor = decay_factor, temporal_weight = temporal_weight, order_by = 'chronological', reverse = True)
-        prompt = [mark_system(self.system_prompt)] + weighted_messages + [mark_question(self.user_prompt.format(question=question))]
-        return prompt, mark_question(self.user_prompt.format(question=question))
+        weighted_messages, weighted_scores, weighted_indices = self.weighted_query(message, k=k, max_tokens = self.max_vector_memory,decay_factor = decay_factor, temporal_weight = temporal_weight, order_by = 'chronological', reverse = True)
+        marked_question = mark_question(self.user_prompt(message))
+        prompt = [mark_system(self.system_prompt)] + weighted_messages + [marked_question]
+        return prompt, marked_question 
 
     def query(self, question: str, verbose: bool = False) -> str:
         """
@@ -117,18 +119,17 @@ class VectorChat(VectorThread, BaseChat, Prompter):
         return answer
 
 
-class FifoVectorChat(FifoThread, BaseChat, Prompter):
+class FifoVectorChat(FifoThread, Chat):
     """
     A chatbot class that combines FIFO Memory Thread, Vector Memory Thread, BaseChat, and Prompter.
     The memory prompt is constructed by including both FIFO memory and Vector memory.
     """
-    def __init__(self, model: str = None, indices: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None,  system_prompt: str = None, user_prompt: str = None, name: str = 'fifo_vector_memory', max_memory: int = 2048,  max_index_memory: int = 400,  max_output_tokens: int = 1000, longterm_thread: Optional[VectorThread] = None, longterm_frac: float = 0.5):
+    def __init__(self, model: str = None, index_dict: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None,  system_prompt: str = None, user_prompt: str = None, name: str = 'fifo_vector_memory', max_memory: int = 2048,  max_index_memory: int = 400,  max_output_tokens: int = 1000, longterm_thread: Optional[VectorThread] = None, longterm_frac: float = 0.5):
         self.total_max_memory = max_memory
 
         self.setup_longterm_memory(longterm_thread, max_memory, longterm_frac)
         FifoThread.__init__(self, name=name, max_memory=self.max_fifo_memory, longterm_thread=self.longterm_thread)
-        Chat.__init__(self, model= model,indices= indices,  max_output_tokens=max_output_tokens, max_index_memory=max_index_memory)
-        Prompter.__init__(self, system_prompt=system_prompt, user_prompt=user_prompt)
+        Chat.__init__(self, model= model, index_dict= index_dict,  max_output_tokens=max_output_tokens, max_index_memory=max_index_memory, system_prompt=system_prompt, user_prompt=user_prompt)
         self.prompt_func = self.fifovector_memory_prompt
         self.prompt_list = []
 
@@ -151,7 +152,7 @@ class FifoVectorChat(FifoThread, BaseChat, Prompter):
             self.max_fifo_memory = self.total_max_memory - self.max_vector_memory
             self.longterm_frac = self.max_vector_memory / self.total_max_memory
 
-    def fifovector_memory_prompt(self, question: str, k: int = 10) -> Tuple[List[dict], dict]:
+    def fifovector_memory_prompt(self, message: str, k: int = 10) -> Tuple[List[dict], dict]:
         """
         Combine the system prompt, long-term memory (vector memory), short-term memory (FIFO memory), and the user prompt.
 
@@ -163,13 +164,13 @@ class FifoVectorChat(FifoThread, BaseChat, Prompter):
         if len(self.longterm_thread.memory_thread) > 0 and self.longterm_thread.total_tokens <= self.max_vector_memory:
             prompt += self.longterm_thread.memory_thread
         elif len(self.longterm_thread.memory_thread) > 0 and self.longterm_thread.total_tokens > self.max_vector_memory:
-            sorted_messages, sorted_scores, sorted_indices = self.longterm_thread.sorted_query(question, k=k, max_tokens = self.max_vector_memory,reverse_order=True) 
+            sorted_messages, sorted_scores, sorted_indices = self.longterm_thread.sorted_query(message, k=k, max_tokens = self.max_vector_memory,reverse=True) 
             prompt += sorted_messages
 
         prompt += self.memory_thread
-        prompt += [mark_question(self.user_prompt.format(question=question))]
-        return prompt, mark_question(self.user_prompt.format(question=question))
-
+        marked_question = mark_question(self.user_prompt(message))
+        prompt += [marked_question]
+        return prompt, marked_question
     def query(self, question: str, verbose: bool = False) -> str:
         """
         Query the chatbot with a given question. The question is added to the memory, and the answer is returned

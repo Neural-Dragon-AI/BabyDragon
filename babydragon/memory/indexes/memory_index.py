@@ -25,12 +25,18 @@ class MemoryIndex:
         name: str = "memory_index",
         save_path: Optional[str] = None,
         load: bool = False,
-        tokenizer: Optional[tiktoken.Tokenizer] = None,
+        tokenizer: Optional[tiktoken.Encoding] = None,
         ):
 
         self.name = name
         self.embedder = OpenAiEmbedder()
+        if save_path is None:
+            save_path = "storage"
+
         self.save_path = save_path
+
+        # Create the 'storage' folder if it does not exist
+        os.makedirs(self.save_path, exist_ok=True)
         self.values = []
         if load is True:
             self.load()
@@ -116,19 +122,21 @@ class MemoryIndex:
                 embedding = self.embedder.embed(value)
                 if verbose:
                     display(Markdown("The value {value} was embedded".format(value=value)))
-            else:
-                if type(embedding) is list:
-                    embedding = np.array([embedding])
-                elif type(embedding) is str:
-                    embedding = eval(embedding)
-                    embedding = np.array([embedding]).astype(np.float32)
-                elif type(embedding) is not np.ndarray:
-                    raise ValueError("The embedding is not a valid type")
 
-                # Ensure that the embedding is a 2D numpy array
-                if embedding.ndim == 1:
-                    embedding = embedding.reshape(1, -1)
+            if type(embedding) is list:
+                embedding = np.array([embedding])
+            elif type(embedding) is str:
+                embedding = eval(embedding)
+                embedding = np.array([embedding]).astype(np.float32)
+            elif type(embedding) is not np.ndarray:
+                raise ValueError("The embedding is not a valid type")
 
+            # Ensure that the embedding is a 2D numpy array
+            if embedding.ndim == 1:
+                embedding = embedding.reshape(1, -1)
+            # print("embedding is ", embedding)
+            # print("embedding type is ", type(embedding))
+            # print("embedding shape is ", embedding.shape)
             self.index.add(embedding)
             self.values.append(value)
         else:
@@ -202,6 +210,8 @@ class MemoryIndex:
         top_k_hint = []
         scores = []
         tokens = []
+        indices = []
+
         if len(self.values) > 0:
             top_k, scores, indices = self.faiss_query(query, k=min(k, len(self.values)))
 
@@ -212,7 +222,7 @@ class MemoryIndex:
                 if returned_tokens + message_tokens <= max_tokens:
                     top_k_hint += [hint]
                     returned_tokens += message_tokens
-
+            
             self.query_history.append({"query": query, "hints": top_k_hint, "scores": scores, "indices":indices, "hints_tokens": tokens, "returned_tokens": returned_tokens , "max_tokens": max_tokens, "k": k})
 
         return top_k_hint, scores, indices
@@ -234,7 +244,7 @@ class MemoryIndex:
 
         # Save the numpy array of the embeddings
         embeddings_filename = os.path.join(save_directory, f"{self.name}_embeddings.npz")
-        print(f"embs: {self.get_all_embeddings().shape}")
+        # print(f"embs: {self.get_all_embeddings().shape}")
         np.savez_compressed(embeddings_filename, self.get_all_embeddings())
 
     def load(self):

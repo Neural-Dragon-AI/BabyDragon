@@ -10,7 +10,7 @@ class FifoThread(BaseThread):
     """
     def __init__(self, name= 'fifo_memory', max_memory = None, longterm_thread = None, redundant = True):
         
-        super().__init__(name= name , max_memory= max_memory)
+        BaseThread.__init__(self,name= name , max_memory= None)
         if redundant is True:            
             self.redundant_thread = BaseThread(name = 'lucid_memory',max_memory = None)
         else:

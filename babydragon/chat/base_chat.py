@@ -28,13 +28,16 @@ class Prompter:
             self.system_prompt = system_prompt
             self.user_defined_system_prompt = True
         if user_prompt is None:
-            self.user_prompt = DEFAULT_USER_PROMPT
+            self.user_prompt = self.default_user_prompt
             self.user_defined_user_prompt = False
         else:
             self.user_prompt = user_prompt
             self.user_defined_user_prompt = True
             
         self.prompt_func: Callable[[str], Tuple[List[str], str]] = self.one_shot_prompt
+
+    def default_user_prompt(self, message: str) -> str:
+        return DEFAULT_USER_PROMPT.format(question=message)
 
     def one_shot_prompt(self, message: str) -> Tuple[List[str], str]:
         """
@@ -43,9 +46,10 @@ class Prompter:
         :param message: A string representing the user message.
         :return: A tuple containing a list of strings representing the prompt and a string representing the marked question.
         """
-        prompt = [mark_system(self.system_prompt)] + [mark_question(self.user_prompt.format(question=message))]
-        return prompt, mark_question(self.user_prompt.format(question=message))
-
+        marked_question = mark_question(self.user_prompt(message))
+        prompt = [mark_system(self.system_prompt)] + [marked_question]
+        return prompt, marked_question
+    
     def update_system_prompt(self, new_prompt: str) -> None:
         """
         Update the system prompt.
@@ -87,16 +91,16 @@ class BaseChat:
         self.prompts = []
         self.prompt_func = self.identity_prompter
 
-    def identity_prompter(self, message: str) -> Tuple[str, str]:
+    def identity_prompter(self, message: str) -> Tuple[List[Dict], str]:
         """
         A simple identity prompter that takes a message and returns the message marked as a question.
 
         :param message: A string representing the user message.
         :return: A tuple containing the marked question and the original message.
         """
-        return mark_question(message), message
+        return [mark_question(message)], mark_question(message)
 
-    def chat_response(self, prompt: List[str], max_output_tokens: int = None) -> Tuple[Dict, bool]:
+    def chat_response(self, prompt: List[dict], max_tokens: int = None) -> Tuple[Dict, bool]:
         """
         Call the OpenAI API with the given prompt and maximum number of output tokens.
 
@@ -110,7 +114,7 @@ class BaseChat:
             response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=prompt,
-                max_tokens=max_output_tokens,
+                max_tokens=max_tokens,
             )
             return response, True
         
