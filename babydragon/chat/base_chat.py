@@ -117,7 +117,7 @@ class BaseChat:
                 max_tokens=max_tokens,
             )
             return response, True
-        
+
         except openai.error.APIError as e:
             print(e)
             fail_response = {"choices": [{"message": {"content": "I am sorry, I am having trouble understanding you. There might be an alien invasion interfering with my communicaiton with OpenAI."}}]}
@@ -132,7 +132,7 @@ class BaseChat:
         :return: A string representing the chatbot's response.
         """
         return self.query(message, verbose)["content"]
-    
+
     def query(self, message: str, verbose: bool = True) -> str:
         """
         Query the chatbot with a given message, optionally showing the input and output messages as Markdown.
@@ -141,7 +141,7 @@ class BaseChat:
         :param verbose: A boolean indicating whether to display input and output messages as Markdown.
         :return: A string representing the chatbot's response.
         """
-        
+
         prompt, _ = self.prompt_func(message)
         response, success = self.chat_response(prompt)
         if verbose:
@@ -170,8 +170,8 @@ class BaseChat:
         try: 
             print("======>Current memory:\n %s" % self.memory_thread)
         except:
-            print("======>No memory")    
-        response = self.reply(text)    
+            print("======>No memory")
+        response = self.reply(text)
         state = state + [(text, response)]
         print("Outputs:", state)
         return state, state
@@ -190,5 +190,5 @@ class BaseChat:
                     clear = gr.Button("Clear️")
 
             txt.submit(self.run_text, [txt, state], [chatbot, state])
-            txt.submit(lambda: "", None, txt)        
+            txt.submit(lambda: "", None, txt)
             demo.launch(server_name="localhost", server_port=7860 )

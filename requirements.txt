@@ -1,0 +1,13 @@
+faiss-cpu
+gradio
+IPython
+markdown
+numpy
+openai
+pandas
+pre_commit
+PyGithub
+scikit-learn
+scipy
+tiktoken
+torch
