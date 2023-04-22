@@ -92,7 +92,7 @@ class BaseThread:
             search_results = self.find_message(message_dict)
             if search_results is not None:
                 idx = search_results[-1]["idx"]
-                message = search_results[-1]["message"]
+                message = search_results[-1]["message_dict"]
                 self.memory_thread.pop(idx)
                 self.message_tokens.pop(idx)
                 self.time_stamps.pop(idx)
@@ -114,7 +114,7 @@ class BaseThread:
         message = message if isinstance(message, str) else check_dict(message)
         search_results = []
         for idx, message_dict in enumerate(self.memory_thread):
-            target = message_dict["content"] if isinstance(message, str) else message_dict
+            target = message_dict if isinstance(message, dict) else message_dict["content"]
             if target == message and (role is None or message_dict["role"] == role):
                 search_results.append({"idx": idx, "message_dict": message_dict})
         return search_results if len(search_results) > 0 else None

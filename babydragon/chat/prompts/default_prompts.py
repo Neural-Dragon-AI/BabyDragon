@@ -12,7 +12,7 @@ hints.  Your knowledge base description is:"""
 # system_prompt = system_prompt.format(index_descrpiton = index_description)
 
 INDEX_HINT_PROMPT = """I am going to ask you a question and you should use the hints to answer it. The hints are:\n{hints_string} .
-            Remember that I can not see the hints."""
+            Remember that I can not see the hints, but please reply as if the knowledge base was part of your training set. """
 
 
 QUESTION_INTRO = "The question is: {question}"

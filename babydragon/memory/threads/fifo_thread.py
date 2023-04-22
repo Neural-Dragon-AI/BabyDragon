@@ -21,6 +21,7 @@ class FifoThread(BaseThread):
             self.longterm_thread = longterm_thread
         # create an alias for the memory_thread to make the code more readable
         self.fifo_thread = self.memory_thread
+        self.max_memory = max_memory
             
     def to_longterm(self, idx: int):
         """ move the message at the index idx to the longterm_memory"""
@@ -41,9 +42,9 @@ class FifoThread(BaseThread):
         message_tokens = self.get_message_tokens(message_dict)
         
         if self.total_tokens + message_tokens > self.max_memory:
-            while self.total_tokens + message_tokens > self.max_memory and len(self.memory_thread) > 0:
-                
-                self.to_longterm(idx=0)
+            while self.total_tokens + message_tokens > self.max_memory :
+                if len(self.memory_thread) > 0:
+                    self.to_longterm(idx=0)
             super().add_message(message_dict)
             
         else:
