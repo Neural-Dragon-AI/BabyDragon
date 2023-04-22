@@ -17,7 +17,7 @@ class MemoryKernel(MemoryIndex):
             a = np.array(a)
 
         if not isinstance(b, np.ndarray):
-            b = np.array(b) 
+            b = np.array(b)
 
         if len(a.shape) == 1:
             a = a[np.newaxis, :]

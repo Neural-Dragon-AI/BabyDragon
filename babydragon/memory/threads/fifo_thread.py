@@ -5,8 +5,7 @@ import copy
 
 class FifoThread(BaseThread):
     """FIFO Memory BaseThread, the oldest messages are removed first when reaching the max_memory limit, the memory is defined in terms of tokens, 
-    outs are passe to the longterm_memory, 
-    lucid_memory is a redundant memory that stores all the messages
+    outs are passe to the longterm_memory, lucid_memory is a redundant memory that stores all the messages
     """
     def __init__(self, name= 'fifo_memory', max_memory = None, longterm_thread = None, redundant = True):
         

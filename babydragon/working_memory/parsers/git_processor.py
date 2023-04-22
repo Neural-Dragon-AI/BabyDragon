@@ -6,7 +6,7 @@ from typing import List
 import libcst as cst
 from github import Github
 
-from components.parsers.visitors import FunctionAndClassVisitor
+from babydragon.working_memory.parsers.visitors import FunctionAndClassVisitor
 
 
 class DirectoryProcessor:
@@ -58,9 +58,12 @@ class DirectoryProcessor:
                     self._process_file(file_path)
 
         function_source_codes = self.visitor.function_source_codes
+        function_nodes = self.visitor.function_nodes
         class_source_codes = self.visitor.class_source_codes
+        class_nodes = self.visitor.class_nodes
 
-        return function_source_codes, class_source_codes
+
+        return function_source_codes, class_source_codes, function_nodes, class_nodes
 
     def clone_repo(self, repo_url):
         repo_name = repo_url.split("/")[-1].replace(".git", "")
@@ -112,7 +115,9 @@ class GitHubRepoProcessor:
         self.github = Github()
         self.directory_processor = None
         self.function_source_codes = []
+        self.function_nodes = []
         self.class_source_codes = []
+        self.class_nodes = []
         self.visitor = visitor
 
     def get_repo(self, repo_name):
@@ -127,16 +132,21 @@ class GitHubRepoProcessor:
         (
             function_source_codes,
             class_source_codes,
+            function_nodes,
+            class_nodes,
         ) = self.directory_processor.process_directory()
         self.function_source_codes.extend(function_source_codes)
+        self.function_nodes.extend(function_nodes)
         self.class_source_codes.extend(class_source_codes)
+        self.class_nodes.extend(class_nodes)
         shutil.rmtree(repo_path)
         return self.directory_processor
 
     def get_values(self):
         #concatenate the function and class source codes
         self.function_source_codes.extend(self.class_source_codes)
-        return self.function_source_codes
+        self.function_nodes.extend(self.class_nodes)
+        return self.function_source_codes, self.function_nodes
 
 
 if __name__ == "__main__":
