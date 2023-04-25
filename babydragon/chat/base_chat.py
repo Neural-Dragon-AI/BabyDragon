@@ -111,6 +111,7 @@ class BaseChat:
         if max_tokens is None:
             max_tokens = self.max_output_tokens
         try:
+            print("Trying to call OpenAI API...")
             response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=prompt,

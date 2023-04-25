@@ -1,6 +1,8 @@
 from babydragon.chat.prompts.default_prompts import  INDEX_SYSTEM_PROMPT, INDEX_HINT_PROMPT, QUESTION_INTRO
 from typing import Union, Dict, Optional
 from babydragon.memory.indexes.memory_index import MemoryIndex
+from babydragon.memory.indexes.python_index import PythonIndex
+
 from babydragon.memory.indexes.pandas_index import PandasIndex
 from babydragon.chat.base_chat import BaseChat, Prompter
     
@@ -41,7 +43,7 @@ class Chat(BaseChat, Prompter):
         hints = []
         if self.current_index is not None:
             index_instance = self.index_dict[self.current_index]
-            if isinstance(index_instance, PandasIndex) or isinstance(index_instance, MemoryIndex):
+            if isinstance(index_instance, PandasIndex) or isinstance(index_instance, MemoryIndex) or isinstance(index_instance, PythonIndex):
                 hints, _, _ = index_instance.token_bound_query(question, k=k, max_tokens=max_tokens)         
             else:
                 raise ValueError("The current index is not a valid index instance.")
