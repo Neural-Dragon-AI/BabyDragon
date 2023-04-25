@@ -105,7 +105,7 @@ class PythonParser(OsProcessor):
         2. Parses the file
         3. Visits the file with the visitor
         """
-        with open(file_path, "r") as file:
+        with open(file_path, "r", encoding='utf-8') as file:
             source_code = file.read()
 
         try:
@@ -145,7 +145,7 @@ class PythonParser(OsProcessor):
             print(result.stderr.decode("utf-8"))
             return
 
-        with open(file_path, "r") as f:
+        with open(file_path, "r", encoding='utf-8') as f:
             source_code = f.read()
 
         try:
