@@ -56,15 +56,20 @@ class GitMemory(MemoryIndex):
         self.minifier = PythonMinifier()
         self.docstring_extractor = PythonDocstringExtractor()
         self.directory_parser = None
-        self.code_index = None
         self.min_code_index = None
         self.doc_string_index = None
         self.libcst_node_index = None
+    
+    def create_code_index(self, base_directory):
+        self.directory_parser = self.parser.process_repo(base_directory)
+        code_values, code_nodes = self.parser.get_values()
+        self.code_index = self.init_index(values=code_values)
+        self.code_index.save()
 
     def create_indexes(self, base_directory):
         self.directory_parser = self.parser.process_repo(base_directory)
         code_values, code_nodes = self.parser.get_values()
-        #self.code_index = self.init_index(values=code_values)
+        self.code_index = self.init_index(values=code_values)
 
         min_code_values = []
         doc_string_values = []
@@ -74,20 +79,8 @@ class GitMemory(MemoryIndex):
             doc_string = self.docstring_extractor.extract_docstring(code_node)
             min_code_values.append(min_code)
             doc_string_values.append(doc_string)
-        for i in range(1, 30):
-            print("Original Code:")
-            print(code_values[i])
-            print(len(code_values[i]))
-            print()
-            print("Minified Code:")
-            print(min_code_values[i])
-            print(len(min_code_values[i]))
-            print()
-            print("Docstring:")
-            print(doc_string_values[i])
-            print('\n\n')
-        #self.doc_string_index = self.init_index(values=doc_string_values)
-        #self.min_code_index = self.init_index(values=min_code_values)
+        self.doc_string_index = self.init_index(values=doc_string_values)
+        self.min_code_index = self.init_index(values=min_code_values)
 
 
 

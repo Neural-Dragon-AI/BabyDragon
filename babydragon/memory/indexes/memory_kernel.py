@@ -1,5 +1,9 @@
 from babydragon.memory.indexes.memory_index import MemoryIndex
+from babydragon.working_memory.associative_memory.probability_density_functions import calc_shgo_mode, estimate_pdf
+from babydragon.working_memory.associative_memory.group_by_rank import group_items_by_rank_buckets
+from babydragon.working_memory.associative_memory.nmi import run_stability_analysis
 import numpy as np
+import faiss
 from tqdm import tqdm
 
 
@@ -111,6 +115,27 @@ class MemoryKernel(MemoryIndex):
             agg_features += np.matmul(np.linalg.matrix_power(A, i + 1), node_features)
 
         return A_k, agg_features
+    
+    def faiss_index_to_adj_matrix(index: faiss.Index, num_vectors: int) -> np.ndarray:
+        """
+        Convert a Faiss index into a NumPy adjacency matrix.
+
+        Args:
+            index (faiss.Index): The Faiss index.
+            num_vectors (int): The number of vectors in the Faiss index.
+
+        Returns:
+            np.ndarray: The adjacency matrix.
+        """
+        # Create an empty adjacency matrix
+        adj_matrix = np.zeros((num_vectors, num_vectors), dtype=np.float32)
+
+        # Populate the adjacency matrix with distances from the Faiss index
+        for i in range(num_vectors):
+            distances, _ = index.search(index.reconstruct(i).reshape(1, -1), num_vectors)
+            adj_matrix[i] = distances
+
+        return adj_matrix
 
     def create_k_hop_index(self, k):
         print("Computing the adjacency matrix")

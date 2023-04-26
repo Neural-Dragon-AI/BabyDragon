@@ -12,3 +12,4 @@ scipy
 tiktoken
 torch
 libcst
+python_minifier

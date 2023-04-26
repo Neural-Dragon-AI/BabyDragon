@@ -17,7 +17,7 @@ class GithubProcessor(OsProcessor):
         self.github = Github()
         self.repo = self.github.get_repo(f"{username}/{repo_name}")
         repo_path = self.clone_repo(self.repo.clone_url)
-          
+
         OsProcessor.__init__(self,repo_path)
         self.code_parsers = code_parsers or [PythonParser(repo_path, minify_code=minify_code, remove_docstrings=remove_docstrings)]
 
@@ -45,7 +45,7 @@ class GithubProcessor(OsProcessor):
         Returns the list of parsed functions and classes."""
         if repo_path is None:
             repo_path = self.directory_path
-            
+
         for code_parser in self.code_parsers:
             code_parser.directory_path = repo_path
             code_parser.process_directory(repo_path)
@@ -65,7 +65,7 @@ class GithubProcessor(OsProcessor):
         return user.get_repo(repo_name)
 
     def process_single_repo(self):
-        
+
         repo = self.get_repo(self.repo_name)
         print(f"Processing repo: {self.repo_name}")
         repo_path = self.clone_repo(repo.clone_url)
@@ -97,7 +97,7 @@ class GithubProcessor(OsProcessor):
             }
             parsed_issues.append(parsed_issue)
         return parsed_issues
-    
+
     def get_commits(self):
         """
         Returns a list of all commits in the main branch of the repository.
