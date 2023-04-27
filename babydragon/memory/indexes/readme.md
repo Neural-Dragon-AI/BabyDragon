@@ -44,7 +44,7 @@ index.add_to_index("baz")
 
 # Search for similar items in the index using a query
 query = "hello world"
-search_results = index.search(query, top_k=3)
+search_results = index.faiss_query(query, top_k=3)
 
 print("Search results:")
 for item, score in search_results:
@@ -57,7 +57,81 @@ index.save("example_pandas_index.pkl")
 loaded_index = PandasIndex(load=True, save_path="example_pandas_index.pkl")
 
 # Perform a search on the loaded index
-search_results_loaded = loaded_index.search(query, top_k=3)
+search_results_loaded = loaded_index.faiss_query(query, top_k=3)
+
+print("Search results (loaded index):")
+for item, score in search_results_loaded:
+    print(f"Item: {item}, Score: {score}")
+
+```
+### PythonIndex Example
+
+```python
+from babydragon.memory.indexes import PythonIndex
+
+# Create a PythonIndex instance for a directory of Python source code files
+index = PythonIndex(directory="path/to/python/files")
+
+# Add a new Python file to the index
+index.add_to_index("new_python_file.py")
+
+# Search for similar code snippets using a query
+query = "def function_example():"
+search_results = index.faiss_query(query, top_k=3)
+
+print("Search results:")
+for item, score in search_results:
+    print(f"Item: {item}, Score: {score}")
+
+# Save the index to a file
+index.save("example_python_index.pkl")
+
+# Load the index from a file
+loaded_index = PythonIndex(load=True, save_path="example_python_index.pkl")
+
+# Perform a search on the loaded index
+search_results_loaded = loaded_index.faiss_query(query, top_k=3)
+
+print("Search results (loaded index):")
+for item, score in search_results_loaded:
+    print(f"Item: {item}, Score: {score}")
+```
+### MemoryKernel Example
+
+```python
+
+from babydragon.memory.indexes.memory_index import MemoryIndex
+from babydragon.memory.indexes.memory_kernel import MemoryKernel
+import numpy as np
+
+# Create a MemoryIndex instance
+values = ["a", "b", "c", "d", "e"]
+embeddings = np.random.rand(5, 64)
+memory_index = MemoryIndex(values, embeddings)
+
+# Create a MemoryKernel instance from the MemoryIndex instance
+kernel = MemoryKernel(values, embeddings)
+
+# Compute the k-hop adjacency matrix and aggregated features
+k = 2
+kernel.create_k_hop_index(k)
+
+# Search for similar items in the index using a query
+query_embedding = np.random.rand(1, 64)
+search_results = kernel.k_hop_index.faiss_query(query_embedding, top_k=3)
+
+print("Search results:")
+for item, score in search_results:
+    print(f"Item: {item}, Score: {score}")
+
+# Save the index to a file
+kernel.k_hop_index.save("example_memory_kernel.pkl")
+
+# Load the index from a file
+loaded_index = MemoryKernel(load=True, save_path="example_memory_kernel.pkl")
+
+# Perform a search on the loaded index
+search_results_loaded = loaded_index.k_hop_index.faiss_query(query_embedding, top_k=3)
 
 print("Search results (loaded index):")
 for item, score in search_results_loaded:
