@@ -157,6 +157,22 @@ class BaseChat:
             return answer
         else:
             raise Exception("OpenAI API Error inside query function")
+    
+    def reset_logs(self):
+        """
+        Reset the chatbot's memory.
+        """
+        self.outputs = []
+        self.inputs = []
+        self.prompts = []
+    
+    def get_logs(self):
+        """
+        Get the chatbot's memory.
+
+        :return: A tuple containing the chatbot's memory as three lists of strings.
+        """
+        return self.inputs, self.outputs, self.prompts
 
     def run_text(self, text: str, state: List[Tuple[str, str]]) -> Tuple[List[Tuple[str, str]], List[Tuple[str, str]]]:
         """

@@ -48,6 +48,7 @@ class MemoryIndex:
         else:
             self.tokenizer = tokenizer
         self.query_history = []
+        self.embeddings = []
         self.save()
 
     def init_index(
@@ -69,6 +70,7 @@ class MemoryIndex:
             print("Creating a new index")
             self.index = faiss.IndexFlatIP(self.embedder.get_embedding_size())
             self.values = []
+            
         # second case is where we create the index from a list of embeddings
         elif (
             index is None
@@ -140,6 +142,7 @@ class MemoryIndex:
                 # print("embedding shape is ", embedding.shape)
                 self.index.add(embedding)
                 self.values.append(value)
+                self.embeddings.append(embedding)
                 self.save()
         else:
             if verbose:
@@ -148,6 +151,19 @@ class MemoryIndex:
                         "The value {value} was already in the index".format(value=value)
                     )
                 )
+
+    def substitute_at_index(self,index:int, value:str,embeddings:  np.ndarray = None) -> None:
+        """
+        substitute a value at a given index, if the embedding is not provided, it is embedded
+        """
+        if index < 0 or index >= len(self.values):
+            raise ValueError("The index is out of range")
+        self.values[index] = value
+        if embeddings is None:
+            embeddings = self.embedder.embed(value)
+        self.index.reconstruct(index, embeddings)
+        self.embeddings[index] = embeddings
+        self.save()
 
     def get_embedding_by_index(self, index: int) -> np.ndarray:
         """

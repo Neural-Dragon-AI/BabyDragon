@@ -38,6 +38,15 @@ class BaseThread:
     def __len__(self):
         return len(self.memory_thread)
     
+    def reset_memory(self) -> None:
+        """
+        Reset the memory thread.
+        """
+        self.memory_thread = []
+        self.time_stamps = []
+        self.message_tokens = []
+        self.total_tokens = 0
+    
     def get_message_tokens(self, message_dict: dict) -> int:
         """
         Calculate the number of tokens in a message, including the role token.
