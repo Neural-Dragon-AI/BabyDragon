@@ -10,8 +10,7 @@ BabyDragon Threads is a module within the BabyDragon AI project that provides me
 
 1. **FifoThread**: A memory structure following the First-In-First-Out (FIFO) principle. When the memory reaches its maximum capacity, the oldest messages are removed first. It can also store redundant messages in a separate thread called `lucid_memory` and pass important messages to the `longterm_memory`.
 
-2. **VectorThread**: A memory structure that uses Faiss, an efficient similarity search, and clustering library, to create a vector index for stored messages. This enables efficient searching for similar messages in the memory based on a query.
-
+2. **VectorThread**: A memory structure that uses Faiss, an efficient similarity search, and clustering library, to create a vector index for stored messages. This enables efficient searching for similar messages in the memory based on a query. Messages can be retrieved in different orders (e.g., similarity or chronological order) and can be subjected to a temporal decay penalty, which reduces the importance of older messages in the search results.
 ## Examples
 
 ### FifoThread
