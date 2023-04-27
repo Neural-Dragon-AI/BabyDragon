@@ -33,7 +33,7 @@ class Prompter:
         else:
             self.user_prompt = user_prompt
             self.user_defined_user_prompt = True
-            
+
         self.prompt_func: Callable[[str], Tuple[List[str], str]] = self.one_shot_prompt
 
     def default_user_prompt(self, message: str) -> str:
@@ -49,7 +49,7 @@ class Prompter:
         marked_question = mark_question(self.user_prompt(message))
         prompt = [mark_system(self.system_prompt)] + [marked_question]
         return prompt, marked_question
-    
+
     def update_system_prompt(self, new_prompt: str) -> None:
         """
         Update the system prompt.

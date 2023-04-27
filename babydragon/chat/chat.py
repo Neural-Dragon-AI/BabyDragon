@@ -44,7 +44,7 @@ class Chat(BaseChat, Prompter):
         if self.current_index is not None:
             index_instance = self.index_dict[self.current_index]
             if isinstance(index_instance, PandasIndex) or isinstance(index_instance, MemoryIndex) or isinstance(index_instance, PythonIndex):
-                hints, _, _ = index_instance.token_bound_query(question, k=k, max_tokens=max_tokens)         
+                hints, _, _ = index_instance.token_bound_query(question, k=k, max_tokens=max_tokens)
             else:
                 raise ValueError("The current index is not a valid index instance.")
             hints_string = "\n".join(hints)
@@ -69,7 +69,7 @@ class Chat(BaseChat, Prompter):
             self.current_index = None
         else:
             raise ValueError("The provided index name is not available.")
-    
+
 
 
 

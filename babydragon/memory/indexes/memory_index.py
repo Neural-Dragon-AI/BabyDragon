@@ -123,23 +123,24 @@ class MemoryIndex:
                 embedding = self.embedder.embed(value)
                 if verbose:
                     display(Markdown("The value {value} was embedded".format(value=value)))
+            if embedding is not None:
+                if type(embedding) is list:
+                    embedding = np.array([embedding])
+                elif type(embedding) is str:
+                    embedding = eval(embedding)
+                    embedding = np.array([embedding]).astype(np.float32)
+                elif type(embedding) is not np.ndarray:
+                    raise ValueError("The embedding is not a valid type")
 
-            if type(embedding) is list:
-                embedding = np.array([embedding])
-            elif type(embedding) is str:
-                embedding = eval(embedding)
-                embedding = np.array([embedding]).astype(np.float32)
-            elif type(embedding) is not np.ndarray:
-                raise ValueError("The embedding is not a valid type")
-
-            # Ensure that the embedding is a 2D numpy array
-            if embedding.ndim == 1:
-                embedding = embedding.reshape(1, -1)
-            # print("embedding is ", embedding)
-            # print("embedding type is ", type(embedding))
-            # print("embedding shape is ", embedding.shape)
-            self.index.add(embedding)
-            self.values.append(value)
+                # Ensure that the embedding is a 2D numpy array
+                if embedding.ndim == 1:
+                    embedding = embedding.reshape(1, -1)
+                # print("embedding is ", embedding)
+                # print("embedding type is ", type(embedding))
+                # print("embedding shape is ", embedding.shape)
+                self.index.add(embedding)
+                self.values.append(value)
+                self.save()
         else:
             if verbose:
                 display(

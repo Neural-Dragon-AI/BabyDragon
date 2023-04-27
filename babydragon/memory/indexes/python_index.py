@@ -33,9 +33,11 @@ class PythonIndex(MemoryIndex, PythonParser):
         if not load:
             # Extract functions and classes source code
             function_source_codes, class_source_codes, _, _ = self.process_directory()
-
+            print("Indexing {} functions and {} classes".format(len(function_source_codes), len(class_source_codes)))
             # Concatenate function and class source code and index them
-            for code in function_source_codes + class_source_codes:
+            codes = function_source_codes + class_source_codes
+            for code in codes:
                 self.add_to_index(code)
+
 
             self.save()
