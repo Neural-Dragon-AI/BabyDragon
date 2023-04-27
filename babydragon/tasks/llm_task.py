@@ -51,12 +51,7 @@ class LLMReader(BaseTask):
     def read(self):
         self.execute_task()
         return self.results
-    
-    def reset_chat_memory(self) -> None:
-        """
-        Reset the chatbot's memory.
-        """
-        #TODO
+
 
 class LLMWriter(BaseTask):
     def __init__(self, index: MemoryIndex, path: List[List[int]], chatbot: Chat, write_func: None, max_workers: int = 4):
