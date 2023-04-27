@@ -72,6 +72,7 @@ class LLMWriter(BaseTask):
         self.chatbot = chatbot
         self.write_func = write_func if write_func else self.llm_response
         self.new_index = copy.deepcopy(self.index)
+        self.new_index.name = self.index.name + "_new"
 
     @staticmethod
     def llm_response(chatbot: Chat,message: str):
@@ -105,6 +106,7 @@ class LLMWriter(BaseTask):
         for sub_result in self.results:
             for index, response in sub_result.items():
                 self.new_index.substitute_at_index(index, response)
+        self.new_index.save()
         return self.new_index    
                 
 

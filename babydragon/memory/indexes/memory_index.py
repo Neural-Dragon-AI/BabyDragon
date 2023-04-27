@@ -163,7 +163,6 @@ class MemoryIndex:
             embeddings = self.embedder.embed(value)
         self.index.reconstruct(index, embeddings)
         self.embeddings[index] = embeddings
-        self.save()
 
     def get_embedding_by_index(self, index: int) -> np.ndarray:
         """
