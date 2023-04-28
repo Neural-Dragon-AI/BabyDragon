@@ -14,3 +14,4 @@ torch
 libcst
 python_minifier
 sentence-transformers
+numba

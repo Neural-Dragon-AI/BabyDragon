@@ -20,7 +20,7 @@ class LLMReader(BaseTask):
         self.chatbot = chatbot
         self.read_func = read_func if read_func else self.llm_response
 
-    @staticmethod
+
     def llm_response(chatbot: Chat,message: str, string_out = False):
         if string_out:
             return chatbot.reply(message)

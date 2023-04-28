@@ -1,16 +1,18 @@
 from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.working_memory.associative_memory.probability_density_functions import calc_shgo_mode, estimate_pdf
-from babydragon.working_memory.associative_memory.group_by_rank import group_items_by_rank_buckets
-from babydragon.working_memory.associative_memory.nmi import run_stability_analysis
+from babydragon.working_memory.associative_memory.group_by_rank import group_items_by_rank_buckets_svd
+#from babydragon.working_memory.associative_memory.nmi import run_stability_analysis
 import numpy as np
 import faiss
+import pandas as pd
 from tqdm import tqdm
 
 
 class MemoryKernel(MemoryIndex):
-    def __init__(self, values, embeddings, name="memory_kernel", save_path=None):
-        super().__init__(values, embeddings, name, save_path)
-        self.create_k_hop_index()
+    def __init__(self, mem_index, name="memory_kernel", k=2, save_path=None):
+        super().__init__(index = mem_index.index, values=mem_index.values, embeddings=mem_index.embeddings, name=name, save_path=save_path)
+        self.k = k
+        self.create_k_hop_index(k=k)
 
     def cos_sim(self, a, b):
         """
@@ -33,35 +35,6 @@ class MemoryKernel(MemoryIndex):
         b_norm = b / np.linalg.norm(b, ord=2, axis=1, keepdims=True)
         return np.dot(a_norm, b_norm.T)
 
-    def cos_sim_batch(self, a: np.ndarray, b: np.ndarray, batch_size: int = 128):
-        """
-        Computes the cosine similarity cos_sim(a[i], b[j]) for all i and j using batch processing.
-        :return: Matrix with res[i][j]  = cos_sim(a[i], b[j])
-        """
-
-        if not isinstance(a, np.ndarray):
-            a = np.array(a)
-
-        if not isinstance(b, np.ndarray):
-            b = np.array(b)
-
-        if len(a.shape) == 1:
-            a = np.expand_dims(a, 0)
-
-        if len(b.shape) == 1:
-            b = np.expand_dims(b, 0)
-
-        a_norm = a / np.linalg.norm(a, axis=1, keepdims=True)
-        b_norm = b / np.linalg.norm(b, axis=1, keepdims=True)
-
-        sim_matrix = []
-        for i in range(0, len(a_norm), batch_size):
-            a_batch = a_norm[i : i + batch_size]
-            sim_batch = np.matmul(a_batch, b_norm.T)
-            sim_matrix.append(sim_batch)
-        sim_matrix = np.concatenate(sim_matrix, axis=0)
-        return sim_matrix
-
     def compute_kernel(
         self, embedding_set, threshold=0.65, use_softmax=False, cos_sim_batch=True
     ):
@@ -77,10 +50,8 @@ class MemoryKernel(MemoryIndex):
         Returns:
         adj_matrix (numpy array): The adjacency matrix of the graph.
         """
-        if cos_sim_batch:
-            A = self.cos_sim_batch(embedding_set, embedding_set)
-        else:
-            A = self.cos_sim(embedding_set, embedding_set)
+
+        A = self.cos_sim(embedding_set, embedding_set)
         if use_softmax:
             # softmax
             A = np.exp(A)
@@ -115,29 +86,8 @@ class MemoryKernel(MemoryIndex):
             agg_features += np.matmul(np.linalg.matrix_power(A, i + 1), node_features)
 
         return A_k, agg_features
-    
-    def faiss_index_to_adj_matrix(index: faiss.Index, num_vectors: int) -> np.ndarray:
-        """
-        Convert a Faiss index into a NumPy adjacency matrix.
 
-        Args:
-            index (faiss.Index): The Faiss index.
-            num_vectors (int): The number of vectors in the Faiss index.
-
-        Returns:
-            np.ndarray: The adjacency matrix.
-        """
-        # Create an empty adjacency matrix
-        adj_matrix = np.zeros((num_vectors, num_vectors), dtype=np.float32)
-
-        # Populate the adjacency matrix with distances from the Faiss index
-        for i in range(num_vectors):
-            distances, _ = index.search(index.reconstruct(i).reshape(1, -1), num_vectors)
-            adj_matrix[i] = distances
-
-        return adj_matrix
-
-    def create_k_hop_index(self, k):
+    def create_k_hop_index(self, k=2):
         print("Computing the adjacency matrix")
         print("Embeddings shape: ", self.embeddings.shape)
         self.A = self.compute_kernel(self.embeddings, threshold=0.65, use_softmax=False)
@@ -146,5 +96,24 @@ class MemoryKernel(MemoryIndex):
             self.A, self.embeddings, k
         )
         print("Updating the memory index")
-        self.k_hop_index = MemoryIndex(index=None, values=self.values, embeddings=self.node_embeddings, name=self.memory_index.name)
-  
+        self.k_hop_index = MemoryIndex( name=self.name)
+        self.k_hop_index.init_index(values=self.values, embeddings=self.node_embeddings)
+
+
+class MemoryKernelGroup:
+    def __init__(self, memory_kernel_dict: dict, name="memory_kernel_group", save_path=None):
+        self.memory_kernel_dict = memory_kernel_dict
+
+    def rank_decomp_and_merge(self, component_window_size=1, threshold=0.13):
+        bucket_groups = {}
+        for key, mem_kernel in self.memory_kernel_dict.items():
+            print(key)
+            code_values = mem_kernel.values
+            print(f'code_values: {len(code_values)}')
+            code_embeddings = mem_kernel.node_embeddings
+            print(f'code_embeddings: {code_embeddings.shape}')
+            _, _, VT = np.linalg.svd(mem_kernel.A_k)
+            code_df = pd.DataFrame(code_values, columns=['code'])
+            rank_buckets = group_items_by_rank_buckets_svd(code_df, code_embeddings, VT, num_components=component_window_size, threshold=threshold,use_softmax = False)
+            bucket_groups[key] = rank_buckets
+        return bucket_groups
