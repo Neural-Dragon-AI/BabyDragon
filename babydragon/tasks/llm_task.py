@@ -1,5 +1,6 @@
 
 import copy
+import faiss
 from typing import List, Any
 from babydragon.chat.chat import Chat
 from babydragon.memory.indexes.memory_index import MemoryIndex
@@ -41,20 +42,20 @@ class LLMReader(BaseTask):
             chatbot_instance = self.chatbot
         if isinstance(self.chatbot, BaseThread):
             chatbot_instance.reset_memory()
-        
+    
         sub_results = []
         for i in sub_path:
-            response = self.read_func(chatbot_instance,self.index[i])
+            response = self.read_func(chatbot_instance,self.index.values[i])
             sub_results.append(response)
         return sub_results
-    
+
     def read(self):
         self.execute_task()
         return self.results
 
 
 class LLMWriter(BaseTask):
-    def __init__(self, index: MemoryIndex, path: List[List[int]], chatbot: Chat, write_func: None, max_workers: int = 4):
+    def __init__(self, index: MemoryIndex, path: List[List[int]], chatbot: Chat, write_func: None, task_name="summary", max_workers: int = 4):
         """
         Initialize a LLMWriteTask instance.
 
@@ -66,12 +67,11 @@ class LLMWriter(BaseTask):
         BaseTask.__init__(self,index, path, max_workers)
         self.chatbot = chatbot
         self.write_func = write_func if write_func else self.llm_response
-        self.new_index = copy.deepcopy(self.index)
-        self.new_index.name = self.index.name + "_new"
+        self.new_index_name = self.index.name + f"_{task_name}"
 
     @staticmethod
     def llm_response(chatbot: Chat,message: str):
-        return chatbot.reply(message), True
+        return chatbot.reply(message)
 
     def _execute_sub_task(self, sub_path: List[int]) -> List[str]:
         """
@@ -87,23 +87,26 @@ class LLMWriter(BaseTask):
             chatbot_instance = self.chatbot
         if isinstance(self.chatbot, BaseThread):
             chatbot_instance.reset_memory()
-        
+
         sub_results = {}
         for i in sub_path:
-            response, write = self.write_func(chatbot_instance,self.index[i])
-            if write:
-                sub_results[i] = response 
+            response = self.write_func(chatbot_instance,self.index.values[i])
+            sub_results[i] = response
         return sub_results
-    
+
     def write(self):
         self.execute_task()
-        # for each subresults calls self.index.subsitute_at_index(index, sub_result at index)
+        content_to_write = []
         for sub_result in self.results:
-            for index, response in sub_result.items():
-                self.new_index.substitute_at_index(index, response)
+            for index_id, response in sub_result.items():
+                content_to_write.append((index_id, response))
+        # sort the content to write by index_id
+        content_to_write.sort(key=lambda x: x[0])
+        self.new_index = MemoryIndex(name=self.new_index_name)
+        self.new_index.init_index(values=[x[1] for x in content_to_write])
         self.new_index.save()
-        return self.new_index    
-                
+        return self.new_index
+
 
 
 
