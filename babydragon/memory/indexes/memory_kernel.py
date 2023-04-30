@@ -6,14 +6,26 @@ from babydragon.tasks.llm_task import LLMWriter
 import hdbscan
 import umap.umap_ as umap
 from tqdm import tqdm
+from scipy.spatial.distance import cosine
 import itertools
 from scipy.linalg import solve_sylvester
 from numpy.linalg import svd
 from babydragon.chat.chat import Chat
 from sklearn.metrics import normalized_mutual_info_score
+from sklearn.neighbors import KernelDensity
+
 import scipy
+import matplotlib.pyplot as plt
 
+def plot_scores(scores, kernel_label, cluster_id):
 
+    plt.plot(scores, label=f'Cluster {cluster_id}')
+
+    plt.xlabel('Node Index')
+    plt.ylabel('Cosine Distance')
+    plt.title(f'Scores for kernel {kernel_label}')
+    plt.legend()
+    plt.show()
 
 class MemoryKernel(MemoryIndex):
     def __init__(self, mem_index, name="memory_kernel", k=2, save_path=None):
@@ -157,7 +169,7 @@ class MemoryKernelGroup(MemoryKernel):
         paths = [[] for _ in range(num_clusters)]
         for i, cluster in enumerate(cluster_assignments):
             paths[cluster].append(i)
-
+        paths = [path for path in paths if path]
         return paths
 
     def create_paths_spectral_clustering(self, embeddings: np.ndarray, num_clusters: int) -> List[List[int]]:
@@ -167,7 +179,7 @@ class MemoryKernelGroup(MemoryKernel):
         paths = [[] for _ in range(num_clusters)]
         for i, cluster in enumerate(cluster_assignments):
             paths[cluster].append(i)
-
+        paths = [path for path in paths if path]
         return paths
 
     def calc_shgo_mode(self, scores):
@@ -182,23 +194,57 @@ class MemoryKernelGroup(MemoryKernel):
         pdf = scipy.stats.gaussian_kde(scores)
         return pdf
 
-    def sort_paths_by_mode_distance(self, kernel_label):
+    def print_path(self, kernel_label, path):
+        for i in path:
+            print(self.memory_kernel_dict[kernel_label].values[i])
+
+    def sort_paths_by_mode_distance(self, kernel_label, distance_metric="cosine"):
         paths = self.path_group[kernel_label]
         memory_kernel = self.memory_kernel_dict[kernel_label]
         sorted_paths = []
-        for path in paths:
+        for i, path in enumerate(paths):
             cluster_embeddings = [memory_kernel.node_embeddings[i] for i in path]
             cluster_embeddings = np.array(cluster_embeddings)
             cluster_mean = np.mean(cluster_embeddings, axis=0)
-            scores = [(i, np.linalg.norm(cluster_mean - emb)) for i, emb in zip(path, cluster_embeddings)]
-            mu = self.calc_shgo_mode(scores)
-            sigma = np.std(scores)
-            scores = [(i, np.exp(-(x - mu) ** 2 / (2 * sigma ** 2))) for i, x in scores]
-            #sorth path by score
+            if distance_metric == "cosine" or distance_metric == "guassian":
+                scores = [(i, cosine(cluster_mean, emb)) for i, emb in zip(path, cluster_embeddings)]
+            elif distance_metric == "euclidean":
+                scores = [(i, np.linalg.norm(cluster_mean - emb)) for i, emb in zip(path, cluster_embeddings)]
+            score_values = [score for _, score in scores]  # Extract score values
+            mu = self.calc_shgo_mode(score_values)
+            sigma = np.std(score_values)
+            if distance_metric == "guassian":
+                scores = [(i, np.exp(-(x - mu) ** 2 / (2 * sigma ** 2))) for i, x in scores]
+            # Sort path by score
             sorted_path_and_scores = sorted(scores, key=lambda x: x[1], reverse=True)
             sorted_path = [x[0] for x in sorted_path_and_scores]
             sorted_paths.append(sorted_path)
         self.path_group[kernel_label] = sorted_paths
+
+    def sort_paths_by_kernel_density(self, kernel_label, distance_metric="cosine"):
+        paths = self.path_group[kernel_label]
+        memory_kernel = self.memory_kernel_dict[kernel_label]
+        sorted_paths = []
+        for i, path in enumerate(paths):
+            cluster_embeddings = [memory_kernel.node_embeddings[i] for i in path]
+            cluster_embeddings = np.array(cluster_embeddings)
+            cluster_mean = np.mean(cluster_embeddings, axis=0)
+            if distance_metric == "cosine":
+                scores = [(i, cosine(cluster_mean, emb)) for i, emb in zip(path, cluster_embeddings)]
+            elif distance_metric == "euclidean":
+                scores = [(i, np.linalg.norm(cluster_mean - emb)) for i, emb in zip(path, cluster_embeddings)]
+            score_values = [score for _, score in scores]  # Extract score values
+
+            # Estimate PDF using Kernel Density Estimation
+            kde = KernelDensity(kernel='gaussian', bandwidth=0.2).fit(np.array(score_values).reshape(-1, 1))
+            kde_scores = [kde.score_samples([[x]])[0] for _, x in scores]
+
+            # Sort path by score
+            sorted_path_and_scores = sorted(zip(path, kde_scores), key=lambda x: x[1], reverse=True)
+            sorted_path = [x[0] for x in sorted_path_and_scores]
+            sorted_paths.append(sorted_path)
+        self.path_group[kernel_label] = sorted_paths
+
 
     def gen_aligned_kernel(self, chatbot:Chat, parent_kernel_label: str, child_kernel_label: str):
         llm_writer = LLMWriter(index=self.memory_kernel_dict[parent_kernel_label], path=self.path_group[parent_kernel_label], chatbot=chatbot, write_func=None, max_workers=1)
