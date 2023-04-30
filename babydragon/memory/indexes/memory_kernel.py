@@ -182,7 +182,7 @@ class MemoryKernelGroup(MemoryKernel):
         paths = [path for path in paths if path]
         return paths
 
-    def calc_shgo_mode(self, scores):
+    def calc_shgo_mode(self, scores: List[float]):
         def objective(x):
             return -self.estimate_pdf(scores)(x)
 
@@ -190,15 +190,15 @@ class MemoryKernelGroup(MemoryKernel):
         result = scipy.optimize.shgo(objective, bounds)
         return result.x
 
-    def estimate_pdf(self, scores):
+    def estimate_pdf(self, scores: List[float]):
         pdf = scipy.stats.gaussian_kde(scores)
         return pdf
 
-    def print_path(self, kernel_label, path):
+    def print_path(self, kernel_label: str, path: List[int]):
         for i in path:
             print(self.memory_kernel_dict[kernel_label].values[i])
 
-    def sort_paths_by_mode_distance(self, kernel_label, distance_metric="cosine"):
+    def sort_paths_by_mode_distance(self, kernel_label: str, distance_metric:str="cosine"):
         paths = self.path_group[kernel_label]
         memory_kernel = self.memory_kernel_dict[kernel_label]
         sorted_paths = []
@@ -221,7 +221,7 @@ class MemoryKernelGroup(MemoryKernel):
             sorted_paths.append(sorted_path)
         self.path_group[kernel_label] = sorted_paths
 
-    def sort_paths_by_kernel_density(self, kernel_label, distance_metric="cosine"):
+    def sort_paths_by_kernel_density(self, kernel_label:str, distance_metric:str="cosine"):
         paths = self.path_group[kernel_label]
         memory_kernel = self.memory_kernel_dict[kernel_label]
         sorted_paths = []
@@ -254,7 +254,7 @@ class MemoryKernelGroup(MemoryKernel):
         self.memory_kernel_dict[child_kernel_label] = new_memory_kernel
 
 
-    def generate_path_groups(self, method="hdbscan"):
+    def generate_path_groups(self, method:str="hdbscan"):
         path_group = {}
         for k, v in self.memory_kernel_dict.items():
             embeddings = v.node_embeddings
