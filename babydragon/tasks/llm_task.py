@@ -6,6 +6,7 @@ from babydragon.chat.chat import Chat
 from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.memory.threads.base_thread import BaseThread
 from babydragon.tasks.base_task import BaseTask
+import python_minifier
 
 class LLMReader(BaseTask):
     def __init__(self, index: MemoryIndex, path: List[List[int]], chatbot: Chat,read_func: None, max_workers: int = 4):
@@ -90,7 +91,8 @@ class LLMWriter(BaseTask):
 
         sub_results = {}
         for i in sub_path:
-            response = self.write_func(chatbot_instance,self.index.values[i])
+            current_val = self.index.values[i]
+            response = self.write_func(chatbot_instance, current_val)
             sub_results[i] = response
         return sub_results
 

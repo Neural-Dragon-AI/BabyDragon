@@ -16,8 +16,7 @@ class OpenAiEmbedder:
             out = openai.Embedding.create(input=data["content"], engine='text-embedding-ada-002')
         else:
             if len(str(data)) > MAX_CONTEXT_LENGTH:
-                avg_embedding = parse_and_embed_functions(data)
-                return avg_embedding
+                data = str(data)[:MAX_CONTEXT_LENGTH]
             if verbose is True:
                 print("Embedding without preprocessing the input", data)
             out = openai.Embedding.create(input=str(data), engine='text-embedding-ada-002')
