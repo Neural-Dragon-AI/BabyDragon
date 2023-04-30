@@ -1,5 +1,5 @@
 import itertools
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 import hdbscan
 import numpy as np
@@ -20,6 +20,15 @@ from babydragon.tasks.llm_task import LLMWriter
 
 class MemoryKernel(MemoryIndex):
     def __init__(self, mem_index, name="memory_kernel", k=2, save_path=None):
+        """
+        Initialize the MemoryKernel with a MemoryIndex instance, a name, k value, and save path.
+
+        Args:
+            mem_index (MemoryIndex): A MemoryIndex instance.
+            name (str, optional): The name of the MemoryKernel. Defaults to "memory_kernel".
+            k (int, optional): The number of hops for message passing. Defaults to 2.
+            save_path (str, optional): The path to save the MemoryKernel. Defaults to None.
+        """
         super().__init__(
             index=mem_index.index,
             values=mem_index.values,
@@ -103,28 +112,35 @@ class MemoryKernel(MemoryIndex):
 
         return A_k, agg_features
 
-    def graph_sylvester_embedding(self, G, m, ts):
+    def graph_sylvester_embedding(self, G, m: int, ts: np.ndarray) -> np.ndarray:
+        """
+        Compute the spectral kernel descriptor or the Spectral Graph Wavelet descriptor.
+
+        Args:
+            G (Tuple): A tuple containing the graph's vertices (V) and weights (W).
+            m (int): The number of singular values to consider.
+            ts (np.ndarray): The spectral scales.
+
+        Returns:
+            np.ndarray: The node_embeddings matrix.
+        """
         V, W = G
         n = len(V)
-        # Step 2: Compute L_BE
         D_BE = np.diag(W.sum(axis=1))
         L_BE = np.identity(n) - np.dot(
             np.diag(1 / np.sqrt(D_BE.diagonal())),
             np.dot(W, np.diag(1 / np.sqrt(D_BE.diagonal()))),
         )
 
-        # Step 3: Solve the discrete-time Sylvester equation
         A = W
         B = L_BE
         C = np.identity(n)
         X = solve_sylvester(A, B, C)
 
-        # Step 4: Compute the largest m singular values and associated singular vectors of X
         U, S, Vh = svd(X, full_matrices=False)
         U_m = U[:, :m]
         S_m = S[:m]
 
-        # Step 5: Compute the spectral kernel descriptor or the Spectral Graph Wavelet descriptor
         node_embeddings = np.zeros((n, m))
 
         for i in range(n):
@@ -135,6 +151,17 @@ class MemoryKernel(MemoryIndex):
         return node_embeddings
 
     def gen_gse_embeddings(self, A, embeddings, m: int = 7):
+        """
+        Generate Graph Sylvester Embeddings.
+
+        Args:
+            A (np.ndarray): The adjacency matrix of the graph.
+            embeddings (np.ndarray): The original node embeddings.
+            m (int, optional): The number of spectral scales. Defaults to 7.
+
+        Returns:
+            np.ndarray: The generated Graph Sylvester Embeddings.
+        """
         V = list(range(len(embeddings)))
         W = A
 
@@ -145,6 +172,14 @@ class MemoryKernel(MemoryIndex):
         return gse_embeddings
 
     def create_k_hop_index(self, k=2):
+        """
+        Create a k-hop index by computing the adjacency matrix, k-hop adjacency matrix,
+        aggregated features, and updating the memory index.
+
+        Args:
+            k (int, optional): The number of hops for message passing. Defaults to 2.
+        """
+        self.k = k
         print("Computing the adjacency matrix")
         print("Embeddings shape: ", self.embeddings.shape)
         self.A = self.compute_kernel(self.embeddings, threshold=0.65, use_softmax=False)
@@ -158,13 +193,30 @@ class MemoryKernel(MemoryIndex):
 
 
 class MemoryKernelGroup(MemoryKernel):
-    def __init__(self, memory_kernel_dict: dict, name="memory_kernel_group"):
+    def __init__(self, memory_kernel_dict: Dict[str, MemoryKernel], name="memory_kernel_group"):
+        """
+        Initialize the MemoryKernelGroup with a dictionary of MemoryKernel instances.
+
+        Args:
+            memory_kernel_dict (Dict[str, MemoryKernel]): A dictionary of MemoryKernel instances.
+            name (str, optional): The name of the MemoryKernelGroup. Defaults to "memory_kernel_group".
+        """
         self.memory_kernel_dict = memory_kernel_dict
         self.name = name
 
     def create_paths_hdbscan(
         self, embeddings: np.ndarray, num_clusters: int
     ) -> List[List[int]]:
+        """
+        Create paths using the HDBSCAN clustering algorithm.
+
+        Args:
+            embeddings (np.ndarray): The embeddings to be clustered.
+            num_clusters (int): The minimum number of clusters.
+
+        Returns:
+            List[List[int]]: A list of lists containing the clustered paths.
+        """
         clusterer = hdbscan.HDBSCAN(min_cluster_size=num_clusters)
         cluster_assignments = clusterer.fit_predict(embeddings)
 
@@ -177,6 +229,16 @@ class MemoryKernelGroup(MemoryKernel):
     def create_paths_spectral_clustering(
         self, embeddings: np.ndarray, num_clusters: int
     ) -> List[List[int]]:
+        """
+        Create paths using the spectral clustering algorithm.
+
+        Args:
+            embeddings (np.ndarray): The embeddings to be clustered.
+            num_clusters (int): The number of clusters.
+
+        Returns:
+            List[List[int]]: A list of lists containing the clustered paths.
+        """
         spectral_clustering = SpectralClustering(
             n_clusters=num_clusters, affinity="nearest_neighbors", random_state=42
         )
@@ -188,7 +250,16 @@ class MemoryKernelGroup(MemoryKernel):
         paths = [path for path in paths if path]
         return paths
 
-    def calc_shgo_mode(self, scores: List[float]):
+    def calc_shgo_mode(self, scores: List[float]) -> float:
+        """
+        Calculate the mode of the given scores using the SHGO optimization algorithm.
+
+        Args:
+            scores (List[float]): The scores for which the mode is to be calculated.
+
+        Returns:
+            float: The mode of the given scores.
+        """
         def objective(x):
             return -self.estimate_pdf(scores)(x)
 
@@ -196,17 +267,40 @@ class MemoryKernelGroup(MemoryKernel):
         result = scipy.optimize.shgo(objective, bounds)
         return result.x
 
-    def estimate_pdf(self, scores: List[float]):
+    def estimate_pdf(self, scores: List[float]) -> callable:
+        """
+        Estimate the probability density function of the given scores.
+
+        Args:
+            scores (List[float]): The scores for which the PDF is to be estimated.
+
+        Returns:
+            callable: A callable object representing the PDF.
+        """
         pdf = scipy.stats.gaussian_kde(scores)
         return pdf
 
-    def print_path(self, kernel_label: str, path: List[int]):
+    def print_path(self, kernel_label: str, path: List[int]) -> None:
+        """
+        Print the path for the specified kernel label.
+
+        Args:
+            kernel_label (str): The label of the kernel.
+            path (List[int]): The path to be printed.
+        """
         for i in path:
             print(self.memory_kernel_dict[kernel_label].values[i])
 
     def sort_paths_by_mode_distance(
         self, kernel_label: str, distance_metric: str = "cosine"
-    ):
+    )-> None:
+        """
+        Sort paths by the mode distance of the specified kernel label.
+
+        Args:
+            kernel_label (str): The label of the kernel.
+            distance_metric (str, optional): The distance metric to be used. Defaults to "cosine".
+        """
         paths = self.path_group[kernel_label]
         memory_kernel = self.memory_kernel_dict[kernel_label]
         sorted_paths = []
@@ -239,7 +333,14 @@ class MemoryKernelGroup(MemoryKernel):
 
     def sort_paths_by_kernel_density(
         self, kernel_label: str, distance_metric: str = "cosine"
-    ):
+    ) -> None:
+        """
+        Sort paths by the mode distance of the specified kernel label.
+
+        Args:
+            kernel_label (str): The label of the kernel.
+            distance_metric (str, optional): The distance metric to be used. Defaults to "cosine".
+        """
         paths = self.path_group[kernel_label]
         memory_kernel = self.memory_kernel_dict[kernel_label]
         sorted_paths = []
@@ -275,7 +376,15 @@ class MemoryKernelGroup(MemoryKernel):
 
     def gen_index_aligned_kernel(
         self, chatbot: Chat, parent_kernel_label: str, child_kernel_label: str
-    ):
+    ) -> None:
+        """
+        Generate an index-aligned kernel using LLMWriter for the given parent and child kernel labels.
+
+        Args:
+            chatbot (Chat): The Chat instance.
+            parent_kernel_label (str): The label of the parent kernel.
+            child_kernel_label (str): The label of the child kernel.
+        """
         llm_writer = LLMWriter(
             index=self.memory_kernel_dict[parent_kernel_label],
             path=self.path_group[parent_kernel_label],
@@ -288,7 +397,13 @@ class MemoryKernelGroup(MemoryKernel):
         new_memory_kernel.create_k_hop_index(k=2)
         self.memory_kernel_dict[child_kernel_label] = new_memory_kernel
 
-    def generate_path_groups(self, method: str = "hdbscan"):
+    def generate_path_groups(self, method: str = "hdbscan") -> None:
+        """
+        Generate path groups for all memory kernels in the memory_kernel_dict using the specified clustering method.
+
+        Args:
+            method (str, optional): The clustering method to be used. Defaults to "hdbscan".
+        """
         path_group = {}
         for k, v in self.memory_kernel_dict.items():
             embeddings = v.node_embeddings
@@ -302,7 +417,11 @@ class MemoryKernelGroup(MemoryKernel):
         self.path_group = path_group
 
     def batch_sort_kernel_group(self, kernel_label: str):
-        # if all kernels are of the same dimensions, then we can sort them all at once using the paths of the given key
+        """
+        Batch sort the kernel group by the specified kernel label.
+
+        Args:
+        """
         if all(
             [
                 v.node_embeddings.shape
@@ -323,9 +442,24 @@ class MemoryKernelGroup(MemoryKernel):
 
 class MemoryKernelGroupStabilityAnalysis:
     def __init__(self, memory_kernel_group: MemoryKernelGroup):
+        """
+        Initialize the MemoryKernelGroupStabilityAnalysis with a MemoryKernelGroup instance.
+
+        Args:
+            memory_kernel_group (MemoryKernelGroup): A MemoryKernelGroup instance.
+        """
         self.memory_kernel_group = memory_kernel_group
 
     def get_cluster_labels(self, kernel_label: str) -> Tuple[np.ndarray, int]:
+        """
+        Get the cluster labels for the specified kernel label.
+
+        Args:
+            kernel_label (str): The label of the kernel.
+
+        Returns:
+            Tuple[np.ndarray, int]: A tuple containing an array of cluster labels and the number of clusters.
+        """
         paths = self.memory_kernel_group.path_group[kernel_label]
         num_clusters = len(paths)
         cluster_labels = np.empty(
@@ -343,12 +477,28 @@ class MemoryKernelGroupStabilityAnalysis:
         return cluster_labels, num_clusters
 
     def compute_nmi(self, kernel_label1: str, kernel_label2: str) -> float:
+        """
+        Compute the normalized mutual information (NMI) between two kernel by labels.
+
+        Args:
+            kernel_label1 (str): The first kernel label.
+            kernel_label2 (str): The second kernel label.
+
+        Returns:
+            float: The NMI value between the two kernel labels.
+        """
         cluster_labels1, _ = self.get_cluster_labels(kernel_label1)
         cluster_labels2, _ = self.get_cluster_labels(kernel_label2)
         nmi = normalized_mutual_info_score(cluster_labels1, cluster_labels2)
         return nmi
 
     def evaluate_stability(self) -> float:
+        """
+        Evaluate the stability of the MemoryKernelGroup by calculating the average NMI between all pairs of kernels.
+
+        Returns:
+            float: The stability score of the MemoryKernelGroup.
+        """
         kernel_labels = list(self.memory_kernel_group.memory_kernel_dict.keys())
         pairwise_combinations = list(itertools.combinations(kernel_labels, 2))
         nmi_sum = 0
