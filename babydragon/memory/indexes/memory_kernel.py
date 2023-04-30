@@ -203,8 +203,7 @@ class MemoryKernelGroup(MemoryKernel):
     def gen_aligned_kernel(self, chatbot:Chat, parent_kernel_label: str, child_kernel_label: str):
         llm_writer = LLMWriter(index=self.memory_kernel_dict[parent_kernel_label], path=self.path_group[parent_kernel_label], chatbot=chatbot, write_func=None, max_workers=1)
         new_index = llm_writer.write()
-        new_memory_kernel = MemoryKernel(name=child_kernel_label)
-        new_memory_kernel.load_index(new_index)
+        new_memory_kernel = MemoryKernel(mem_index = new_index, name=child_kernel_label)
         new_memory_kernel.create_k_hop_index(k=2)
         self.memory_kernel_dict[child_kernel_label] = new_memory_kernel
 
