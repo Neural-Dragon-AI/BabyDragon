@@ -1,17 +1,16 @@
-from typing import List
+from typing import List, Tuple
 from babydragon.memory.indexes.memory_index import MemoryIndex
-from babydragon.working_memory.associative_memory.probability_density_functions import calc_shgo_mode, estimate_pdf
 import numpy as np
 from sklearn.cluster import SpectralClustering
 from babydragon.tasks.llm_task import LLMWriter
 import hdbscan
 import umap.umap_ as umap
 from tqdm import tqdm
+import itertools
 from scipy.linalg import solve_sylvester
 from numpy.linalg import svd
 from babydragon.chat.chat import Chat
-from sklearn.metrics.pairwise import cosine_similarity
-
+from sklearn.metrics import normalized_mutual_info_score
 import scipy
 
 
@@ -94,7 +93,7 @@ class MemoryKernel(MemoryIndex):
             agg_features += np.matmul(np.linalg.matrix_power(A, i + 1), node_features)
 
         return A_k, agg_features
-    
+
     def graph_sylvester_embedding(self, G, m, ts):
         V, W = G
         n = len(V)
@@ -204,7 +203,10 @@ class MemoryKernelGroup(MemoryKernel):
     def gen_aligned_kernel(self, chatbot:Chat, parent_kernel_label: str, child_kernel_label: str):
         llm_writer = LLMWriter(index=self.memory_kernel_dict[parent_kernel_label], path=self.path_group[parent_kernel_label], chatbot=chatbot, write_func=None, max_workers=1)
         new_index = llm_writer.write()
-        self.memory_kernel_dict[child_kernel_label] = new_index
+        new_memory_kernel = MemoryKernel(name=child_kernel_label)
+        new_memory_kernel.load_index(new_index)
+        new_memory_kernel.create_k_hop_index(k=2)
+        self.memory_kernel_dict[child_kernel_label] = new_memory_kernel
 
 
     def generate_path_groups(self, method="hdbscan"):
@@ -233,7 +235,34 @@ class MemoryKernelGroup(MemoryKernel):
     def is_kernel_group_isomorphic(self):
         pass
 
+class MemoryKernelGroupStabilityAnalysis:
+    def __init__(self, memory_kernel_group: MemoryKernelGroup):
+        self.memory_kernel_group = memory_kernel_group
 
+    def get_cluster_labels(self, kernel_label: str) -> Tuple[np.ndarray, int]:
+        paths = self.memory_kernel_group.path_group[kernel_label]
+        num_clusters = len(paths)
+        cluster_labels = np.empty(len(self.memory_kernel_group.memory_kernel_dict[kernel_label].node_embeddings), dtype=int)
 
+        for cluster_index, path in enumerate(paths):
+            cluster_labels[path] = cluster_index
 
+        return cluster_labels, num_clusters
 
+    def compute_nmi(self, kernel_label1: str, kernel_label2: str) -> float:
+        cluster_labels1, _ = self.get_cluster_labels(kernel_label1)
+        cluster_labels2, _ = self.get_cluster_labels(kernel_label2)
+        nmi = normalized_mutual_info_score(cluster_labels1, cluster_labels2)
+        return nmi
+
+    def evaluate_stability(self) -> float:
+        kernel_labels = list(self.memory_kernel_group.memory_kernel_dict.keys())
+        pairwise_combinations = list(itertools.combinations(kernel_labels, 2))
+        nmi_sum = 0
+
+        for kernel_label1, kernel_label2 in pairwise_combinations:
+            nmi = self.compute_nmi(kernel_label1, kernel_label2)
+            nmi_sum += nmi
+
+        stability_score = nmi_sum / len(pairwise_combinations)
+        return stability_score
