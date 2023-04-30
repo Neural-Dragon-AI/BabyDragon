@@ -1,11 +1,19 @@
+from typing import List
 from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.working_memory.associative_memory.probability_density_functions import calc_shgo_mode, estimate_pdf
-from babydragon.working_memory.associative_memory.group_by_rank import group_items_by_rank_buckets_svd
-#from babydragon.working_memory.associative_memory.nmi import run_stability_analysis
 import numpy as np
-import faiss
-import pandas as pd
+from sklearn.cluster import SpectralClustering
+from babydragon.tasks.llm_task import LLMWriter
+import hdbscan
+import umap.umap_ as umap
 from tqdm import tqdm
+from scipy.linalg import solve_sylvester
+from numpy.linalg import svd
+from babydragon.chat.chat import Chat
+from sklearn.metrics.pairwise import cosine_similarity
+
+import scipy
+
 
 
 class MemoryKernel(MemoryIndex):
@@ -86,6 +94,44 @@ class MemoryKernel(MemoryIndex):
             agg_features += np.matmul(np.linalg.matrix_power(A, i + 1), node_features)
 
         return A_k, agg_features
+    
+    def graph_sylvester_embedding(self, G, m, ts):
+        V, W = G
+        n = len(V)
+        # Step 2: Compute L_BE
+        D_BE = np.diag(W.sum(axis=1))
+        L_BE = np.identity(n) - np.dot(np.diag(1 / np.sqrt(D_BE.diagonal())), np.dot(W, np.diag(1 / np.sqrt(D_BE.diagonal()))))
+
+        # Step 3: Solve the discrete-time Sylvester equation
+        A = W
+        B = L_BE
+        C = np.identity(n)
+        X = solve_sylvester(A, B, C)
+
+        # Step 4: Compute the largest m singular values and associated singular vectors of X
+        U, S, Vh = svd(X, full_matrices=False)
+        U_m = U[:, :m]
+        S_m = S[:m]
+
+        # Step 5: Compute the spectral kernel descriptor or the Spectral Graph Wavelet descriptor
+        node_embeddings = np.zeros((n, m))
+
+        for i in range(n):
+            for s in range(m):
+                # Spectral kernel descriptor
+                node_embeddings[i, s] = np.exp(-ts[s] * S_m[s]) * U_m[i, s]
+
+        return node_embeddings
+
+    def gen_gse_embeddings(self, A, embeddings, m: int = 7):
+        V = list(range(len(embeddings)))
+        W = A
+
+        G = (V, W)
+        ts = np.linspace(0, 1, m)  # equally spaced scales
+
+        gse_embeddings = self.graph_sylvester_embedding(G, m, ts)
+        return gse_embeddings
 
     def create_k_hop_index(self, k=2):
         print("Computing the adjacency matrix")
@@ -100,20 +146,94 @@ class MemoryKernel(MemoryIndex):
         self.k_hop_index.init_index(values=self.values, embeddings=self.node_embeddings)
 
 
-class MemoryKernelGroup:
-    def __init__(self, memory_kernel_dict: dict, name="memory_kernel_group", save_path=None):
+class MemoryKernelGroup(MemoryKernel):
+    def __init__(self, memory_kernel_dict: dict, name="memory_kernel_group"):
         self.memory_kernel_dict = memory_kernel_dict
+        self.name = name
 
-    def rank_decomp_and_merge(self, component_window_size=1, threshold=0.13):
-        bucket_groups = {}
-        for key, mem_kernel in self.memory_kernel_dict.items():
-            print(key)
-            code_values = mem_kernel.values
-            print(f'code_values: {len(code_values)}')
-            code_embeddings = mem_kernel.node_embeddings
-            print(f'code_embeddings: {code_embeddings.shape}')
-            _, _, VT = np.linalg.svd(mem_kernel.A_k)
-            code_df = pd.DataFrame(code_values, columns=['code'])
-            rank_buckets = group_items_by_rank_buckets_svd(code_df, code_embeddings, VT, num_components=component_window_size, threshold=threshold,use_softmax = False)
-            bucket_groups[key] = rank_buckets
-        return bucket_groups
+    def create_paths_hdbscan(self, embeddings: np.ndarray, num_clusters: int) -> List[List[int]]:
+        clusterer = hdbscan.HDBSCAN(min_cluster_size=num_clusters)
+        cluster_assignments = clusterer.fit_predict(embeddings)
+
+        paths = [[] for _ in range(num_clusters)]
+        for i, cluster in enumerate(cluster_assignments):
+            paths[cluster].append(i)
+
+        return paths
+
+    def create_paths_spectral_clustering(self, embeddings: np.ndarray, num_clusters: int) -> List[List[int]]:
+        spectral_clustering = SpectralClustering(n_clusters=num_clusters, affinity='nearest_neighbors', random_state=42)
+        cluster_assignments = spectral_clustering.fit_predict(embeddings)
+
+        paths = [[] for _ in range(num_clusters)]
+        for i, cluster in enumerate(cluster_assignments):
+            paths[cluster].append(i)
+
+        return paths
+
+    def calc_shgo_mode(self, scores):
+        def objective(x):
+            return -self.estimate_pdf(scores)(x)
+
+        bounds = [(min(scores), max(scores))]
+        result = scipy.optimize.shgo(objective, bounds)
+        return result.x
+
+    def estimate_pdf(self, scores):
+        pdf = scipy.stats.gaussian_kde(scores)
+        return pdf
+
+    def sort_paths_by_mode_distance(self, kernel_label):
+        paths = self.path_group[kernel_label]
+        memory_kernel = self.memory_kernel_dict[kernel_label]
+        sorted_paths = []
+        for path in paths:
+            cluster_embeddings = [memory_kernel.node_embeddings[i] for i in path]
+            cluster_embeddings = np.array(cluster_embeddings)
+            cluster_mean = np.mean(cluster_embeddings, axis=0)
+            scores = [(i, np.linalg.norm(cluster_mean - emb)) for i, emb in zip(path, cluster_embeddings)]
+            mu = self.calc_shgo_mode(scores)
+            sigma = np.std(scores)
+            scores = [(i, np.exp(-(x - mu) ** 2 / (2 * sigma ** 2))) for i, x in scores]
+            #sorth path by score
+            sorted_path_and_scores = sorted(scores, key=lambda x: x[1], reverse=True)
+            sorted_path = [x[0] for x in sorted_path_and_scores]
+            sorted_paths.append(sorted_path)
+        self.path_group[kernel_label] = sorted_paths
+
+    def gen_aligned_kernel(self, chatbot:Chat, parent_kernel_label: str, child_kernel_label: str):
+        llm_writer = LLMWriter(index=self.memory_kernel_dict[parent_kernel_label], path=self.path_group[parent_kernel_label], chatbot=chatbot, write_func=None, max_workers=1)
+        new_index = llm_writer.write()
+        self.memory_kernel_dict[child_kernel_label] = new_index
+
+
+    def generate_path_groups(self, method="hdbscan"):
+        path_group = {}
+        for k, v in self.memory_kernel_dict.items():
+            embeddings = v.node_embeddings
+            num_clusters = int(np.sqrt(len(embeddings)))
+            if method == "hdbscan":
+                paths = self.create_paths_hdbscan(embeddings, num_clusters)
+            elif method == "spectral_clustering":
+                paths = self.create_paths_spectral_clustering(embeddings, num_clusters)
+            path_group[k] = paths
+
+        self.path_group = path_group
+
+    def batch_sort_kernel_group(self, kernel_label: str):
+        #if all kernels are of the same dimensions, then we can sort them all at once using the paths of the given key
+        if all([v.node_embeddings.shape == self.memory_kernel_dict[kernel_label].node_embeddings.shape for k, v in self.memory_kernel_dict.items()]):
+            self.memory_kernel_sort(self.path_group[kernel_label])
+        else:
+            return ValueError("Not all kernels are of the same dimensions.")
+
+    def memory_kernel_sort(self, paths: List[List[int]]):
+        pass
+
+    def is_kernel_group_isomorphic(self):
+        pass
+
+
+
+
+
