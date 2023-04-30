@@ -232,6 +232,26 @@ class MemoryIndex:
                         "The value {value} was already in the index".format(value=value)
                     )
                 )
+                
+    def remove_from_index(self, value: str) -> None:
+            """
+            Remove a value from the index and the values list.
+            Args:
+                value: The value to remove from the index.
+            """
+            index = self.get_index_by_value(value)
+            if index is not None:
+                # Remove the value from the values list
+                self.values.pop(index)
+
+                # Remove the corresponding embedding from the index
+                id_selector = faiss.IDSelectorArray(np.array([index], dtype=np.int64))
+                self.index.remove_ids(id_selector)
+
+                # Save the changes
+                self.save()
+            else:
+                print(f"The value '{value}' was not found in the index.")
 
     def get_embedding_by_index(self, index: int) -> np.ndarray:
         """
