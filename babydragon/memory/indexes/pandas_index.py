@@ -1,6 +1,6 @@
 import copy
 import os
-from typing import List, Optional, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Dict
 
 import numpy as np
 import pandas as pd
@@ -8,93 +8,68 @@ import pandas as pd
 from babydragon.memory.indexes.memory_index import MemoryIndex
 
 
-class PandasIndex(MemoryIndex):
-    def __init__(
-        self,
-        pandaframe: Union[pd.DataFrame, str],
-        columns: Optional[Union[str, List[str]]] = None,
-        name: str = "panda_index",
-        save_path: Optional[str] = None,
-        in_place: bool = True,
-        embeddings_col: Optional[str] = None,
-    ):
-        """
-        Create a PandasIndex object.
+class PandaIndex(MemoryIndex):
+    """
+    A class to create an index of a pandas DataFrame, allowing querying on specified columns.
+    Inherits from MemoryIndex class.
+    """
 
+    def __init__(self, df: pd.DataFrame, row_func: Optional[Callable[[pd.Series], str]] = None, columns: Optional[List[str]] = None):
+        """
+        Initialize a PandaIndex object.
+        
         Args:
-            pandaframe: The DataFrame or path to a CSV file.
-            columns: The columns of the DataFrame to use as values.
-            name: The name of the index.
-            save_path: The path to save the index.
-            in_place: Whether to work on the DataFrame in place or create a copy.
-            embeddings_col: The column name containing the embeddings.
+            df: A pandas DataFrame to index.
+            row_func: An optional function to process rows before adding them to the index.
+            columns: An optional list of column names to index. By default, it will index all string columns and columns containing lists with a single string.
         """
-        self.columns = columns
-        self.values = []
+        if row_func is None:
+            row_func = lambda row: str(row)
 
-        # Load or copy pandaframe, and set self.name, self.columns
-        if (
-            isinstance(pandaframe, str)
-            and pandaframe.endswith(".csv")
-            and os.path.isfile(pandaframe)
-        ):
-            try:
-                pandaframe = pd.read_csv(pandaframe)
-            except:
-                raise ValueError("The CSV file is not valid")
-            self.name = pandaframe.split("/")[-1].split(".")[0]
-            self.columns = "values"
-        elif isinstance(pandaframe, pd.core.frame.DataFrame) and columns is not None:
-            if not in_place:
-                pandaframe = copy.deepcopy(pandaframe)
+        self.df = df
+        super().__init__() # Initialize the parent MemoryIndex class
+        
+        # Initialize the row-wise index
+        for _, row in df.iterrows():
+            self.add_to_index(row_func(row))
+        
+        self.columns: Dict[str, MemoryIndex] = {} 
+
+        # Set up columns during initialization
+        if columns is None:
+            self.setup_columns()
         else:
-            raise ValueError(
-                "The pandaframe is not a valid pandas dataframe or the columns are not valid or the path is not valid"
-            )
+            self.setup_columns(columns)
 
-        values, embeddings = self.extract_values_and_embeddings(
-            pandaframe, embeddings_col
-        )
-        super().__init__(
-            values=values, embeddings=embeddings, name=name, save_path=save_path
-        )
-
-    def extract_values_and_embeddings(
-        self,
-        pandaframe: pd.DataFrame,
-        embeddings_col: Optional[str],
-    ) -> Tuple[List[str], Optional[List[np.ndarray]]]:
+    def setup_columns(self, columns: Optional[List[str]] = None):
         """
-        Extract values and embeddings from a pandas DataFrame.
-
+        Set up columns for indexing.
+        
         Args:
-            pandaframe: The DataFrame to extract values and embeddings from.
-            embeddings_col: The column name containing the embeddings.
-
-        Returns:
-            A tuple containing two lists: one with the extracted values and one with the extracted embeddings (if any).
+            columns: An optional list of column names to index. By default, it will index all string columns and columns containing lists with a single string.
         """
-        if isinstance(self.columns, list) and len(self.columns) > 1:
-            pandaframe["values"] = pandaframe[self.columns].apply(
-                lambda x: " ".join(x), axis=1
-            )
-            self.columns = "values"
-        elif isinstance(self.columns, list) and len(self.columns) == 1:
-            self.columns = self.columns[0]
-            pandaframe["values"] = pandaframe[self.columns]
-            self.columns = "values"
-        elif not isinstance(self.columns, str):
-            raise ValueError("The columns are not valid")
+        if columns is None:
+            # Use string columns or columns with lists containing a single string by default
+            columns = [col for col in self.df.columns if self.df[col].apply(lambda x: isinstance(x, str) or (isinstance(x, list) and len(x) == 1 and isinstance(x[0], str))).all()]
 
-        values = []
-        embeddings = []
+        for col in columns:
+            self.columns[col] = MemoryIndex.from_pandas(self.df, columns=col)
 
-        for _, row in pandaframe.iterrows():
-            value = row["values"]
-            values.append(value)
-
-            if embeddings_col is not None:
-                embedding = row[embeddings_col]
-                embeddings.append(embedding)
-
-        return values, embeddings if embeddings_col is not None else None
+    def query_columns(self, query: str, columns: List[str]) -> List[Tuple[str, float]]:
+        """
+        Query the indexed columns of the DataFrame.
+        
+        Args:
+            query: The search query as a string.
+            columns: A list of column names to query.
+        
+        Returns:
+            A list of tuples containing the matched value and its similarity score.
+        """
+        results = []
+        for col in columns:
+            if col in self.columns:
+                results.extend(self.columns[col].faiss_query(query))
+            else:
+                raise KeyError(f"Column '{col}' not found in PandaDb columns dictionary.")
+        return results

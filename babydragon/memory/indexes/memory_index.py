@@ -136,13 +136,14 @@ class MemoryIndex:
         """
 
         if isinstance(data_frame, str) and data_frame.endswith(".csv") and os.path.isfile(data_frame):
+            print("Loading the CSV file")
             try:
                 data_frame = pd.read_csv(data_frame)
             except:
                 raise ValueError("The CSV file is not valid")
             name = data_frame.split("/")[-1].split(".")[0]
-            columns = "values"
         elif isinstance(data_frame, pd.core.frame.DataFrame) and columns is not None:
+            print("Loading the DataFrame")
             if not in_place:
                 data_frame = copy.deepcopy(data_frame)
         else:
@@ -170,12 +171,10 @@ class MemoryIndex:
         """
 
         if isinstance(columns, list) and len(columns) > 1:
-            data_frame["values"] = data_frame[columns].apply(lambda x: ' '.join(x), axis=1)
-            columns = "values"
+            data_frame["values_combined"] = data_frame[columns].apply(lambda x: ' '.join(x), axis=1)
+            columns = "values_combined"
         elif isinstance(columns, list) and len(columns) == 1:
             columns = columns[0]
-            data_frame["values"] = data_frame[columns]
-            columns = "values"
         elif not isinstance(columns, str):
             raise ValueError("The columns are not valid")
 
@@ -183,7 +182,7 @@ class MemoryIndex:
         embeddings = []
 
         for _, row in data_frame.iterrows():
-            value = row["values"]
+            value = row[columns]
             values.append(value)
 
             if embeddings_col is not None:
@@ -191,7 +190,7 @@ class MemoryIndex:
                 embeddings.append(embedding)
 
         return values, embeddings if embeddings_col is not None else None
-    
+
     def add_to_index(
         self,
         value: str,
