@@ -2,10 +2,12 @@ import cohere as co
 
 COHERE_EMBEDDING_SIZE = 512
 
+
 class CohereEmbedder:
     def get_embedding_size(self):
         return COHERE_EMBEDDING_SIZE
-    def embed(self, data, embed_mark = False, verbose = False):
+
+    def embed(self, data, embed_mark=False, verbose=False):
         try:
             if embed_mark is False and type(data) is dict and "content" in data:
                 if verbose is True:

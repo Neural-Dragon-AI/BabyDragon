@@ -3,11 +3,18 @@ import math
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
+
 class SBERTEmbedder:
     def get_embedding_size(self):
         return 356
+
     def embed(
-        data, key="content", model_name="all-MiniLM-L6-v2", cores=1, gpu=False, batch_size=128
+        data,
+        key="content",
+        model_name="all-MiniLM-L6-v2",
+        cores=1,
+        gpu=False,
+        batch_size=128,
     ):
         """
         Embed the sentences/text using the MiniLM language model (which uses mean pooling)
@@ -45,7 +52,8 @@ class SBERTEmbedder:
         print("Embeddings computed")
 
         mapping = {
-            sentence: embedding for sentence, embedding in zip(unique_sentences, embeddings)
+            sentence: embedding
+            for sentence, embedding in zip(unique_sentences, embeddings)
         }
         embeddings = np.array([mapping[sentence] for sentence in sentences])
 

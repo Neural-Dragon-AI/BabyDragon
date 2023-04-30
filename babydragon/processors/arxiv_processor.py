@@ -1,15 +1,16 @@
 import os
+from urllib.parse import urljoin, urlparse
+
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urlparse, urljoin
 
 
 class ArxivVanityParser:
     def __init__(self):
-        self.base_url = 'https://www.arxiv-vanity.com/'
+        self.base_url = "https://www.arxiv-vanity.com/"
 
     def _get_vanity_url(self, arxiv_id):
-        return urljoin(self.base_url, 'papers/' + arxiv_id)
+        return urljoin(self.base_url, "papers/" + arxiv_id)
 
     def _fetch_html(self, url):
         response = requests.get(url)
@@ -19,8 +20,8 @@ class ArxivVanityParser:
             return None
 
     def _extract_main_content(self, html):
-        soup = BeautifulSoup(html, 'html.parser')
-        paragraphs = soup.find_all('div', {'class': 'ltx_para'})
+        soup = BeautifulSoup(html, "html.parser")
+        paragraphs = soup.find_all("div", {"class": "ltx_para"})
         content = {idx: p.get_text() for idx, p in enumerate(paragraphs)}
         return content
 
@@ -31,6 +32,7 @@ class ArxivVanityParser:
             return self._extract_main_content(html)
         else:
             return None
+
 
 class ArxivAPI:
     def __init__(self):
@@ -62,34 +64,35 @@ class ArxivParser:
         self.vanity_parser = ArxivVanityParser()
 
     def _parse_arxiv_id(self, url):
-        return url.split('/')[-1]
+        return url.split("/")[-1]
 
     def parse_papers(self, query, max_results=10):
         search_results = self.api.search(query, max_results)
         if search_results is not None:
-            soup = BeautifulSoup(search_results, 'html.parser')
-            entries = soup.find_all('entry')
+            soup = BeautifulSoup(search_results, "html.parser")
+            entries = soup.find_all("entry")
             paper_list = []
             for entry in entries:
                 paper_dict = {}
                 arxiv_id = self._parse_arxiv_id(entry.id.string)
-                paper_dict['arxiv_id'] = arxiv_id
-                paper_dict['title'] = entry.title.string
-                paper_dict['summary'] = entry.summary.string
-                paper_dict['content'] = self.vanity_parser.parse_paper(str(arxiv_id))
-                if paper_dict['content'] == None:
+                paper_dict["arxiv_id"] = arxiv_id
+                paper_dict["title"] = entry.title.string
+                paper_dict["summary"] = entry.summary.string
+                paper_dict["content"] = self.vanity_parser.parse_paper(str(arxiv_id))
+                if paper_dict["content"] == None:
                     continue
                 paper_list.append(paper_dict)
             return paper_list
         else:
             return None
 
+
 if __name__ == "__main__":
     # Usage example
     parser = ArxivParser()
     papers = parser.parse_papers("SVD", max_results=5)
     for paper in papers:
-        print(paper['title'])
-        print(paper['arxiv_id'])
-        print(paper['summary'])
-        print(paper['content'])
+        print(paper["title"])
+        print(paper["arxiv_id"])
+        print(paper["summary"])
+        print(paper["content"])

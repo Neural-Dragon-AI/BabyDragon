@@ -1,7 +1,9 @@
 import copy
-from typing import List, Any
 from concurrent.futures import ThreadPoolExecutor
+from typing import Any, List
+
 from babydragon.memory.indexes.memory_index import MemoryIndex
+
 
 class BaseTask:
     def __init__(self, index: MemoryIndex, path: List[List[int]], max_workers: int = 1):
@@ -17,7 +19,7 @@ class BaseTask:
         self.results = []
         self.max_workers = max_workers
         self.parallel = True if max_workers > 1 else False
-        
+
     def _execute_sub_task(self, sub_path: List[int]) -> List[str]:
         """
         to be implemented by subclasses:
@@ -32,7 +34,7 @@ class BaseTask:
             sub_results.append(response)
         return sub_results
 
-    def execute_task(self, parallel = False) -> None:
+    def execute_task(self, parallel=False) -> None:
         """
         Execute the task by concurrently processing sub-tasks using worker threads.
         """
@@ -42,4 +44,3 @@ class BaseTask:
         else:
             for sub_path in self.path:
                 self.results.append(self._execute_sub_task(sub_path))
-

@@ -1,5 +1,6 @@
 import concurrent.futures
 
+
 class CodeGenerator:
     def __init__(self):
         self.git_memory = None
@@ -54,15 +55,18 @@ class CodeGenerator:
         # Roll back the draft code to the previous state in the commit index
         pass
 
-
-    def codeGenerationIteration(self, userInput, gitMemory, commitIndex, contextualMemory):
+    def codeGenerationIteration(
+        self, userInput, gitMemory, commitIndex, contextualMemory
+    ):
         metaCode = self.generateMetaCode(userInput)
 
         # Concurrent processing - Step 1
         with concurrent.futures.ThreadPoolExecutor() as executor:
             gitMemoryContext = executor.submit(self.loadGitMemory, gitMemory)
             commitContext = executor.submit(self.loadCommitContext, commitIndex)
-            contextResources = executor.submit(self.loadContextualResources, contextualMemory)
+            contextResources = executor.submit(
+                self.loadContextualResources, contextualMemory
+            )
 
             gitMemoryContext = gitMemoryContext.result()
             commitContext = commitContext.result()
@@ -72,8 +76,12 @@ class CodeGenerator:
 
         # Concurrent processing - Step 2
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            modifications = executor.submit(self.generateModifications, draftCode, metaCode, contextResources)
-            sourceCode = executor.submit(self.extractSourceCode, modifications, contextResources)
+            modifications = executor.submit(
+                self.generateModifications, draftCode, metaCode, contextResources
+            )
+            sourceCode = executor.submit(
+                self.extractSourceCode, modifications, contextResources
+            )
 
             modifications = modifications.result()
             sourceCode = sourceCode.result()
@@ -82,8 +90,12 @@ class CodeGenerator:
 
         # Concurrent processing - Step 3
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            validationResult = executor.submit(self.validateDraft, updatedDraft, sourceCode)
-            comparisonResult = executor.submit(self.compareDraftWithObjective, updatedDraft, metaCode)
+            validationResult = executor.submit(
+                self.validateDraft, updatedDraft, sourceCode
+            )
+            comparisonResult = executor.submit(
+                self.compareDraftWithObjective, updatedDraft, metaCode
+            )
 
             validationResult = validationResult.result()
             comparisonResult = comparisonResult.result()

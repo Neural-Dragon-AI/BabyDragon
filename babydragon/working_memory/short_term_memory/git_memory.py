@@ -1,10 +1,10 @@
 from typing import List, Optional, Union
 
 import libcst as cst
+from python_minifier import minify
+
 from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.working_memory.parsers.git_processor import GitHubRepoProcessor
-
-from python_minifier import minify
 
 
 class PythonMinifier:
@@ -26,6 +26,7 @@ class PythonMinifier:
     def minify_code(code: str) -> str:
         return minify(code)
 
+
 class PythonDocstringExtractor:
     @staticmethod
     def extract_docstring(function_def: cst.FunctionDef) -> str:
@@ -34,7 +35,9 @@ class PythonDocstringExtractor:
         for stmt in function_def.body.body:
             if isinstance(stmt, cst.SimpleStatementLine):
                 for expr in stmt.body:
-                    if isinstance(expr, cst.Expr) and isinstance(expr.value, cst.SimpleString):
+                    if isinstance(expr, cst.Expr) and isinstance(
+                        expr.value, cst.SimpleString
+                    ):
                         docstring = expr.value.value.strip('"').strip("'")
                         break
             if docstring is not None:
@@ -59,7 +62,7 @@ class GitMemory(MemoryIndex):
         self.min_code_index = None
         self.doc_string_index = None
         self.libcst_node_index = None
-    
+
     def create_code_index(self, base_directory):
         self.directory_parser = self.parser.process_repo(base_directory)
         code_values, code_nodes = self.parser.get_values()
@@ -81,7 +84,3 @@ class GitMemory(MemoryIndex):
             doc_string_values.append(doc_string)
         self.doc_string_index = self.init_index(values=doc_string_values)
         self.min_code_index = self.init_index(values=min_code_values)
-
-
-
-

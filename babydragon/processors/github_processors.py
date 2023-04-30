@@ -10,7 +10,15 @@ from babydragon.processors.parsers.python_parser import PythonParser
 
 
 class GithubProcessor(OsProcessor):
-    def __init__(self, base_directory: str, username=None, repo_name=None, code_parsers=None, minify_code: bool = False, remove_docstrings: bool = False):
+    def __init__(
+        self,
+        base_directory: str,
+        username=None,
+        repo_name=None,
+        code_parsers=None,
+        minify_code: bool = False,
+        remove_docstrings: bool = False,
+    ):
         self.username = username
         self.repo_name = repo_name
         self.base_directory = base_directory
@@ -18,17 +26,20 @@ class GithubProcessor(OsProcessor):
         self.repo = self.github.get_repo(f"{username}/{repo_name}")
         repo_path = self.clone_repo(self.repo.clone_url)
 
-        OsProcessor.__init__(self,repo_path)
-        self.code_parsers = code_parsers or [PythonParser(repo_path, minify_code=minify_code, remove_docstrings=remove_docstrings)]
-
+        OsProcessor.__init__(self, repo_path)
+        self.code_parsers = code_parsers or [
+            PythonParser(
+                repo_path, minify_code=minify_code, remove_docstrings=remove_docstrings
+            )
+        ]
 
     def get_public_repos(self):
-        """ Returns a list of all public repos for the user."""
+        """Returns a list of all public repos for the user."""
         user = self.github.get_user(self.username)
         return user.get_repos()
 
     def clone_repo(self, repo_url: str):
-        """ Clones the repo at the specified url and returns the path to the repo."""
+        """Clones the repo at the specified url and returns the path to the repo."""
         repo_name = repo_url.split("/")[-1].replace(".git", "")
         target_directory = os.path.join(self.base_directory, repo_name)
 
@@ -40,7 +51,7 @@ class GithubProcessor(OsProcessor):
         return target_directory
 
     def process_repo(self, repo_path=None):
-        """ Processes the repo at the specified path.
+        """Processes the repo at the specified path.
         If no path is specified, the repo at self.directory_path is processed.
         Returns the list of parsed functions and classes."""
         if repo_path is None:
@@ -51,7 +62,7 @@ class GithubProcessor(OsProcessor):
             code_parser.process_directory(repo_path)
 
     def process_repos(self):
-        """ Processes all public repos for the user."""
+        """Processes all public repos for the user."""
         for repo in self.get_public_repos():
             if not repo.private:
                 print(f"Processing repo: {repo.name}")
@@ -60,7 +71,7 @@ class GithubProcessor(OsProcessor):
                 shutil.rmtree(repo_path)
 
     def get_repo(self, repo_name):
-        """ Returns the repo with the specified name."""
+        """Returns the repo with the specified name."""
         user = self.github.get_user(self.username)
         return user.get_repo(repo_name)
 

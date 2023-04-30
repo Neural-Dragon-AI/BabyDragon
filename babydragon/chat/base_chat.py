@@ -1,11 +1,15 @@
+from typing import Callable, Dict, List, Tuple
+
 import gradio as gr
 import openai
-import tiktoken 
-from IPython.display import display, Markdown
-from babydragon.utils.oai import mark_question, mark_system, get_mark_from_response , get_str_from_response
-from babydragon.chat.prompts.default_prompts import DEFAULT_SYSTEM_PROMPT, DEFAULT_USER_PROMPT
-from typing import Callable, Tuple, List
-from typing import List, Tuple, Dict
+import tiktoken
+from IPython.display import Markdown, display
+
+from babydragon.chat.prompts.default_prompts import (DEFAULT_SYSTEM_PROMPT,
+                                                     DEFAULT_USER_PROMPT)
+from babydragon.utils.oai import (get_mark_from_response,
+                                  get_str_from_response, mark_question,
+                                  mark_system)
 
 
 class Prompter:
@@ -66,13 +70,15 @@ class Prompter:
         """
         self.user_prompt = new_prompt
 
+
 class BaseChat:
     """
     This is the base class for chatbots, defining the basic functions that a chatbot should have, mainly the calls to
     chat-gpt API, and a basic Gradio interface. It has a prompt_func that acts as a placeholder for a call to chat-gpt
     API without any additional messages. It can be overridden by subclasses to add additional messages to the prompt.
     """
-    def __init__(self, model: str = None, max_output_tokens: int = 1000):
+
+    def __init__(self, model: str = None, max_output_tokens: int = 200):
         """
         Initialize the BaseChat with a model and max_output_tokens.
 
@@ -83,7 +89,7 @@ class BaseChat:
             self.model = "gpt-3.5-turbo"
         else:
             self.model = model
-        self.tokenizer = tiktoken.encoding_for_model('gpt-3.5-turbo')
+        self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
         self.max_output_tokens = max_output_tokens
         self.failed_responses = []
         self.outputs = []
@@ -100,7 +106,9 @@ class BaseChat:
         """
         return [mark_question(message)], mark_question(message)
 
-    def chat_response(self, prompt: List[dict], max_tokens: int = None) -> Tuple[Dict, bool]:
+    def chat_response(
+        self, prompt: List[dict], max_tokens: int = None
+    ) -> Tuple[Dict, bool]:
         """
         Call the OpenAI API with the given prompt and maximum number of output tokens.
 
@@ -121,11 +129,19 @@ class BaseChat:
 
         except openai.error.APIError as e:
             print(e)
-            fail_response = {"choices": [{"message": {"content": "I am sorry, I am having trouble understanding you. There might be an alien invasion interfering with my communicaiton with OpenAI."}}]}
+            fail_response = {
+                "choices": [
+                    {
+                        "message": {
+                            "content": "I am sorry, I am having trouble understanding you. There might be an alien invasion interfering with my communicaiton with OpenAI."
+                        }
+                    }
+                ]
+            }
             self.failed_responses.append(fail_response)
-            return fail_response , False
+            return fail_response, False
 
-    def reply(self, message: str, verbose : bool = True) -> str:
+    def reply(self, message: str, verbose: bool = True) -> str:
         """
         Reply to a given message using the chatbot.
 
@@ -146,18 +162,24 @@ class BaseChat:
         prompt, _ = self.prompt_func(message)
         response, success = self.chat_response(prompt)
         if verbose:
-            display(Markdown("#### Question: \n {question}".format(question = message)))
+            display(Markdown("#### Question: \n {question}".format(question=message)))
         if success:
             answer = get_mark_from_response(response)
             self.outputs.append(answer)
             self.inputs.append(message)
             self.prompts.append(prompt)
             if verbose:
-                display(Markdown(" #### Anwser: \n {answer}".format(answer = get_str_from_response(response)))) 
+                display(
+                    Markdown(
+                        " #### Anwser: \n {answer}".format(
+                            answer=get_str_from_response(response)
+                        )
+                    )
+                )
             return answer
         else:
             raise Exception("OpenAI API Error inside query function")
-    
+
     def reset_logs(self):
         """
         Reset the chatbot's memory.
@@ -165,7 +187,7 @@ class BaseChat:
         self.outputs = []
         self.inputs = []
         self.prompts = []
-    
+
     def get_logs(self):
         """
         Get the chatbot's memory.
@@ -174,7 +196,9 @@ class BaseChat:
         """
         return self.inputs, self.outputs, self.prompts
 
-    def run_text(self, text: str, state: List[Tuple[str, str]]) -> Tuple[List[Tuple[str, str]], List[Tuple[str, str]]]:
+    def run_text(
+        self, text: str, state: List[Tuple[str, str]]
+    ) -> Tuple[List[Tuple[str, str]], List[Tuple[str, str]]]:
         """
         Process the user's text input and update the chat state.
 
@@ -184,7 +208,7 @@ class BaseChat:
         """
         print("===============Running run_text =============")
         print("Inputs:", text)
-        try: 
+        try:
             print("======>Current memory:\n %s" % self.memory_thread)
         except:
             print("======>No memory")
@@ -202,10 +226,13 @@ class BaseChat:
             state = gr.State([])
             with gr.Row():
                 with gr.Column(scale=1):
-                    txt = gr.Textbox(show_label=False, placeholder="Enter text and press enter, or upload an image").style(container=False)
+                    txt = gr.Textbox(
+                        show_label=False,
+                        placeholder="Enter text and press enter, or upload an image",
+                    ).style(container=False)
                 with gr.Column(scale=0.15, min_width=0):
                     clear = gr.Button("Clear️")
 
             txt.submit(self.run_text, [txt, state], [chatbot, state])
             txt.submit(lambda: "", None, txt)
-            demo.launch(server_name="localhost", server_port=7860 )
+            demo.launch(server_name="localhost", server_port=7860)

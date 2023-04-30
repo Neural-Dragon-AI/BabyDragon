@@ -62,7 +62,6 @@ class DirectoryProcessor:
         class_source_codes = self.visitor.class_source_codes
         class_nodes = self.visitor.class_nodes
 
-
         return function_source_codes, class_source_codes, function_nodes, class_nodes
 
     def clone_repo(self, repo_url):
@@ -78,7 +77,9 @@ class DirectoryProcessor:
 
 
 class GitHubUserProcessor:
-    def __init__(self, username=None, repo_name=None, visitor=FunctionAndClassVisitor()):
+    def __init__(
+        self, username=None, repo_name=None, visitor=FunctionAndClassVisitor()
+    ):
         self.username = username
         self.repo_name = repo_name
         self.github = Github()
@@ -109,7 +110,9 @@ class GitHubUserProcessor:
 
 
 class GitHubRepoProcessor:
-    def __init__(self, username=None, repo_name=None, visitor=FunctionAndClassVisitor()):
+    def __init__(
+        self, username=None, repo_name=None, visitor=FunctionAndClassVisitor()
+    ):
         self.username = username
         self.repo_name = repo_name
         self.github = Github()
@@ -143,7 +146,7 @@ class GitHubRepoProcessor:
         return self.directory_processor
 
     def get_values(self):
-        #concatenate the function and class source codes
+        # concatenate the function and class source codes
         self.function_source_codes.extend(self.class_source_codes)
         self.function_nodes.extend(self.class_nodes)
         return self.function_source_codes, self.function_nodes

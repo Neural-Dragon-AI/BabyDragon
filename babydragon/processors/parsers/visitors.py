@@ -72,17 +72,15 @@ class FunctionAndClassVisitor(cst.CSTVisitor):
 
     def visit_FunctionDef(self, node: cst.FunctionDef) -> None:
         function_source_code = cst.Module([]).code_for_node(node)
-        #add in place summary and code mod
+        # add in place summary and code mod
         self.function_nodes.append(node)
         self.function_source_codes.append(function_source_code)
 
-
     def visit_ClassDef(self, node: cst.ClassDef) -> None:
         class_source_code = cst.Module([]).code_for_node(node)
-        #add in place summary and code mod
+        # add in place summary and code mod
         self.class_nodes.append(node)
         self.class_source_codes.append(class_source_code)
-
 
 
 class TypingCollector(cst.CSTVisitor):

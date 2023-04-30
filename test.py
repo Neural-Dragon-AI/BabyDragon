@@ -1,11 +1,14 @@
-from babydragon.chat.memory_chat import FifoVectorChat, FifoChat, VectorChat
+import code
+import os
+
+import openai
+
 from babydragon.chat.base_chat import BaseChat
 from babydragon.chat.chat import Chat
+from babydragon.chat.memory_chat import FifoChat, FifoVectorChat, VectorChat
 from babydragon.memory.indexes.pandas_index import PandasIndex
 from babydragon.working_memory.short_term_memory.git_memory import GitMemory
-import os
-import openai
-import code
+
 
 def open_repl(local_vars=None):
     """
@@ -24,8 +27,7 @@ def open_repl(local_vars=None):
     code.interact(local=local_vars)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     openai.api_key = "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"
 
     username = "Danielpatrickhug"
@@ -41,10 +43,10 @@ if __name__ == '__main__':
 
     print(git_memory)
     print(type(git_memory.code_index.index))
-    '''
-    #ic = Chat (model='gpt-3.5-turbo-0301',index_dict={"babydragon": pind}) 
+    """
+    #ic = Chat (model='gpt-3.5-turbo-0301',index_dict={"babydragon": pind})
     vci = FifoVectorChat(model='gpt-3.5-turbo-0301',index_dict={"GITMODEL": git_memory.code_index.index}, max_output_tokens=500, max_index_memory= 1000, max_memory=2000, longterm_frac=0.3)
     vci.gradio()
     # Add this line at the end of your script
     #open_repl(locals())
-    '''
+    """

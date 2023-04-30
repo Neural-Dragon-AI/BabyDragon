@@ -1,9 +1,11 @@
 import copy
+import json
 import os
 import pickle
 import re
 import time
-import json
+from typing import Dict, List, Optional, Tuple, Union
+
 import faiss
 import numpy as np
 import tiktoken
@@ -11,13 +13,12 @@ from IPython.display import Markdown, display
 
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 
-from typing import List, Optional, Union, Dict, Tuple 
-
 
 class MemoryIndex:
     """
     this class is a wrapper for a faiss index, it contains information about the format of the index the faiss index itself
     """
+
     def __init__(
         self,
         index: Optional[faiss.Index] = None,
@@ -27,7 +28,7 @@ class MemoryIndex:
         save_path: Optional[str] = None,
         load: bool = False,
         tokenizer: Optional[tiktoken.Encoding] = None,
-        ):
+    ):
 
         self.name = name
         self.embedder = OpenAiEmbedder()
@@ -55,7 +56,7 @@ class MemoryIndex:
         index: Optional[faiss.Index] = None,
         values: Optional[List[str]] = None,
         embeddings: Optional[List[Union[List[float], np.ndarray]]] = None,
-        ) -> None:
+    ) -> None:
 
         """
         initializes the index, there are 4 cases:
@@ -114,7 +115,7 @@ class MemoryIndex:
         value: str,
         embedding: Optional[Union[List[float], np.ndarray, str]] = None,
         verbose: bool = True,
-        ) -> None:
+    ) -> None:
         """
         index a message in the faiss index, the message is embedded (if embedding is not provided) and the id is saved in the values list
         """
@@ -122,7 +123,9 @@ class MemoryIndex:
             if embedding is None:
                 embedding = self.embedder.embed(value)
                 if verbose:
-                    display(Markdown("The value {value} was embedded".format(value=value)))
+                    display(
+                        Markdown("The value {value} was embedded".format(value=value))
+                    )
             if embedding is not None:
                 if type(embedding) is list:
                     embedding = np.array([embedding])
@@ -192,8 +195,8 @@ class MemoryIndex:
         self.embeddings = np.array(embeddings)
         return self.embeddings
 
-    def faiss_query(self, query: str, k:int =10) -> Tuple[List[str], List[float]]:
-        """ Query the faiss index for the top-k most similar values to the query"""
+    def faiss_query(self, query: str, k: int = 10) -> Tuple[List[str], List[float]]:
+        """Query the faiss index for the top-k most similar values to the query"""
 
         # Embed the data
         embedding = self.embedder.embed(query)
@@ -205,9 +208,9 @@ class MemoryIndex:
         values = [self.values[i] for i in I[0]]
         scores = [d for d in D[0]]
         return values, scores, I
-    
+
     def token_bound_query(self, query, k=10, max_tokens=4000):
-        """ Query the faiss index for the top-k most similar values to the query, but bound the number of tokens retrieved by the max_tokens parameter"""
+        """Query the faiss index for the top-k most similar values to the query, but bound the number of tokens retrieved by the max_tokens parameter"""
         returned_tokens = 0
         top_k_hint = []
         scores = []
@@ -224,13 +227,24 @@ class MemoryIndex:
                 if returned_tokens + message_tokens <= max_tokens:
                     top_k_hint += [hint]
                     returned_tokens += message_tokens
-            
-            self.query_history.append({"query": query, "hints": top_k_hint, "scores": scores, "indices":indices, "hints_tokens": tokens, "returned_tokens": returned_tokens , "max_tokens": max_tokens, "k": k})
+
+            self.query_history.append(
+                {
+                    "query": query,
+                    "hints": top_k_hint,
+                    "scores": scores,
+                    "indices": indices,
+                    "hints_tokens": tokens,
+                    "returned_tokens": returned_tokens,
+                    "max_tokens": max_tokens,
+                    "k": k,
+                }
+            )
 
         return top_k_hint, scores, indices
-    
+
     def save(self):
-        """ Save the index to disk using faiss and json and numpy"""
+        """Save the index to disk using faiss and json and numpy"""
         # Create the directory to save the index, values, and embeddings
         save_directory = os.path.join(self.save_path, self.name)
         os.makedirs(save_directory, exist_ok=True)
@@ -245,12 +259,14 @@ class MemoryIndex:
             json.dump(self.values, f)
 
         # Save the numpy array of the embeddings
-        embeddings_filename = os.path.join(save_directory, f"{self.name}_embeddings.npz")
+        embeddings_filename = os.path.join(
+            save_directory, f"{self.name}_embeddings.npz"
+        )
         # print(f"embs: {self.get_all_embeddings().shape}")
         np.savez_compressed(embeddings_filename, self.get_all_embeddings())
 
     def load(self):
-        """ Load the index, values, and embeddings from disk """
+        """Load the index, values, and embeddings from disk"""
         # Set the directory to load the index, values, and embeddings from
         load_directory = os.path.join(self.save_path, self.name)
 
@@ -264,9 +280,11 @@ class MemoryIndex:
             self.values = json.load(f)
 
         # Load the numpy array of the embeddings
-        embeddings_filename = os.path.join(load_directory, f"{self.name}_embeddings.npz")
+        embeddings_filename = os.path.join(
+            load_directory, f"{self.name}_embeddings.npz"
+        )
         embeddings_data = np.load(embeddings_filename)
-        self.embeddings = embeddings_data['arr_0']
+        self.embeddings = embeddings_data["arr_0"]
 
     def save_pickle(self, path=None):
         """saves the index and values to a pickle file"""
@@ -301,8 +319,8 @@ class MemoryIndex:
         constraint: Optional[str] = None,
         regex_pattern: Optional[str] = None,
         length_constraint: Optional[int] = None,
-    ) -> 'MemoryIndex':
-        """ Prune the index based on the constraint provided. Currently, only regex and length constraints are supported. """
+    ) -> "MemoryIndex":
+        """Prune the index based on the constraint provided. Currently, only regex and length constraints are supported."""
 
         if constraint is not None:
             if constraint == "regex":
@@ -334,7 +352,7 @@ class MemoryIndex:
         return pruned_memory_index
 
     def _prune_by_regex(self, regex_pattern: str) -> Tuple[List[str], List[np.ndarray]]:
-        """ Prune the index by the regex pattern provided."""
+        """Prune the index by the regex pattern provided."""
         pruned_values = []
         pruned_embeddings = []
 
@@ -345,8 +363,10 @@ class MemoryIndex:
 
         return pruned_values, pruned_embeddings
 
-    def _prune_by_length(self, length_constraint: int) -> Tuple[List[str], List[np.ndarray]]:
-        """ Prune the index by the length constraint provided."""
+    def _prune_by_length(
+        self, length_constraint: int
+    ) -> Tuple[List[str], List[np.ndarray]]:
+        """Prune the index by the length constraint provided."""
         pruned_values = []
         pruned_embeddings = []
 

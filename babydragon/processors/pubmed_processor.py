@@ -13,7 +13,9 @@ class PubmedAPI:
         return record["IdList"]
 
     def fetch_abstract(self, pubmed_id):
-        handle = Entrez.efetch(db="pubmed", id=pubmed_id, retmode="text", rettype="abstract")
+        handle = Entrez.efetch(
+            db="pubmed", id=pubmed_id, retmode="text", rettype="abstract"
+        )
         abstract = handle.read()
         handle.close()
         return abstract
@@ -53,9 +55,9 @@ class PubmedParser:
         paper_list = []
         for pubmed_id in pubmed_ids:
             paper_dict = {}
-            paper_dict['pubmed_id'] = pubmed_id
-            paper_dict['abstract'] = self.api.fetch_abstract(pubmed_id)
-            paper_dict['content'] = self.api.fetch_pmc_full_text(pubmed_id)
+            paper_dict["pubmed_id"] = pubmed_id
+            paper_dict["abstract"] = self.api.fetch_abstract(pubmed_id)
+            paper_dict["content"] = self.api.fetch_pmc_full_text(pubmed_id)
             paper_list.append(paper_dict)
         return paper_list
 
@@ -67,7 +69,7 @@ if __name__ == "__main__":
     for paper in papers:
         print(f"PubMed ID: {paper['pubmed_id']}")
         print(f"Abstract:\n{paper['abstract']}\n")
-        if paper['content']:
+        if paper["content"]:
             print(f"Content:\n{paper['content']}\n")
         else:
             print("none")

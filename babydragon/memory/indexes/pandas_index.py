@@ -1,16 +1,19 @@
-import pandas as pd
 import copy
 import os
-from typing import List, Optional, Union, Tuple
-from babydragon.memory.indexes.memory_index import MemoryIndex
+from typing import List, Optional, Tuple, Union
+
 import numpy as np
+import pandas as pd
+
+from babydragon.memory.indexes.memory_index import MemoryIndex
+
 
 class PandasIndex(MemoryIndex):
     def __init__(
         self,
         pandaframe: Union[pd.DataFrame, str],
         columns: Optional[Union[str, List[str]]] = None,
-        name: str = 'panda_index',
+        name: str = "panda_index",
         save_path: Optional[str] = None,
         in_place: bool = True,
         embeddings_col: Optional[str] = None,
@@ -30,7 +33,11 @@ class PandasIndex(MemoryIndex):
         self.values = []
 
         # Load or copy pandaframe, and set self.name, self.columns
-        if isinstance(pandaframe, str) and pandaframe.endswith(".csv") and os.path.isfile(pandaframe):
+        if (
+            isinstance(pandaframe, str)
+            and pandaframe.endswith(".csv")
+            and os.path.isfile(pandaframe)
+        ):
             try:
                 pandaframe = pd.read_csv(pandaframe)
             except:
@@ -41,10 +48,16 @@ class PandasIndex(MemoryIndex):
             if not in_place:
                 pandaframe = copy.deepcopy(pandaframe)
         else:
-            raise ValueError("The pandaframe is not a valid pandas dataframe or the columns are not valid or the path is not valid")
+            raise ValueError(
+                "The pandaframe is not a valid pandas dataframe or the columns are not valid or the path is not valid"
+            )
 
-        values, embeddings = self.extract_values_and_embeddings(pandaframe, embeddings_col)
-        super().__init__(values=values, embeddings=embeddings, name=name, save_path=save_path)
+        values, embeddings = self.extract_values_and_embeddings(
+            pandaframe, embeddings_col
+        )
+        super().__init__(
+            values=values, embeddings=embeddings, name=name, save_path=save_path
+        )
 
     def extract_values_and_embeddings(
         self,
@@ -62,7 +75,9 @@ class PandasIndex(MemoryIndex):
             A tuple containing two lists: one with the extracted values and one with the extracted embeddings (if any).
         """
         if isinstance(self.columns, list) and len(self.columns) > 1:
-            pandaframe["values"] = pandaframe[self.columns].apply(lambda x: ' '.join(x), axis=1)
+            pandaframe["values"] = pandaframe[self.columns].apply(
+                lambda x: " ".join(x), axis=1
+            )
             self.columns = "values"
         elif isinstance(self.columns, list) and len(self.columns) == 1:
             self.columns = self.columns[0]

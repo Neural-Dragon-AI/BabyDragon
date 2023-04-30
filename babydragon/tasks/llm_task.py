@@ -1,15 +1,24 @@
-
 import copy
+from typing import Any, List
+
 import faiss
-from typing import List, Any
+import python_minifier
+
 from babydragon.chat.chat import Chat
 from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.memory.threads.base_thread import BaseThread
 from babydragon.tasks.base_task import BaseTask
-import python_minifier
+
 
 class LLMReader(BaseTask):
-    def __init__(self, index: MemoryIndex, path: List[List[int]], chatbot: Chat,read_func: None, max_workers: int = 4):
+    def __init__(
+        self,
+        index: MemoryIndex,
+        path: List[List[int]],
+        chatbot: Chat,
+        read_func: None,
+        max_workers: int = 4,
+    ):
         """
         Initialize a LLMReadTask instance.
 
@@ -18,35 +27,34 @@ class LLMReader(BaseTask):
         :param chatbot: Chatbot instance used for executing queries.
         :param max_workers: Maximum number of worker threads (default is 4).
         """
-        BaseTask.__init__(self,index, path, max_workers)
+        BaseTask.__init__(self, index, path, max_workers)
         self.chatbot = chatbot
         self.read_func = read_func if read_func else self.llm_response
 
-
-    def llm_response(chatbot: Chat,message: str, string_out = False):
+    def llm_response(chatbot: Chat, message: str, string_out=False):
         if string_out:
             return chatbot.reply(message)
         return chatbot.query(message)
 
     def _execute_sub_task(self, sub_path: List[int]) -> List[str]:
         """
-        Execute a sub-task using a separate copy of the chatbot instance. each sub-stasks uses a 
+        Execute a sub-task using a separate copy of the chatbot instance. each sub-stasks uses a
         a clean memory instance.
 
         :param sub_path: List of indices representing the sub-task's sequence.
         :return: List of strings representing the responses for each query in the sub-task.
         """
         if self.parallel:
-            #copy the chatbot instance and resets the memory before making the queries in case of multi-threading
+            # copy the chatbot instance and resets the memory before making the queries in case of multi-threading
             chatbot_instance = copy.deepcopy(self.chatbot)
         else:
             chatbot_instance = self.chatbot
         if isinstance(self.chatbot, BaseThread):
             chatbot_instance.reset_memory()
-    
+
         sub_results = []
         for i in sub_path:
-            response = self.read_func(chatbot_instance,self.index.values[i])
+            response = self.read_func(chatbot_instance, self.index.values[i])
             sub_results.append(response)
         return sub_results
 
@@ -56,7 +64,15 @@ class LLMReader(BaseTask):
 
 
 class LLMWriter(BaseTask):
-    def __init__(self, index: MemoryIndex, path: List[List[int]], chatbot: Chat, write_func: None, task_name="summary", max_workers: int = 4):
+    def __init__(
+        self,
+        index: MemoryIndex,
+        path: List[List[int]],
+        chatbot: Chat,
+        write_func: None,
+        task_name="summary",
+        max_workers: int = 4,
+    ):
         """
         Initialize a LLMWriteTask instance.
 
@@ -65,13 +81,13 @@ class LLMWriter(BaseTask):
         :param chatbot: Chatbot instance used for executing queries.
         :param max_workers: Maximum number of worker threads (default is 4).
         """
-        BaseTask.__init__(self,index, path, max_workers)
+        BaseTask.__init__(self, index, path, max_workers)
         self.chatbot = chatbot
         self.write_func = write_func if write_func else self.llm_response
         self.new_index_name = self.index.name + f"_{task_name}"
 
     @staticmethod
-    def llm_response(chatbot: Chat,message: str):
+    def llm_response(chatbot: Chat, message: str):
         return chatbot.reply(message)
 
     def _execute_sub_task(self, sub_path: List[int]) -> List[str]:
@@ -82,7 +98,7 @@ class LLMWriter(BaseTask):
         :return: List of strings representing the responses for each query in the sub-task.
         """
         if self.parallel:
-            #copy the chatbot instance and resets the memory before making the queries in case of multi-threading
+            # copy the chatbot instance and resets the memory before making the queries in case of multi-threading
             chatbot_instance = copy.deepcopy(self.chatbot)
         else:
             chatbot_instance = self.chatbot
@@ -108,8 +124,3 @@ class LLMWriter(BaseTask):
         self.new_index.init_index(values=[x[1] for x in content_to_write])
         self.new_index.save()
         return self.new_index
-
-
-
-
-

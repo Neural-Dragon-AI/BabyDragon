@@ -1,35 +1,32 @@
-from typing import List, Tuple
-from babydragon.memory.indexes.memory_index import MemoryIndex
-import numpy as np
-from sklearn.cluster import SpectralClustering
-from babydragon.tasks.llm_task import LLMWriter
-import hdbscan
-import umap.umap_ as umap
-from tqdm import tqdm
-from scipy.spatial.distance import cosine
 import itertools
-from scipy.linalg import solve_sylvester
+from typing import List, Tuple
+
+import hdbscan
+import numpy as np
+import scipy
+import umap.umap_ as umap
 from numpy.linalg import svd
-from babydragon.chat.chat import Chat
+from scipy.linalg import solve_sylvester
+from scipy.spatial.distance import cosine
+from sklearn.cluster import SpectralClustering
 from sklearn.metrics import normalized_mutual_info_score
 from sklearn.neighbors import KernelDensity
+from tqdm import tqdm
 
-import scipy
-import matplotlib.pyplot as plt
+from babydragon.chat.chat import Chat
+from babydragon.memory.indexes.memory_index import MemoryIndex
+from babydragon.tasks.llm_task import LLMWriter
 
-def plot_scores(scores, kernel_label, cluster_id):
-
-    plt.plot(scores, label=f'Cluster {cluster_id}')
-
-    plt.xlabel('Node Index')
-    plt.ylabel('Cosine Distance')
-    plt.title(f'Scores for kernel {kernel_label}')
-    plt.legend()
-    plt.show()
 
 class MemoryKernel(MemoryIndex):
     def __init__(self, mem_index, name="memory_kernel", k=2, save_path=None):
-        super().__init__(index = mem_index.index, values=mem_index.values, embeddings=mem_index.embeddings, name=name, save_path=save_path)
+        super().__init__(
+            index=mem_index.index,
+            values=mem_index.values,
+            embeddings=mem_index.embeddings,
+            name=name,
+            save_path=save_path,
+        )
         self.k = k
         self.create_k_hop_index(k=k)
 
@@ -111,7 +108,10 @@ class MemoryKernel(MemoryIndex):
         n = len(V)
         # Step 2: Compute L_BE
         D_BE = np.diag(W.sum(axis=1))
-        L_BE = np.identity(n) - np.dot(np.diag(1 / np.sqrt(D_BE.diagonal())), np.dot(W, np.diag(1 / np.sqrt(D_BE.diagonal()))))
+        L_BE = np.identity(n) - np.dot(
+            np.diag(1 / np.sqrt(D_BE.diagonal())),
+            np.dot(W, np.diag(1 / np.sqrt(D_BE.diagonal()))),
+        )
 
         # Step 3: Solve the discrete-time Sylvester equation
         A = W
@@ -153,7 +153,7 @@ class MemoryKernel(MemoryIndex):
             self.A, self.embeddings, k
         )
         print("Updating the memory index")
-        self.k_hop_index = MemoryIndex( name=self.name)
+        self.k_hop_index = MemoryIndex(name=self.name)
         self.k_hop_index.init_index(values=self.values, embeddings=self.node_embeddings)
 
 
@@ -162,7 +162,9 @@ class MemoryKernelGroup(MemoryKernel):
         self.memory_kernel_dict = memory_kernel_dict
         self.name = name
 
-    def create_paths_hdbscan(self, embeddings: np.ndarray, num_clusters: int) -> List[List[int]]:
+    def create_paths_hdbscan(
+        self, embeddings: np.ndarray, num_clusters: int
+    ) -> List[List[int]]:
         clusterer = hdbscan.HDBSCAN(min_cluster_size=num_clusters)
         cluster_assignments = clusterer.fit_predict(embeddings)
 
@@ -172,8 +174,12 @@ class MemoryKernelGroup(MemoryKernel):
         paths = [path for path in paths if path]
         return paths
 
-    def create_paths_spectral_clustering(self, embeddings: np.ndarray, num_clusters: int) -> List[List[int]]:
-        spectral_clustering = SpectralClustering(n_clusters=num_clusters, affinity='nearest_neighbors', random_state=42)
+    def create_paths_spectral_clustering(
+        self, embeddings: np.ndarray, num_clusters: int
+    ) -> List[List[int]]:
+        spectral_clustering = SpectralClustering(
+            n_clusters=num_clusters, affinity="nearest_neighbors", random_state=42
+        )
         cluster_assignments = spectral_clustering.fit_predict(embeddings)
 
         paths = [[] for _ in range(num_clusters)]
@@ -198,7 +204,9 @@ class MemoryKernelGroup(MemoryKernel):
         for i in path:
             print(self.memory_kernel_dict[kernel_label].values[i])
 
-    def sort_paths_by_mode_distance(self, kernel_label: str, distance_metric:str="cosine"):
+    def sort_paths_by_mode_distance(
+        self, kernel_label: str, distance_metric: str = "cosine"
+    ):
         paths = self.path_group[kernel_label]
         memory_kernel = self.memory_kernel_dict[kernel_label]
         sorted_paths = []
@@ -207,21 +215,31 @@ class MemoryKernelGroup(MemoryKernel):
             cluster_embeddings = np.array(cluster_embeddings)
             cluster_mean = np.mean(cluster_embeddings, axis=0)
             if distance_metric == "cosine" or distance_metric == "guassian":
-                scores = [(i, cosine(cluster_mean, emb)) for i, emb in zip(path, cluster_embeddings)]
+                scores = [
+                    (i, cosine(cluster_mean, emb))
+                    for i, emb in zip(path, cluster_embeddings)
+                ]
             elif distance_metric == "euclidean":
-                scores = [(i, np.linalg.norm(cluster_mean - emb)) for i, emb in zip(path, cluster_embeddings)]
+                scores = [
+                    (i, np.linalg.norm(cluster_mean - emb))
+                    for i, emb in zip(path, cluster_embeddings)
+                ]
             score_values = [score for _, score in scores]  # Extract score values
             mu = self.calc_shgo_mode(score_values)
             sigma = np.std(score_values)
             if distance_metric == "guassian":
-                scores = [(i, np.exp(-(x - mu) ** 2 / (2 * sigma ** 2))) for i, x in scores]
+                scores = [
+                    (i, np.exp(-((x - mu) ** 2) / (2 * sigma**2))) for i, x in scores
+                ]
             # Sort path by score
             sorted_path_and_scores = sorted(scores, key=lambda x: x[1], reverse=True)
             sorted_path = [x[0] for x in sorted_path_and_scores]
             sorted_paths.append(sorted_path)
         self.path_group[kernel_label] = sorted_paths
 
-    def sort_paths_by_kernel_density(self, kernel_label:str, distance_metric:str="cosine"):
+    def sort_paths_by_kernel_density(
+        self, kernel_label: str, distance_metric: str = "cosine"
+    ):
         paths = self.path_group[kernel_label]
         memory_kernel = self.memory_kernel_dict[kernel_label]
         sorted_paths = []
@@ -230,31 +248,47 @@ class MemoryKernelGroup(MemoryKernel):
             cluster_embeddings = np.array(cluster_embeddings)
             cluster_mean = np.mean(cluster_embeddings, axis=0)
             if distance_metric == "cosine":
-                scores = [(i, cosine(cluster_mean, emb)) for i, emb in zip(path, cluster_embeddings)]
+                scores = [
+                    (i, cosine(cluster_mean, emb))
+                    for i, emb in zip(path, cluster_embeddings)
+                ]
             elif distance_metric == "euclidean":
-                scores = [(i, np.linalg.norm(cluster_mean - emb)) for i, emb in zip(path, cluster_embeddings)]
+                scores = [
+                    (i, np.linalg.norm(cluster_mean - emb))
+                    for i, emb in zip(path, cluster_embeddings)
+                ]
             score_values = [score for _, score in scores]  # Extract score values
 
             # Estimate PDF using Kernel Density Estimation
-            kde = KernelDensity(kernel='gaussian', bandwidth=0.2).fit(np.array(score_values).reshape(-1, 1))
+            kde = KernelDensity(kernel="gaussian", bandwidth=0.2).fit(
+                np.array(score_values).reshape(-1, 1)
+            )
             kde_scores = [kde.score_samples([[x]])[0] for _, x in scores]
 
             # Sort path by score
-            sorted_path_and_scores = sorted(zip(path, kde_scores), key=lambda x: x[1], reverse=True)
+            sorted_path_and_scores = sorted(
+                zip(path, kde_scores), key=lambda x: x[1], reverse=True
+            )
             sorted_path = [x[0] for x in sorted_path_and_scores]
             sorted_paths.append(sorted_path)
         self.path_group[kernel_label] = sorted_paths
 
-
-    def gen_aligned_kernel(self, chatbot:Chat, parent_kernel_label: str, child_kernel_label: str):
-        llm_writer = LLMWriter(index=self.memory_kernel_dict[parent_kernel_label], path=self.path_group[parent_kernel_label], chatbot=chatbot, write_func=None, max_workers=1)
+    def gen_index_aligned_kernel(
+        self, chatbot: Chat, parent_kernel_label: str, child_kernel_label: str
+    ):
+        llm_writer = LLMWriter(
+            index=self.memory_kernel_dict[parent_kernel_label],
+            path=self.path_group[parent_kernel_label],
+            chatbot=chatbot,
+            write_func=None,
+            max_workers=1,
+        )
         new_index = llm_writer.write()
-        new_memory_kernel = MemoryKernel(mem_index = new_index, name=child_kernel_label)
+        new_memory_kernel = MemoryKernel(mem_index=new_index, name=child_kernel_label)
         new_memory_kernel.create_k_hop_index(k=2)
         self.memory_kernel_dict[child_kernel_label] = new_memory_kernel
 
-
-    def generate_path_groups(self, method:str="hdbscan"):
+    def generate_path_groups(self, method: str = "hdbscan"):
         path_group = {}
         for k, v in self.memory_kernel_dict.items():
             embeddings = v.node_embeddings
@@ -268,8 +302,14 @@ class MemoryKernelGroup(MemoryKernel):
         self.path_group = path_group
 
     def batch_sort_kernel_group(self, kernel_label: str):
-        #if all kernels are of the same dimensions, then we can sort them all at once using the paths of the given key
-        if all([v.node_embeddings.shape == self.memory_kernel_dict[kernel_label].node_embeddings.shape for k, v in self.memory_kernel_dict.items()]):
+        # if all kernels are of the same dimensions, then we can sort them all at once using the paths of the given key
+        if all(
+            [
+                v.node_embeddings.shape
+                == self.memory_kernel_dict[kernel_label].node_embeddings.shape
+                for k, v in self.memory_kernel_dict.items()
+            ]
+        ):
             self.memory_kernel_sort(self.path_group[kernel_label])
         else:
             return ValueError("Not all kernels are of the same dimensions.")
@@ -280,6 +320,7 @@ class MemoryKernelGroup(MemoryKernel):
     def is_kernel_group_isomorphic(self):
         pass
 
+
 class MemoryKernelGroupStabilityAnalysis:
     def __init__(self, memory_kernel_group: MemoryKernelGroup):
         self.memory_kernel_group = memory_kernel_group
@@ -287,7 +328,14 @@ class MemoryKernelGroupStabilityAnalysis:
     def get_cluster_labels(self, kernel_label: str) -> Tuple[np.ndarray, int]:
         paths = self.memory_kernel_group.path_group[kernel_label]
         num_clusters = len(paths)
-        cluster_labels = np.empty(len(self.memory_kernel_group.memory_kernel_dict[kernel_label].node_embeddings), dtype=int)
+        cluster_labels = np.empty(
+            len(
+                self.memory_kernel_group.memory_kernel_dict[
+                    kernel_label
+                ].node_embeddings
+            ),
+            dtype=int,
+        )
 
         for cluster_index, path in enumerate(paths):
             cluster_labels[path] = cluster_index
