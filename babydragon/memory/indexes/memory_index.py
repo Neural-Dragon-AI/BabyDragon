@@ -12,7 +12,7 @@ import tiktoken
 from IPython.display import Markdown, display
 
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
-
+import pandas as pd
 
 class MemoryIndex:
     """
@@ -109,7 +109,89 @@ class MemoryIndex:
             raise ValueError(
                 "The index is not a valid faiss index or the embedding dimension is not correct"
             )
+        
+    @classmethod
+    def from_pandas(
+        cls,
+        data_frame: Union[pd.DataFrame, str],
+        columns: Optional[Union[str, List[str]]] = None,
+        name: str = 'memory_index',
+        save_path: Optional[str] = None,
+        in_place: bool = True,
+        embeddings_col: Optional[str] = None,
+    ) -> 'MemoryIndex':
+        """
+        Initialize a MemoryIndex object from a pandas DataFrame.
 
+        Args:
+            data_frame: The DataFrame or path to a CSV file.
+            columns: The columns of the DataFrame to use as values.
+            name: The name of the index.
+            save_path: The path to save the index.
+            in_place: Whether to work on the DataFrame in place or create a copy.
+            embeddings_col: The column name containing the embeddings.
+
+        Returns:
+            A MemoryIndex object initialized with values and embeddings from the DataFrame.
+        """
+
+        if isinstance(data_frame, str) and data_frame.endswith(".csv") and os.path.isfile(data_frame):
+            try:
+                data_frame = pd.read_csv(data_frame)
+            except:
+                raise ValueError("The CSV file is not valid")
+            name = data_frame.split("/")[-1].split(".")[0]
+            columns = "values"
+        elif isinstance(data_frame, pd.core.frame.DataFrame) and columns is not None:
+            if not in_place:
+                data_frame = copy.deepcopy(data_frame)
+        else:
+            raise ValueError("The data_frame is not a valid pandas dataframe or the columns are not valid or the path is not valid")
+
+        values, embeddings = cls.extract_values_and_embeddings(data_frame, columns, embeddings_col)
+        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path)
+
+    @staticmethod
+    def extract_values_and_embeddings(
+        data_frame: pd.DataFrame,
+        columns: Union[str, List[str]],
+        embeddings_col: Optional[str],
+    ) -> Tuple[List[str], Optional[List[np.ndarray]]]:
+        """
+        Extract values and embeddings from a pandas DataFrame.
+
+        Args:
+            data_frame: The DataFrame to extract values and embeddings from.
+            columns: The columns of the DataFrame to use as values.
+            embeddings_col: The column name containing the embeddings.
+
+        Returns:
+            A tuple containing two lists: one with the extracted values and one with the extracted embeddings (if any).
+        """
+
+        if isinstance(columns, list) and len(columns) > 1:
+            data_frame["values"] = data_frame[columns].apply(lambda x: ' '.join(x), axis=1)
+            columns = "values"
+        elif isinstance(columns, list) and len(columns) == 1:
+            columns = columns[0]
+            data_frame["values"] = data_frame[columns]
+            columns = "values"
+        elif not isinstance(columns, str):
+            raise ValueError("The columns are not valid")
+
+        values = []
+        embeddings = []
+
+        for _, row in data_frame.iterrows():
+            value = row["values"]
+            values.append(value)
+
+            if embeddings_col is not None:
+                embedding = row[embeddings_col]
+                embeddings.append(embedding)
+
+        return values, embeddings if embeddings_col is not None else None
+    
     def add_to_index(
         self,
         value: str,
@@ -285,34 +367,6 @@ class MemoryIndex:
         )
         embeddings_data = np.load(embeddings_filename)
         self.embeddings = embeddings_data["arr_0"]
-
-    def save_pickle(self, path=None):
-        """saves the index and values to a pickle file"""
-        if path is None and self.save_path is None:
-            path = self.name + ".pkl"
-        elif path is None and self.save_path is not None:
-            if self.save_path.endswith("/"):
-                path = self.save_path + self.name + ".pkl"
-            else:
-                path = self.save_path + "/" + self.name + ".pkl"
-        print("Saving the index to ", path)
-        with open(path, "wb") as f:
-            pickle.dump({"index": self.index, "values": self.values}, f)
-
-    def load_pickle(self, path=None):
-        """loads the index and values from a pickle file"""
-        if path is None and self.save_path is None:
-            path = self.name + ".pkl"
-        elif path is None and self.save_path is not None:
-            if self.save_path.endswith("/"):
-                path = self.save_path + self.name + ".pkl"
-            else:
-                path = self.save_path + "/" + self.name + ".pkl"
-
-        with open(path, "rb") as f:
-            data = pickle.load(f)
-            self.index = data["index"]
-            self.values = data["values"]
 
     def prune_index(
         self,
