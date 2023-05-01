@@ -5,6 +5,7 @@ import pandas as pd
 
 from babydragon.memory.indexes.memory_index import MemoryIndex
 
+from babydragon.tasks.base_task import BaseTask
 
 class PandasIndex(MemoryIndex):
     """
@@ -127,5 +128,51 @@ class PandasIndex(MemoryIndex):
                 return self.df.loc[self.df[column] == value]
             else:
                 raise KeyError(f"Column '{column}' not found in the DataFrame.")
+
+    def apply_llmtask(self, write_task: BaseTask, columns: Optional[List[str]] = None) -> pd.DataFrame:
+        """
+        Apply a writing task to the specified columns or the main index, and create new modified indexes and a corresponding DataFrame with new values.
+
+        Args:
+            write_task: An instance of a writing task (subclass of BaseTask).
+            columns: A list of column names to apply the writing task to, or None (default) to apply the task to the main index.
+
+        Returns:
+            A pandas DataFrame containing the modified values in the specified columns or a new column with the modified values of the main index.
+        """
+        modified_df = self.df.copy()
+
+        if columns is None:
+            # Apply the writing task to the main index
+            write_task.index = self
+            new_index = write_task.write()
+
+            # Create a mapping of old values to new values
+            old_to_new_values = dict(zip(self.values, new_index.values))
+
+            # Update the row values in the modified DataFrame
+            modified_df['new_column'] = modified_df.apply(lambda row: old_to_new_values.get(self.row_func(row), self.row_func(row)), axis=1)
+        else:
+            # Iterate over the specified columns
+            for col in columns:
+                if col in self.columns:
+                    # Apply the writing task to the column
+                    write_task.index = self.columns[col]
+                    new_index = write_task.write()
+
+                    # Create a mapping of old values to new values
+                    old_to_new_values = dict(zip(self.columns[col].values, new_index.values))
+
+                    # Update the column values in the modified DataFrame
+                    modified_df[col] = modified_df[col].apply(lambda x: old_to_new_values.get(x, x))
+
+                    # Update the column's MemoryIndex
+                    self.columns[col] = new_index
+                    self.columns[col].save()
+                else:
+                    raise KeyError(f"Column '{col}' not found in PandasIndex columns dictionary.")
+        
+        return modified_df
+
 
 
