@@ -5,7 +5,7 @@ import pickle
 import re
 import time
 from typing import Dict, List, Optional, Tuple, Union
-
+import io
 import faiss
 import numpy as np
 import tiktoken
@@ -109,6 +109,29 @@ class MemoryIndex:
             raise ValueError(
                 "The index is not a valid faiss index or the embedding dimension is not correct"
             )
+    
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        # Remove the unpicklable faiss.Index object
+        del state["index"]
+
+        # Save the FAISS index to a byte buffer
+        index_buffer = io.BytesIO()
+        faiss.write_index(state["index"], index_buffer)
+        state["index_bytes"] = index_buffer.getvalue()
+
+        return state
+
+    def __setstate__(self, state):
+        # Load the FAISS index from the byte buffer
+        index_buffer = io.BytesIO(state["index_bytes"])
+        state["index"] = faiss.read_index(index_buffer)
+
+        # Remove the no-longer-needed index_bytes from the state
+        del state["index_bytes"]
+
+        self.__dict__.update(state)
+
         
     @classmethod
     def from_pandas(

@@ -96,7 +96,16 @@ class BaseChat:
         self.inputs = []
         self.prompts = []
         self.prompt_func = self.identity_prompter
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        # Remove the tokenizer attribute from the state
+        del state["tokenizer"]
+        return state
 
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        # Reinitialize the tokenizer attribute after unpickling
+        self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
     def identity_prompter(self, message: str) -> Tuple[List[Dict], str]:
         """
         A simple identity prompter that takes a message and returns the message marked as a question.
