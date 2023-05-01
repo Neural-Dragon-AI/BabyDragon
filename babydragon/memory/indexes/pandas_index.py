@@ -102,10 +102,10 @@ class PandasIndex(MemoryIndex):
             index: The index of the row to remove.
         """
         if 0 <= index < len(self.df):
-            self.remove_from_index(index)
+            self.remove_from_index(self.values[index])
 
             for col in self.columns:
-                self.columns[col].remove_from_index(index)
+                self.columns[col].remove_from_index(self.columns[col].values[index])
 
             self.df.drop(index, inplace=True)
             self.df.reset_index(drop=True, inplace=True)
@@ -148,7 +148,7 @@ class PandasIndex(MemoryIndex):
         if columns is None:
             # Apply the writing task to the main index
             write_index = self
-            write_task = LLMWriter(write_index, path, chatbot, write_func=write_func)
+            write_task = LLMWriter(write_index, path, chatbot, write_func=write_func, context= self.df)
             
             new_index = write_task.write()
 
@@ -177,7 +177,8 @@ class PandasIndex(MemoryIndex):
                     self.columns[col].save()
                 else:
                     raise KeyError(f"Column '{col}' not found in PandasIndex columns dictionary.")
-        
+        #remove context from the write_task to avoid memory leak
+        write_task.context = None
         self.executed_tasks.append({"task": write_task, "output": modified_df})
         
         return modified_df

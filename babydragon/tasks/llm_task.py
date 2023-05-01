@@ -1,9 +1,5 @@
 import copy
 from typing import Any, List
-
-import faiss
-import python_minifier
-
 from babydragon.chat.chat import Chat
 from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.memory.threads.base_thread import BaseThread
@@ -70,6 +66,7 @@ class LLMWriter(BaseTask):
         path: List[List[int]],
         chatbot: Chat,
         write_func = None,
+        context= None,
         task_name="summary",
         max_workers: int = 1,
     ):
@@ -85,9 +82,10 @@ class LLMWriter(BaseTask):
         self.chatbot = chatbot
         self.write_func = write_func if write_func else self.llm_response
         self.new_index_name = self.index.name + f"_{task_name}"
+        self.context = context
 
     @staticmethod
-    def llm_response(chatbot: Chat, message: str):
+    def llm_response(chatbot: Chat, message: str, context = None, id = None):
         return chatbot.reply(message)
 
     def _execute_sub_task(self, sub_path: List[int]) -> List[str]:
@@ -108,7 +106,7 @@ class LLMWriter(BaseTask):
         sub_results = {}
         for i in sub_path:
             current_val = self.index.values[i]
-            response = self.write_func(chatbot_instance, current_val)
+            response = self.write_func(chatbot_instance, current_val, self.context, id = i)
             sub_results[i] = response
         return sub_results
 
