@@ -10,8 +10,8 @@ import time
 from threading import Lock
 
 class RateLimiter:
-    def __init__(self, calls_per_minute: int):
-        self.calls_per_minute = calls_per_minute
+    def __init__(self, calls_per_minute: int, max_workers: int = 1):
+        self.calls_per_minute = calls_per_minute // max_workers
         self.interval = 60 / calls_per_minute
         self.lock = Lock()
         self.last_call_time = None
@@ -39,7 +39,7 @@ class BaseTask:
         self.results = []
         self.max_workers = max_workers
         self.parallel = True if max_workers > 1 else False
-        self.rate_limiter = RateLimiter(calls_per_minute)
+        self.rate_limiter = RateLimiter(calls_per_minute, max_workers)
 
 
     def _save_results_to_file(self) -> None:
@@ -70,9 +70,10 @@ class BaseTask:
 
             for i, sub_path in enumerate(self.path):
                 if i < len(self.results):
-                    print(f"Sub-task {i} already completed, skipping...")
+                    # print(f"Sub-task {i} already completed, skipping...")
+                    pass
                 else:
-                    print(f"Submitting sub-task {i}...")
+                    # print(f"Submitting sub-task {i}...")
                     future = executor.submit(self._execute_sub_task, sub_path)
                     futures.append((i, future))
 
