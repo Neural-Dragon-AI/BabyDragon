@@ -41,7 +41,9 @@ class Chat(BaseChat, Prompter):
                 if self.user_defined_user_prompt is False
                 else self.user_prompt
             )
-            self.max_index_memory = max_index_memory
+        self.max_index_memory = max_index_memory
+        #set the last index to be the current index
+        self.current_index  = list(self.index_dict.keys())[-1]
 
     def get_index_hints(
         self, question: str, k: int = 10, max_tokens: int = None
