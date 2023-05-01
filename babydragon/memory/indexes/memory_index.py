@@ -195,7 +195,7 @@ class MemoryIndex:
         self,
         value: str,
         embedding: Optional[Union[List[float], np.ndarray, str]] = None,
-        verbose: bool = True,
+        verbose: bool = False,
     ) -> None:
         """
         index a message in the faiss index, the message is embedded (if embedding is not provided) and the id is saved in the values list
@@ -224,7 +224,7 @@ class MemoryIndex:
                 # print("embedding shape is ", embedding.shape)
                 self.index.add(embedding)
                 self.values.append(value)
-                self.save()
+                self.save() #we should check here the save time is not too long
         else:
             if verbose:
                 display(

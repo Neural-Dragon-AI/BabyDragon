@@ -43,7 +43,10 @@ class Chat(BaseChat, Prompter):
             )
         self.max_index_memory = max_index_memory
         #set the last index to be the current index
-        self.current_index  = list(self.index_dict.keys())[-1]
+        if self.index_dict is not None:
+            self.current_index  = list(self.index_dict.keys())[-1]
+        else:
+            self.current_index = None
 
     def get_index_hints(
         self, question: str, k: int = 10, max_tokens: int = None

@@ -14,6 +14,7 @@ class LLMReader(BaseTask):
         chatbot: Chat,
         read_func = None,
         max_workers: int = 1,
+        task_id: str = "LLMReadTask",
     ):
         """
         Initialize a LLMReadTask instance.
@@ -23,7 +24,7 @@ class LLMReader(BaseTask):
         :param chatbot: Chatbot instance used for executing queries.
         :param max_workers: Maximum number of worker threads (default is 4).
         """
-        BaseTask.__init__(self, index, path, max_workers)
+        BaseTask.__init__(self, index, path, max_workers, task_id)
         self.chatbot = chatbot
         self.read_func = read_func if read_func else self.llm_response
 
@@ -69,6 +70,7 @@ class LLMWriter(BaseTask):
         context= None,
         task_name="summary",
         max_workers: int = 1,
+        task_id: str = "LLMWriteTask",
     ):
         """
         Initialize a LLMWriteTask instance.
@@ -78,7 +80,7 @@ class LLMWriter(BaseTask):
         :param chatbot: Chatbot instance used for executing queries.
         :param max_workers: Maximum number of worker threads (default is 4).
         """
-        BaseTask.__init__(self, index, path, max_workers)
+        BaseTask.__init__(self, index, path, max_workers, task_id)
         self.chatbot = chatbot
         self.write_func = write_func if write_func else self.llm_response
         self.new_index_name = self.index.name + f"_{task_name}"

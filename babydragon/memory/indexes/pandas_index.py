@@ -14,7 +14,7 @@ class PandasIndex(MemoryIndex):
     Inherits from MemoryIndex class.
     """
 
-    def __init__(self, df: pd.DataFrame, row_func: Optional[Callable[[pd.Series], str]] = None, name= "pandas_index", columns: Optional[List[str]] = None):
+    def __init__(self, df: pd.DataFrame, row_func: Optional[Callable[[pd.Series], str]] = None, name= "pandas_index", columns: Optional[List[str]] = None, load = False):
         """
         Initialize a PandasIndex object.
         
@@ -28,9 +28,8 @@ class PandasIndex(MemoryIndex):
         self.row_func = row_func
 
         self.df = df
-        MemoryIndex.__init__(self,name=name) # Initialize the parent MemoryIndex class
-        
-        # Initialize the row-wise index
+        MemoryIndex.__init__(self,name=name, load = load ) # Initialize the parent MemoryIndex class
+     
         for _, row in df.iterrows():
             self.add_to_index(row_func(row))
         
@@ -46,17 +45,19 @@ class PandasIndex(MemoryIndex):
             self.columns[col].save()
         self.executed_tasks = []
 
-    def setup_columns(self, columns: Optional[List[str]] = None):
+    def setup_columns(self, columns: Optional[List[str]] = None, all = False):
         """
         Set up columns for indexing.
         
         Args:
             columns: An optional list of column names to index. By default, it will index all string columns and columns containing lists with a single string.
         """
-        if columns is None:
+        if columns is None and all == False:
             # Use string columns or columns with lists containing a single string by default
+            columns = []
+        elif all == True:
             columns = [col for col in self.df.columns if self.df[col].apply(lambda x: isinstance(x, str) or (isinstance(x, list) and len(x) == 1 and isinstance(x[0], str))).all()]
-
+        
         for col in columns:
             self.columns[col] = MemoryIndex.from_pandas(self.df, columns=col, name=f"{self.name}_{col}")
 
@@ -131,7 +132,7 @@ class PandasIndex(MemoryIndex):
             else:
                 raise KeyError(f"Column '{column}' not found in the DataFrame.")
 
-    def apply_llmtask(self, path: List[List[int]], chatbot: Chat, write_func= None, columns: Optional[List[str]] = None) -> pd.DataFrame:
+    def apply_llmtask(self, path: List[List[int]], chatbot: Chat, write_func= None, columns: Optional[List[str]] = None, task_id = None) -> pd.DataFrame:
         """
         Apply a writing task to the specified columns or the main index, and create new modified indexes and a corresponding DataFrame with new values.
 
@@ -148,7 +149,7 @@ class PandasIndex(MemoryIndex):
         if columns is None:
             # Apply the writing task to the main index
             write_index = self
-            write_task = LLMWriter(write_index, path, chatbot, write_func=write_func, context= self.df)
+            write_task = LLMWriter(write_index, path, chatbot, write_func=write_func, context= self.df, task_id = task_id)
             
             new_index = write_task.write()
 
@@ -163,7 +164,7 @@ class PandasIndex(MemoryIndex):
                 if col in self.columns:
                     # Apply the writing task to the column
                     write_index = self.columns[col]
-                    write_task = LLMWriter(write_index, path, chatbot)
+                    write_task = LLMWriter(write_index, path, chatbot, write_func=write_func, context= self.df, task_id = task_id)
                     new_index = write_task.write()
 
                     # Create a mapping of old values to new values
