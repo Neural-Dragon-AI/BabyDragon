@@ -34,13 +34,10 @@ class BaseTask:
             sub_results.append(response)
         return sub_results
 
-    def execute_task(self, parallel=False) -> None:
+    def execute_task(self) -> None:
         """
         Execute the task by concurrently processing sub-tasks using worker threads.
         """
-        if self.parallel:
-            with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
-                self.results = list(executor.map(self._execute_sub_task, self.path))
-        else:
-            for sub_path in self.path:
-                self.results.append(self._execute_sub_task(sub_path))
+        
+        for sub_path in self.path:
+            self.results.append(self._execute_sub_task(sub_path))

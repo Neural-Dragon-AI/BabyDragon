@@ -16,8 +16,8 @@ class LLMReader(BaseTask):
         index: MemoryIndex,
         path: List[List[int]],
         chatbot: Chat,
-        read_func: None,
-        max_workers: int = 4,
+        read_func = None,
+        max_workers: int = 1,
     ):
         """
         Initialize a LLMReadTask instance.
@@ -69,9 +69,9 @@ class LLMWriter(BaseTask):
         index: MemoryIndex,
         path: List[List[int]],
         chatbot: Chat,
-        write_func: None,
+        write_func = None,
         task_name="summary",
-        max_workers: int = 4,
+        max_workers: int = 1,
     ):
         """
         Initialize a LLMWriteTask instance.

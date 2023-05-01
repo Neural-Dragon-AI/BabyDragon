@@ -5,8 +5,6 @@ from babydragon.chat.prompts.default_prompts import (INDEX_HINT_PROMPT,
                                                      INDEX_SYSTEM_PROMPT,
                                                      QUESTION_INTRO)
 from babydragon.memory.indexes.memory_index import MemoryIndex
-from babydragon.memory.indexes.pandas_index import PandasIndex
-from babydragon.memory.indexes.python_index import PythonIndex
 
 
 class Chat(BaseChat, Prompter):
@@ -21,7 +19,7 @@ class Chat(BaseChat, Prompter):
         max_output_tokens: int = 1000,
         system_prompt: str = None,
         user_prompt: str = None,
-        index_dict: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None,
+        index_dict: Optional[Dict[str,MemoryIndex]] = None,
         max_index_memory: int = 1000,
     ) -> None:
         BaseChat.__init__(self, model=model, max_output_tokens=max_output_tokens)
@@ -61,11 +59,7 @@ class Chat(BaseChat, Prompter):
         hints = []
         if self.current_index is not None:
             index_instance = self.index_dict[self.current_index]
-            if (
-                isinstance(index_instance, PandasIndex)
-                or isinstance(index_instance, MemoryIndex)
-                or isinstance(index_instance, PythonIndex)
-            ):
+            if isinstance(index_instance, MemoryIndex):
                 hints, _, _ = index_instance.token_bound_query(
                     question, k=k, max_tokens=max_tokens
                 )

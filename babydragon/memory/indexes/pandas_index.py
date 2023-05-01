@@ -4,8 +4,9 @@ from typing import Callable, List, Optional, Tuple, Dict, Union
 import pandas as pd
 
 from babydragon.memory.indexes.memory_index import MemoryIndex
+from babydragon.chat.chat import Chat
 
-from babydragon.tasks.base_task import BaseTask
+from babydragon.tasks.llm_task import LLMWriter
 
 class PandasIndex(MemoryIndex):
     """
@@ -43,6 +44,7 @@ class PandasIndex(MemoryIndex):
         self.save()
         for col in self.columns:
             self.columns[col].save()
+        self.executed_tasks = []
 
     def setup_columns(self, columns: Optional[List[str]] = None):
         """
@@ -129,7 +131,7 @@ class PandasIndex(MemoryIndex):
             else:
                 raise KeyError(f"Column '{column}' not found in the DataFrame.")
 
-    def apply_llmtask(self, write_task: BaseTask, columns: Optional[List[str]] = None) -> pd.DataFrame:
+    def apply_llmtask(self, path: List[List[int]], chatbot: Chat, write_func= None, columns: Optional[List[str]] = None) -> pd.DataFrame:
         """
         Apply a writing task to the specified columns or the main index, and create new modified indexes and a corresponding DataFrame with new values.
 
@@ -141,10 +143,13 @@ class PandasIndex(MemoryIndex):
             A pandas DataFrame containing the modified values in the specified columns or a new column with the modified values of the main index.
         """
         modified_df = self.df.copy()
+        
 
         if columns is None:
             # Apply the writing task to the main index
-            write_task.index = self
+            write_index = self
+            write_task = LLMWriter(write_index, path, chatbot, write_func=write_func)
+            
             new_index = write_task.write()
 
             # Create a mapping of old values to new values
@@ -157,7 +162,8 @@ class PandasIndex(MemoryIndex):
             for col in columns:
                 if col in self.columns:
                     # Apply the writing task to the column
-                    write_task.index = self.columns[col]
+                    write_index = self.columns[col]
+                    write_task = LLMWriter(write_index, path, chatbot)
                     new_index = write_task.write()
 
                     # Create a mapping of old values to new values
@@ -171,6 +177,8 @@ class PandasIndex(MemoryIndex):
                     self.columns[col].save()
                 else:
                     raise KeyError(f"Column '{col}' not found in PandasIndex columns dictionary.")
+        
+        self.executed_tasks.append({"task": write_task, "output": modified_df})
         
         return modified_df
 
