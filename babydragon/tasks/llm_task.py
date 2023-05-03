@@ -124,7 +124,7 @@ class LLMWriter(BaseTask):
             for index_id, response in sub_result.items():
                 content_to_write.append((index_id, response))
         # sort the content to write by index_id
-        content_to_write.sort(key=lambda x: eval(x[0]))
+        content_to_write.sort(key=lambda x: int(x[0]))
         self.new_index = MemoryIndex(name=self.new_index_name)
         self.new_index.init_index(values=[x[1] for x in content_to_write])
         self.new_index.save()

@@ -53,27 +53,17 @@ class PandasIndex(MemoryIndex):
             self.columns[col].save()
         self.executed_tasks = []
 
-    def setup_columns(self, columns: Optional[List[str]] = None, all=False):
+    def setup_columns(self, columns: Optional[List[str]] = None):
         """
         Set up columns for indexing.
 
         Args:
             columns: An optional list of column names to index. By default, it will index all string columns and columns containing lists with a single string.
         """
-        if columns is None and all == False:
+        if columns is None:
             # Use string columns or columns with lists containing a single string by default
             columns = []
-        elif all == True:
-            columns = [
-                col
-                for col in self.df.columns
-                if self.df[col]
-                .apply(
-                    lambda x: isinstance(x, str)
-                    or (isinstance(x, list) and len(x) == 1 and isinstance(x[0], str))
-                )
-                .all()
-            ]
+       
 
         for col in columns:
             self.columns[col] = MemoryIndex.from_pandas(
@@ -197,7 +187,7 @@ class PandasIndex(MemoryIndex):
                 if col in self.columns:
                     # Apply the writing task to the column
                     write_index = self.columns[col]
-                    write_task = LLMWriter(write_index, path, chatbot,task_name = task_name, write_func=write_func, context= self.df, task_id = task_id, max_workers= max_workers, calls_per_minute= calls_per_minute)
+                    write_task = LLMWriter(write_index, path, chatbot, write_func=write_func, context= self.df, task_id = task_id, max_workers= max_workers, calls_per_minute= calls_per_minute)
                     new_index = write_task.write()
 
                     # Create a mapping of old values to new values
