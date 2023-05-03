@@ -17,7 +17,7 @@ class PythonIndex(MemoryIndex, PythonParser):
         remove_docstrings: bool = False,
         tokenizer: Optional[tiktoken.Encoding] = None,
         max_workers: int = 1,
-        backup: bool = True,
+        backup: bool = False,
     ):
         # # Initialize the MemoryIndex
         # MemoryIndex.__init__(

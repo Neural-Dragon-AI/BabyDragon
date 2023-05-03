@@ -32,7 +32,7 @@ class MemoryIndex:
         load: bool = False,
         tokenizer: Optional[tiktoken.Encoding] = None,
         max_workers: int = 1,
-        backup: bool = True,
+        backup: bool = False,
     ):
 
         self.name = name
