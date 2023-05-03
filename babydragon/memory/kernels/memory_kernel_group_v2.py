@@ -46,11 +46,12 @@ class HDBSCANMemoryKernelGroup(MemoryKernelGroup):
         super().__init__(memory_kernel_dict, name)
         self.cluster_paths = HDBSCANPaths()
 
-    def generate_path_groups(self) -> None:
+    def generate_path_groups(self, num_clusters:int = None) -> None:
         path_group = {}
         for k, v in self.memory_kernel_dict.items():
             embeddings = v.node_embeddings
-            num_clusters = int(np.sqrt(len(embeddings)))
+            if num_clusters is None:
+                num_clusters = int(np.sqrt(len(embeddings)))
             paths = self.cluster_paths.create_paths(embeddings, num_clusters)
             path_group[k] = paths
         self.path_group = path_group
@@ -60,11 +61,12 @@ class SpectralClusteringMemoryKernelGroup(MemoryKernelGroup):
         super().__init__(memory_kernel_dict, name)
         self.cluster_paths = SpectralClusteringPaths()
 
-    def generate_path_groups(self) -> None:
+    def generate_path_groups(self, num_clusters:int = None) -> None:
         path_group = {}
         for k, v in self.memory_kernel_dict.items():
             embeddings = v.node_embeddings
-            num_clusters = int(np.sqrt(len(embeddings)))
+            if num_clusters is None:
+                num_clusters = int(np.sqrt(len(embeddings)))
             paths = self.cluster_paths.create_paths(embeddings, num_clusters)
             path_group[k] = paths
         self.path_group = path_group
