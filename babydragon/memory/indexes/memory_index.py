@@ -1,18 +1,20 @@
 import copy
+import io
 import json
 import os
 import pickle
 import re
 import time
 from typing import Dict, List, Optional, Tuple, Union
-import io
+
 import faiss
 import numpy as np
+import pandas as pd
 import tiktoken
 from IPython.display import Markdown, display
 
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
-import pandas as pd
+
 
 class MemoryIndex:
     """
@@ -109,7 +111,7 @@ class MemoryIndex:
             raise ValueError(
                 "The index is not a valid faiss index or the embedding dimension is not correct"
             )
-    
+
     def __getstate__(self):
         state = self.__dict__.copy()
         # Remove the unpicklable faiss.Index object
@@ -132,17 +134,16 @@ class MemoryIndex:
 
         self.__dict__.update(state)
 
-        
     @classmethod
     def from_pandas(
         cls,
         data_frame: Union[pd.DataFrame, str],
         columns: Optional[Union[str, List[str]]] = None,
-        name: str = 'memory_index',
+        name: str = "memory_index",
         save_path: Optional[str] = None,
         in_place: bool = True,
         embeddings_col: Optional[str] = None,
-    ) -> 'MemoryIndex':
+    ) -> "MemoryIndex":
         """
         Initialize a MemoryIndex object from a pandas DataFrame.
 
@@ -158,7 +159,11 @@ class MemoryIndex:
             A MemoryIndex object initialized with values and embeddings from the DataFrame.
         """
 
-        if isinstance(data_frame, str) and data_frame.endswith(".csv") and os.path.isfile(data_frame):
+        if (
+            isinstance(data_frame, str)
+            and data_frame.endswith(".csv")
+            and os.path.isfile(data_frame)
+        ):
             print("Loading the CSV file")
             try:
                 data_frame = pd.read_csv(data_frame)
@@ -170,9 +175,13 @@ class MemoryIndex:
             if not in_place:
                 data_frame = copy.deepcopy(data_frame)
         else:
-            raise ValueError("The data_frame is not a valid pandas dataframe or the columns are not valid or the path is not valid")
+            raise ValueError(
+                "The data_frame is not a valid pandas dataframe or the columns are not valid or the path is not valid"
+            )
 
-        values, embeddings = cls.extract_values_and_embeddings(data_frame, columns, embeddings_col)
+        values, embeddings = cls.extract_values_and_embeddings(
+            data_frame, columns, embeddings_col
+        )
         return cls(values=values, embeddings=embeddings, name=name, save_path=save_path)
 
     @staticmethod
@@ -194,7 +203,9 @@ class MemoryIndex:
         """
 
         if isinstance(columns, list) and len(columns) > 1:
-            data_frame["values_combined"] = data_frame[columns].apply(lambda x: ' '.join(x), axis=1)
+            data_frame["values_combined"] = data_frame[columns].apply(
+                lambda x: " ".join(x), axis=1
+            )
             columns = "values_combined"
         elif isinstance(columns, list) and len(columns) == 1:
             columns = columns[0]
@@ -247,7 +258,7 @@ class MemoryIndex:
                 # print("embedding shape is ", embedding.shape)
                 self.index.add(embedding)
                 self.values.append(value)
-                self.save() #we should check here the save time is not too long
+                self.save()  # we should check here the save time is not too long
         else:
             if verbose:
                 display(
@@ -255,26 +266,26 @@ class MemoryIndex:
                         "The value {value} was already in the index".format(value=value)
                     )
                 )
-                
+
     def remove_from_index(self, value: str) -> None:
-            """
-            Remove a value from the index and the values list.
-            Args:
-                value: The value to remove from the index.
-            """
-            index = self.get_index_by_value(value)
-            if index is not None:
-                # Remove the value from the values list
-                self.values.pop(index)
+        """
+        Remove a value from the index and the values list.
+        Args:
+            value: The value to remove from the index.
+        """
+        index = self.get_index_by_value(value)
+        if index is not None:
+            # Remove the value from the values list
+            self.values.pop(index)
 
-                # Remove the corresponding embedding from the index
-                id_selector = faiss.IDSelectorArray(np.array([index], dtype=np.int64))
-                self.index.remove_ids(id_selector)
+            # Remove the corresponding embedding from the index
+            id_selector = faiss.IDSelectorArray(np.array([index], dtype=np.int64))
+            self.index.remove_ids(id_selector)
 
-                # Save the changes
-                self.save()
-            else:
-                print(f"The value '{value}' was not found in the index.")
+            # Save the changes
+            self.save()
+        else:
+            print(f"The value '{value}' was not found in the index.")
 
     def get_embedding_by_index(self, index: int) -> np.ndarray:
         """

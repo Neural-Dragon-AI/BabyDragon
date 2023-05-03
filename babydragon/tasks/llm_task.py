@@ -1,5 +1,6 @@
 import copy
 from typing import Any, List
+
 from babydragon.chat.chat import Chat
 from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.memory.threads.base_thread import BaseThread
@@ -12,7 +13,7 @@ class LLMReader(BaseTask):
         index: MemoryIndex,
         path: List[List[int]],
         chatbot: Chat,
-        read_func = None,
+        read_func=None,
         max_workers: int = 1,
         task_id: str = "LLMReadTask",
         calls_per_minute: int = 20,
@@ -67,8 +68,8 @@ class LLMWriter(BaseTask):
         index: MemoryIndex,
         path: List[List[int]],
         chatbot: Chat,
-        write_func = None,
-        context= None,
+        write_func=None,
+        context=None,
         task_name="summary",
         max_workers: int = 1,
         task_id: str = "LLMWriteTask",
@@ -89,7 +90,7 @@ class LLMWriter(BaseTask):
         self.context = context
 
     @staticmethod
-    def llm_response(chatbot: Chat, message: str, context = None, id = None):
+    def llm_response(chatbot: Chat, message: str, context=None, id=None):
         return chatbot.reply(message)
 
     def _execute_sub_task(self, sub_path: List[int]) -> List[str]:
@@ -110,7 +111,9 @@ class LLMWriter(BaseTask):
         sub_results = {}
         for i in sub_path:
             current_val = self.index.values[i]
-            response = self.write_func(chatbot_instance, current_val, self.context, id = i)
+            response = self.write_func(
+                chatbot_instance, current_val, self.context, id=i
+            )
             sub_results[i] = response
         return sub_results
 
