@@ -16,15 +16,19 @@ class PythonIndex(MemoryIndex, PythonParser):
         minify_code: bool = False,
         remove_docstrings: bool = False,
         tokenizer: Optional[tiktoken.Encoding] = None,
+        max_workers: int = 1,
+        backup: bool = True,
     ):
-        # Initialize the MemoryIndex
-        MemoryIndex.__init__(
-            self,
-            name=name,
-            save_path=save_path,
-            load=load,
-            tokenizer=tokenizer,
-        )
+        # # Initialize the MemoryIndex
+        # MemoryIndex.__init__(
+        #     self,
+        #     name=name,
+        #     save_path=save_path,
+        #     load=load,
+        #     tokenizer=tokenizer,
+        #     max_workers=max_workers,
+        #     backup
+        # )
         # Initialize the PythonParser
         PythonParser.__init__(
             self,
@@ -43,7 +47,16 @@ class PythonIndex(MemoryIndex, PythonParser):
             )
             # Concatenate function and class source code and index them
             codes = function_source_codes + class_source_codes
-            for code in codes:
-                self.add_to_index(code)
-
-            self.save()
+   
+            
+         # Initialize the MemoryIndex
+        MemoryIndex.__init__(
+            self,
+            name=name,
+            values=codes if not load else None,
+            save_path=save_path,
+            load=load,
+            tokenizer=tokenizer,
+            max_workers=max_workers,
+            backup=backup,
+        )

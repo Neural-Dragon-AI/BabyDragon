@@ -26,7 +26,8 @@ class LLMReader(BaseTask):
         :param chatbot: Chatbot instance used for executing queries.
         :param max_workers: Maximum number of worker threads (default is 4).
         """
-        BaseTask.__init__(self, index, path, max_workers, task_id, calls_per_minute)
+        BaseTask.__init__(self, path, max_workers, task_id, calls_per_minute)
+        self.index = index
         self.chatbot = chatbot
         self.read_func = read_func if read_func else self.llm_response
 
@@ -83,7 +84,8 @@ class LLMWriter(BaseTask):
         :param chatbot: Chatbot instance used for executing queries.
         :param max_workers: Maximum number of worker threads (default is 4).
         """
-        BaseTask.__init__(self, index, path, max_workers, task_id, calls_per_minute)
+        BaseTask.__init__(self, path, max_workers, task_id, calls_per_minute)
+        self.index = index
         self.chatbot = chatbot
         self.write_func = write_func if write_func else self.llm_response
         self.new_index_name = self.index.name + f"_{task_name}"
@@ -121,13 +123,7 @@ class LLMWriter(BaseTask):
         return sub_results
 
     def write(self):
-        self.execute_task()
-        content_to_write = []
-        for sub_result in self.results:
-            for index_id, response in sub_result.items():
-                content_to_write.append((index_id, response))
-        # sort the content to write by index_id
-        content_to_write.sort(key=lambda x: int(x[0]))
+        content_to_write = self.work()
         self.new_index = MemoryIndex(name=self.new_index_name)
         self.new_index.init_index(values=[x[1] for x in content_to_write])
         self.new_index.save()

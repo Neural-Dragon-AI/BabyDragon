@@ -14,6 +14,7 @@ import tiktoken
 from IPython.display import Markdown, display
 
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
+from babydragon.tasks.embedding_task import EmbeddingTask
 
 
 class MemoryIndex:
@@ -30,6 +31,8 @@ class MemoryIndex:
         save_path: Optional[str] = None,
         load: bool = False,
         tokenizer: Optional[tiktoken.Encoding] = None,
+        max_workers: int = 1,
+        backup: bool = True,
     ):
 
         self.name = name
@@ -42,9 +45,14 @@ class MemoryIndex:
         # Create the 'storage' folder if it does not exist
         os.makedirs(self.save_path, exist_ok=True)
         self.values = []
+        self.embeddings = []
+        self.max_workers = max_workers
+        
         if load is True:
             self.load()
         else:
+            if self.max_workers > 1 and values is not None and embeddings is None and index is None:
+                embeddings = self.parallel_embeddings(values,max_workers, backup=backup)
             self.init_index(index, values, embeddings)
         if tokenizer is None:
             self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
@@ -52,6 +60,25 @@ class MemoryIndex:
             self.tokenizer = tokenizer
         self.query_history = []
         self.save()
+
+    def parallel_embeddings(self,values,max_workers,backup):
+        # Prepare the paths for the EmbeddingTask
+        print("Embedding {} values".format(len(values)))
+        paths = [[i] for i in range(len(values))]
+
+        # Initialize the EmbeddingTask and execute it
+        embedding_task = EmbeddingTask(
+            self.embedder,
+            values,
+            path=paths,
+            max_workers=max_workers,
+            task_id=self.name+"_embedding_task",
+            backup=backup,
+            
+        )
+        embeddings = embedding_task.work()
+        embeddings = [x[1] for x in sorted(embeddings, key=lambda x: x[0])]
+        return embeddings
 
     def init_index(
         self,
