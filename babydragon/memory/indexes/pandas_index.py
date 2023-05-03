@@ -1,12 +1,11 @@
-
-from typing import Callable, List, Optional, Tuple, Dict, Union
+from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import pandas as pd
 
-from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.chat.chat import Chat
-
+from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.tasks.llm_task import LLMWriter
+
 
 class PandasIndex(MemoryIndex):
     """
@@ -14,10 +13,17 @@ class PandasIndex(MemoryIndex):
     Inherits from MemoryIndex class.
     """
 
-    def __init__(self, df: pd.DataFrame, row_func: Optional[Callable[[pd.Series], str]] = None, name= "pandas_index", columns: Optional[List[str]] = None, load = False):
+    def __init__(
+        self,
+        df: pd.DataFrame,
+        row_func: Optional[Callable[[pd.Series], str]] = None,
+        name="pandas_index",
+        columns: Optional[List[str]] = None,
+        load=False,
+    ):
         """
         Initialize a PandasIndex object.
-        
+
         Args:
             df: A pandas DataFrame to index.
             row_func: An optional function to process rows before adding them to the index.
@@ -28,12 +34,14 @@ class PandasIndex(MemoryIndex):
         self.row_func = row_func
 
         self.df = df
-        MemoryIndex.__init__(self,name=name, load = load ) # Initialize the parent MemoryIndex class
-     
+        MemoryIndex.__init__(
+            self, name=name, load=load
+        )  # Initialize the parent MemoryIndex class
+
         for _, row in df.iterrows():
             self.add_to_index(row_func(row))
-        
-        self.columns: Dict[str, MemoryIndex] = {} 
+
+        self.columns: Dict[str, MemoryIndex] = {}
 
         # Set up columns during initialization
         if columns is None:
@@ -45,10 +53,10 @@ class PandasIndex(MemoryIndex):
             self.columns[col].save()
         self.executed_tasks = []
 
-    def setup_columns(self, columns: Optional[List[str]] = None, all = False):
+    def setup_columns(self, columns: Optional[List[str]] = None, all=False):
         """
         Set up columns for indexing.
-        
+
         Args:
             columns: An optional list of column names to index. By default, it will index all string columns and columns containing lists with a single string.
         """
@@ -56,19 +64,30 @@ class PandasIndex(MemoryIndex):
             # Use string columns or columns with lists containing a single string by default
             columns = []
         elif all == True:
-            columns = [col for col in self.df.columns if self.df[col].apply(lambda x: isinstance(x, str) or (isinstance(x, list) and len(x) == 1 and isinstance(x[0], str))).all()]
-        
+            columns = [
+                col
+                for col in self.df.columns
+                if self.df[col]
+                .apply(
+                    lambda x: isinstance(x, str)
+                    or (isinstance(x, list) and len(x) == 1 and isinstance(x[0], str))
+                )
+                .all()
+            ]
+
         for col in columns:
-            self.columns[col] = MemoryIndex.from_pandas(self.df, columns=col, name=f"{self.name}_{col}")
+            self.columns[col] = MemoryIndex.from_pandas(
+                self.df, columns=col, name=f"{self.name}_{col}"
+            )
 
     def query_columns(self, query: str, columns: List[str]) -> List[Tuple[str, float]]:
         """
         Query the indexed columns of the DataFrame.
-        
+
         Args:
             query: The search query as a string.
             columns: A list of column names to query.
-        
+
         Returns:
             A list of tuples containing the matched value and its similarity score.
         """
@@ -77,9 +96,11 @@ class PandasIndex(MemoryIndex):
             if col in self.columns:
                 results.extend(self.columns[col].faiss_query(query))
             else:
-                raise KeyError(f"Column '{col}' not found in PandaDb columns dictionary.")
+                raise KeyError(
+                    f"Column '{col}' not found in PandaDb columns dictionary."
+                )
         return results
-    
+
     def add_row(self, row: pd.Series) -> None:
         """
         Add a row to the DataFrame and update the row and column indexes.
@@ -93,7 +114,6 @@ class PandasIndex(MemoryIndex):
         for col in self.columns:
             if col in row:
                 self.columns[col].add_to_index(row[col])
-
 
     def remove_row(self, index: int) -> None:
         """
@@ -111,9 +131,13 @@ class PandasIndex(MemoryIndex):
             self.df.drop(index, inplace=True)
             self.df.reset_index(drop=True, inplace=True)
         else:
-            raise IndexError(f"Index {index} is out of bounds for DataFrame with length {len(self.df)}")
-    
-    def rows_from_value(self, value: Union[str, int, float], column: Optional[str] = None) -> pd.DataFrame:
+            raise IndexError(
+                f"Index {index} is out of bounds for DataFrame with length {len(self.df)}"
+            )
+
+    def rows_from_value(
+        self, value: Union[str, int, float], column: Optional[str] = None
+    ) -> pd.DataFrame:
         """
         Return all rows of the DataFrame that have a particular value in the row index or a column index.
 
@@ -161,7 +185,12 @@ class PandasIndex(MemoryIndex):
             old_to_new_values = dict(zip(self.values, new_index.values))
 
             # Update the row values in the modified DataFrame
-            modified_df['new_column'] = modified_df.apply(lambda row: old_to_new_values.get(self.row_func(row), self.row_func(row)), axis=1)
+            modified_df["new_column"] = modified_df.apply(
+                lambda row: old_to_new_values.get(
+                    self.row_func(row), self.row_func(row)
+                ),
+                axis=1,
+            )
         else:
             # Iterate over the specified columns
             for col in columns:
@@ -172,18 +201,24 @@ class PandasIndex(MemoryIndex):
                     new_index = write_task.write()
 
                     # Create a mapping of old values to new values
-                    old_to_new_values = dict(zip(self.columns[col].values, new_index.values))
+                    old_to_new_values = dict(
+                        zip(self.columns[col].values, new_index.values)
+                    )
 
                     # Update the column values in the modified DataFrame
-                    modified_df[col] = modified_df[col].apply(lambda x: old_to_new_values.get(x, x))
+                    modified_df[col] = modified_df[col].apply(
+                        lambda x: old_to_new_values.get(x, x)
+                    )
 
                     # Update the column's MemoryIndex
                     self.columns[col] = new_index
                     self.columns[col].save()
                 else:
-                    raise KeyError(f"Column '{col}' not found in PandasIndex columns dictionary.")
-        #remove context from the write_task to avoid memory leak
+                    raise KeyError(
+                        f"Column '{col}' not found in PandasIndex columns dictionary."
+                    )
+        # remove context from the write_task to avoid memory leak
         write_task.context = None
         self.executed_tasks.append({"task": write_task, "output": modified_df})
-        
+
         return modified_df

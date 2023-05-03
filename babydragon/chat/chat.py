@@ -19,7 +19,7 @@ class Chat(BaseChat, Prompter):
         max_output_tokens: int = 1000,
         system_prompt: str = None,
         user_prompt: str = None,
-        index_dict: Optional[Dict[str,MemoryIndex]] = None,
+        index_dict: Optional[Dict[str, MemoryIndex]] = None,
         max_index_memory: int = 1000,
     ) -> None:
         BaseChat.__init__(self, model=model, max_output_tokens=max_output_tokens)
@@ -42,9 +42,9 @@ class Chat(BaseChat, Prompter):
                 else self.user_prompt
             )
         self.max_index_memory = max_index_memory
-        #set the last index to be the current index
+        # set the last index to be the current index
         if self.index_dict is not None:
-            self.current_index  = list(self.index_dict.keys())[-1]
+            self.current_index = list(self.index_dict.keys())[-1]
         else:
             self.current_index = None
 
