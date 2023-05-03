@@ -89,8 +89,10 @@ class LLMWriter(BaseTask):
         self.new_index_name = self.index.name + f"_{task_name}"
         self.context = context
 
-    @staticmethod
-    def llm_response(chatbot: Chat, message: str, context=None, id=None):
+    def llm_response(self,chatbot: Chat, message: str, context=None, id=None):
+        max_tokens = 8000 if chatbot.model == "gpt-4" else 4000
+        if len(self.index.tokenizer.encode(message))+chatbot.max_output_tokens> max_tokens:
+            return "the message is too long to be processed"
         return chatbot.reply(message)
 
     def _execute_sub_task(self, sub_path: List[int]) -> List[str]:
