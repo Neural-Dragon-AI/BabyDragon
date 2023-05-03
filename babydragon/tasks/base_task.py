@@ -67,6 +67,7 @@ class BaseTask:
         self.max_workers = max_workers
         self.parallel = True if max_workers > 1 else False
         self.rate_limiter = RateLimiter(calls_per_minute)
+        self.failed_sub_tasks = []
 
     def _save_results_to_file(self) -> None:
         with open(f"{self.task_id}_results.json", "w") as f:
@@ -120,6 +121,12 @@ class BaseTask:
                     print(
                         f"Sub-task {i} results saved in {save_end_time - save_start_time:.2f} seconds."
                     )
+                except Exception as e:
+                    print(f"Error in sub-task {i}: {e}")
+                    default_result = {i:f"Error in sub-task {i}: {e}"} 
+                    self.results.append(default_result)
+                    self._save_results_to_file()
+                    self.failed_sub_tasks.append((self.path[i], str(e)))
                 except KeyboardInterrupt:
                     print("Keyboard interrupt detected, stopping task execution.")
                     executor.shutdown(wait=False)

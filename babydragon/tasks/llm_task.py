@@ -91,8 +91,9 @@ class LLMWriter(BaseTask):
 
     def llm_response(self,chatbot: Chat, message: str, context=None, id=None):
         max_tokens = 8000 if chatbot.model == "gpt-4" else 4000
-        if len(self.index.tokenizer.encode(message))+chatbot.max_output_tokens> max_tokens:
-            return "the message is too long to be processed"
+        # if len(self.index.tokenizer.encode(message))+chatbot.max_output_tokens> max_tokens:
+        #     return "the message is too long to be processed"
+        # moved the error catching to multi-threading but custom method could report the error here
         return chatbot.reply(message)
 
     def _execute_sub_task(self, sub_path: List[int]) -> List[str]:
