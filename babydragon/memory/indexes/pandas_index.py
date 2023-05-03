@@ -132,7 +132,7 @@ class PandasIndex(MemoryIndex):
             else:
                 raise KeyError(f"Column '{column}' not found in the DataFrame.")
 
-    def apply_llmtask(self, path: List[List[int]], chatbot: Chat, write_func= None, columns: Optional[List[str]] = None,
+    def apply_llmtask(self, path: List[List[int]], chatbot: Chat,task_name=None, write_func= None, columns: Optional[List[str]] = None,
                        task_id = None, max_workers = 1, calls_per_minute: int = 20) -> pd.DataFrame:
         """
         Apply a writing task to the specified columns or the main index, and create new modified indexes and a corresponding DataFrame with new values.
@@ -145,12 +145,15 @@ class PandasIndex(MemoryIndex):
             A pandas DataFrame containing the modified values in the specified columns or a new column with the modified values of the main index.
         """
         modified_df = self.df.copy()
-        
+        if task_name is None and task_id is None:
+            task_name = "llm_task"
+        elif task_name is None:
+            task_name = task_id
 
         if columns is None:
             # Apply the writing task to the main index
             write_index = self
-            write_task = LLMWriter(write_index, path, chatbot, write_func=write_func, context= self.df, task_id = task_id, max_workers= max_workers, calls_per_minute= calls_per_minute)
+            write_task = LLMWriter(write_index, path, chatbot,task_name=task_name, write_func=write_func, context= self.df, task_id = task_id, max_workers= max_workers, calls_per_minute= calls_per_minute)
             
             new_index = write_task.write()
 
@@ -165,7 +168,7 @@ class PandasIndex(MemoryIndex):
                 if col in self.columns:
                     # Apply the writing task to the column
                     write_index = self.columns[col]
-                    write_task = LLMWriter(write_index, path, chatbot, write_func=write_func, context= self.df, task_id = task_id, max_workers= max_workers, calls_per_minute= calls_per_minute)
+                    write_task = LLMWriter(write_index, path, chatbot,task_name = task_name, write_func=write_func, context= self.df, task_id = task_id, max_workers= max_workers, calls_per_minute= calls_per_minute)
                     new_index = write_task.write()
 
                     # Create a mapping of old values to new values
@@ -184,6 +187,3 @@ class PandasIndex(MemoryIndex):
         self.executed_tasks.append({"task": write_task, "output": modified_df})
         
         return modified_df
-
-
-
