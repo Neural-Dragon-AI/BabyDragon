@@ -3,10 +3,9 @@ import json
 import os
 import time
 from typing import Any, List
-from babydragon.utils.multithreading import RateLimitedThreadPoolExecutor, RateLimiter
 
-
-
+from babydragon.utils.multithreading import (RateLimitedThreadPoolExecutor,
+                                             RateLimiter)
 
 
 class BaseTask:
@@ -33,9 +32,13 @@ class BaseTask:
 
     def _load_results_from_file(self) -> None:
         if os.path.exists(f"{self.task_id}_results.json"):
-            with open(f"{self.task_id}_results.json", "r") as f:
-                self.results = json.load(f)
-                print(f"Loaded {len(self.results)} results from file.")
+            try:
+                with open(f"{self.task_id}_results.json", "r") as f:
+                    self.results = json.load(f)
+                    print(f"Loaded {len(self.results)} results from file.")
+            except Exception as e:
+                print(f"Error loading results from file: {e}")
+                print("Starting from scratch.")
         else:
             print("No results file found, starting from scratch.")
 
@@ -84,10 +87,11 @@ class BaseTask:
                     )
                 except Exception as e:
                     print(f"Error in sub-task {i}: {e}")
-                    default_result = {i:f"Error in sub-task {i}: {e}"} 
-                    self.results.append(default_result)
+                    default_result = f"Error in sub-task {i}: {e}"
+                    self.results[i] = default_result
                     self._save_results_to_file()
                     self.failed_sub_tasks.append((self.path[i], str(e)))
+
                 except KeyboardInterrupt:
                     print("Keyboard interrupt detected, stopping task execution.")
                     executor.shutdown(wait=False)

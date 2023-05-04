@@ -1,8 +1,10 @@
+from typing import List
+
 import numpy as np
+import scipy
 from scipy.spatial.distance import cosine
 from sklearn.neighbors import KernelDensity
-import scipy
-from typing import List
+
 
 def calc_shgo_mode(scores: List[float]) -> float:
     def objective(x):
@@ -12,11 +14,15 @@ def calc_shgo_mode(scores: List[float]) -> float:
     result = scipy.optimize.shgo(objective, bounds)
     return result.x
 
+
 def estimate_pdf(scores: List[float]) -> callable:
     pdf = scipy.stats.gaussian_kde(scores)
     return pdf
 
-def sort_paths_by_mode_distance(paths, memory_kernel, distance_metric: str = "cosine") -> List[List[int]]:
+
+def sort_paths_by_mode_distance(
+    paths, memory_kernel, distance_metric: str = "cosine"
+) -> List[List[int]]:
     sorted_paths = []
     for i, path in enumerate(paths):
         cluster_embeddings = [memory_kernel.node_embeddings[i] for i in path]
@@ -45,7 +51,10 @@ def sort_paths_by_mode_distance(paths, memory_kernel, distance_metric: str = "co
         sorted_paths.append(sorted_path)
     return sorted_paths
 
-def sort_paths_by_kernel_density(paths, memory_kernel, distance_metric: str = "cosine") -> List[List[int]]:
+
+def sort_paths_by_kernel_density(
+    paths, memory_kernel, distance_metric: str = "cosine"
+) -> List[List[int]]:
     sorted_paths = []
     for i, path in enumerate(paths):
         cluster_embeddings = [memory_kernel.node_embeddings[i] for i in path]

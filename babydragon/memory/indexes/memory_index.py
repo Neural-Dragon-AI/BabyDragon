@@ -47,12 +47,19 @@ class MemoryIndex:
         self.values = []
         self.embeddings = []
         self.max_workers = max_workers
-        
+
         if load is True:
             self.load()
         else:
-            if self.max_workers > 1 and values is not None and embeddings is None and index is None:
-                embeddings = self.parallel_embeddings(values,max_workers, backup=backup)
+            if (
+                self.max_workers > 1
+                and values is not None
+                and embeddings is None
+                and index is None
+            ):
+                embeddings = self.parallel_embeddings(
+                    values, max_workers, backup=backup
+                )
             self.init_index(index, values, embeddings)
         if tokenizer is None:
             self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
@@ -61,7 +68,7 @@ class MemoryIndex:
         self.query_history = []
         self.save()
 
-    def parallel_embeddings(self,values,max_workers,backup):
+    def parallel_embeddings(self, values, max_workers, backup):
         # Prepare the paths for the EmbeddingTask
         print("Embedding {} values".format(len(values)))
         paths = [[i] for i in range(len(values))]
@@ -72,9 +79,8 @@ class MemoryIndex:
             values,
             path=paths,
             max_workers=max_workers,
-            task_id=self.name+"_embedding_task",
+            task_id=self.name + "_embedding_task",
             backup=backup,
-            
         )
         embeddings = embedding_task.work()
         embeddings = [x[1] for x in sorted(embeddings, key=lambda x: x[0])]

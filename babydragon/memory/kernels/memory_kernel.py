@@ -3,15 +3,19 @@ from typing import Tuple
 import numpy as np
 from numpy.linalg import svd
 from scipy.linalg import solve_sylvester
-
 from tqdm import tqdm
 
 from babydragon.memory.indexes.memory_index import MemoryIndex
 
 
-
 class MemoryKernel(MemoryIndex):
-    def __init__(self, mem_index: MemoryIndex, name: str = "memory_kernel", k: int = 2, save_path: str = None):
+    def __init__(
+        self,
+        mem_index: MemoryIndex,
+        name: str = "memory_kernel",
+        k: int = 2,
+        save_path: str = None,
+    ):
         """
         Initialize the MemoryKernel with a MemoryIndex instance, a name, k value, and save path.
 
@@ -53,7 +57,10 @@ class MemoryKernel(MemoryIndex):
         return np.dot(a_norm, b_norm.T)
 
     def compute_kernel(
-        self, embedding_set: np.ndarray, threshold: float = 0.65, use_softmax: bool = False
+        self,
+        embedding_set: np.ndarray,
+        threshold: float = 0.65,
+        use_softmax: bool = False,
     ) -> np.ndarray:
 
         """
@@ -80,7 +87,9 @@ class MemoryKernel(MemoryIndex):
         adj_matrix = adj_matrix.astype(np.float32)
         return adj_matrix
 
-    def k_hop_message_passing(self, A: np.ndarray, node_features: np.ndarray, k: int) -> Tuple[np.ndarray, np.ndarray]:
+    def k_hop_message_passing(
+        self, A: np.ndarray, node_features: np.ndarray, k: int
+    ) -> Tuple[np.ndarray, np.ndarray]:
         """
         Compute the k-hop adjacency matrix and aggregated features using message passing.
 
@@ -143,7 +152,9 @@ class MemoryKernel(MemoryIndex):
 
         return node_embeddings
 
-    def gen_gse_embeddings(self, A: np.ndarray, embeddings: np.ndarray, m: int = 7) -> np.ndarray:
+    def gen_gse_embeddings(
+        self, A: np.ndarray, embeddings: np.ndarray, m: int = 7
+    ) -> np.ndarray:
         """
         Generate Graph Sylvester Embeddings.
 
@@ -184,6 +195,11 @@ class MemoryKernel(MemoryIndex):
         self.k_hop_index = MemoryIndex(name=self.name)
         self.k_hop_index.init_index(values=self.values, embeddings=self.node_embeddings)
 
+    @classmethod
+    def from_task_results(cls, task_memory_index):
+        new_memory_kernel = cls(mem_index=task_memory_index)
 
+        # Create a new index for the new MemoryKernel
+        new_memory_kernel.create_k_hop_index()
 
-
+        return new_memory_kernel
