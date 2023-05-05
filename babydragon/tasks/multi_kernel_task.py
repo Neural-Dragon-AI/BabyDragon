@@ -2,26 +2,28 @@ import copy
 from typing import Any, List, Dict
 import json
 import os
-from babydragon.chat.chat import Chat
+from babydragon.chat.chat import BaseChat
 from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.memory.kernels.memory_kernel import MemoryKernel
 from babydragon.memory.kernels.multi_kernel import HDBSCANMultiKernel, SpectralClusteringMultiKernel
 from babydragon.memory.threads.base_thread import BaseThread
 from babydragon.tasks.base_task import BaseTask
+import concurrent.futures
+import threading
+import time
 
 class MultiKernelTask(BaseTask):
     def __init__(
         self,
         memory_kernel_dict: Dict,
+        chatbot: BaseChat,
         parent_kernel_label: str,
         child_kernel_label: str,
         system_prompt: str,
         clustering_method: str,
-        max_workers: int = 1,
         task_id: str = "MultiKernelTask",
         calls_per_minute: int = 20,
     ):
-        BaseTask.__init__(self, max_workers = max_workers, task_id=task_id, calls_per_minute=calls_per_minute)
         self.clustering_method = clustering_method
         self.parent_kernel_label = parent_kernel_label
         self.child_kernel_label = child_kernel_label
@@ -29,19 +31,10 @@ class MultiKernelTask(BaseTask):
         self._setup_memory_kernel_group()
         self.generate_task_paths()
         self.system_prompt = system_prompt
-        self.chatbot = self._setup_chatbot()
+        self.chatbot = chatbot
         self.paths = self.memory_kernel_group.path_group[self.parent_kernel_label]
-        super().__init__(self.paths)
+        super().__init__(path = self.paths, task_id=task_id, calls_per_minute=calls_per_minute)
 
-    def _setup_chatbot(self):
-        print("Setting up chatbot")
-        chatbot = Chat(
-            model="gpt-3.5-turbo-0301",
-            index_dict=self.memory_kernel_group.memory_kernel_dict,
-            system_prompt=self.system_prompt,
-        )
-        chatbot.set_current_index(self.parent_kernel_label)
-        return chatbot
 
     def _setup_memory_kernel_group(self):
         if self.clustering_method == "HDBSCAN":
@@ -58,7 +51,7 @@ class MultiKernelTask(BaseTask):
 
         self.memory_kernel_group.generate_path_groups()
 
-    def llm_response(self, chatbot: Chat, message: str, context=None, id=None):
+    def llm_response(self, chatbot: BaseChat, message: str, context=None, id=None):
         max_tokens = 8000 if chatbot.model == "gpt-4" else 4000
         return chatbot.reply(message)
 
@@ -67,8 +60,6 @@ class MultiKernelTask(BaseTask):
             chatbot_instance = copy.deepcopy(self.chatbot)
         else:
             chatbot_instance = self.chatbot
-        if isinstance(self.chatbot, BaseThread):
-            chatbot_instance.reset_memory()
 
         sub_results = {}
         for i in sub_path:
@@ -95,9 +86,13 @@ class MultiKernelTask(BaseTask):
 
         new_values = []
         #sort task_results by index and add to new_values 0- nax values ascending
-        for i in range(len(task_results)):
-            for key, value in task_results[i].items():
-                new_values.append((int(key),value))
+        for task_result in task_results:
+            if isinstance(task_result, dict):
+                for key, value in task_result.items():
+                    new_values.append((int(key), value))
+            elif isinstance(task_result, str):
+                print(f"Error in task_result: {task_result}")
+
         new_values.sort(key=lambda x: x[0])
         values = [x[1] for x in new_values]
 

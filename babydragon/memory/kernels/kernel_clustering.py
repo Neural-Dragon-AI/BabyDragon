@@ -27,12 +27,17 @@ class HDBSCANPaths(ClusterPaths):
 
 class SpectralClusteringPaths(ClusterPaths):
     def create_paths(
-        self, embeddings: np.ndarray, num_clusters: int
+        self, A: np.ndarray, num_clusters: int
     ) -> List[List[int]]:
+        n_samples = A.shape[0]
+        n_neighbors = min(n_samples - 1, 10)  # Set n_neighbors to min(n_samples - 1, 10)
         spectral_clustering = SpectralClustering(
-            n_clusters=num_clusters, affinity="nearest_neighbors", random_state=42
+            n_clusters=num_clusters,
+            affinity="precomputed",
+            n_neighbors=n_neighbors,
+            random_state=42,
         )
-        cluster_assignments = spectral_clustering.fit_predict(embeddings)
+        cluster_assignments = spectral_clustering.fit_predict(A)
         paths = [[] for _ in range(num_clusters)]
         for i, cluster in enumerate(cluster_assignments):
             paths[cluster].append(i)

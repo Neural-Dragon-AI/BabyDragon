@@ -59,10 +59,10 @@ class SpectralClusteringMultiKernel(MultiKernel):
     def generate_path_groups(self, num_clusters: int = None) -> None:
         path_group = {}
         for k, v in self.memory_kernel_dict.items():
-            embeddings = v.node_embeddings
+            A_k = v.A_k
             if num_clusters is None:
-                num_clusters = int(np.sqrt(len(embeddings)))
-            paths = self.cluster_paths.create_paths(embeddings, num_clusters)
+                num_clusters = int(np.sqrt(len(A_k)))
+            paths = self.cluster_paths.create_paths(A_k, num_clusters)
             path_group[k] = paths
         self.path_group = path_group
 
