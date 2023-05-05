@@ -78,12 +78,13 @@ class MultiKernelTask(BaseTask):
         return sub_results
 
     def execute_task(self) -> None:
-        super().execute_task()
+        BaseTask.execute_task(self)
 
         # Load the results from the JSON file
-        with open(f"{self.task_id}_results.json", "r") as f:
-            task_results = json.load(f)
-
+        # with open(f"{self.task_id}_results.json", "r") as f:
+        #     task_results = json.load(f)
+        self._load_results_from_file()
+        task_results = self.results
         new_values = []
         #sort task_results by index and add to new_values 0- nax values ascending
         for task_result in task_results:
@@ -106,5 +107,5 @@ class MultiKernelTask(BaseTask):
         self.generate_task_paths()
 
         #delete the results file
-        os.remove(f"{self.task_id}_results.json")
+        # os.remove(f"{self.task_id}_results.json")
 
