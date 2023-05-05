@@ -5,7 +5,7 @@ import os
 from babydragon.chat.chat import Chat
 from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.memory.kernels.memory_kernel import MemoryKernel
-from babydragon.memory.kernels.memory_kernel_group_v2 import MemoryKernelGroup, HDBSCANMemoryKernelGroup, SpectralClusteringMemoryKernelGroup
+from babydragon.memory.kernels.multi_kernel import HDBSCANMultiKernel, SpectralClusteringMultiKernel
 from babydragon.memory.threads.base_thread import BaseThread
 from babydragon.tasks.base_task import BaseTask
 
@@ -17,9 +17,11 @@ class MultiKernelTask(BaseTask):
         child_kernel_label: str,
         system_prompt: str,
         clustering_method: str,
-        *args,
-        **kwargs,
+        max_workers: int = 1,
+        task_id: str = "MultiKernelTask",
+        calls_per_minute: int = 20,
     ):
+        BaseTask.__init__(self, max_workers = max_workers, task_id=task_id, calls_per_minute=calls_per_minute)
         self.clustering_method = clustering_method
         self.parent_kernel_label = parent_kernel_label
         self.child_kernel_label = child_kernel_label
@@ -29,7 +31,7 @@ class MultiKernelTask(BaseTask):
         self.system_prompt = system_prompt
         self.chatbot = self._setup_chatbot()
         self.paths = self.memory_kernel_group.path_group[self.parent_kernel_label]
-        super().__init__(self.paths, *args, **kwargs)
+        super().__init__(self.paths)
 
     def _setup_chatbot(self):
         print("Setting up chatbot")
@@ -44,10 +46,10 @@ class MultiKernelTask(BaseTask):
     def _setup_memory_kernel_group(self):
         if self.clustering_method == "HDBSCAN":
             print("Using HDBSCAN")
-            self.memory_kernel_group = HDBSCANMemoryKernelGroup(memory_kernel_dict=self.memory_kernel_dict)
+            self.memory_kernel_group = HDBSCANMultiKernel(memory_kernel_dict=self.memory_kernel_dict)
         elif self.clustering_method == "Spectral":
             print("Using Spectral")
-            self.memory_kernel_group = SpectralClusteringMemoryKernelGroup(memory_kernel_dict=self.memory_kernel_dict)
+            self.memory_kernel_group = SpectralClusteringMultiKernel(memory_kernel_dict=self.memory_kernel_dict)
         else:
             raise ValueError(f"Unknown clustering method: {self.clustering_method}")
 
@@ -104,7 +106,7 @@ class MultiKernelTask(BaseTask):
         # Create a new MemoryKernel with the results
         new_memory_kernel = MemoryKernel.from_task_results(task_memory_index)
 
-        # Add the new MemoryKernel to the MemoryKernelGroup
+        # Add the new MemoryKernel to the MultiKernel
         self.memory_kernel_group.memory_kernel_dict[self.child_kernel_label] = new_memory_kernel
         self.generate_task_paths()
 

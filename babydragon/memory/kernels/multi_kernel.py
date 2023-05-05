@@ -9,25 +9,25 @@ from babydragon.memory.kernels.memory_kernel import MemoryKernel
 from babydragon.tasks.llm_task import LLMWriter
 
 
-class MemoryKernelGroup(MemoryKernel):
+class MultiKernel(MemoryKernel):
     def __init__(
         self,
         memory_kernel_dict: Dict[str, MemoryKernel],
         name: str = "memory_kernel_group",
     ):
         """
-        Initialize the MemoryKernelGroup with a dictionary of MemoryKernel instances.
+        Initialize the MultiKernel with a dictionary of MemoryKernel instances.
 
         Args:
             memory_kernel_dict (Dict[str, MemoryKernel]): A dictionary of MemoryKernel instances.
-            name (str, optional): The name of the MemoryKernelGroup. Defaults to "memory_kernel_group".
+            name (str, optional): The name of the MultiKernel. Defaults to "memory_kernel_group".
         """
         self.memory_kernel_dict = memory_kernel_dict
         self.path_group = {}
         self.name = name
 
 
-class HDBSCANMemoryKernelGroup(MemoryKernelGroup):
+class HDBSCANMultiKernel(MultiKernel):
     def __init__(
         self,
         memory_kernel_dict: Dict[str, MemoryKernel],
@@ -47,7 +47,7 @@ class HDBSCANMemoryKernelGroup(MemoryKernelGroup):
         self.path_group = path_group
 
 
-class SpectralClusteringMemoryKernelGroup(MemoryKernelGroup):
+class SpectralClusteringMultiKernel(MultiKernel):
     def __init__(
         self,
         memory_kernel_dict: Dict[str, MemoryKernel],
@@ -65,3 +65,6 @@ class SpectralClusteringMemoryKernelGroup(MemoryKernelGroup):
             paths = self.cluster_paths.create_paths(embeddings, num_clusters)
             path_group[k] = paths
         self.path_group = path_group
+
+
+

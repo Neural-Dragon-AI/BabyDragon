@@ -1,7 +1,7 @@
 import functools
+import time
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
-import time
 
 
 class RateLimiter:

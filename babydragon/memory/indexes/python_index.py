@@ -47,8 +47,7 @@ class PythonIndex(MemoryIndex, PythonParser):
             )
             # Concatenate function and class source code and index them
             codes = function_source_codes + class_source_codes
-   
-            
+
          # Initialize the MemoryIndex
         MemoryIndex.__init__(
             self,
