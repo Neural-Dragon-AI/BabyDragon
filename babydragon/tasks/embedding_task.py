@@ -30,3 +30,21 @@ class EmbeddingTask(BaseTask):
             embedded_value = self.embedder.embed(self.values[i])
             sub_results[i] = embedded_value
         return sub_results
+
+def parallel_embeddings(embedder, values, max_workers, backup, name):
+        # Prepare the paths for the EmbeddingTask
+        print("Embedding {} values".format(len(values)))
+        paths = [[i] for i in range(len(values))]
+
+        # Initialize the EmbeddingTask and execute it
+        embedding_task = EmbeddingTask(
+            embedder,
+            values,
+            path=paths,
+            max_workers=max_workers,
+            task_id=name + "_embedding_task",
+            backup=backup,
+        )
+        embeddings = embedding_task.work()
+        embeddings = [x[1] for x in sorted(embeddings, key=lambda x: x[0])]
+        return embeddings

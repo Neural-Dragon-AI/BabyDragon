@@ -14,8 +14,99 @@ import tiktoken
 from IPython.display import Markdown, display
 
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
-from babydragon.tasks.embedding_task import EmbeddingTask
+from babydragon.tasks.embedding_task import parallel_embeddings
+from babydragon.utils.pandas import extract_values_and_embeddings
 
+from typing import List, Optional, Tuple
+import re
+import numpy as np
+
+def prune_index(
+    cls: "MemoryIndex",
+    constraint: Optional[str] = None,
+    regex_pattern: Optional[str] = None,
+    length_constraint: Optional[int] = None,
+) -> "MemoryIndex" :
+    if constraint is not None:
+        if constraint == "regex":
+            if regex_pattern is None:
+                raise ValueError("regex_pattern must be provided for regex constraint.")
+            pruned_values, pruned_embeddings = _prune_by_regex(cls, regex_pattern)
+        elif constraint == "length":
+            if length_constraint is None:
+                raise ValueError("length_constraint must be provided for length constraint.")
+            pruned_values, pruned_embeddings = _prune_by_length(cls, length_constraint)
+        else:
+            raise ValueError("Invalid constraint type provided.")
+    else:
+        raise ValueError("constraint must be provided for pruning the index.")
+
+    pruned_memory_index = cls(
+        values=pruned_values,
+        embeddings=pruned_embeddings,
+        name=cls.name + "_pruned",
+    )
+
+    return pruned_memory_index
+
+
+def _prune_by_regex(cls: "MemoryIndex", regex_pattern: str) -> Tuple[List[str], List[np.ndarray]]:
+    pruned_values = []
+    pruned_embeddings = []
+
+    for value in cls.values:
+        if re.search(regex_pattern, value):
+            pruned_values.append(value)
+            pruned_embeddings.append(cls.get_embedding_by_value(value))
+
+    return pruned_values, pruned_embeddings
+
+
+def _prune_by_length(cls: "MemoryIndex", length_constraint: int) -> Tuple[List[str], List[np.ndarray]]:
+    pruned_values = []
+    pruned_embeddings = []
+
+    for value in cls.values:
+        if len(value) >= length_constraint:
+            pruned_values.append(value)
+            pruned_embeddings.append(cls.get_embedding_by_value(value))
+
+    return pruned_values, pruned_embeddings
+
+def save(cls):
+    save_directory = os.path.join(cls.save_path, cls.name)
+    os.makedirs(save_directory, exist_ok=True)
+
+    index_filename = os.path.join(save_directory, f"{cls.name}_index.faiss")
+    faiss.write_index(cls.index, index_filename)
+
+    values_filename = os.path.join(save_directory, f"{cls.name}_values.json")
+    with open(values_filename, "w") as f:
+        json.dump(cls.values, f)
+
+    embeddings_filename = os.path.join(save_directory, f"{cls.name}_embeddings.npz")
+    np.savez_compressed(embeddings_filename, cls.get_all_embeddings())
+
+def load(cls):
+    load_directory = os.path.join(cls.save_path, cls.name)
+    if not os.path.exists(load_directory):
+        cls.loaded = False
+        print("I did not find the directory to load the index from.", load_directory)
+        return
+
+    print(f"Loading index from {load_directory}")
+
+    index_filename = os.path.join(load_directory, f"{cls.name}_index.faiss")
+    cls.index = faiss.read_index(index_filename)
+
+    values_filename = os.path.join(load_directory, f"{cls.name}_values.json")
+    with open(values_filename, "r") as f:
+        cls.values = json.load(f)
+
+    embeddings_filename = os.path.join(load_directory, f"{cls.name}_embeddings.npz")
+    embeddings_data = np.load(embeddings_filename)
+    cls.embeddings = embeddings_data["arr_0"]
+    cls.loaded = True
 
 class MemoryIndex:
     """
@@ -37,35 +128,25 @@ class MemoryIndex:
 
         self.name = name
         self.embedder = OpenAiEmbedder()
-        if save_path is None:
-            save_path = "storage"
-
-        self.save_path = save_path
-
-        # Create the 'storage' folder if it does not exist
+        self.save_path = save_path if save_path is not None else "storage"
         os.makedirs(self.save_path, exist_ok=True)
         self.values = []
         self.embeddings = []
         self.max_workers = max_workers
 
         if load is True:
-            print("attemting to load", self.name)
             self.load()
         else:
-            print("creating new index", self.name)
-
             self.loaded = False
         if not self.loaded:
-            if load is True:
-                print("loading failed, creating new index")
             if (
                 self.max_workers > 1
                 and values is not None
                 and embeddings is None
                 and index is None
             ):
-                embeddings = self.parallel_embeddings(
-                    values, max_workers, backup=backup
+                embeddings = parallel_embeddings(self.embedder,
+                    values, max_workers, backup=backup, name=name
                 )
             self.init_index(index, values, embeddings)
         if tokenizer is None:
@@ -74,25 +155,7 @@ class MemoryIndex:
             self.tokenizer = tokenizer
         self.query_history = []
         self.save()
-
-    def parallel_embeddings(self, values, max_workers, backup):
-        # Prepare the paths for the EmbeddingTask
-        print("Embedding {} values".format(len(values)))
-        paths = [[i] for i in range(len(values))]
-
-        # Initialize the EmbeddingTask and execute it
-        embedding_task = EmbeddingTask(
-            self.embedder,
-            values,
-            path=paths,
-            max_workers=max_workers,
-            task_id=self.name + "_embedding_task",
-            backup=backup,
-        )
-        embeddings = embedding_task.work()
-        embeddings = [x[1] for x in sorted(embeddings, key=lambda x: x[0])]
-        return embeddings
-
+        
     def init_index(
         self,
         index: Optional[faiss.Index] = None,
@@ -107,12 +170,10 @@ class MemoryIndex:
         3. we create a new index from a faiss index and values list
         4. we load an index from a file
         """
-        # fist case is when we create a new index from scratch
         if index is None and values is None and embeddings is None:
             print("Creating a new index")
             self.index = faiss.IndexFlatIP(self.embedder.get_embedding_size())
             self.values = []
-        # second case is where we create the index from a list of embeddings
         elif (
             index is None
             and values is not None
@@ -123,7 +184,6 @@ class MemoryIndex:
             self.index = faiss.IndexFlatIP(self.embedder.get_embedding_size())
             for embedding, value in zip(embeddings, values):
                 self.add_to_index(value, embedding)
-        # third case is where we create the index from a faiss index and values list
         elif (
             isinstance(index, faiss.Index)
             and index.d == self.embedder.get_embedding_size()
@@ -133,18 +193,14 @@ class MemoryIndex:
             print("Creating a new index from a faiss index and values list")
             self.index = index
             self.values = values
-        # fourth case is where we create an index from a list of values, the values are embedded and the index is created
         elif index is None and values is not None and embeddings is None:
             print("Creating a new index from a list of values")
             self.index = faiss.IndexFlatIP(self.embedder.get_embedding_size())
             i = 0
             for value in values:
-                # print the value id to see the progress
                 print("Embedding value ", i, " of ", len(values))
-                # start tracking the time using time
                 start = time.time()
                 self.add_to_index(value)
-                # print the time it took to embed the value
                 print("Embedding value ", i, " took ", time.time() - start, " seconds")
                 i += 1
         else:
@@ -157,10 +213,8 @@ class MemoryIndex:
 
     def __getstate__(self):
         state = self.__dict__.copy()
-        # Remove the unpicklable faiss.Index object
         del state["index"]
 
-        # Save the FAISS index to a byte buffer
         index_buffer = io.BytesIO()
         faiss.write_index(state["index"], index_buffer)
         state["index_bytes"] = index_buffer.getvalue()
@@ -168,11 +222,9 @@ class MemoryIndex:
         return state
 
     def __setstate__(self, state):
-        # Load the FAISS index from the byte buffer
         index_buffer = io.BytesIO(state["index_bytes"])
         state["index"] = faiss.read_index(index_buffer)
 
-        # Remove the no-longer-needed index_bytes from the state
         del state["index_bytes"]
 
         self.__dict__.update(state)
@@ -222,51 +274,12 @@ class MemoryIndex:
                 "The data_frame is not a valid pandas dataframe or the columns are not valid or the path is not valid"
             )
 
-        values, embeddings = cls.extract_values_and_embeddings(
+        values, embeddings = extract_values_and_embeddings(
             data_frame, columns, embeddings_col
         )
         return cls(values=values, embeddings=embeddings, name=name, save_path=save_path)
 
-    @staticmethod
-    def extract_values_and_embeddings(
-        data_frame: pd.DataFrame,
-        columns: Union[str, List[str]],
-        embeddings_col: Optional[str],
-    ) -> Tuple[List[str], Optional[List[np.ndarray]]]:
-        """
-        Extract values and embeddings from a pandas DataFrame.
-
-        Args:
-            data_frame: The DataFrame to extract values and embeddings from.
-            columns: The columns of the DataFrame to use as values.
-            embeddings_col: The column name containing the embeddings.
-
-        Returns:
-            A tuple containing two lists: one with the extracted values and one with the extracted embeddings (if any).
-        """
-
-        if isinstance(columns, list) and len(columns) > 1:
-            data_frame["values_combined"] = data_frame[columns].apply(
-                lambda x: " ".join(x), axis=1
-            )
-            columns = "values_combined"
-        elif isinstance(columns, list) and len(columns) == 1:
-            columns = columns[0]
-        elif not isinstance(columns, str):
-            raise ValueError("The columns are not valid")
-
-        values = []
-        embeddings = []
-
-        for _, row in data_frame.iterrows():
-            value = row[columns]
-            values.append(value)
-
-            if embeddings_col is not None:
-                embedding = row[embeddings_col]
-                embeddings.append(embedding)
-
-        return values, embeddings if embeddings_col is not None else None
+    
 
     def add_to_index(
         self,
@@ -293,12 +306,8 @@ class MemoryIndex:
                 elif type(embedding) is not np.ndarray:
                     raise ValueError("The embedding is not a valid type")
 
-                # Ensure that the embedding is a 2D numpy array
                 if embedding.ndim == 1:
                     embedding = embedding.reshape(1, -1)
-                # print("embedding is ", embedding)
-                # print("embedding type is ", type(embedding))
-                # print("embedding shape is ", embedding.shape)
                 self.index.add(embedding)
                 self.values.append(value)
                 self.save()  # we should check here the save time is not too long
@@ -318,14 +327,11 @@ class MemoryIndex:
         """
         index = self.get_index_by_value(value)
         if index is not None:
-            # Remove the value from the values list
             self.values.pop(index)
 
-            # Remove the corresponding embedding from the index
             id_selector = faiss.IDSelectorArray(np.array([index], dtype=np.int64))
             self.index.remove_ids(id_selector)
 
-            # Save the changes
             self.save()
         else:
             print(f"The value '{value}' was not found in the index.")
@@ -337,7 +343,6 @@ class MemoryIndex:
         if index < 0 or index >= len(self.values):
             raise ValueError("The index is out of range")
 
-        # Fetch the embedding from the Faiss index
         embedding = self.index.reconstruct(index)
 
         return embedding
@@ -376,13 +381,10 @@ class MemoryIndex:
     def faiss_query(self, query: str, k: int = 10) -> Tuple[List[str], List[float]]:
         """Query the faiss index for the top-k most similar values to the query"""
 
-        # Embed the data
         embedding = self.embedder.embed(query)
         if k > len(self.values):
             k = len(self.values)
-        # Query the Faiss index for the top-K most similar values
         D, I = self.index.search(np.array([embedding]).astype(np.float32), k)
-        # Get the values corresponding to the indices
         values = [self.values[i] for i in I[0]]
         scores = [d for d in D[0]]
         return values, scores, I
@@ -399,7 +401,6 @@ class MemoryIndex:
             top_k, scores, indices = self.faiss_query(query, k=min(k, len(self.values)))
 
             for hint in top_k:
-                # mark the message and gets the length in tokens
                 message_tokens = len(self.tokenizer.encode(hint))
                 tokens.append(message_tokens)
                 if returned_tokens + message_tokens <= max_tokens:
@@ -422,53 +423,10 @@ class MemoryIndex:
         return top_k_hint, scores, indices
 
     def save(self):
-        """Save the index to disk using faiss and json and numpy"""
-        # Create the directory to save the index, values, and embeddings
-        save_directory = os.path.join(self.save_path, self.name)
-        os.makedirs(save_directory, exist_ok=True)
-
-        # Save the FAISS index
-        index_filename = os.path.join(save_directory, f"{self.name}_index.faiss")
-        faiss.write_index(self.index, index_filename)
-
-        # Save the index values
-        values_filename = os.path.join(save_directory, f"{self.name}_values.json")
-        with open(values_filename, "w") as f:
-            json.dump(self.values, f)
-
-        # Save the numpy array of the embeddings
-        embeddings_filename = os.path.join(
-            save_directory, f"{self.name}_embeddings.npz"
-        )
-        # print(f"embs: {self.get_all_embeddings().shape}")
-        np.savez_compressed(embeddings_filename, self.get_all_embeddings())
+        save(self)
 
     def load(self):
-        """Load the index, values, and embeddings from disk"""
-        # Set the directory to load the index, values, and embeddings from
-        load_directory = os.path.join(self.save_path, self.name)
-        #check that the directory exists otherwise pass
-        if not os.path.exists(load_directory):
-            self.loaded = False
-            print("I did not find the directory to load the index from.", load_directory)
-            return
-        print(f"Loading index from {load_directory}")
-        # Load the FAISS index
-        index_filename = os.path.join(load_directory, f"{self.name}_index.faiss")
-        self.index = faiss.read_index(index_filename)
-
-        # Load the index values
-        values_filename = os.path.join(load_directory, f"{self.name}_values.json")
-        with open(values_filename, "r") as f:
-            self.values = json.load(f)
-
-        # Load the numpy array of the embeddings
-        embeddings_filename = os.path.join(
-            load_directory, f"{self.name}_embeddings.npz"
-        )
-        embeddings_data = np.load(embeddings_filename)
-        self.embeddings = embeddings_data["arr_0"]
-        self.loaded = True
+        load(self)
 
     def prune_index(
         self,
@@ -476,59 +434,4 @@ class MemoryIndex:
         regex_pattern: Optional[str] = None,
         length_constraint: Optional[int] = None,
     ) -> "MemoryIndex":
-        """Prune the index based on the constraint provided. Currently, only regex and length constraints are supported."""
-
-        if constraint is not None:
-            if constraint == "regex":
-                if regex_pattern is None:
-                    raise ValueError(
-                        "regex_pattern must be provided for regex constraint."
-                    )
-                pruned_values, pruned_embeddings = self._prune_by_regex(regex_pattern)
-            elif constraint == "length":
-                if length_constraint is None:
-                    raise ValueError(
-                        "length_constraint must be provided for length constraint."
-                    )
-                pruned_values, pruned_embeddings = self._prune_by_length(
-                    length_constraint
-                )
-            else:
-                raise ValueError("Invalid constraint type provided.")
-        else:
-            raise ValueError("constraint must be provided for pruning the index.")
-
-        # Create a new index with pruned values and embeddings
-        pruned_memory_index = MemoryIndex(
-            values=pruned_values,
-            embeddings=pruned_embeddings,
-            name=self.name + "_pruned",
-        )
-
-        return pruned_memory_index
-
-    def _prune_by_regex(self, regex_pattern: str) -> Tuple[List[str], List[np.ndarray]]:
-        """Prune the index by the regex pattern provided."""
-        pruned_values = []
-        pruned_embeddings = []
-
-        for value in self.values:
-            if re.search(regex_pattern, value):
-                pruned_values.append(value)
-                pruned_embeddings.append(self.get_embedding_by_value(value))
-
-        return pruned_values, pruned_embeddings
-
-    def _prune_by_length(
-        self, length_constraint: int
-    ) -> Tuple[List[str], List[np.ndarray]]:
-        """Prune the index by the length constraint provided."""
-        pruned_values = []
-        pruned_embeddings = []
-
-        for value in self.values:
-            if len(value) >= length_constraint:
-                pruned_values.append(value)
-                pruned_embeddings.append(self.get_embedding_by_value(value))
-
-        return pruned_values, pruned_embeddings
+        return prune_index(self, constraint, regex_pattern, length_constraint)
