@@ -19,7 +19,7 @@ class BaseTask:
     ):
         self.task_id = task_id
         self.path = path
-        self.results = [None] * len(self.path)
+        self.results = []
         self.max_workers = max_workers
         self.parallel = True if max_workers > 1 else False
         self.rate_limiter = RateLimiter(calls_per_minute)
@@ -61,7 +61,7 @@ class BaseTask:
             print(f"Executing task {self.task_id} using {self.max_workers} workers.")
 
             for i, sub_path in enumerate(self.path):
-                if self.results[i] is not None:
+                if i < len(self.results):
                     pass
                 else:
                     future = executor.submit(self._execute_sub_task, sub_path)
@@ -77,7 +77,7 @@ class BaseTask:
                     )
 
                     save_start_time = time.time()
-                    self.results[i] = sub_task_result
+                    self.results.append(sub_task_result)
                     # self.results.append(sub_task_result)
                     if self.backup:
                         self._save_results_to_file()
@@ -87,9 +87,11 @@ class BaseTask:
                     )
                 except Exception as e:
                     print(f"Error in sub-task {i}: {e}")
-                    default_result = f"Error in sub-task {i}: {e}"
-                    self.results[i] = default_result
-                    self._save_results_to_file()
+                    # default_result = f"Error in sub-task {i}: {e}"
+                    default_result =  {i:f"Error in sub-task {i}: {e}"} 
+                    self.results.append(default_result)
+                    if self.backup:
+                        self._save_results_to_file()
                     self.failed_sub_tasks.append((self.path[i], str(e)))
 
                 except KeyboardInterrupt:

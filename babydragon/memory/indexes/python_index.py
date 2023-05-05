@@ -1,7 +1,7 @@
 from typing import Optional
 
 import tiktoken
-
+import os
 from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.processors.parsers.python_parser import PythonParser
 
@@ -36,8 +36,14 @@ class PythonIndex(MemoryIndex, PythonParser):
             minify_code=minify_code,
             remove_docstrings=remove_docstrings,
         )
-
-        if not load:
+        #check if load folder exists
+        if save_path is None:
+            save_path = "storage"
+        load_directory = os.path.join(save_path, name)
+        loadcheck = not load or not os.path.exists(load_directory)
+        if load and not os.path.exists(load_directory):
+            print("No python-index found even if load=True, indexing from scratch")
+        if loadcheck:
             # Extract functions and classes source code
             function_source_codes, class_source_codes, _, _ = self.process_directory()
             print(
@@ -47,12 +53,13 @@ class PythonIndex(MemoryIndex, PythonParser):
             )
             # Concatenate function and class source code and index them
             codes = function_source_codes + class_source_codes
+            load = False
 
          # Initialize the MemoryIndex
         MemoryIndex.__init__(
             self,
             name=name,
-            values=codes if not load else None,
+            values=codes if loadcheck else None,
             save_path=save_path,
             load=load,
             tokenizer=tokenizer,

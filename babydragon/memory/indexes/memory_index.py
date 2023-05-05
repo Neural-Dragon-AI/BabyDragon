@@ -49,8 +49,15 @@ class MemoryIndex:
         self.max_workers = max_workers
 
         if load is True:
+            print("attemting to load", self.name)
             self.load()
         else:
+            print("creating new index", self.name)
+
+            self.loaded = False
+        if not self.loaded:
+            if load is True:
+                print("loading failed, creating new index")
             if (
                 self.max_workers > 1
                 and values is not None
@@ -141,6 +148,9 @@ class MemoryIndex:
                 print("Embedding value ", i, " took ", time.time() - start, " seconds")
                 i += 1
         else:
+            print(type(values))
+            print(type(embeddings))
+            print(type(index))
             raise ValueError(
                 "The index is not a valid faiss index or the embedding dimension is not correct"
             )
@@ -437,7 +447,12 @@ class MemoryIndex:
         """Load the index, values, and embeddings from disk"""
         # Set the directory to load the index, values, and embeddings from
         load_directory = os.path.join(self.save_path, self.name)
-
+        #check that the directory exists otherwise pass
+        if not os.path.exists(load_directory):
+            self.loaded = False
+            print("I did not find the directory to load the index from.", load_directory)
+            return
+        print(f"Loading index from {load_directory}")
         # Load the FAISS index
         index_filename = os.path.join(load_directory, f"{self.name}_index.faiss")
         self.index = faiss.read_index(index_filename)
@@ -453,6 +468,7 @@ class MemoryIndex:
         )
         embeddings_data = np.load(embeddings_filename)
         self.embeddings = embeddings_data["arr_0"]
+        self.loaded = True
 
     def prune_index(
         self,

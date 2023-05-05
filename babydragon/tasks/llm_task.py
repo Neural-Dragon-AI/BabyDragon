@@ -75,6 +75,7 @@ class LLMWriter(BaseTask):
         max_workers: int = 1,
         task_id: str = "LLMWriteTask",
         calls_per_minute: int = 20,
+        backup: bool = True,
     ):
         """
         Initialize a LLMWriteTask instance.
@@ -84,7 +85,7 @@ class LLMWriter(BaseTask):
         :param chatbot: Chatbot instance used for executing queries.
         :param max_workers: Maximum number of worker threads (default is 4).
         """
-        BaseTask.__init__(self, path, max_workers, task_id, calls_per_minute)
+        BaseTask.__init__(self, path, max_workers, task_id, calls_per_minute, backup=backup)
         self.index = index
         self.chatbot = chatbot
         self.write_func = write_func if write_func else self.llm_response
@@ -124,7 +125,6 @@ class LLMWriter(BaseTask):
 
     def write(self):
         content_to_write = self.work()
-        self.new_index = MemoryIndex(name=self.new_index_name)
-        self.new_index.init_index(values=[x[1] for x in content_to_write])
+        self.new_index = MemoryIndex(name=self.new_index_name, values=[x[1] for x in content_to_write], max_workers=self.max_workers, backup=self.backup)
         self.new_index.save()
         return self.new_index

@@ -33,7 +33,10 @@ class MemoryKernel(MemoryIndex):
             save_path=save_path,
         )
         self.k = k
-        self.create_k_hop_index(k=k)
+        if len(self.values) > 0: 
+            self.create_k_hop_index(k=k)
+        else:
+            raise ValueError("The input MemoryIndex is empty. Please check the input MemoryIndex.")
 
     def cos_sim(self, a: np.ndarray, b: np.ndarray) -> np.ndarray:
         """
