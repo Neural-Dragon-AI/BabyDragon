@@ -1,19 +1,117 @@
 # BabyDragon Indexes
 
 The `indexes` submodule of the BabyDragon package provides different indexing
-and searching strategies for various data types. The main class in this
-submodule is `MemoryIndex`, which provides the core functionality for indexing
-and searching. Several subclasses extend this base class to offer specialized
-solutions for different data types and use cases.
+and searching strategies for various data types.
+The main class in this
+submodule is  `MemoryIndex` class, a wrapper for a Faiss index that simplifies managing the index and associated data. It supports creating an index from scratch, loading an index from a file, or initializing from a pandas DataFrame. The class also provides methods for adding and removing items from the index, querying the index, saving and loading the index, and pruning the index based on certain constraints.
 
-## MemoryIndex
+##  Table of Contents
 
-`MemoryIndex` is the base class for all indexes. It is responsible for the core
-indexing and searching functionality. It allows you to:
+1. [MemoryIndex](#usage)
+   - [Initializing a MemoryIndex](#initializing-a-memoryindex)
+   - [Adding and Removing Items](#adding-and-removing-items)
+   - [Querying the Index](#querying-the-index)
+   - [Saving and Loading](#saving-and-loading)
+   - [Pruning the Index](#pruning-the-index)
+   - [Multithreading](#multithreading)
+2. [Examples](#examples)
 
-- Add items to the index.
-- Save and load the index.
-- Search for similar items in the index using a query.
+## Usage
+
+### Initializing a MemoryIndex
+
+A `MemoryIndex` object can be initialized in several ways:
+
+1. Create a new empty index from scratch:
+
+```python
+from babydragon.indexes import MemoryIndex
+
+index = MemoryIndex()
+```
+2. Create a new index from a list of values:
+
+```python
+values = ["apple", "banana", "cherry"]
+
+index = MemoryIndex(values=values)
+```
+3. Create a new index from a list of values and their embeddings:
+```python
+values = ["apple", "banana", "cherry"]
+embeddings = [...]  # list of embeddings corresponding to the values
+
+index = MemoryIndex(values=values, embeddings=embeddings)
+```
+
+4. Create a new index from a list of values and their embeddings:
+```python
+values = ["apple", "banana", "cherry"]
+embeddings = [...]  # list of embeddings corresponding to the values
+
+index = MemoryIndex(values=values, embeddings=embeddings)
+```
+
+5. Load an existing index from a file:
+```python
+index = MemoryIndex(load=True, name: "precomputed_index")
+```
+6. Initialize a MemoryIndex object from a pandas DataFrame:
+```python
+import pandas as pd
+
+data_frame = pd.DataFrame({
+    "values": ["apple", "banana", "cherry"],
+    "embeddings": [...]  # list of embeddings corresponding to the values
+})
+
+index = MemoryIndex.from_pandas(data_frame=data_frame, columns="values", embeddings_col="embeddings")
+```
+
+
+### Adding and Removing Items
+You can add items to the index by calling the add_to_index method:
+```python
+index.add_to_index(value="orange")
+```
+You can also remove items from the index by calling the remove_from_index method:
+
+
+```python
+index.remove_from_index(value="banana")
+```
+### Querying the Index
+To query the index, use the faiss_query or token_bound_query methods:
+
+```python
+# Query the top-5 most similar values
+values, scores, indices = index.faiss_query(query="fruit", k=5)
+
+# Query the top-5 most similar values with a maximum tokens constraint
+values, scores, indices = index.token_bound_query(query="fruit", k=5, max_tokens=4000)
+```
+### Saving and Loading
+You can save the index to a file by calling the save method:
+
+```python
+index.save()
+```
+You can load an index from a file by calling the load method:
+
+```python
+index = MemoryIndex(load=True, name= "precomputed_index")
+```
+
+### Pruning the Index
+To prune the index based on certain constraints, use the prune method:
+```python
+index.prune(max_tokens=3500)
+```
+### Multithreading
+In order to enable multi-threading for speeding up the embedding process, you can set the `max_workers parameter to a value bigger than 1:
+```python
+index = MemoryIndex(values=myvalues,max_workers=8)
+```
 
 ## Subclasses
 
@@ -30,69 +128,13 @@ from a directory of Python source code files. It inherits from both
 `MemoryIndex` and `PythonParser`. It is useful for indexing and searching Python
 source code files.
 
-### MemoryKernel
-
-`MemoryKernel` is a subclass of `MemoryIndex` designed for indexing and
-searching using graph-based representations of data. It computes the adjacency
-matrix of a graph based on the similarity of node embeddings and performs k-hop
-message passing to aggregate information from neighboring nodes. This enables
-more sophisticated search capabilities based on the relationships between data
-points.
-
-## Usage
-
-To use any of the index classes, simply import the class from the
-`babydragon.memory.indexes` submodule and create an instance of the class with
-the required parameters. For example, to create a `PandasIndex` for a pandas
-DataFrame, you can do the following:
-
-```python
-from babydragon.memory.indexes import PandasIndex
-import pandas as pd
-
-data = pd.DataFrame({"text": ["hello", "world", "foo", "bar"]})
-index = PandasIndex(pandaframe=data, columns="text")
-```
-
-Once you have an instance of an index class, you can add items to the index,
-save and load the index, and perform search operations using the provided
-methods.
-
-```python
-
-# Add a new item to the index
-index.add_to_index("baz")
-
-# Search for similar items in the index using a query
-query = "hello world"
-search_results = index.faiss_query(query, top_k=3)
-
-print("Search results:")
-for item, score in search_results:
-    print(f"Item: {item}, Score: {score}")
-
-# Save the index to a file
-index.save("example_pandas_index.pkl")
-
-# Load the index from a file
-loaded_index = PandasIndex(load=True, save_path="example_pandas_index.pkl")
-
-# Perform a search on the loaded index
-search_results_loaded = loaded_index.faiss_query(query, top_k=3)
-
-print("Search results (loaded index):")
-for item, score in search_results_loaded:
-    print(f"Item: {item}, Score: {score}")
-
-```
-
 ### PythonIndex Example
 
 ```python
 from babydragon.memory.indexes import PythonIndex
 
 # Create a PythonIndex instance for a directory of Python source code files
-index = PythonIndex(directory="path/to/python/files")
+index = PythonIndex(directory="path/to/python/files", name: "mypythonindex" )
 
 # Add a new Python file to the index
 index.add_to_index("new_python_file.py")
@@ -106,10 +148,10 @@ for item, score in search_results:
     print(f"Item: {item}, Score: {score}")
 
 # Save the index to a file
-index.save("example_python_index.pkl")
+index.save()
 
 # Load the index from a file
-loaded_index = PythonIndex(load=True, save_path="example_python_index.pkl")
+loaded_index = PythonIndex(load=True,  name: "mypythonindex")
 
 # Perform a search on the loaded index
 search_results_loaded = loaded_index.faiss_query(query, top_k=3)
@@ -119,44 +161,3 @@ for item, score in search_results_loaded:
     print(f"Item: {item}, Score: {score}")
 ```
 
-### MemoryKernel Example
-
-```python
-
-from babydragon.memory.indexes.memory_index import MemoryIndex
-from babydragon.memory.indexes.memory_kernel import MemoryKernel
-import numpy as np
-
-# Create a MemoryIndex instance
-values = ["a", "b", "c", "d", "e"]
-embeddings = np.random.rand(5, 64)
-memory_index = MemoryIndex(values, embeddings)
-
-# Create a MemoryKernel instance from the MemoryIndex instance
-kernel = MemoryKernel(values, embeddings)
-
-# Compute the k-hop adjacency matrix and aggregated features
-k = 2
-kernel.create_k_hop_index(k)
-
-# Search for similar items in the index using a query
-query_embedding = np.random.rand(1, 64)
-search_results = kernel.k_hop_index.faiss_query(query_embedding, top_k=3)
-
-print("Search results:")
-for item, score in search_results:
-    print(f"Item: {item}, Score: {score}")
-
-# Save the index to a file
-kernel.k_hop_index.save("example_memory_kernel.pkl")
-
-# Load the index from a file
-loaded_index = MemoryKernel(load=True, save_path="example_memory_kernel.pkl")
-
-# Perform a search on the loaded index
-search_results_loaded = loaded_index.k_hop_index.faiss_query(query_embedding, top_k=3)
-
-print("Search results (loaded index):")
-for item, score in search_results_loaded:
-    print(f"Item: {item}, Score: {score}")
-```
