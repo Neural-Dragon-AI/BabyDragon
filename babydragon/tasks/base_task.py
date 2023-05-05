@@ -16,6 +16,7 @@ class BaseTask:
         task_id: str = "task",
         calls_per_minute: int = 20,
         backup: bool = True,
+        save_path: str = None,
     ):
         self.task_id = task_id
         self.path = path
@@ -25,15 +26,18 @@ class BaseTask:
         self.rate_limiter = RateLimiter(calls_per_minute)
         self.failed_sub_tasks = []
         self.backup = backup
+        print("setting up savepath")
+        self.save_path = save_path if save_path is not None else os.path.join("storage", "tasks")
 
     def _save_results_to_file(self) -> None:
-        with open(f"{self.task_id}_results.json", "w") as f:
+        os.makedirs(self.save_path, exist_ok=True)
+        with open(os.path.join(self.save_path, f"{self.task_id}_results.json"), "w") as f:
             json.dump(self.results, f)
 
     def _load_results_from_file(self) -> None:
-        if os.path.exists(f"{self.task_id}_results.json"):
+        if os.path.exists(os.path.join(self.save_path, f"{self.task_id}_results.json")):
             try:
-                with open(f"{self.task_id}_results.json", "r") as f:
+                with open(os.path.join(self.save_path, f"{self.task_id}_results.json"), "r") as f:
                     self.results = json.load(f)
                     print(f"Loaded {len(self.results)} results from file.")
             except Exception as e:
