@@ -29,7 +29,7 @@ class Chat(BaseChat, Prompter):
         self.setup_indices(max_index_memory)
         self.name = name
 
-    def setup_prompts(self):
+    def setup_index_prompts(self):
         if self.current_index is not None:
             print("Index is available so using index prompts")
             self.system_prompt = (
@@ -43,22 +43,26 @@ class Chat(BaseChat, Prompter):
                 else self.user_defined_user_prompt
             )
         else:
-            print("No index is available so defaulting to default prompts")
-            self.set_default_prompts() 
+            if self.user_defined_system_prompt is None:
+                print("No user defined system prompt defaulting to default prompts")
+                self.set_default_prompts()
+            else:
+                print("User defined system prompt and default user prompt")
+                self.system_prompt = self.user_defined_system_prompt
+                self.user_prompt = self.default_user_prompt
+
+
                 
 
     def setup_indices(self, max_index_memory):
         """setup the index_dict for the chatbot. Change the system and user prompts to the index prompts if they are not user defined if there is an index."""
         if self.index_dict is not None:
-            self.current_index = list(self.index_dict.keys())[0]
-            
-        self.max_index_memory = max_index_memory
-        # set the last index to be the current index
-        if self.index_dict is not None:
+            self.max_index_memory = max_index_memory
+            # set the last index to be the current index
             self.current_index = list(self.index_dict.keys())[-1]
+            self.setup_index_prompts()    
         else:
             self.current_index = None
-        self.setup_prompts()    
 
     def get_index_hints(
         self, question: str, k: int = 10, max_tokens: int = None
