@@ -21,32 +21,44 @@ class Chat(BaseChat, Prompter):
         user_prompt: str = None,
         index_dict: Optional[Dict[str, MemoryIndex]] = None,
         max_index_memory: int = 1000,
+        name: str = "Chat",
     ) -> None:
         BaseChat.__init__(self, model=model, max_output_tokens=max_output_tokens)
         Prompter.__init__(self, system_prompt=system_prompt, user_prompt=user_prompt)
         self.index_dict = index_dict
         self.setup_indices(max_index_memory)
+        self.name = name
+
+    def setup_prompts(self):
+        if self.current_index is not None:
+            print("Index is available so using index prompts")
+            self.system_prompt = (
+                INDEX_SYSTEM_PROMPT 
+                if self.user_defined_system_prompt is None 
+                else self.user_defined_system_prompt
+            )
+            self.user_prompt = (
+                self.get_index_hints
+                if self.user_defined_user_prompt is None
+                else self.user_defined_user_prompt
+            )
+        else:
+            print("No index is available so defaulting to default prompts")
+            self.set_default_prompts() 
+                
 
     def setup_indices(self, max_index_memory):
         """setup the index_dict for the chatbot. Change the system and user prompts to the index prompts if they are not user defined if there is an index."""
         if self.index_dict is not None:
             self.current_index = list(self.index_dict.keys())[0]
-            self.system_prompt = (
-                INDEX_SYSTEM_PROMPT
-                if self.user_defined_system_prompt is False
-                else self.system_prompt
-            )
-            self.user_prompt = (
-                self.get_index_hints
-                if self.user_defined_user_prompt is False
-                else self.user_prompt
-            )
+            
         self.max_index_memory = max_index_memory
         # set the last index to be the current index
         if self.index_dict is not None:
             self.current_index = list(self.index_dict.keys())[-1]
         else:
             self.current_index = None
+        self.setup_prompts()    
 
     def get_index_hints(
         self, question: str, k: int = 10, max_tokens: int = None
@@ -94,3 +106,4 @@ class Chat(BaseChat, Prompter):
             self.current_index = None
         else:
             raise ValueError("The provided index name is not available.")
+        self.setup_prompts()

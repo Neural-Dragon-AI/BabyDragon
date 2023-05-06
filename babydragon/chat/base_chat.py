@@ -25,20 +25,26 @@ class Prompter:
         :param system_prompt: A string representing the system prompt.
         :param user_prompt: A string representing the user prompt.
         """
+        
         if system_prompt is None:
             self.system_prompt = DEFAULT_SYSTEM_PROMPT
-            self.user_defined_system_prompt = False
+            self.user_defined_system_prompt = None
         else:
             self.system_prompt = system_prompt
-            self.user_defined_system_prompt = True
+            self.user_defined_system_prompt = system_prompt
         if user_prompt is None:
             self.user_prompt = self.default_user_prompt
-            self.user_defined_user_prompt = False
+            self.user_defined_user_prompt = None
         else:
             self.user_prompt = user_prompt
-            self.user_defined_user_prompt = True
+            self.user_defined_user_prompt = user_prompt
 
         self.prompt_func: Callable[[str], Tuple[List[str], str]] = self.one_shot_prompt
+    
+    def set_default_prompts(self):
+        self.system_prompt = DEFAULT_SYSTEM_PROMPT
+        self.user_prompt = self.default_user_prompt
+
 
     def default_user_prompt(self, message: str) -> str:
         return DEFAULT_USER_PROMPT.format(question=message)
@@ -62,7 +68,7 @@ class Prompter:
         """
         self.system_prompt = new_prompt
 
-    def update_user_prompt(self, new_prompt: str) -> None:
+    def update_user_prompt(self, new_prompt ) -> None:
         """
         Update the user prompt.
 

@@ -40,6 +40,7 @@ class FifoChat(FifoThread, Chat):
             max_index_memory=max_index_memory,
             system_prompt=system_prompt,
             user_prompt=user_prompt,
+            name=name,
         )
 
         self.prompt_func = self.fifo_memory_prompt
@@ -92,6 +93,7 @@ class VectorChat(VectorThread, Chat):
         max_output_tokens: int = 1000,
         system_prompt: str = None,
         user_prompt: str = None,
+    
     ):
         VectorThread.__init__(self, name=name, max_context=max_vector_memory)
         Chat.__init__(
@@ -102,6 +104,7 @@ class VectorChat(VectorThread, Chat):
             max_index_memory=max_index_memory,
             system_prompt=system_prompt,
             user_prompt=user_prompt,
+            name=name,
         )
         self.max_vector_memory = self.max_context
         self.prompt_func = self.vector_memory_prompt
@@ -208,6 +211,7 @@ class FifoVectorChat(FifoThread, Chat):
             max_index_memory=max_index_memory,
             system_prompt=system_prompt,
             user_prompt=user_prompt,
+            name=name,
         )
         self.prompt_func = self.fifovector_memory_prompt
         self.prompt_list = []
