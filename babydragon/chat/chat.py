@@ -110,4 +110,4 @@ class Chat(BaseChat, Prompter):
             self.current_index = None
         else:
             raise ValueError("The provided index name is not available.")
-        self.setup_prompts()
+        self.setup_index_prompts()
