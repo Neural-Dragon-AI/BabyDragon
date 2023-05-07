@@ -186,25 +186,27 @@ class BaseThread:
         """
         Get all messages before a specific message in the memory thread with a specific role."""
         messages = []
+        # print("ci siamo")
         for idx, message_dict in enumerate(self.memory_thread):
-            if message_dict == message and (
-                role is None or message_dict["role"] == role
-            ):
-                messages = self.memory_thread[:idx]
+            # print(message, message_dict)
+            if message_dict == message :
+                for message in self.memory_thread[:idx]:
+                    if role is None or message["role"] == role:
+                        messages.append(message)
                 break
         return messages if len(messages) > 0 else None
-
-    def messages_before(
+    
+    def messages_after(
         self, message: dict, role: Union[str, None] = None
     ) -> Union[None, list]:
         """
         Get all messages after a specific message in the memory thread with a specific role."""
         messages = []
         for idx, message_dict in enumerate(self.memory_thread):
-            if message_dict == message and (
-                role is None or message_dict["role"] == role
-            ):
-                messages = self.memory_thread[idx + 1 :]
+            if message_dict == message:
+                for message in self.memory_thread[:idx]:
+                    if role is None or message["role"] == role:
+                        messages.append(message)
                 break
         return messages if len(messages) > 0 else None
 
@@ -215,18 +217,16 @@ class BaseThread:
         Get all messages between two specific messages in the memory thread with a specific role."""
         messages = []
         for idx, message_dict in enumerate(self.memory_thread):
-            if message_dict == start_message and (
-                role is None or message_dict["role"] == role
-            ):
+            if message_dict == start_message:
                 start_idx = idx
                 break
         for idx, message_dict in enumerate(self.memory_thread):
-            if message_dict == end_message and (
-                role is None or message_dict["role"] == role
-            ):
+            if message_dict == end_message:
                 end_idx = idx
                 break
-        messages = self.memory_thread[start_idx + 1 : end_idx]
+        for message in self.memory_thread[start_idx + 1 : end_idx-1]:
+                    if role is None or message["role"] == role:
+                        messages.append(message)
         return messages if len(messages) > 0 else None
 
     def messages_more_tokens(self, tokens: int, role: Union[str, None] = None):
@@ -314,7 +314,7 @@ class BaseThread:
 
         for idx, message_dict in enumerate(reversed(self.memory_thread)):
             if (
-                tokens + self.message_tokens[idx] < max_tokens
+                tokens + self.message_tokens[idx] <= max_tokens
                 and (role is None or message_dict["role"] == role)
                 and idx < max_history
             ):
