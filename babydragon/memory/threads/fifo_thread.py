@@ -3,7 +3,7 @@ import copy
 from IPython.display import Markdown, display
 
 from babydragon.memory.threads.base_thread import BaseThread
-from babydragon.utils.oai import check_dict
+from babydragon.utils.chatml import check_dict
 
 
 class FifoThread(BaseThread):

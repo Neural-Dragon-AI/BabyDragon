@@ -6,7 +6,7 @@ from babydragon.memory.indexes.pandas_index import PandasIndex
 from babydragon.memory.threads.base_thread import BaseThread
 from babydragon.memory.threads.fifo_thread import FifoThread
 from babydragon.memory.threads.vector_thread import VectorThread
-from babydragon.utils.oai import mark_answer, mark_question, mark_system
+from babydragon.utils.chatml import mark_answer, mark_question, mark_system
 
 
 class FifoChat(FifoThread, Chat):

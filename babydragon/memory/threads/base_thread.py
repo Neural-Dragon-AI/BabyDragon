@@ -5,7 +5,7 @@ import tiktoken
 from IPython.display import Markdown, display
 
 from babydragon.memory.indexes.memory_index import MemoryIndex
-from babydragon.utils.oai import check_dict, mark_question
+from babydragon.utils.chatml import check_dict, mark_question
 
 
 class BaseThread:

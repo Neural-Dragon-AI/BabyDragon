@@ -4,10 +4,11 @@ import gradio as gr
 import openai
 import tiktoken
 from IPython.display import Markdown, display
-
+from babydragon.models.generators.chatgpt import chatgpt_response
+from babydragon.models.generators.cohere import cohere_response
 from babydragon.chat.prompts.default_prompts import (DEFAULT_SYSTEM_PROMPT,
                                                      DEFAULT_USER_PROMPT)
-from babydragon.utils.oai import (get_mark_from_response,
+from babydragon.utils.chatml import (get_mark_from_response,
                                   get_str_from_response, mark_question,
                                   mark_system)
 
@@ -124,39 +125,17 @@ class BaseChat:
         return [mark_question(message)], mark_question(message)
 
     def chat_response(
-        self, prompt: List[dict], max_tokens: int = None
-    ) -> Tuple[Dict, bool]:
-        """
-        Call the OpenAI API with the given prompt and maximum number of output tokens.
-
-        :param prompt: A list of strings representing the prompt to send to the API.
-        :param max_output_tokens: An integer representing the maximum number of output tokens.
-        :return: A tuple containing the API response as a dictionary and a boolean indicating success.
-        """
+        self, prompt: List[dict], max_tokens: int = None ) -> Tuple[Dict, bool]:
         if max_tokens is None:
             max_tokens = self.max_output_tokens
-        try:
-            print("Trying to call OpenAI API...")
-            response = openai.ChatCompletion.create(
-                model=self.model,
-                messages=prompt,
-                max_tokens=max_tokens,
-            )
-            return response, True
-
-        except openai.error.APIError as e:
-            print(e)
-            fail_response = {
-                "choices": [
-                    {
-                        "message": {
-                            "content": "I am sorry, I am having trouble understanding you. There might be an alien invasion interfering with my communicaiton with OpenAI."
-                        }
-                    }
-                ]
-            }
-            self.failed_responses.append(fail_response)
-            return fail_response, False
+        if "gpt" in self.model:
+            response, status = chatgpt_response(prompt=prompt,model=self.model, max_tokens = 1000)
+        elif "command" in self.model:
+            response, status = cohere_response(prompt=prompt,model=self.model, max_tokens = 1000)  
+        if not status:
+            self.failed_responses.append(response)
+            return response, False
+        return response, True
 
     def reply(self, message: str, verbose: bool = True) -> str:
         """
@@ -181,7 +160,7 @@ class BaseChat:
         if verbose:
             display(Markdown("#### Question: \n {question}".format(question=message)))
         if success:
-            answer = get_mark_from_response(response)
+            answer = get_mark_from_response(response, self.model)
             self.outputs.append(answer)
             self.inputs.append(message)
             self.prompts.append(prompt)
@@ -189,7 +168,7 @@ class BaseChat:
                 display(
                     Markdown(
                         " #### Anwser: \n {answer}".format(
-                            answer=get_str_from_response(response)
+                            answer=get_str_from_response(response, self.model)
                         )
                     )
                 )
@@ -229,6 +208,7 @@ class BaseChat:
             print("======>Current memory:\n %s" % self.memory_thread)
         except:
             print("======>No memory")
+        print("failed here")
         response = self.reply(text)
         state = state + [(text, response)]
         print("Outputs:", state)
@@ -250,6 +230,6 @@ class BaseChat:
                 with gr.Column(scale=0.15, min_width=0):
                     clear = gr.Button("Clear️")
 
-            txt.submit(self.run_text, [txt, state], [chatbot, state])
+            txt.submit(lambda text, state: self.run_text(text, state), [txt, state], [chatbot, state])
             txt.submit(lambda: "", None, txt)
             demo.launch(server_name="localhost", server_port=7860)

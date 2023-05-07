@@ -10,7 +10,7 @@ from babydragon.memory.indexes.memory_index import MemoryIndex
 class Chat(BaseChat, Prompter):
     """
     This class combines the BaseChat and Prompter classes to create a oneshot chatbot with a system and user prompt,
-    and the ability to handle multiple index_dict.
+    and the ability to handle queries to multiple MemoryIndex through the index_dict.
     """
 
     def __init__(

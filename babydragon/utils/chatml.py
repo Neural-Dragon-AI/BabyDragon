@@ -1,5 +1,13 @@
-import openai
+from typing import List
 
+def convert_mark_to_str_prompt(messages: List[dict], prompt: str = "") -> str:
+    prompt = ""
+    for message in messages:
+        role = message["role"].upper()
+        content = message["content"]
+        prompt += f" #{role}: {content}"
+
+    return prompt
 
 def mark_system(system_prompt):
     return {"role": "system", "content": system_prompt}
@@ -29,13 +37,22 @@ def check_dict(message_dict):
     return message_dict
 
 
-def get_mark_from_response(response):
+def get_mark_from_response(response, model = "gpt"):
     # return the answer from the response
-    role = response["choices"][0]["message"]["role"]
-    message = response["choices"][0]["message"]["content"]
+    if "gpt" in model:
+        role = response["choices"][0]["message"]["role"]
+        message = response["choices"][0]["message"]["content"]
+    elif "command" in model:
+        role = "assistant"
+        message = response[0].text 
+    else:
+        raise Exception("Unknown model type")
     return {"role": role, "content": message}
 
 
-def get_str_from_response(response):
+def get_str_from_response(response, model = "gpt"):
     # return the answer from the response
-    return response["choices"][0]["message"]["content"]
+    if "gpt" in model:
+        return response["choices"][0]["message"]["content"]
+    elif "command" in model:
+        return response[0].text
