@@ -1,19 +1,21 @@
-import math
-
+import tiktoken
 import numpy as np
 from sentence_transformers import SentenceTransformer
+import re
 
+SBERT_EMBEDDING_SIZE = 356
+MAX_CONTEXT_LENGTH = 256
+
+tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
 class SBERTEmbedder:
     def get_embedding_size(self):
-        return 356
+        return SBERT_EMBEDDING_SIZE
 
-    def embed(
+    def embed(self,
         data,
         key="content",
         model_name="all-MiniLM-L6-v2",
-        cores=1,
-        gpu=False,
         batch_size=128,
     ):
         """
@@ -22,32 +24,30 @@ class SBERTEmbedder:
         print("Embedding data")
         model = SentenceTransformer(model_name)
         print("Model loaded")
-
-        sentences = data[key].tolist()
-        unique_sentences = data[key].unique()
+        if isinstance(data, dict):
+            sentences = data[key].tolist()
+            unique_sentences = data[key].unique()
+        elif isinstance(data, str):
+            #breal the string into sentences based on . or ? or !
+            sentences = re.split('[.!?]', data)
+            sentences = [s.strip() for s in sentences if s.strip()]  #
+            #filter empty sentences
+            sentences = list(filter(lambda x: len(x) > 0, sentences))
+            unique_sentences = list(set(sentences))
+        else:
+            raise ValueError(f"Data must be a dictionary with attribute {key} or a string, but got {type(data)} instead")
+        
         print("Unique sentences", len(unique_sentences))
+        self.unique_sentences = unique_sentences
+        for sentence in unique_sentences:
+            tokens = tokenizer.encode(sentence)
+            if len(tokens) > MAX_CONTEXT_LENGTH:
+                raise ValueError(f" The input subsentence is too long for SBERT, num tokens is {len(tokens)}, instead of {MAX_CONTEXT_LENGTH}")
 
-        if cores == 1:
-            embeddings = model.encode(
+       
+        embeddings = model.encode(
                 unique_sentences, show_progress_bar=True, batch_size=batch_size
             )
-        else:
-            devices = ["cpu"] * cores
-            if gpu:
-                devices = None  # use all CUDA devices
-
-            # Start the multi-process pool on multiple devices
-            print("Multi-process pool starting")
-            pool = model.start_multi_process_pool(devices)
-            print("Multi-process pool started")
-
-            chunk_size = math.ceil(len(unique_sentences) / cores)
-
-            # Compute the embeddings using the multi-process pool
-            embeddings = model.encode_multi_process(
-                unique_sentences, pool, batch_size=batch_size, chunk_size=chunk_size
-            )
-            model.stop_multi_process_pool(pool)
 
         print("Embeddings computed")
 
@@ -57,4 +57,4 @@ class SBERTEmbedder:
         }
         embeddings = np.array([mapping[sentence] for sentence in sentences])
 
-        return embeddings
+        return np.mean(embeddings, axis=0).tolist()
