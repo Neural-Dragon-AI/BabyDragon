@@ -25,7 +25,8 @@ def prune_index(
     cls: "MemoryIndex",
     constraint: Optional[str] = None,
     regex_pattern: Optional[str] = None,
-    length_constraint: Optional[int] = None,
+    length_constraint: Optional[Tuple[int,int]] = None,
+    tokenizer: Optional[tiktoken.Encoding] = None,
 ) -> "MemoryIndex" :
     if constraint is not None:
         if constraint == "regex":
@@ -35,13 +36,13 @@ def prune_index(
         elif constraint == "length":
             if length_constraint is None:
                 raise ValueError("length_constraint must be provided for length constraint.")
-            pruned_values, pruned_embeddings = _prune_by_length(cls, length_constraint)
+            pruned_values, pruned_embeddings = _prune_by_length(cls, length_constraint, tokenizer)
         else:
             raise ValueError("Invalid constraint type provided.")
     else:
         raise ValueError("constraint must be provided for pruning the index.")
 
-    pruned_memory_index = cls(
+    pruned_memory_index = cls.__class__(
         values=pruned_values,
         embeddings=pruned_embeddings,
         name=cls.name + "_pruned",
@@ -62,12 +63,21 @@ def _prune_by_regex(cls: "MemoryIndex", regex_pattern: str) -> Tuple[List[str], 
     return pruned_values, pruned_embeddings
 
 
-def _prune_by_length(cls: "MemoryIndex", length_constraint: int) -> Tuple[List[str], List[np.ndarray]]:
+def _prune_by_length(cls: "MemoryIndex", length_constraint: Tuple[int,int], tokenizer) -> Tuple[List[str], List[np.ndarray]]:
     pruned_values = []
     pruned_embeddings = []
-
+    if tokenizer is None:
+        len_func = len
+    else:
+        def len_func(value):
+            return len(tokenizer.encode(value))
+    print("Pruning by length")
+    print("Length constraint: ", length_constraint)
+    print("Number of values: ", len(cls.values))
+    print("tokenizer: ", tokenizer)
     for value in cls.values:
-        if len(value) >= length_constraint:
+        if len_func(value) <= length_constraint[1] and len_func(value) >= length_constraint[0]:
+            print(f"value {value} is in range {length_constraint}")
             pruned_values.append(value)
             pruned_embeddings.append(cls.get_embedding_by_value(value))
 
@@ -428,10 +438,13 @@ class MemoryIndex:
     def load(self):
         load(self)
 
-    def prune_index(
+    def prune(
         self,
         constraint: Optional[str] = None,
         regex_pattern: Optional[str] = None,
         length_constraint: Optional[int] = None,
+        tokenizer: Optional[tiktoken.Encoding] = None,
     ) -> "MemoryIndex":
-        return prune_index(self, constraint, regex_pattern, length_constraint)
+        if tokenizer is None:
+            tokenizer = self.tokenizer
+        return prune_index(self, constraint, regex_pattern, length_constraint,tokenizer)
