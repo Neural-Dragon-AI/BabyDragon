@@ -296,6 +296,7 @@ class MemoryIndex:
         value: str,
         embedding: Optional[Union[List[float], np.ndarray, str]] = None,
         verbose: bool = False,
+        default_save: bool = False,
     ) -> None:
         """
         index a message in the faiss index, the message is embedded (if embedding is not provided) and the id is saved in the values list
@@ -320,7 +321,8 @@ class MemoryIndex:
                     embedding = embedding.reshape(1, -1)
                 self.index.add(embedding)
                 self.values.append(value)
-                self.save()  # we should check here the save time is not too long
+                if default_save:
+                    self.save()  # we should check here the save time is not too long
         else:
             if verbose:
                 display(
