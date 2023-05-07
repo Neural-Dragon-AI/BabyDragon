@@ -3,26 +3,28 @@ from typing import List
 import libcst as cst
 import numpy as np
 import openai
+import tiktoken
 
 ADA_EMBEDDING_SIZE = 1536
 MAX_CONTEXT_LENGTH = 8100
 
+tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
 class OpenAiEmbedder:
     def get_embedding_size(self):
         return ADA_EMBEDDING_SIZE
 
-    def embed(self, data, embed_mark=False, verbose=False):
+    def embed(self, data, verbose=False):
 
-        if embed_mark is False and type(data) is dict and "content" in data:
+        if type(data) is dict and "content" in data:
             if verbose is True:
                 print("Embedding without mark", data["content"])
             out = openai.Embedding.create(
                 input=data["content"], engine="text-embedding-ada-002"
             )
         else:
-            if len(str(data)) > MAX_CONTEXT_LENGTH:
-                data = str(data)[:MAX_CONTEXT_LENGTH]
+            if len(tokenizer.encode(data)) > MAX_CONTEXT_LENGTH:
+                raise ValueError(f" The input is too long for OpenAI, num tokens is {len(tokenizer.encode(data))}, instead of {MAX_CONTEXT_LENGTH}")
             if verbose is True:
                 print("Embedding without preprocessing the input", data)
             out = openai.Embedding.create(
