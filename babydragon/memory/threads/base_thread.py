@@ -190,9 +190,9 @@ class BaseThread:
         for idx, message_dict in enumerate(self.memory_thread):
             # print(message, message_dict)
             if message_dict == message :
-                for message in self.memory_thread[:idx]:
-                    if role is None or message["role"] == role:
-                        messages.append(message)
+                for mess in self.memory_thread[:idx]:
+                    if role is None or mess["role"] == role:
+                        messages.append(mess)
                 break
         return messages if len(messages) > 0 else None
     
@@ -204,9 +204,9 @@ class BaseThread:
         messages = []
         for idx, message_dict in enumerate(self.memory_thread):
             if message_dict == message:
-                for message in self.memory_thread[:idx]:
-                    if role is None or message["role"] == role:
-                        messages.append(message)
+                for mess in self.memory_thread[:idx]:
+                    if role is None or mess["role"] == role:
+                        messages.append(mess)
                 break
         return messages if len(messages) > 0 else None
 
@@ -224,9 +224,9 @@ class BaseThread:
             if message_dict == end_message:
                 end_idx = idx
                 break
-        for message in self.memory_thread[start_idx + 1 : end_idx-1]:
-                    if role is None or message["role"] == role:
-                        messages.append(message)
+        for mess in self.memory_thread[start_idx + 1 : end_idx-1]:
+                    if role is None or mess["role"] == role:
+                        messages.append(mess)
         return messages if len(messages) > 0 else None
 
     def messages_more_tokens(self, tokens: int, role: Union[str, None] = None):
@@ -313,11 +313,9 @@ class BaseThread:
             max_history = len(self.memory_thread)
 
         for idx, message_dict in enumerate(reversed(self.memory_thread)):
-            if (
-                tokens + self.message_tokens[idx] <= max_tokens
-                and (role is None or message_dict["role"] == role)
-                and idx < max_history
-            ):
+            if  tokens + self.message_tokens[idx] <= max_tokens:
+                if role is not None and message_dict["role"] != role:
+                    continue
                 messages.append(message_dict)
                 indices.append(len(self.memory_thread) - 1 - idx)
                 tokens += self.message_tokens[idx]
