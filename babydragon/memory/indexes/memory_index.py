@@ -308,7 +308,7 @@ class MemoryIndex:
                     display(
                         Markdown("The value {value} was embedded".format(value=value))
                     )
-            if embedding is not None:
+            elif embedding is not None:
                 if type(embedding) is list:
                     embedding = np.array([embedding])
                 elif type(embedding) is str:
