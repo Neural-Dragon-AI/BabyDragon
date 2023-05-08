@@ -312,8 +312,12 @@ class MemoryIndex:
                 if type(embedding) is list:
                     embedding = np.array([embedding])
                 elif type(embedding) is str:
-                    embedding = eval(embedding)
-                    embedding = np.array([embedding]).astype(np.float32)
+                    try:
+                        embedding = eval(embedding)
+                        embedding = np.array([embedding]).astype(np.float32)
+                    except (SyntaxError, ValueError):
+                        print("The string is not a valid list, probably an error:", embedding)
+                        return
                 elif type(embedding) is not np.ndarray:
                     raise ValueError("The embedding is not a valid type")
 

@@ -107,6 +107,8 @@ class BaseTask:
 
     def work(self) -> List[Any]:
         self.execute_task()
+        if not self.backup:
+            self._save_results_to_file()
         work = []
         for sub_result in self.results:
             for index_id, response in sub_result.items():
