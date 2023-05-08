@@ -8,9 +8,7 @@ from babydragon.memory.kernels.memory_kernel import MemoryKernel
 from babydragon.memory.kernels.multi_kernel import HDBSCANMultiKernel, SpectralClusteringMultiKernel
 from babydragon.memory.threads.base_thread import BaseThread
 from babydragon.tasks.base_task import BaseTask
-import concurrent.futures
-import threading
-import time
+
 
 class MultiKernelTask(BaseTask):
     def __init__(
@@ -22,6 +20,7 @@ class MultiKernelTask(BaseTask):
         system_prompt: str,
         clustering_method: str,
         task_id: str = "MultiKernelTask",
+        max_workers: int = 1,
         calls_per_minute: int = 20,
     ):
         self.clustering_method = clustering_method
@@ -33,7 +32,7 @@ class MultiKernelTask(BaseTask):
         self.system_prompt = system_prompt
         self.chatbot = chatbot
         self.paths = self.memory_kernel_group.path_group[self.parent_kernel_label]
-        super().__init__(path = self.paths, task_id=task_id, calls_per_minute=calls_per_minute)
+        super().__init__(path = self.paths, max_workers=max_workers, task_id=task_id, calls_per_minute=calls_per_minute)
 
 
     def _setup_memory_kernel_group(self):
@@ -86,7 +85,7 @@ class MultiKernelTask(BaseTask):
         self._load_results_from_file()
         task_results = self.results
         new_values = []
-        #sort task_results by index and add to new_values 0- nax values ascending
+        #sort task_results by index and add to new_values 0- max values ascending
         for task_result in task_results:
             if isinstance(task_result, dict):
                 for key, value in task_result.items():
