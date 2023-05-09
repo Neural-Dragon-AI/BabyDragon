@@ -4,7 +4,7 @@ from typing import List, Optional, Tuple, Union, Dict, Any
 
 import datasets
 
-def concat_columns(example):
+def concat_columns(example, index=None):
     column1='title'
     column2='text'
     example['merged_column'] = example[column1] + example[column2]
@@ -29,7 +29,7 @@ def extract_values_and_embeddings_hf(
     if isinstance(value_column, str):
         value_column = [value_column]
     print("Merging values: Start")
-    merged_docs = dataset.map(concat_columns)
+    merged_docs = dataset.map(concat_columns, with_indices=True)
     print("Merging values: Done")
     values = merged_docs['merged_column']
     embeddings = dataset[embeddings_column]

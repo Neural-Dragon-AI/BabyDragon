@@ -201,6 +201,9 @@ class MemoryIndex:
             self.index = faiss.IndexFlatIP(self.embedder.get_embedding_size())
             #add all the embeddings to the index
             if is_embed_batched:
+                print("Adding batched embeddings to index")
+                print(type(embeddings))
+                embeddings = np.array(embeddings)
                 self.add_batch_to_index(values=values, embeddings=embeddings)
             else:
                 for embedding, value in zip(embeddings, values):
