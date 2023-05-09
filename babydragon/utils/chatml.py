@@ -55,4 +55,8 @@ def get_str_from_response(response, model = "gpt"):
     if "gpt" in model:
         return response["choices"][0]["message"]["content"]
     elif "command" in model:
-        return response[0].text
+        text = response[0].text
+        text_without_assistant = text.replace("#ASSISTANT", "")
+        return text_without_assistant
+    else:
+        raise Exception("Unknown model type")
