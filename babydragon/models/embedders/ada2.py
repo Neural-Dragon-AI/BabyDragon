@@ -32,6 +32,21 @@ class OpenAiEmbedder:
             )
         return out.data[0].embedding
 
+    def batch_embed(self, data: List[str]):
+        if type(data) is dict and "content" in data:
+            raise ValueError("Batch embedding not supported for dictionaries")
+        elif type(data) is str:
+            return self.embed(data)
+        elif type(data) is list:
+            out = openai.Embedding.create(
+                input=data, engine="text-embedding-ada-002"
+            )
+            embeddings = []
+            for embedding in out.data:
+                embeddings.append(embedding.embedding)
+            return embeddings
+
+
 
 def parse_and_embed_functions(input_str: str) -> List[np.ndarray]:
     # Parse the input string with libcst

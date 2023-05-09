@@ -16,6 +16,8 @@ from IPython.display import Markdown, display
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder
 from babydragon.tasks.embedding_task import parallel_embeddings
+from datasets import load_dataset
+from babydragon.utils.hf_datasets import extract_values_and_embeddings_hf, extract_values_hf
 from babydragon.utils.pandas import extract_values_and_embeddings
 
 from typing import List, Optional, Tuple
@@ -136,6 +138,7 @@ class MemoryIndex:
         max_workers: int = 1,
         backup: bool = False,
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder,
+        is_batched: bool = False,
     ):
 
         self.name = name
@@ -145,6 +148,7 @@ class MemoryIndex:
         self.values = []
         self.embeddings = []
         self.max_workers = max_workers
+        self.is_batched = is_batched
 
         if load is True:
             self.load()
@@ -160,19 +164,20 @@ class MemoryIndex:
                 embeddings = parallel_embeddings(self.embedder,
                     values, max_workers, backup=backup, name=name
                 )
-            self.init_index(index, values, embeddings)
+            self.init_index(index, values, embeddings, is_embed_batched=is_batched)
         if tokenizer is None:
             self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
         else:
             self.tokenizer = tokenizer
         self.query_history = []
         self.save()
-        
+
     def init_index(
         self,
         index: Optional[faiss.Index] = None,
         values: Optional[List[str]] = None,
         embeddings: Optional[List[Union[List[float], np.ndarray]]] = None,
+        is_embed_batched: bool = False,
     ) -> None:
 
         """
@@ -194,8 +199,13 @@ class MemoryIndex:
         ):
             print("Creating a new index from a list of embeddings and values")
             self.index = faiss.IndexFlatIP(self.embedder.get_embedding_size())
-            for embedding, value in zip(embeddings, values):
-                self.add_to_index(value, embedding)
+            #add all the embeddings to the index
+            if is_embed_batched:
+                self.add_batch_to_index(values=values, embeddings=embeddings)
+            else:
+                for embedding, value in zip(embeddings, values):
+                    self.add_to_index(value, embedding)
+
         elif (
             isinstance(index, faiss.Index)
             and index.d == self.embedder.get_embedding_size()
@@ -208,13 +218,28 @@ class MemoryIndex:
         elif index is None and values is not None and embeddings is None:
             print("Creating a new index from a list of values")
             self.index = faiss.IndexFlatIP(self.embedder.get_embedding_size())
-            i = 0
-            for value in values:
-                print("Embedding value ", i, " of ", len(values))
-                start = time.time()
-                self.add_to_index(value)
-                print("Embedding value ", i, " took ", time.time() - start, " seconds")
-                i += 1
+            if is_embed_batched:
+                batch = []
+                i = 0
+                for value in values:
+                    batch.append(value)
+                    if len(batch) == 1000:
+                        start = time.time()
+                        self.add_batch_to_index(values=batch)
+                        print(f"Embedding batch {i} took ", time.time() - start, " seconds")
+                        print(f"Batch {i} of {len(values)//1000}")
+                        i +=1
+                        batch = []
+                if len(batch) > 0:
+                    self.add_batch_to_index(values=batch)
+            else:
+                i = 0
+                for value in values:
+                    print("Embedding value ", i, " of ", len(values))
+                    start = time.time()
+                    self.add_to_index(value)
+                    print("Embedding value ", i, " took ", time.time() - start, " seconds")
+                    i += 1
         else:
             print(type(values))
             print(type(embeddings))
@@ -222,6 +247,8 @@ class MemoryIndex:
             raise ValueError(
                 "The index is not a valid faiss index or the embedding dimension is not correct"
             )
+        print(len(self.values), " values in the index")
+        print(self.index.ntotal, " embeddings in the index")
 
     def __getstate__(self):
         state = self.__dict__.copy()
@@ -291,7 +318,43 @@ class MemoryIndex:
         )
         return cls(values=values, embeddings=embeddings, name=name, save_path=save_path)
 
-    
+    @classmethod
+    def from_hf_dataset(
+        cls,
+        dataset_url: str,
+        value_column: str,
+        embeddings_column: Optional[str] = None,
+        name: str = "memory_index",
+        save_path: Optional[str] = None,
+        embeddings_type: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= CohereEmbedder,
+        is_batched: bool = False,
+    ) -> "MemoryIndex":
+        """
+        Initialize a MemoryIndex object from a Hugging Face dataset.
+
+        Args:
+            dataset_url: The URL of the Hugging Face dataset.
+            value_column: The column of the dataset to use as values.
+            embeddings_column: The column of the dataset containing the embeddings.
+            name: The name of the index.
+            save_path: The path to save the index.
+
+        Returns:
+            A MemoryIndex object initialized with values and embeddings from the Hugging Face dataset.
+        """
+        dataset = load_dataset(dataset_url)['train']
+        if embeddings_column is not None:
+            values, embeddings = extract_values_and_embeddings_hf(
+                dataset, value_column, embeddings_column
+            )
+        elif embeddings_column is None:
+            values = extract_values_hf(dataset, value_column)
+            embeddings = None
+        else:
+            raise ValueError(
+                "The dataset is not a valid Hugging Face dataset or the columns are not valid"
+            )
+        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path, embedder=embeddings_type, is_batched=is_batched)
 
     def add_to_index(
         self,
@@ -310,6 +373,10 @@ class MemoryIndex:
                     display(
                         Markdown("The value {value} was embedded".format(value=value))
                     )
+                if type(embedding) is list:
+                    embedding = np.array([embedding])
+                self.index.add(embedding)
+                self.values.append(value)
             elif embedding is not None:
                 if type(embedding) is list:
                     embedding = np.array([embedding])
@@ -336,6 +403,45 @@ class MemoryIndex:
                         "The value {value} was already in the index".format(value=value)
                     )
                 )
+    def add_batch_to_index(
+        self,
+        values: List[str],
+        embeddings: Optional[Union[List[float], np.ndarray, str]] = None,
+        verbose: bool = False,
+        default_save: bool = False,
+    ) -> None:
+        """
+        index a message in the faiss index, the message is embedded (if embedding is not provided) and the id is saved in the values list
+        """
+
+        if embeddings is None:
+            embeddings = self.embedder.batch_embed(values)
+            if verbose:
+                display(
+                    Markdown("The value batch was embedded")
+                )
+            if type(embeddings) is list:
+                embeddings = np.array(embeddings)
+            self.index.add(embeddings)
+            self.values.extend(values)
+        elif embeddings is not None:
+            if type(embeddings) is list:
+                embeddings = np.array([embeddings])
+            elif type(embeddings) is str:
+                try:
+                    embeddings = eval(embeddings)
+                    embeddings = np.array([embeddings]).astype(np.float32)
+                except (SyntaxError, ValueError):
+                    print("The string is not a valid list, probably an error:", embeddings)
+                    return
+            elif type(embeddings) is not np.ndarray:
+                raise ValueError("The embedding is not a valid type")
+
+            self.index.add(embeddings)
+            self.values.extend(values)
+            if default_save:
+                self.save()  # we should check here the save time is not too long
+
 
     def remove_from_index(self, value: str) -> None:
         """
