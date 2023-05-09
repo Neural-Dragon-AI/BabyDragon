@@ -14,6 +14,7 @@ import tiktoken
 from IPython.display import Markdown, display
 
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
+from babydragon.models.embedders.cohere import CohereEmbedder
 from babydragon.tasks.embedding_task import parallel_embeddings
 from babydragon.utils.pandas import extract_values_and_embeddings
 
@@ -134,10 +135,11 @@ class MemoryIndex:
         tokenizer: Optional[tiktoken.Encoding] = None,
         max_workers: int = 1,
         backup: bool = False,
+        embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder,
     ):
 
         self.name = name
-        self.embedder = OpenAiEmbedder()
+        self.embedder = embedder()
         self.save_path = save_path if save_path is not None else "storage"
         os.makedirs(self.save_path, exist_ok=True)
         self.values = []
