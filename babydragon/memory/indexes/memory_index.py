@@ -149,6 +149,7 @@ class MemoryIndex:
         self.embeddings = []
         self.max_workers = max_workers
         self.is_batched = is_batched
+        self.user_defined_ids = []
 
         if load is True:
             self.load()
