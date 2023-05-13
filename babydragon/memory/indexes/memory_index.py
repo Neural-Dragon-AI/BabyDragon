@@ -170,7 +170,8 @@ class MemoryIndex:
         else:
             self.tokenizer = tokenizer
         self.query_history = []
-        self.save()
+        if not self.loaded:
+            self.save()
 
     def init_index(
         self,

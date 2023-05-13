@@ -4,7 +4,8 @@ from babydragon.chat.chat import Chat
 from babydragon.utils.multithreading import RateLimitedThreadPoolExecutor
 from concurrent.futures import as_completed
 from time import perf_counter
-
+import json
+import time
 from babydragon.memory.indexes.memory_index import MemoryIndex
 
 import numpy as np
@@ -43,7 +44,17 @@ class SubjectPerspectiveAnalyzer:
                 try:
                     output[prompt] = future.result()
                 except Exception as exc:
+                    counter = 0
                     print(f'An exception occurred while analyzing prompt "{prompt}": {exc}')
+                    while counter < 3:
+                        try:
+                            output[prompt] = self._analyze_prompt(prompt)
+                            break
+                        except Exception as exc:
+                            counter += 1
+                            print(f'An exception occurred while analyzing prompt "{prompt}": {exc}')
+                    if counter == 3:
+                        output[prompt] = []
 
         return output
 
@@ -247,18 +258,14 @@ def generate_perspective_prompt(user_subject, user_perspective, seed_model = "gp
 
     dataset_url = "Cohere/wikipedia-22-12-simple-embeddings"
     start = perf_counter()
-    try:
-        index = MemoryIndex(name="wiki_index", load=True, is_batched=True,embedder=CohereEmbedder)
-        if len(index.values)>0:
-            loaded = True
-        else:
-            loaded = False
-    except:
-        print("Index loading failed, setting loaded to False")
+    index = MemoryIndex(name="wiki_index", load=True, is_batched=True,embedder=CohereEmbedder)
+    if len(index.values)>0:
+        loaded = True
+    else:
         loaded = False
+
     if not loaded:
         print("Index not found, creating new index")
-
         index = MemoryIndex.from_hf_dataset(dataset_url, ["title", "text"],embeddings_column= "emb", name="wiki_index", is_batched=True,embedder=CohereEmbedder)
     end = perf_counter()
     print("Time to index: ", end - start)
@@ -277,6 +284,7 @@ def generate_perspective_prompt(user_subject, user_perspective, seed_model = "gp
     max_tokens_per_cluster = 20000
     idea_cluster = IdeaCluster(ideas, max_tokens_per_cluster)
     idea_cluster.cluster_embeddings()
+    time.sleep(0.5)
     ideas = idea_cluster.get_clustered_ideas()
     end = perf_counter()
     combined_idea = []
@@ -295,7 +303,7 @@ def generate_perspective_prompt(user_subject, user_perspective, seed_model = "gp
     print("Number of summaries: ", len(summaries))
     print("Number of tokens in each summary: ", [len(tokenizer.encode(summary)) for summary in summaries.values()])
     start = perf_counter()
-    system_prompt = f"""With the summarized information from Cohere about the essential ideas, concepts, principles, and intersection points between {user_subject} and {user_perspective}, construct an appealing and context-aware chatbot prompt that impels the chatbot to respond with insights and perspectives born from the synergy of these two domains. Use the tips below to help you create an effective chatbot prompt: 1. Begin with a concise introduction: Initiate the chatbot prompt by setting the context, encompassing the user's specified subject and perspective. 2. Accentuate the intersection: Secure that the chatbot prompt underlines the connection between the user_subject and user_perspective, leading to more pertinent and perceptive responses. 3. Foster exploration: Ensure the chatbot prompt provokes the chatbot to delve into the main ideas, principles, and concepts from the summaries with a thoughtful and reflective approach. 4. Pose open-ended questions: Incorporate open-ended queries in the chatbot prompt, stimulating the chatbot to contemplate beyond the summaries and offer comprehensive responses. 5. Prioritize simplicity: Maintain the chatbot prompt's clarity and brevity, assisting the chatbot in comprehending the context and reacting suitably. 6. Steer the conversation: Craft the chatbot prompt in a manner that subtly directs the chatbot's answers, confirming they consistently focus on the user_subject and user_perspective. By leveraging these tips, develop a chatbot prompt that generates responses illustrative of the user's specified subject and perspective, culminating in a customized and significant interaction. Remember to conclude the prompt with 7 content pillars that will help the chatbot use the perspective at the best of its capacity. """.format(user_subject=user_subject, user_perspective=user_perspective)
+    system_prompt = f"""With the summarized information from Cohere about the essential ideas, concenpts, priciples, and intersection points between {user_subject} and {user_perspective}, construct an appealing and context-aware chatbot prompt that impels the chatbot to respond with insights and perspectives born from the synergy of these two domains. Use the tips below to help you create an effective chatbot prompt: 1. Begin with a concise introduction: Initiate the chatbot prompt by setting the context, encompassing the user's specified subject and perspective. 2. Accentuate the intersection: Secure that the chatbot prompt underlines the connection between the user_subject and user_perspective, leading to more pertinent and perceptive responses. 3. Foster exploration: Ensure the chatbot prompt provokes the chatbot to delve into the main ideas, principles, and concepts from the summaries with a thoughtful and reflective approach. 4. Pose open-ended questions: Incorporate open-ended queries in the chatbot prompt, stimulating the chatbot to contemplate beyond the summaries and offer comprehensive responses. 5. Prioritize simplicity: Maintain the chatbot prompt's clarity and brevity, assisting the chatbot in comprehending the context and reacting suitably. 6. Steer the conversation: Craft the chatbot prompt in a manner that subtly directs the chatbot's answers, confirming they consistently focus on the user_subject and user_perspective. By leveraging these tips, develop a chatbot prompt that generates responses illustrative of the user's specified subject and perspective, culminating in a customized and significant interaction. Remember to conclude the prompt with 7 content pillars that will help the chatbot use the perspective at the best of its capacity. """.format(user_subject=user_subject, user_perspective=user_perspective)
     for i, summary in enumerate(summaries.values()):
         system_prompt += summary + "\n\n"
     prompt_generator = Chat(name= "prompt generator",system_prompt=system_prompt, max_output_tokens= 2000, model = "gpt-4")
@@ -306,3 +314,42 @@ def generate_perspective_prompt(user_subject, user_perspective, seed_model = "gp
     print("Time to generate prompt: ", end - start)
     return perspective_prompt
 
+
+import json
+import traceback
+
+class PerspectivePromptGenerator:
+    def __init__(self, subjects, perspectives, max_workers=10, calls_per_minute=20):
+        self.subjects = subjects
+        self.perspectives = perspectives
+        self.executor = RateLimitedThreadPoolExecutor(
+            max_workers=max_workers, 
+            calls_per_minute=calls_per_minute
+        )
+        self.prompts = []
+    
+    def handle_future(self, future):
+        try:
+            result = future.result()
+            self.prompts.append(result)
+            self.save_prompts_to_json("results.json")
+        except Exception as e:
+            error_report = {"error": str(e), "traceback": traceback.format_exc()}
+            self.prompts.append(error_report)
+            self.save_prompts_to_json("error_reports.json")
+    
+    def generate_prompts(self):
+        for subject in self.subjects:
+            for perspective in self.perspectives:
+                future = self.executor.submit(
+                    generate_perspective_prompt, 
+                    subject, 
+                    perspective
+                )
+                future.add_done_callback(self.handle_future)
+        self.executor.shutdown(wait=True)
+        return self.prompts
+
+    def save_prompts_to_json(self, filename):
+        with open(filename, 'w') as f:
+            json.dump(self.prompts, f)
