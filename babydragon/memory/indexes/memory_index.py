@@ -97,8 +97,8 @@ def save(cls):
     with open(values_filename, "w") as f:
         json.dump(cls.values, f)
 
-    embeddings_filename = os.path.join(save_directory, f"{cls.name}_embeddings.npz")
-    np.savez_compressed(embeddings_filename, cls.get_all_embeddings())
+    # embeddings_filename = os.path.join(save_directory, f"{cls.name}_embeddings.npz")
+    # np.savez_compressed(embeddings_filename, cls.get_all_embeddings())
 
 def load(cls):
     load_directory = os.path.join(cls.save_path, cls.name)
@@ -115,10 +115,10 @@ def load(cls):
     values_filename = os.path.join(load_directory, f"{cls.name}_values.json")
     with open(values_filename, "r") as f:
         cls.values = json.load(f)
-
-    embeddings_filename = os.path.join(load_directory, f"{cls.name}_embeddings.npz")
-    embeddings_data = np.load(embeddings_filename)
-    cls.embeddings = embeddings_data["arr_0"]
+    # embeddings_filename = os.path.join(load_directory, f"{cls.name}_embeddings.npz")
+    # print(embeddings_filename)
+    # embeddings_data = np.load(embeddings_filename)
+    # cls.embeddings = embeddings_data["arr_0"]
     cls.loaded = True
 
 class MemoryIndex:
@@ -329,7 +329,7 @@ class MemoryIndex:
         embeddings_column: Optional[str] = None,
         name: str = "memory_index",
         save_path: Optional[str] = None,
-        embeddings_type: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= CohereEmbedder,
+        embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= CohereEmbedder,
         is_batched: bool = False,
     ) -> "MemoryIndex":
         """
@@ -357,7 +357,7 @@ class MemoryIndex:
             raise ValueError(
                 "The dataset is not a valid Hugging Face dataset or the columns are not valid"
             )
-        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path, embedder=embeddings_type, is_batched=is_batched)
+        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path, embedder=embedder, is_batched=is_batched)
 
     def add_to_index(
         self,
