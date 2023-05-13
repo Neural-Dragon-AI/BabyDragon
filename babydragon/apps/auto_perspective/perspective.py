@@ -318,8 +318,10 @@ def generate_perspective_prompt(user_subject, user_perspective, seed_model = "gp
 import json
 import traceback
 
+import threading
+
 class PerspectivePromptGenerator:
-    def __init__(self, subjects, perspectives, max_workers=10, calls_per_minute=20):
+    def __init__(self, subjects, perspectives, max_workers=10, calls_per_minute=20, base_filename="prompt_"):
         self.subjects = subjects
         self.perspectives = perspectives
         self.executor = RateLimitedThreadPoolExecutor(
@@ -327,16 +329,22 @@ class PerspectivePromptGenerator:
             calls_per_minute=calls_per_minute
         )
         self.prompts = []
-    
+        self.base_filename = base_filename
+        self.lock = threading.Lock()  # create a lock
+
     def handle_future(self, future):
         try:
             result = future.result()
             self.prompts.append(result)
-            self.save_prompts_to_json("results.json")
+            complete_filename = self.base_filename + "results.json"
+            with self.lock:  # acquire the lock before writing to the file
+                self.save_prompts_to_json(complete_filename)
         except Exception as e:
             error_report = {"error": str(e), "traceback": traceback.format_exc()}
             self.prompts.append(error_report)
-            self.save_prompts_to_json("error_reports.json")
+            complete_filename = self.base_filename + "errors.json"
+            with self.lock:  # acquire the lock before writing to the file
+                self.save_prompts_to_json(complete_filename)
     
     def generate_prompts(self):
         for subject in self.subjects:
@@ -353,3 +361,4 @@ class PerspectivePromptGenerator:
     def save_prompts_to_json(self, filename):
         with open(filename, 'w') as f:
             json.dump(self.prompts, f)
+
