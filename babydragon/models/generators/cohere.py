@@ -29,4 +29,17 @@ def cohere_response(prompt: List[dict],model: str = "command", max_tokens: int =
 
         except:
               return None, False
+        
+
+def cohere_summarize(prompt: str, model: str = "summarize-xlarge", length: str = "medium", extractiveness: str = "medium", format: str = "bullets", additional_command: str = None) -> str:
+    response = co.summarize( 
+    text=prompt,model=model, 
+    length=length,
+    extractiveness=extractiveness,
+    format=format,
+    additional_command=additional_command
+    )
+
+    summary = response.summary
+    return summary
               
