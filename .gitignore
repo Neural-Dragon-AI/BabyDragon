@@ -23,3 +23,4 @@ outs/*
 *.faiss
 *.json
 *.arrow
+!babydragon/chat/prompts/perspective_prompts.jsons
