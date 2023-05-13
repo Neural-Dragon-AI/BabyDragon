@@ -249,7 +249,7 @@ def generate_perspective_prompt(user_subject, user_perspective, seed_model = "gp
     start = perf_counter()
     try:
         index = MemoryIndex(name="wiki_index", load=True, is_batched=True,embedder=CohereEmbedder)
-        if len(index.values>0):
+        if len(index.values)>0:
             loaded = True
         else:
             loaded = False
