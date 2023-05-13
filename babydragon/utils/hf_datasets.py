@@ -8,7 +8,6 @@ def concat_columns(example, index=None):
     column1='title'
     column2='text'
     example['merged_column'] = example[column1] +" - " + example[column2]
-    print("merging using separator: -  ")
     return example
 
 def extract_values_and_embeddings_hf(

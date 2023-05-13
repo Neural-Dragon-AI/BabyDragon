@@ -249,9 +249,17 @@ def generate_perspective_prompt(user_subject, user_perspective, seed_model = "gp
     start = perf_counter()
     try:
         index = MemoryIndex(name="wiki_index", load=True, is_batched=True,embedder=CohereEmbedder)
+        if len(index.values>0):
+            loaded = True
+        else:
+            loaded = False
     except:
+        print("Index loading failed, setting loaded to False")
+        loaded = False
+    if not loaded:
         print("Index not found, creating new index")
-        index = MemoryIndex.from_hf_dataset(dataset_url, ["title", "text"], "emb", name="wiki_index", is_batched=True,embedder=CohereEmbedder)
+
+        index = MemoryIndex.from_hf_dataset(dataset_url, ["title", "text"],embeddings_column= "emb", name="wiki_index", is_batched=True,embedder=CohereEmbedder)
     end = perf_counter()
     print("Time to index: ", end - start)
 
