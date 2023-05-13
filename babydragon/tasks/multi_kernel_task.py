@@ -19,6 +19,7 @@ class MultiKernelTask(BaseTask):
         child_kernel_label: str,
         system_prompt: str,
         clustering_method: str,
+        path_group: Dict[str, List[List[int]]],
         task_id: str = "MultiKernelTask",
         max_workers: int = 1,
         calls_per_minute: int = 20,
@@ -27,8 +28,12 @@ class MultiKernelTask(BaseTask):
         self.parent_kernel_label = parent_kernel_label
         self.child_kernel_label = child_kernel_label
         self.memory_kernel_dict = memory_kernel_dict
+        
         self._setup_memory_kernel_group()
-        self.generate_task_paths()
+        if path_group:
+            self.memory_kernel_group.path_group = path_group
+        else:
+            self.generate_task_paths()
         self.system_prompt = system_prompt
         self.chatbot = chatbot
         self.paths = self.memory_kernel_group.path_group[self.parent_kernel_label]
