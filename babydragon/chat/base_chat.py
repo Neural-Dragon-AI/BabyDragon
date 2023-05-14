@@ -43,6 +43,7 @@ class Prompter:
         self.prompt_func: Callable[[str], Tuple[List[str], str]] = self.one_shot_prompt
         self.user_defined_ids = []
         self.user_defined_values = []
+        self.use_user_defined_ids = False
 
     def set_default_prompts(self):
         self.system_prompt = DEFAULT_SYSTEM_PROMPT
