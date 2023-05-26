@@ -64,3 +64,4 @@ class PythonIndex(MemoryIndex, PythonParser):
             max_workers=max_workers,
             backup=backup,
         )
+        self.markdown = "python"

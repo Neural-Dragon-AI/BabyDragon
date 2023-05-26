@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Tuple, List
 
 import faiss
 import numpy as np
@@ -53,42 +53,35 @@ class VectorThread(BaseThread, MemoryIndex):
         max_tokens: int = 4000,
         reverse: bool = False,
         return_from_thread=True,
-    ):
+    ) -> Tuple[List[str], List[float], List[int]]:
         """returns the k most similar messages to the query, sorted in chronological order with the most recent message first
         if return_from_thread is True the messages are returned from the memory thread, otherwise they are returned from the index
         if reverse is True the messages are returned in reverse chronological order, with the oldest message first
         """
-        unsorted_messages, unsorted_scores, unsorted_indices = self.token_bound_query(
-            query, k, max_tokens=max_tokens
-        )
-        # sort the messages
+        unsorted_messages, unsorted_scores, unsorted_indices = self.token_bound_query(query, k, max_tokens=max_tokens)
 
-        sorted_messages = [
-            unsorted_messages[i]
-            for i in sorted(
-                range(len(unsorted_messages)), key=lambda k: unsorted_indices[k]
-            )
-        ]
-        sorted_scores = [
-            unsorted_scores[i]
-            for i in sorted(
-                range(len(unsorted_scores)), key=lambda k: unsorted_indices[k]
-            )
-        ]
-        sorted_indices = [
-            unsorted_indices[i]
-            for i in sorted(
-                range(len(unsorted_indices)), key=lambda k: unsorted_indices[k]
-            )
-        ]
+        num_results = min(len(unsorted_messages), len(unsorted_scores), len(unsorted_indices))
+        # unsorted_indices = [int(i) for i in unsorted_indices]  # convert numpy arrays to integers
+        unsorted_indices = [int(i) for sublist in unsorted_indices for i in sublist]
+
+        # Sort the indices
+        sorted_indices = sorted(range(num_results), key=lambda x: unsorted_indices[x])
+        
+        print(sorted_indices)
+        print(type(sorted_indices))
+
         if reverse:
-            sorted_messages.reverse()
-            sorted_scores.reverse()
             sorted_indices.reverse()
+
+        # Fetch the sorted messages, scores, and indices based on sorted_indices
+        sorted_messages = [unsorted_messages[i] for i in sorted_indices]
+        sorted_scores = [unsorted_scores[i] for i in sorted_indices]
+        sorted_indices = [unsorted_indices[i] for i in sorted_indices]
+
         if return_from_thread:
             sorted_messages = [self.memory_thread[i] for i in sorted_indices]
-        return sorted_messages, sorted_scores, sorted_indices
 
+        return sorted_messages, sorted_scores, sorted_indices
     def weighted_query(
         self,
         query,

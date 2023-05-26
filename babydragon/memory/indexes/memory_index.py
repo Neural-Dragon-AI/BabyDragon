@@ -139,6 +139,7 @@ class MemoryIndex:
         backup: bool = False,
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder,
         is_batched: bool = False,
+        markdown: str = "text/markdown",
     ):
 
         self.name = name
@@ -149,6 +150,7 @@ class MemoryIndex:
         self.embeddings = []
         self.max_workers = max_workers
         self.is_batched = is_batched
+        self.markdown = markdown
 
         if load is True:
             self.load()
@@ -281,6 +283,7 @@ class MemoryIndex:
         save_path: Optional[str] = None,
         in_place: bool = True,
         embeddings_col: Optional[str] = None,
+        markdown: str = "text/markdown",
     ) -> "MemoryIndex":
         """
         Initialize a MemoryIndex object from a pandas DataFrame.
@@ -320,7 +323,7 @@ class MemoryIndex:
         values, embeddings = extract_values_and_embeddings(
             data_frame, columns, embeddings_col
         )
-        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path)
+        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path,markdown=markdown)
 
     @classmethod
     def from_hf_dataset(
@@ -332,6 +335,7 @@ class MemoryIndex:
         save_path: Optional[str] = None,
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= CohereEmbedder,
         is_batched: bool = False,
+        markdown: str = "text/markdown"
     ) -> "MemoryIndex":
         """
         Initialize a MemoryIndex object from a Hugging Face dataset.
@@ -358,7 +362,7 @@ class MemoryIndex:
             raise ValueError(
                 "The dataset is not a valid Hugging Face dataset or the columns are not valid"
             )
-        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path, embedder=embedder, is_batched=is_batched)
+        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path, embedder=embedder, is_batched=is_batched, markdown=markdown)
 
     def add_to_index(
         self,

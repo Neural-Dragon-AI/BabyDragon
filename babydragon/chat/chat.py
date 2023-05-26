@@ -28,9 +28,15 @@ class Chat(BaseChat, Prompter):
         self.index_dict = index_dict
         self.setup_indices(max_index_memory)
         self.name = name
+    
+    def add_user_defined_ids(self, id_dict: Dict[str, list]):
+        self.user_defined_ids.append(id_dict)
+        self.use_user_defined_ids = True
+        self.setup_index_prompts()
+
 
     def setup_index_prompts(self):
-        if self.current_index is not None:
+        if self.current_index is not None or self.use_user_defined_ids:
             print("Index is available so using index prompts")
             self.system_prompt = (
                 INDEX_SYSTEM_PROMPT 
@@ -78,7 +84,14 @@ class Chat(BaseChat, Prompter):
         if max_tokens is None:
             max_tokens = self.max_index_memory
         hints = []
-        if self.current_index is not None:
+        if self.use_user_defined_ids is True:
+            user_defined_id = self.user_defined_ids[-1]
+            for index, ids in user_defined_id.items():
+                for i in ids:
+                    hints.append(self.index_dict[index].values[i])
+            self.use_user_defined_ids = False
+            self.setup_index_prompts()
+        elif self.current_index is not None:
             index_instance = self.index_dict[self.current_index]
             if isinstance(index_instance, MemoryIndex):
                 hints, _, _ = index_instance.token_bound_query(
@@ -86,14 +99,15 @@ class Chat(BaseChat, Prompter):
                 )
             else:
                 raise ValueError("The current index is not a valid index instance.")
+        if len(hints) == 0:
+            return question
+        else:
             hints_string = "\n".join(hints)
             hint_prompt = INDEX_HINT_PROMPT
             question_intro = QUESTION_INTRO
             return hint_prompt.format(
                 hints_string=hints_string
             ) + question_intro.format(question=question)
-        else:
-            return question
 
     def set_current_index(self, index_name: Optional[str]) -> None:
         """
