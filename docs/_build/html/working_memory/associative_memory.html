@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>associative_memory &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html">embedding_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/todo/python_thread.html">python_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/multi_index.html">multi_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/prompts/default_prompts.html">default_prompts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/sbert.html">sbert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">associative_memory</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/working_memory/associative_memory.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="associative-memory">
+<h1>associative_memory<a class="headerlink" href="#associative-memory" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

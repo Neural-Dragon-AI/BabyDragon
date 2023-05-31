@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas_index &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="youtube_index" href="todo/youtube_index.html" />
+    <link rel="prev" title="memory_index" href="memory_index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory_index.html">memory_index</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pandas_index</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/memory/indexes/pandas_index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pandas-index">
+<h1>pandas_index<a class="headerlink" href="#pandas-index" title="Permalink to this heading"></a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PandasIndex</span><span class="p">(</span><span class="n">MemoryIndex</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to create an index of a pandas DataFrame, allowing querying on specified columns.</span>
+<span class="sd">    Inherits from MemoryIndex class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+        <span class="n">row_func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;pandas_index&quot;</span><span class="p">,</span>
+        <span class="n">columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">load</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a PandasIndex object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            df: A pandas DataFrame to index.</span>
+<span class="sd">            row_func: An optional function to process rows before adding them to the index.</span>
+<span class="sd">            columns: An optional list of column names to index. By default, it will index all string columns and columns containing lists with a single string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">row_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">row_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">row_func</span> <span class="o">=</span> <span class="n">row_func</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
+        <span class="n">MemoryIndex</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">load</span><span class="o">=</span><span class="n">load</span>
+        <span class="p">)</span>  <span class="c1"># Initialize the parent MemoryIndex class</span>
+
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_to_index</span><span class="p">(</span><span class="n">row_func</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MemoryIndex</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Set up columns during initialization</span>
+        <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setup_columns</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setup_columns</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">executed_tasks</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">setup_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set up columns for indexing.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            columns: An optional list of column names to index. By default, it will index all string columns and columns containing lists with a single string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Use string columns or columns with lists containing a single string by default</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">MemoryIndex</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">query_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Query the indexed columns of the DataFrame.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            query: The search query as a string.</span>
+<span class="sd">            columns: A list of column names to query.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of tuples containing the matched value and its similarity score.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">faiss_query</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&#39; not found in PandaDb columns dictionary.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span>
+
+    <span class="k">def</span> <span class="nf">add_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a row to the DataFrame and update the row and column indexes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            row: A pandas Series representing the row to add.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">row_func</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">add_to_index</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">remove_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove a row from the DataFrame and update the row and column indexes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index: The index of the row to remove.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_from_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">remove_from_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Index </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> is out of bounds for DataFrame with length </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">rows_from_value</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">column</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return all rows of the DataFrame that have a particular value in the row index or a column index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value: The value to search for in the DataFrame.</span>
+<span class="sd">            column: The name of the column to search in. If None, search in the row index.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A pandas DataFrame containing the rows with the specified value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">column</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="n">value</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&#39; not found in the DataFrame.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">apply_llmtask</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">path</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+        <span class="n">chatbot</span><span class="p">:</span> <span class="n">Chat</span><span class="p">,</span>
+        <span class="n">task_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">write_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">columns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_workers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">calls_per_minute</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply a writing task to the specified columns or the main index, and create new modified indexes and a corresponding DataFrame with new values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            write_task: An instance of a writing task (subclass of BaseTask).</span>
+<span class="sd">            columns: A list of column names to apply the writing task to, or None (default) to apply the task to the main index.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A pandas DataFrame containing the modified values in the specified columns or a new column with the modified values of the main index.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">modified_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">task_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">task_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">task_name</span> <span class="o">=</span> <span class="s2">&quot;llm_task&quot;</span>
+        <span class="k">elif</span> <span class="n">task_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">task_name</span> <span class="o">=</span> <span class="n">task_id</span>
+
+        <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Apply the writing task to the main index</span>
+            <span class="n">write_index</span> <span class="o">=</span> <span class="bp">self</span>
+            <span class="n">write_task</span> <span class="o">=</span> <span class="n">LLMWriter</span><span class="p">(</span>
+                <span class="n">write_index</span><span class="p">,</span>
+                <span class="n">path</span><span class="p">,</span>
+                <span class="n">chatbot</span><span class="p">,</span>
+                <span class="n">task_name</span><span class="o">=</span><span class="n">task_name</span><span class="p">,</span>
+                <span class="n">write_func</span><span class="o">=</span><span class="n">write_func</span><span class="p">,</span>
+                <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span>
+                <span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span>
+                <span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">,</span>
+                <span class="n">calls_per_minute</span><span class="o">=</span><span class="n">calls_per_minute</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">new_index</span> <span class="o">=</span> <span class="n">write_task</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+
+            <span class="c1"># Create a mapping of old values to new values</span>
+            <span class="n">old_to_new_values</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">new_index</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+
+            <span class="c1"># Update the row values in the modified DataFrame</span>
+            <span class="n">modified_df</span><span class="p">[</span><span class="s2">&quot;new_column&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">modified_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">old_to_new_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">row_func</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">row_func</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                <span class="p">),</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Iterate over the specified columns</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="c1"># Apply the writing task to the column</span>
+                    <span class="n">write_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+                    <span class="n">write_task</span> <span class="o">=</span> <span class="n">LLMWriter</span><span class="p">(</span>
+                        <span class="n">write_index</span><span class="p">,</span>
+                        <span class="n">path</span><span class="p">,</span>
+                        <span class="n">chatbot</span><span class="p">,</span>
+                        <span class="n">write_func</span><span class="o">=</span><span class="n">write_func</span><span class="p">,</span>
+                        <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span>
+                        <span class="n">task_id</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span>
+                        <span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">,</span>
+                        <span class="n">calls_per_minute</span><span class="o">=</span><span class="n">calls_per_minute</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">new_index</span> <span class="o">=</span> <span class="n">write_task</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+
+                    <span class="c1"># Create a mapping of old values to new values</span>
+                    <span class="n">old_to_new_values</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                        <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">new_index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># Update the column values in the modified DataFrame</span>
+                    <span class="n">modified_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">modified_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">old_to_new_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                    <span class="c1"># Update the column&#39;s MemoryIndex</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_index</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&#39; not found in PandasIndex columns dictionary.&quot;</span>
+                    <span class="p">)</span>
+        <span class="c1"># remove context from the write_task to avoid memory leak</span>
+        <span class="n">write_task</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">executed_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;task&quot;</span><span class="p">:</span> <span class="n">write_task</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">:</span> <span class="n">modified_df</span><span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">modified_df</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="memory_index.html" class="btn btn-neutral float-left" title="memory_index" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="todo/youtube_index.html" class="btn btn-neutral float-right" title="youtube_index" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

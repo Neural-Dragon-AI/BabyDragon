@@ -1,0 +1,5 @@
+pandas
+======
+
+.. automodule:: pandas
+   :members:

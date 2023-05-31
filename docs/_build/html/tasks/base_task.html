@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>base_task &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="topic_tree_task" href="topic_tree_task.html" />
+    <link rel="prev" title="multi_kernel_task" href="multi_kernel_task.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">base_task</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tasks/base_task.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="base-task">
+<h1>base_task<a class="headerlink" href="#base-task" title="Permalink to this heading"></a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseTask</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">path</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+        <span class="n">max_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">task_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;task&quot;</span><span class="p">,</span>
+        <span class="n">calls_per_minute</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="n">backup</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">save_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_id</span> <span class="o">=</span> <span class="n">task_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_workers</span> <span class="o">=</span> <span class="n">max_workers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parallel</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">max_workers</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rate_limiter</span> <span class="o">=</span> <span class="n">RateLimiter</span><span class="p">(</span><span class="n">calls_per_minute</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">failed_sub_tasks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backup</span> <span class="o">=</span> <span class="n">backup</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;setting up savepath&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span> <span class="o">=</span> <span class="n">save_path</span> <span class="k">if</span> <span class="n">save_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;storage&quot;</span><span class="p">,</span> <span class="s2">&quot;tasks&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_save_results_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task_id</span><span class="si">}</span><span class="s2">_results.json&quot;</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_load_results_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task_id</span><span class="si">}</span><span class="s2">_results.json&quot;</span><span class="p">)):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task_id</span><span class="si">}</span><span class="s2">_results.json&quot;</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">)</span><span class="si">}</span><span class="s2"> results from file.&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error loading results from file: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Starting from scratch.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No results file found, starting from scratch.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_execute_sub_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sub_path</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">sub_results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sub_path</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Implement the response function in the subclass&quot;</span>
+            <span class="n">sub_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sub_results</span>
+
+    <span class="k">def</span> <span class="nf">execute_task</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backup</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load_results_from_file</span><span class="p">()</span>
+
+        <span class="k">with</span> <span class="n">RateLimitedThreadPoolExecutor</span><span class="p">(</span>
+            <span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_workers</span><span class="p">,</span>
+            <span class="n">calls_per_minute</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rate_limiter</span><span class="o">.</span><span class="n">calls_per_minute</span><span class="p">,</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+            <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Executing task </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task_id</span><span class="si">}</span><span class="s2"> using </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_workers</span><span class="si">}</span><span class="s2"> workers.&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sub_path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">):</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_execute_sub_task</span><span class="p">,</span> <span class="n">sub_path</span><span class="p">)</span>
+                    <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">future</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">execution_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                    <span class="n">sub_task_result</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+                    <span class="n">execution_end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Sub-task </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> executed in </span><span class="si">{</span><span class="n">execution_end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">execution_start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span>
+                    <span class="p">)</span>
+
+                    <span class="n">save_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_task_result</span><span class="p">)</span>
+                    <span class="c1"># self.results.append(sub_task_result)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backup</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_save_results_to_file</span><span class="p">()</span>
+                    <span class="n">save_end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Sub-task </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> results saved in </span><span class="si">{</span><span class="n">save_end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">save_start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds.&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in sub-task </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="c1"># default_result = f&quot;Error in sub-task {i}: {e}&quot;</span>
+                    <span class="n">default_result</span> <span class="o">=</span>  <span class="p">{</span><span class="n">i</span><span class="p">:</span><span class="sa">f</span><span class="s2">&quot;Error in sub-task </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_result</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backup</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_save_results_to_file</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">failed_sub_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+
+                <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Keyboard interrupt detected, stopping task execution.&quot;</span><span class="p">)</span>
+                    <span class="n">executor</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="k">break</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Task execution completed.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">work</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute_task</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">backup</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save_results_to_file</span><span class="p">()</span>
+        <span class="n">work</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sub_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">index_id</span><span class="p">,</span> <span class="n">response</span> <span class="ow">in</span> <span class="n">sub_result</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">work</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">index_id</span><span class="p">,</span> <span class="n">response</span><span class="p">))</span>
+        <span class="c1"># sort the content to write by index_id</span>
+        <span class="n">work</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">work</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="multi_kernel_task.html" class="btn btn-neutral float-left" title="multi_kernel_task" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="topic_tree_task.html" class="btn btn-neutral float-right" title="topic_tree_task" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

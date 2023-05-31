@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>memory_kernel &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="kernel_clustering" href="kernel_clustering.html" />
+    <link rel="prev" title="embedding_task" href="../../tasks/embedding_task.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">memory_kernel</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/memory/kernels/memory_kernel.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="memory-kernel">
+<h1>memory_kernel<a class="headerlink" href="#memory-kernel" title="Permalink to this heading"></a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MemoryKernel</span><span class="p">(</span><span class="n">MemoryIndex</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">mem_index</span><span class="p">:</span> <span class="n">MemoryIndex</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;memory_kernel&quot;</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">save_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the MemoryKernel with a MemoryIndex instance, a name, k value, and save path.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mem_index (MemoryIndex): A MemoryIndex instance.</span>
+<span class="sd">            name (str, optional): The name of the MemoryKernel. Defaults to &quot;memory_kernel&quot;.</span>
+<span class="sd">            k (int, optional): The number of hops for message passing. Defaults to 2.</span>
+<span class="sd">            save_path (str, optional): The path to save the MemoryKernel. Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">index</span><span class="o">=</span><span class="n">mem_index</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+            <span class="n">values</span><span class="o">=</span><span class="n">mem_index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+            <span class="n">embeddings</span><span class="o">=</span><span class="n">mem_index</span><span class="o">.</span><span class="n">embeddings</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">save_path</span><span class="o">=</span><span class="n">save_path</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_k_hop_index</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input MemoryIndex is empty. Please check the input MemoryIndex.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">cos_sim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the cosine similarity cos_sim(a[i], b[j]) for all i and j.</span>
+<span class="sd">        :return: Matrix with res[i][j]  = cos_sim(a[i], b[j])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="n">a_norm</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">b_norm</span> <span class="o">=</span> <span class="n">b</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a_norm</span><span class="p">,</span> <span class="n">b_norm</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">compute_kernel</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">embedding_set</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.65</span><span class="p">,</span>
+        <span class="n">use_softmax</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the adjacency matrix of the graph.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        embedding_set (numpy array): The embedding matrix of the nodes.</span>
+<span class="sd">        threshold (float): The threshold for the adjacency matrix.</span>
+<span class="sd">        use_softmax (bool): Whether to use softmax to compute the adjacency matrix.</span>
+<span class="sd">        cos_sim_batch (bool): Whether to use batch processing to compute the cosine similarity.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        adj_matrix (numpy array): The adjacency matrix of the graph.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cos_sim</span><span class="p">(</span><span class="n">embedding_set</span><span class="p">,</span> <span class="n">embedding_set</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">use_softmax</span><span class="p">:</span>
+            <span class="c1"># softmax</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">A</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="n">adj_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+        <span class="n">adj_matrix</span><span class="p">[</span><span class="n">A</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">adj_matrix</span><span class="p">[</span><span class="n">A</span> <span class="o">&lt;=</span> <span class="n">threshold</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">adj_matrix</span> <span class="o">=</span> <span class="n">adj_matrix</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">adj_matrix</span>
+
+    <span class="k">def</span> <span class="nf">k_hop_message_passing</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">node_features</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the k-hop adjacency matrix and aggregated features using message passing.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        A (numpy array): The adjacency matrix of the graph.</span>
+<span class="sd">        node_features (numpy array): The feature matrix of the nodes.</span>
+<span class="sd">        k (int): The number of hops for message passing.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        A_k (numpy array): The k-hop adjacency matrix.</span>
+<span class="sd">        agg_features (numpy array): The aggregated feature matrix for each node in the k-hop neighborhood.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Compute the k-hop adjacency matrix&quot;</span><span class="p">)</span>
+        <span class="n">A_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_power</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Aggregate the messages from the k-hop neighborhood:&quot;</span><span class="p">)</span>
+        <span class="n">agg_features</span> <span class="o">=</span> <span class="n">node_features</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span>
+            <span class="n">agg_features</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_power</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">node_features</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">A_k</span><span class="p">,</span> <span class="n">agg_features</span>
+
+    <span class="k">def</span> <span class="nf">graph_sylvester_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">G</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ts</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the spectral kernel descriptor or the Spectral Graph Wavelet descriptor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            G (Tuple): A tuple containing the graph&#39;s vertices (V) and weights (W).</span>
+<span class="sd">            m (int): The number of singular values to consider.</span>
+<span class="sd">            ts (np.ndarray): The spectral scales.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: The node_embeddings matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">V</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">G</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+        <span class="n">D_BE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">L_BE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D_BE</span><span class="o">.</span><span class="n">diagonal</span><span class="p">())),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D_BE</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()))),</span>
+        <span class="p">)</span>
+
+        <span class="n">A</span> <span class="o">=</span> <span class="n">W</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">L_BE</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">solve_sylvester</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+
+        <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">svd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">U_m</span> <span class="o">=</span> <span class="n">U</span><span class="p">[:,</span> <span class="p">:</span><span class="n">m</span><span class="p">]</span>
+        <span class="n">S_m</span> <span class="o">=</span> <span class="n">S</span><span class="p">[:</span><span class="n">m</span><span class="p">]</span>
+
+        <span class="n">node_embeddings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+                <span class="c1"># Spectral kernel descriptor</span>
+                <span class="n">node_embeddings</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">ts</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">*</span> <span class="n">S_m</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="o">*</span> <span class="n">U_m</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">node_embeddings</span>
+
+    <span class="k">def</span> <span class="nf">gen_gse_embeddings</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate Graph Sylvester Embeddings.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            A (np.ndarray): The adjacency matrix of the graph.</span>
+<span class="sd">            embeddings (np.ndarray): The original node embeddings.</span>
+<span class="sd">            m (int, optional): The number of spectral scales. Defaults to 7.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: The generated Graph Sylvester Embeddings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)))</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">A</span>
+
+        <span class="n">G</span> <span class="o">=</span> <span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>  <span class="c1"># equally spaced scales</span>
+
+        <span class="n">gse_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_sylvester_embedding</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">ts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gse_embeddings</span>
+
+    <span class="k">def</span> <span class="nf">create_k_hop_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a k-hop index by computing the adjacency matrix, k-hop adjacency matrix,</span>
+<span class="sd">        aggregated features, and updating the memory index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            k (int, optional): The number of hops for message passing. Defaults to 2.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing the adjacency matrix&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Embeddings shape: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">embeddings</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_kernel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">use_softmax</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing the k-hop adjacency matrix and aggregated features&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A_k</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_hop_message_passing</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">k</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Updating the memory index&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k_hop_index</span> <span class="o">=</span> <span class="n">MemoryIndex</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k_hop_index</span><span class="o">.</span><span class="n">init_index</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">embeddings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">node_embeddings</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_task_results</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">task_memory_index</span><span class="p">):</span>
+        <span class="n">new_memory_kernel</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">mem_index</span><span class="o">=</span><span class="n">task_memory_index</span><span class="p">)</span>
+
+        <span class="c1"># Create a new index for the new MemoryKernel</span>
+        <span class="n">new_memory_kernel</span><span class="o">.</span><span class="n">create_k_hop_index</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">new_memory_kernel</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../tasks/embedding_task.html" class="btn btn-neutral float-left" title="embedding_task" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="kernel_clustering.html" class="btn btn-neutral float-right" title="kernel_clustering" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

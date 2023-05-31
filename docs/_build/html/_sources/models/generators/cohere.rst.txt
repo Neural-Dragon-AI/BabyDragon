@@ -1,0 +1,5 @@
+cohere
+======
+
+.. automodule:: cohere
+   :members:
