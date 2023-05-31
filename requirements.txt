@@ -15,3 +15,7 @@ scipy
 sentence-transformers
 tiktoken
 torch
+datasets
+cohere
+sphinx
+sphintx_rtd_theme
