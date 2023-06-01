@@ -28,3 +28,8 @@ PerspectivePromptGenerator
 .. autoclass:: babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator
     :members:
 
+generate_perspective_prompt
+===========================
+
+.. autofunction:: babydragon.apps.auto_perspective.perspective.generate_perspective_prompt
+

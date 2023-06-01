@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>babydragon.memory.kernels.kernel_utils &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">babydragon.tasks.llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html#llmreader">LLMReader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html#llmwriter">LLMWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">babydragon.tasks.multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html#multikerneltask">MultiKernelTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">babydragon.tasks.base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html#basetask">BaseTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">babydragon.tasks.topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html#topictreetask">TopicTreeTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">babydragon.tasks.embedding_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html#embeddingtask">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">babydragon.memory.kernels.memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html#memorykernel">MemoryKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">babydragon.memory.kernels.kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#clusterpaths">ClusterPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">babydragon.memory.kernels.multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#multikernel">MultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">babydragon.memory.kernels.multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html#multikernelvisualization">MultiKernelVisualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">babydragon.memory.kernels.kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html#calc-shgo-mode">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">babydragon.memory.threads.base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html#basethread">BaseThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">babydragon.memory.threads.fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html#fifothread">FifoThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">babydragon.memory.threads.vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html#vectorthread">VectorThread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html">babydragon.memory.indexes.python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html#pythonindex">PythonIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">babydragon.memory.indexes.memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#memoryindex">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#prune-index">prune_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#prune-by-regex">_prune_by_regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#prune-by-length">_prune_by_length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#save">save</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#load">load</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">babydragon.memory.indexes.pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html#pandasindex">PandasIndex</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">babydragon.chat.base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html#prompter">Prompter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html#basechat">BaseChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">babydragon.chat.memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#fifochat">FifoChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#vectorchat">VectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#fifovectorchat">FifoVectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">babydragon.chat.chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html#chat">Chat</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">babydragon.utils.pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html#extract-values-and-embeddings">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">babydragon.utils.hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html#concat-columns">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">babydragon.utils.chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#convert-mark-to-str-prompt">convert_mark_to_str_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#mark-system">mark_system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#mark-answer">mark_answer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#mark-question">mark_question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#check-dict">check_dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#get-mark-from-response">get_mark_from_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#get-str-from-response">get_str_from_response</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">babydragon.models.embedders.ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html#openaiembedder">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html#parse-and-embed-functions">parse_and_embed_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html#avg-embeddings">avg_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">babydragon.models.embedders.cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html#cohereembedder">CohereEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">babydragon.models.embedders.sbert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html#sbertembedder">SBERTEmbedder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">babydragon.models.generators.cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html#cohere-response">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">babydragon.models.generators.chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html#chatgpt-response">chatgpt_response</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">babydragon.processors.github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html#githubprocessor">GithubProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">babydragon.processors.os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html#osprocessor">OsProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">babydragon.processors.parsers.git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html#issueparser">IssueParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html#commitparser">CommitParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">babydragon.processors.parsers.visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#functioncallfinder">FunctionCallFinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#multiplicationcountervisitor">MultiplicationCounterVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#typingcollector">TypingCollector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">babydragon.processors.parsers.python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythonminifier">PythonMinifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythondocstringextractor">PythonDocstringExtractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythonparser">PythonParser</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">babydragon.apps.auto_perspective.perspective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#subjectperspectiveanalyzer">SubjectPerspectiveAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideation">Ideation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">babydragon.memory.kernels.kernel_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for babydragon.memory.kernels.kernel_utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">cosine</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KernelDensity</span>
+
+
+<div class="viewcode-block" id="calc_shgo_mode"><a class="viewcode-back" href="../../../../memory/kernels/kernel_utils.html#babydragon.memory.kernels.kernel_utils.calc_shgo_mode">[docs]</a><span class="k">def</span> <span class="nf">calc_shgo_mode</span><span class="p">(</span><span class="n">scores</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">estimate_pdf</span><span class="p">(</span><span class="n">scores</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">bounds</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">min</span><span class="p">(</span><span class="n">scores</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">scores</span><span class="p">))]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">shgo</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">bounds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span></div>
+
+
+<div class="viewcode-block" id="estimate_pdf"><a class="viewcode-back" href="../../../../memory/kernels/kernel_utils.html#babydragon.memory.kernels.kernel_utils.estimate_pdf">[docs]</a><span class="k">def</span> <span class="nf">estimate_pdf</span><span class="p">(</span><span class="n">scores</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">callable</span><span class="p">:</span>
+    <span class="n">pdf</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">gaussian_kde</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pdf</span></div>
+
+
+<div class="viewcode-block" id="sort_paths_by_mode_distance"><a class="viewcode-back" href="../../../../memory/kernels/kernel_utils.html#babydragon.memory.kernels.kernel_utils.sort_paths_by_mode_distance">[docs]</a><span class="k">def</span> <span class="nf">sort_paths_by_mode_distance</span><span class="p">(</span>
+    <span class="n">paths</span><span class="p">,</span> <span class="n">memory_kernel</span><span class="p">,</span> <span class="n">distance_metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cosine&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+    <span class="n">sorted_paths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+        <span class="n">cluster_embeddings</span> <span class="o">=</span> <span class="p">[</span><span class="n">memory_kernel</span><span class="o">.</span><span class="n">node_embeddings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">path</span><span class="p">]</span>
+        <span class="n">cluster_embeddings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cluster_embeddings</span><span class="p">)</span>
+        <span class="n">cluster_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cluster_embeddings</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">distance_metric</span> <span class="o">==</span> <span class="s2">&quot;cosine&quot;</span> <span class="ow">or</span> <span class="n">distance_metric</span> <span class="o">==</span> <span class="s2">&quot;guassian&quot;</span><span class="p">:</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cosine</span><span class="p">(</span><span class="n">cluster_mean</span><span class="p">,</span> <span class="n">emb</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">emb</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">cluster_embeddings</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="k">elif</span> <span class="n">distance_metric</span> <span class="o">==</span> <span class="s2">&quot;euclidean&quot;</span><span class="p">:</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cluster_mean</span> <span class="o">-</span> <span class="n">emb</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">emb</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">cluster_embeddings</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="n">score_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">]</span>  <span class="c1"># Extract score values</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">calc_shgo_mode</span><span class="p">(</span><span class="n">score_values</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">score_values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">distance_metric</span> <span class="o">==</span> <span class="s2">&quot;guassian&quot;</span><span class="p">:</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scores</span>
+            <span class="p">]</span>
+        <span class="c1"># Sort path by score</span>
+        <span class="n">sorted_path_and_scores</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">sorted_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sorted_path_and_scores</span><span class="p">]</span>
+        <span class="n">sorted_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sorted_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sorted_paths</span></div>
+
+
+<div class="viewcode-block" id="sort_paths_by_kernel_density"><a class="viewcode-back" href="../../../../memory/kernels/kernel_utils.html#babydragon.memory.kernels.kernel_utils.sort_paths_by_kernel_density">[docs]</a><span class="k">def</span> <span class="nf">sort_paths_by_kernel_density</span><span class="p">(</span>
+    <span class="n">paths</span><span class="p">,</span> <span class="n">memory_kernel</span><span class="p">,</span> <span class="n">distance_metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cosine&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+    <span class="n">sorted_paths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+        <span class="n">cluster_embeddings</span> <span class="o">=</span> <span class="p">[</span><span class="n">memory_kernel</span><span class="o">.</span><span class="n">node_embeddings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">path</span><span class="p">]</span>
+        <span class="n">cluster_embeddings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cluster_embeddings</span><span class="p">)</span>
+        <span class="n">cluster_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cluster_embeddings</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">distance_metric</span> <span class="o">==</span> <span class="s2">&quot;cosine&quot;</span><span class="p">:</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cosine</span><span class="p">(</span><span class="n">cluster_mean</span><span class="p">,</span> <span class="n">emb</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">emb</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">cluster_embeddings</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="k">elif</span> <span class="n">distance_metric</span> <span class="o">==</span> <span class="s2">&quot;euclidean&quot;</span><span class="p">:</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cluster_mean</span> <span class="o">-</span> <span class="n">emb</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">emb</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">cluster_embeddings</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="n">score_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">score</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">]</span>  <span class="c1"># Extract score values</span>
+
+        <span class="c1"># Estimate PDF using Kernel Density Estimation</span>
+        <span class="n">kde</span> <span class="o">=</span> <span class="n">KernelDensity</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;gaussian&quot;</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">score_values</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">kde_scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">kde</span><span class="o">.</span><span class="n">score_samples</span><span class="p">([[</span><span class="n">x</span><span class="p">]])[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">]</span>
+
+        <span class="c1"># Sort path by score</span>
+        <span class="n">sorted_path_and_scores</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="nb">zip</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">kde_scores</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="n">sorted_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sorted_path_and_scores</span><span class="p">]</span>
+        <span class="n">sorted_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sorted_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sorted_paths</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

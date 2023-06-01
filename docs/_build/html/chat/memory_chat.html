@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tasks/base_task.html">BaseTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tasks/topic_tree_task.html">TopicTreeTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
@@ -65,7 +66,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
@@ -75,7 +79,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/python_index.html">PythonIndex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-index">prune_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-by-regex">_prune_by_regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-by-length">_prune_by_length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#save">save</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#load">load</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
@@ -84,26 +94,35 @@
 <li class="toctree-l1"><a class="reference internal" href="base_chat.html#basechat">BaseChat</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">FifoChat</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoChat"><code class="docutils literal notranslate"><span class="pre">FifoChat</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoChat.__init__"><code class="docutils literal notranslate"><span class="pre">FifoChat.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoChat.fifo_memory_prompt"><code class="docutils literal notranslate"><span class="pre">FifoChat.fifo_memory_prompt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoChat.query"><code class="docutils literal notranslate"><span class="pre">FifoChat.query()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoChat.__annotations__"><code class="docutils literal notranslate"><span class="pre">FifoChat.__annotations__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoChat.__module__"><code class="docutils literal notranslate"><span class="pre">FifoChat.__module__</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#vectorchat">VectorChat</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.chat.memory_chat.VectorChat"><code class="docutils literal notranslate"><span class="pre">VectorChat</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.VectorChat.__init__"><code class="docutils literal notranslate"><span class="pre">VectorChat.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.VectorChat.vector_memory_prompt"><code class="docutils literal notranslate"><span class="pre">VectorChat.vector_memory_prompt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.VectorChat.weighted_memory_prompt"><code class="docutils literal notranslate"><span class="pre">VectorChat.weighted_memory_prompt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.VectorChat.query"><code class="docutils literal notranslate"><span class="pre">VectorChat.query()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.VectorChat.__annotations__"><code class="docutils literal notranslate"><span class="pre">VectorChat.__annotations__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.VectorChat.__module__"><code class="docutils literal notranslate"><span class="pre">VectorChat.__module__</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#fifovectorchat">FifoVectorChat</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoVectorChat"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoVectorChat.__init__"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoVectorChat.setup_longterm_memory"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat.setup_longterm_memory()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoVectorChat.fifovector_memory_prompt"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat.fifovector_memory_prompt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoVectorChat.query"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat.query()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoVectorChat.__annotations__"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat.__annotations__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoVectorChat.__module__"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat.__module__</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -112,20 +131,31 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">hf_datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">convert_mark_to_str_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-system">mark_system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-answer">mark_answer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-question">mark_question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#check-dict">check_dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#get-mark-from-response">get_mark_from_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#get-str-from-response">get_str_from_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html#parse-and-embed-functions">parse_and_embed_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html#avg-embeddings">avg_embeddings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/cohere.html">CohereEmbedder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul>
@@ -149,6 +179,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
 </ul>
 
         </div>
@@ -180,7 +211,8 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoChat">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.chat.memory_chat.</span></span><span class="sig-name descname"><span class="pre">FifoChat</span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoChat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoChat" title="Permalink to this definition"></a></dt>
-<dd><p>A chatbot class that combines FIFO Memory Thread, BaseChat, and Prompter. The oldest messages are removed first
+<dd><p>Bases: <a class="reference internal" href="../memory/threads/fifo_thread.html#babydragon.memory.threads.fifo_thread.FifoThread" title="babydragon.memory.threads.fifo_thread.FifoThread"><code class="xref py py-class docutils literal notranslate"><span class="pre">FifoThread</span></code></a>, <a class="reference internal" href="chat.html#babydragon.chat.chat.Chat" title="babydragon.chat.chat.Chat"><code class="xref py py-class docutils literal notranslate"><span class="pre">Chat</span></code></a></p>
+<p>A chatbot class that combines FIFO Memory Thread, BaseChat, and Prompter. The oldest messages are removed first
 when reaching the max_memory limit. The memory is defined in terms of tokens, and outs are passed to the
 longterm_memory. The lucid_memory is a redundant memory that stores all the messages.</p>
 <dl class="field-list simple">
@@ -198,6 +230,31 @@ longterm_memory. The lucid_memory is a redundant memory that stores all the mess
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoChat.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fifo_memory'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_index_memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_fifo_memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2048</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_output_tokens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longterm_thread</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoChat.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoChat.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the BaseThread instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the memory thread. Defaults to ‘memory’.</p></li>
+<li><p><strong>max_memory</strong> – The maximum number of tokens allowed in the memory thread.
+Defaults to None, which means no limit.</p></li>
+<li><p><strong>tokenizer</strong> – The tokenizer to be used for tokenizing messages.
+Defaults to None, which means using the tiktoken encoding for the ‘gpt-3.5-turbo’ model.</p></li>
+<li><p><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>index_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="../memory/indexes/pandas_index.html#babydragon.memory.indexes.pandas_index.PandasIndex" title="babydragon.memory.indexes.pandas_index.PandasIndex"><em>PandasIndex</em></a><em> | </em><a class="reference internal" href="../memory/indexes/memory_index.html#babydragon.memory.indexes.memory_index.MemoryIndex" title="babydragon.memory.indexes.memory_index.MemoryIndex"><em>MemoryIndex</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
+<li><p><strong>system_prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>user_prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>max_index_memory</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>max_fifo_memory</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>max_output_tokens</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>longterm_thread</strong> (<a class="reference internal" href="../memory/threads/base_thread.html#babydragon.memory.threads.base_thread.BaseThread" title="babydragon.memory.threads.base_thread.BaseThread"><em>BaseThread</em></a><em> | </em><em>None</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoChat.fifo_memory_prompt">
 <span class="sig-name descname"><span class="pre">fifo_memory_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoChat.fifo_memory_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoChat.fifo_memory_prompt" title="Permalink to this definition"></a></dt>
@@ -236,6 +293,16 @@ and added to the memory.</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoChat.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#babydragon.chat.memory_chat.FifoChat.__annotations__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoChat.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.chat.memory_chat'</span></em><a class="headerlink" href="#babydragon.chat.memory_chat.FifoChat.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -244,7 +311,8 @@ and added to the memory.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.chat.memory_chat.VectorChat">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.chat.memory_chat.</span></span><span class="sig-name descname"><span class="pre">VectorChat</span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#VectorChat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.VectorChat" title="Permalink to this definition"></a></dt>
-<dd><p>A chatbot class that combines Vector Memory Thread, BaseChat, and Prompter. Memory prompt is constructed by
+<dd><p>Bases: <a class="reference internal" href="../memory/threads/vector_thread.html#babydragon.memory.threads.vector_thread.VectorThread" title="babydragon.memory.threads.vector_thread.VectorThread"><code class="xref py py-class docutils literal notranslate"><span class="pre">VectorThread</span></code></a>, <a class="reference internal" href="chat.html#babydragon.chat.chat.Chat" title="babydragon.chat.chat.Chat"><code class="xref py py-class docutils literal notranslate"><span class="pre">Chat</span></code></a></p>
+<p>A chatbot class that combines Vector Memory Thread, BaseChat, and Prompter. Memory prompt is constructed by
 filling the memory with the k most similar messages to the question until the max prompt memory tokens are reached.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -260,6 +328,30 @@ filling the memory with the k most similar messages to the question until the ma
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.VectorChat.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vector_memory'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_index_memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_vector_memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2048</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_output_tokens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#VectorChat.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.VectorChat.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the BaseThread instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the memory thread. Defaults to ‘memory’.</p></li>
+<li><p><strong>max_memory</strong> – The maximum number of tokens allowed in the memory thread.
+Defaults to None, which means no limit.</p></li>
+<li><p><strong>tokenizer</strong> – The tokenizer to be used for tokenizing messages.
+Defaults to None, which means using the tiktoken encoding for the ‘gpt-3.5-turbo’ model.</p></li>
+<li><p><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>index_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="../memory/indexes/pandas_index.html#babydragon.memory.indexes.pandas_index.PandasIndex" title="babydragon.memory.indexes.pandas_index.PandasIndex"><em>PandasIndex</em></a><em> | </em><a class="reference internal" href="../memory/indexes/memory_index.html#babydragon.memory.indexes.memory_index.MemoryIndex" title="babydragon.memory.indexes.memory_index.MemoryIndex"><em>MemoryIndex</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
+<li><p><strong>max_index_memory</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>max_vector_memory</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>max_output_tokens</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>system_prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>user_prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.chat.memory_chat.VectorChat.vector_memory_prompt">
 <span class="sig-name descname"><span class="pre">vector_memory_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#VectorChat.vector_memory_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.VectorChat.vector_memory_prompt" title="Permalink to this definition"></a></dt>
@@ -325,6 +417,16 @@ and added to the memory.</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.VectorChat.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#babydragon.chat.memory_chat.VectorChat.__annotations__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.VectorChat.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.chat.memory_chat'</span></em><a class="headerlink" href="#babydragon.chat.memory_chat.VectorChat.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -333,7 +435,8 @@ and added to the memory.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoVectorChat">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.chat.memory_chat.</span></span><span class="sig-name descname"><span class="pre">FifoVectorChat</span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoVectorChat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoVectorChat" title="Permalink to this definition"></a></dt>
-<dd><p>A chatbot class that combines FIFO Memory Thread, Vector Memory Thread, BaseChat, and Prompter.
+<dd><p>Bases: <a class="reference internal" href="../memory/threads/fifo_thread.html#babydragon.memory.threads.fifo_thread.FifoThread" title="babydragon.memory.threads.fifo_thread.FifoThread"><code class="xref py py-class docutils literal notranslate"><span class="pre">FifoThread</span></code></a>, <a class="reference internal" href="chat.html#babydragon.chat.chat.Chat" title="babydragon.chat.chat.Chat"><code class="xref py py-class docutils literal notranslate"><span class="pre">Chat</span></code></a></p>
+<p>A chatbot class that combines FIFO Memory Thread, Vector Memory Thread, BaseChat, and Prompter.
 The memory prompt is constructed by including both FIFO memory and Vector memory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -351,6 +454,31 @@ The memory prompt is constructed by including both FIFO memory and Vector memory
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoVectorChat.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fifo_vector_memory'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2048</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_index_memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_output_tokens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longterm_thread</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longterm_frac</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoVectorChat.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoVectorChat.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the BaseThread instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the memory thread. Defaults to ‘memory’.</p></li>
+<li><p><strong>max_memory</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The maximum number of tokens allowed in the memory thread.
+Defaults to None, which means no limit.</p></li>
+<li><p><strong>tokenizer</strong> – The tokenizer to be used for tokenizing messages.
+Defaults to None, which means using the tiktoken encoding for the ‘gpt-3.5-turbo’ model.</p></li>
+<li><p><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>index_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="../memory/indexes/pandas_index.html#babydragon.memory.indexes.pandas_index.PandasIndex" title="babydragon.memory.indexes.pandas_index.PandasIndex"><em>PandasIndex</em></a><em> | </em><a class="reference internal" href="../memory/indexes/memory_index.html#babydragon.memory.indexes.memory_index.MemoryIndex" title="babydragon.memory.indexes.memory_index.MemoryIndex"><em>MemoryIndex</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
+<li><p><strong>system_prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>user_prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>max_index_memory</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>max_output_tokens</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>longterm_thread</strong> (<a class="reference internal" href="../memory/threads/vector_thread.html#babydragon.memory.threads.vector_thread.VectorThread" title="babydragon.memory.threads.vector_thread.VectorThread"><em>VectorThread</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>longterm_frac</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoVectorChat.setup_longterm_memory">
 <span class="sig-name descname"><span class="pre">setup_longterm_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">longterm_thread</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_memory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longterm_frac</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoVectorChat.setup_longterm_memory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoVectorChat.setup_longterm_memory" title="Permalink to this definition"></a></dt>
@@ -408,6 +536,16 @@ and added to the memory.</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoVectorChat.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#babydragon.chat.memory_chat.FifoVectorChat.__annotations__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoVectorChat.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.chat.memory_chat'</span></em><a class="headerlink" href="#babydragon.chat.memory_chat.FifoVectorChat.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -423,7 +561,7 @@ and added to the memory.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+    <p>&#169; Copyright .</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

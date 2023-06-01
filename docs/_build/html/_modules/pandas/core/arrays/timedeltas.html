@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.core.arrays.timedeltas &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">LLMReader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html#llmwriter">LLMWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">MultiKernelTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">BaseTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">TopicTreeTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">EmbeddingTask</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">MemoryKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">ClusterPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">MultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">BaseThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">FifoThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">VectorThread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">PandasIndex</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">Prompter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html#basechat">BaseChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">FifoChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#vectorchat">VectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#fifovectorchat">FifoVectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">Chat</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">CohereEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">SBERTEmbedder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">GithubProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">OsProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">IssueParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html#commitparser">CommitParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">FunctionCallFinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#multiplicationcountervisitor">MultiplicationCounterVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#typingcollector">TypingCollector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">PythonMinifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythondocstringextractor">PythonDocstringExtractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythonparser">PythonParser</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">SubjectPerspectiveAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideation">Ideation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.core.arrays.timedeltas</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.core.arrays.timedeltas</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Iterator</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pandas._libs</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">lib</span><span class="p">,</span>
+    <span class="n">tslibs</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.tslibs</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseOffset</span><span class="p">,</span>
+    <span class="n">NaT</span><span class="p">,</span>
+    <span class="n">NaTType</span><span class="p">,</span>
+    <span class="n">Tick</span><span class="p">,</span>
+    <span class="n">Timedelta</span><span class="p">,</span>
+    <span class="n">astype_overflowsafe</span><span class="p">,</span>
+    <span class="n">get_supported_reso</span><span class="p">,</span>
+    <span class="n">get_unit_from_dtype</span><span class="p">,</span>
+    <span class="n">iNaT</span><span class="p">,</span>
+    <span class="n">is_supported_unit</span><span class="p">,</span>
+    <span class="n">npy_unit_to_abbrev</span><span class="p">,</span>
+    <span class="n">periods_per_second</span><span class="p">,</span>
+    <span class="n">to_offset</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.tslibs.conversion</span> <span class="kn">import</span> <span class="n">precision_from_unit</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.tslibs.fields</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_timedelta_days</span><span class="p">,</span>
+    <span class="n">get_timedelta_field</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.tslibs.timedeltas</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">array_to_timedelta64</span><span class="p">,</span>
+    <span class="n">floordiv_object_array</span><span class="p">,</span>
+    <span class="n">ints_to_pytimedelta</span><span class="p">,</span>
+    <span class="n">parse_timedelta_unit</span><span class="p">,</span>
+    <span class="n">truediv_object_array</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AxisInt</span><span class="p">,</span>
+    <span class="n">DateTimeErrorChoices</span><span class="p">,</span>
+    <span class="n">DtypeObj</span><span class="p">,</span>
+    <span class="n">NpDtype</span><span class="p">,</span>
+    <span class="n">npt</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.compat.numpy</span> <span class="kn">import</span> <span class="n">function</span> <span class="k">as</span> <span class="n">nv</span>
+<span class="kn">from</span> <span class="nn">pandas.util._validators</span> <span class="kn">import</span> <span class="n">validate_endpoints</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TD64NS_DTYPE</span><span class="p">,</span>
+    <span class="n">is_dtype_equal</span><span class="p">,</span>
+    <span class="n">is_extension_array_dtype</span><span class="p">,</span>
+    <span class="n">is_float_dtype</span><span class="p">,</span>
+    <span class="n">is_integer_dtype</span><span class="p">,</span>
+    <span class="n">is_object_dtype</span><span class="p">,</span>
+    <span class="n">is_scalar</span><span class="p">,</span>
+    <span class="n">is_string_dtype</span><span class="p">,</span>
+    <span class="n">is_timedelta64_dtype</span><span class="p">,</span>
+    <span class="n">pandas_dtype</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.missing</span> <span class="kn">import</span> <span class="n">isna</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core</span> <span class="kn">import</span> <span class="n">nanops</span>
+<span class="kn">from</span> <span class="nn">pandas.core.array_algos</span> <span class="kn">import</span> <span class="n">datetimelike_accumulations</span>
+<span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="n">datetimelike</span> <span class="k">as</span> <span class="n">dtl</span>
+<span class="kn">from</span> <span class="nn">pandas.core.arrays._ranges</span> <span class="kn">import</span> <span class="n">generate_regular_range</span>
+<span class="kn">import</span> <span class="nn">pandas.core.common</span> <span class="k">as</span> <span class="nn">com</span>
+<span class="kn">from</span> <span class="nn">pandas.core.ops</span> <span class="kn">import</span> <span class="n">roperator</span>
+<span class="kn">from</span> <span class="nn">pandas.core.ops.common</span> <span class="kn">import</span> <span class="n">unpack_zerodim_and_defer</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+
+<span class="k">def</span> <span class="nf">_field_accessor</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">alias</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">docstring</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">asi8</span>
+        <span class="k">if</span> <span class="n">alias</span> <span class="o">==</span> <span class="s2">&quot;days&quot;</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">get_timedelta_days</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">reso</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_creso</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># error: Incompatible types in assignment (</span>
+            <span class="c1"># expression has type &quot;ndarray[Any, dtype[signedinteger[_32Bit]]]&quot;,</span>
+            <span class="c1"># variable has type &quot;ndarray[Any, dtype[signedinteger[_64Bit]]]</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">get_timedelta_field</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">alias</span><span class="p">,</span> <span class="n">reso</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_creso</span><span class="p">)</span>  <span class="c1"># type: ignore[assignment]  # noqa: E501</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hasna</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_mask_results</span><span class="p">(</span>
+                <span class="n">result</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">convert</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="n">f</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="n">f</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">docstring</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="nb">property</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">TimedeltaArray</span><span class="p">(</span><span class="n">dtl</span><span class="o">.</span><span class="n">TimelikeOps</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pandas ExtensionArray for timedelta data.</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">       TimedeltaArray is currently experimental, and its API may change</span>
+<span class="sd">       without warning. In particular, :attr:`TimedeltaArray.dtype` is</span>
+<span class="sd">       expected to change to be an instance of an ``ExtensionDtype``</span>
+<span class="sd">       subclass.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    values : array-like</span>
+<span class="sd">        The timedelta data.</span>
+
+<span class="sd">    dtype : numpy.dtype</span>
+<span class="sd">        Currently, only ``numpy.dtype(&quot;timedelta64[ns]&quot;)`` is accepted.</span>
+<span class="sd">    freq : Offset, optional</span>
+<span class="sd">    copy : bool, default False</span>
+<span class="sd">        Whether to copy the underlying array of data.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_typ</span> <span class="o">=</span> <span class="s2">&quot;timedeltaarray&quot;</span>
+    <span class="n">_internal_fill_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="s2">&quot;NaT&quot;</span><span class="p">,</span> <span class="s2">&quot;ns&quot;</span><span class="p">)</span>
+    <span class="n">_recognized_scalars</span> <span class="o">=</span> <span class="p">(</span><span class="n">timedelta</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">,</span> <span class="n">Tick</span><span class="p">)</span>
+    <span class="n">_is_recognized_dtype</span> <span class="o">=</span> <span class="n">is_timedelta64_dtype</span>
+    <span class="n">_infer_matches</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;timedelta&quot;</span><span class="p">,</span> <span class="s2">&quot;timedelta64&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_scalar_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">Timedelta</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">Timedelta</span>
+
+    <span class="n">__array_priority__</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="c1"># define my properties &amp; methods for delegation</span>
+    <span class="n">_other_ops</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_bool_ops</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_object_ops</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span>
+    <span class="n">_field_ops</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;days&quot;</span><span class="p">,</span> <span class="s2">&quot;seconds&quot;</span><span class="p">,</span> <span class="s2">&quot;microseconds&quot;</span><span class="p">,</span> <span class="s2">&quot;nanoseconds&quot;</span><span class="p">]</span>
+    <span class="n">_datetimelike_ops</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">_field_ops</span> <span class="o">+</span> <span class="n">_object_ops</span> <span class="o">+</span> <span class="n">_bool_ops</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">]</span>
+    <span class="n">_datetimelike_methods</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;to_pytimedelta&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;total_seconds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;round&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;floor&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ceil&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;as_unit&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Note: ndim must be defined to ensure NaT.__richcmp__(TimedeltaArray)</span>
+    <span class="c1">#  operates pointwise.</span>
+
+    <span class="k">def</span> <span class="nf">_box_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Timedelta</span> <span class="o">|</span> <span class="n">NaTType</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="n">NaT</span><span class="o">.</span><span class="n">_value</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">NaT</span>
+        <span class="k">return</span> <span class="n">Timedelta</span><span class="o">.</span><span class="n">_from_value_and_reso</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">reso</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_creso</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="c1"># error: Return type &quot;dtype&quot; of &quot;dtype&quot; incompatible with return type</span>
+    <span class="c1"># &quot;ExtensionDtype&quot; in supertype &quot;ExtensionArray&quot;</span>
+    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>  <span class="c1"># type: ignore[override]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The dtype for the TimedeltaArray.</span>
+
+<span class="sd">        .. warning::</span>
+
+<span class="sd">           A future version of pandas will change dtype to be an instance</span>
+<span class="sd">           of a :class:`pandas.api.extensions.ExtensionDtype` subclass,</span>
+<span class="sd">           not a ``numpy.dtype``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.dtype</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="o">.</span><span class="n">dtype</span>
+
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># Constructors</span>
+
+    <span class="n">_freq</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_default_dtype</span> <span class="o">=</span> <span class="n">TD64NS_DTYPE</span>  <span class="c1"># used in TimeLikeOps.__init__</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_validate_dtype</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+        <span class="c1"># used in TimeLikeOps.__init__</span>
+        <span class="n">_validate_td64_dtype</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">_validate_td64_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dtype</span>
+
+    <span class="c1"># error: Signature of &quot;_simple_new&quot; incompatible with supertype &quot;NDArrayBacked&quot;</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_simple_new</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="n">BaseOffset</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">TD64NS_DTYPE</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimedeltaArray</span><span class="p">:</span>
+        <span class="c1"># Require td64 dtype, not unit-less, matching values.dtype</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;m&quot;</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="n">tslibs</span><span class="o">.</span><span class="n">is_unitless</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">dtype</span> <span class="o">==</span> <span class="n">values</span><span class="o">.</span><span class="n">dtype</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">_freq</span> <span class="o">=</span> <span class="n">freq</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_sequence</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimedeltaArray</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dtype</span><span class="p">:</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">_validate_td64_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="n">data</span><span class="p">,</span> <span class="n">inferred_freq</span> <span class="o">=</span> <span class="n">sequence_to_td64ns</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">freq</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dtl</span><span class="o">.</span><span class="n">validate_inferred_freq</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">inferred_freq</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">astype_overflowsafe</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_sequence_not_strict</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">freq</span><span class="o">=</span><span class="n">lib</span><span class="o">.</span><span class="n">no_default</span><span class="p">,</span>
+        <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimedeltaArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A non-strict version of _from_sequence, called from TimedeltaIndex.__new__.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">dtype</span><span class="p">:</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">_validate_td64_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">]</span>  <span class="c1"># caller is responsible for checking</span>
+
+        <span class="n">explicit_none</span> <span class="o">=</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">freq</span> <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">lib</span><span class="o">.</span><span class="n">no_default</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="n">freq</span><span class="p">,</span> <span class="n">freq_infer</span> <span class="o">=</span> <span class="n">dtl</span><span class="o">.</span><span class="n">maybe_infer_freq</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
+
+        <span class="n">data</span><span class="p">,</span> <span class="n">inferred_freq</span> <span class="o">=</span> <span class="n">sequence_to_td64ns</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">)</span>
+        <span class="n">freq</span><span class="p">,</span> <span class="n">freq_infer</span> <span class="o">=</span> <span class="n">dtl</span><span class="o">.</span><span class="n">validate_inferred_freq</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">inferred_freq</span><span class="p">,</span> <span class="n">freq_infer</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">explicit_none</span><span class="p">:</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">astype_overflowsafe</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">inferred_freq</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">freq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># this condition precludes `freq_infer`</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_validate_frequency</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">freq_infer</span><span class="p">:</span>
+            <span class="c1"># Set _freq directly to bypass duplicative _validate_frequency</span>
+            <span class="c1"># check.</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">_freq</span> <span class="o">=</span> <span class="n">to_offset</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">inferred_freq</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="c1"># Signature of &quot;_generate_range&quot; incompatible with supertype</span>
+    <span class="c1"># &quot;DatetimeLikeArrayMixin&quot;</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_generate_range</span><span class="p">(</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">periods</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="n">periods</span> <span class="o">=</span> <span class="n">dtl</span><span class="o">.</span><span class="n">validate_periods</span><span class="p">(</span><span class="n">periods</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="n">periods</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide freq argument if no data is supplied&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">com</span><span class="o">.</span><span class="n">count_not_none</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">periods</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Of the four parameters: start, end, periods, &quot;</span>
+                <span class="s2">&quot;and freq, exactly three must be specified&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">Timedelta</span><span class="p">(</span><span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">as_unit</span><span class="p">(</span><span class="s2">&quot;ns&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">Timedelta</span><span class="p">(</span><span class="n">end</span><span class="p">)</span><span class="o">.</span><span class="n">as_unit</span><span class="p">(</span><span class="s2">&quot;ns&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span> <span class="s2">&quot;ns&quot;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;unit&#39; must be one of &#39;s&#39;, &#39;ms&#39;, &#39;us&#39;, &#39;ns&#39;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;ns&quot;</span>
+
+        <span class="k">if</span> <span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">as_unit</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">round_ok</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">as_unit</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">round_ok</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">left_closed</span><span class="p">,</span> <span class="n">right_closed</span> <span class="o">=</span> <span class="n">validate_endpoints</span><span class="p">(</span><span class="n">closed</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">generate_regular_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">periods</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">_value</span><span class="p">,</span> <span class="n">end</span><span class="o">.</span><span class="n">_value</span><span class="p">,</span> <span class="n">periods</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">left_closed</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">right_closed</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">td64values</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;m8[</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">td64values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">td64values</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># DatetimeLike Interface</span>
+
+    <span class="k">def</span> <span class="nf">_unbox_scalar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scalar_type</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">NaT</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;value&#39; should be a Timedelta.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_compatible_with</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">NaT</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">_value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">as_unit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">asm8</span>
+
+    <span class="k">def</span> <span class="nf">_scalar_from_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Timedelta</span> <span class="o">|</span> <span class="n">NaTType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Timedelta</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_check_compatible_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># we don&#39;t have anything to validate.</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># Array-Like / EA-Interface Methods</span>
+
+    <span class="k">def</span> <span class="nf">astype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="c1"># We handle</span>
+        <span class="c1">#   --&gt; timedelta64[ns]</span>
+        <span class="c1">#   --&gt; timedelta64</span>
+        <span class="c1"># DatetimeLikeArrayMixin super call handles other cases</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">pandas_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;m&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="k">return</span> <span class="bp">self</span>
+
+            <span class="k">if</span> <span class="n">is_supported_unit</span><span class="p">(</span><span class="n">get_unit_from_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)):</span>
+                <span class="c1"># unit conversion e.g. timedelta64[s]</span>
+                <span class="n">res_values</span> <span class="o">=</span> <span class="n">astype_overflowsafe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span>
+                    <span class="n">res_values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">res_values</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Cannot convert from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="s2">&quot;Supported resolutions are &#39;s&#39;, &#39;ms&#39;, &#39;us&#39;, &#39;ns&#39;&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dtl</span><span class="o">.</span><span class="n">DatetimeLikeArrayMixin</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># convert in chunks of 10k for efficiency</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">chunksize</span> <span class="o">=</span> <span class="mi">10000</span>
+            <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">length</span> <span class="o">//</span> <span class="n">chunksize</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">chunks</span><span class="p">):</span>
+                <span class="n">start_i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">chunksize</span>
+                <span class="n">end_i</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">chunksize</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+                <span class="n">converted</span> <span class="o">=</span> <span class="n">ints_to_pytimedelta</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">start_i</span><span class="p">:</span><span class="n">end_i</span><span class="p">],</span> <span class="n">box</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">yield from</span> <span class="n">converted</span>
+
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># Reductions</span>
+
+    <span class="k">def</span> <span class="nf">sum</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">axis</span><span class="p">:</span> <span class="n">AxisInt</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="p">:</span> <span class="n">NpDtype</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">keepdims</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">initial</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">skipna</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">min_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">nv</span><span class="o">.</span><span class="n">validate_sum</span><span class="p">(</span>
+            <span class="p">(),</span> <span class="p">{</span><span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="n">dtype</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="n">out</span><span class="p">,</span> <span class="s2">&quot;keepdims&quot;</span><span class="p">:</span> <span class="n">keepdims</span><span class="p">,</span> <span class="s2">&quot;initial&quot;</span><span class="p">:</span> <span class="n">initial</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">nanops</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="n">skipna</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="n">min_count</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrap_reduction_result</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">std</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">axis</span><span class="p">:</span> <span class="n">AxisInt</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="p">:</span> <span class="n">NpDtype</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ddof</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">keepdims</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">skipna</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">nv</span><span class="o">.</span><span class="n">validate_stat_ddof_func</span><span class="p">(</span>
+            <span class="p">(),</span> <span class="p">{</span><span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="n">dtype</span><span class="p">,</span> <span class="s2">&quot;out&quot;</span><span class="p">:</span> <span class="n">out</span><span class="p">,</span> <span class="s2">&quot;keepdims&quot;</span><span class="p">:</span> <span class="n">keepdims</span><span class="p">},</span> <span class="n">fname</span><span class="o">=</span><span class="s2">&quot;std&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">nanops</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="n">skipna</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="n">ddof</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_box_func</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_backing_data</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># Accumulations</span>
+
+    <span class="k">def</span> <span class="nf">_accumulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">skipna</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;cumsum&quot;</span><span class="p">:</span>
+            <span class="n">op</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">datetimelike_accumulations</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">op</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">skipna</span><span class="o">=</span><span class="n">skipna</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;cumprod&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;cumprod not supported for Timedelta.&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_accumulate</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="n">skipna</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># Rendering Methods</span>
+
+    <span class="k">def</span> <span class="nf">_formatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boxed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pandas.io.formats.format</span> <span class="kn">import</span> <span class="n">get_format_timedelta64</span>
+
+        <span class="k">return</span> <span class="n">get_format_timedelta64</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">box</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_format_native_types</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">na_rep</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="s2">&quot;NaT&quot;</span><span class="p">,</span> <span class="n">date_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">object_</span><span class="p">]:</span>
+        <span class="kn">from</span> <span class="nn">pandas.io.formats.format</span> <span class="kn">import</span> <span class="n">get_format_timedelta64</span>
+
+        <span class="c1"># Relies on TimeDelta._repr_base</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">get_format_timedelta64</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">,</span> <span class="n">na_rep</span><span class="p">)</span>
+        <span class="c1"># equiv: np.array([formatter(x) for x in self._ndarray])</span>
+        <span class="c1">#  but independent of dimension</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">frompyfunc</span><span class="p">(</span><span class="n">formatter</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">)</span>
+
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># Arithmetic Methods</span>
+
+    <span class="k">def</span> <span class="nf">_add_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Tick</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;cannot add the type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> to a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="nd">@unpack_zerodim_and_defer</span><span class="p">(</span><span class="s2">&quot;__mul__&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimedeltaArray</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_scalar</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="c1"># numpy will accept float and int, raise TypeError for others</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span> <span class="o">*</span> <span class="n">other</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">isna</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                <span class="n">freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">*</span> <span class="n">other</span>
+            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;dtype&quot;</span><span class="p">):</span>
+            <span class="c1"># list, tuple</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_timedelta64_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="c1"># Exclude timedelta64 here so we correctly raise TypeError</span>
+            <span class="c1">#  for that instead of ValueError</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot multiply with unequal lengths&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_object_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="c1"># this multiplication will succeed only if all elements of other</span>
+            <span class="c1">#  are int or float scalars, so we will end up with</span>
+            <span class="c1">#  timedelta64[ns]-dtyped result</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">arr</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">other</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))]</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="c1"># numpy will accept float or int dtype, raise TypeError for others</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span> <span class="o">*</span> <span class="n">other</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="fm">__rmul__</span> <span class="o">=</span> <span class="fm">__mul__</span>
+
+    <span class="k">def</span> <span class="nf">_scalar_divlike_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shared logic for __truediv__, __rtruediv__, __floordiv__, __rfloordiv__</span>
+<span class="sd">        with scalar &#39;other&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recognized_scalars</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Timedelta</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="c1"># mypy assumes that __new__ returns an instance of the class</span>
+            <span class="c1"># github.com/python/mypy/issues/1020</span>
+            <span class="k">if</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;Timedelta | NaTType&quot;</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="n">NaT</span><span class="p">:</span>
+                <span class="c1"># specifically timedelta64-NaT</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">result</span>
+
+            <span class="c1"># otherwise, dispatch to Timedelta implementation</span>
+            <span class="k">return</span> <span class="n">op</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># caller is responsible for checking lib.is_scalar(other)</span>
+            <span class="c1"># assume other is numeric, otherwise numpy will raise</span>
+
+            <span class="k">if</span> <span class="n">op</span> <span class="ow">in</span> <span class="p">[</span><span class="n">roperator</span><span class="o">.</span><span class="n">rtruediv</span><span class="p">,</span> <span class="n">roperator</span><span class="o">.</span><span class="n">rfloordiv</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Cannot divide </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> by </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="n">op</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Note: freq gets division, not floor-division, even if op</span>
+                <span class="c1">#  is floordiv.</span>
+                <span class="n">freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">/</span> <span class="n">other</span>
+
+                <span class="c1"># TODO: 2022-12-24 test_ufunc_coercions, test_tdi_ops_attributes</span>
+                <span class="c1">#  get here for truediv, no tests for floordiv</span>
+
+                <span class="k">if</span> <span class="n">op</span> <span class="ow">is</span> <span class="n">operator</span><span class="o">.</span><span class="n">floordiv</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">freq</span><span class="o">.</span><span class="n">nanos</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">nanos</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="c1"># e.g. if self.freq is Nano(1) then dividing by 2</span>
+                        <span class="c1">#  rounds down to zero</span>
+                        <span class="c1"># TODO: 2022-12-24 should implement the same check</span>
+                        <span class="c1">#  for truediv case</span>
+                        <span class="n">freq</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_cast_divlike_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;dtype&quot;</span><span class="p">):</span>
+            <span class="c1"># e.g. list, tuple</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot divide vectors with unequal lengths&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">other</span>
+
+    <span class="k">def</span> <span class="nf">_vector_divlike_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="n">TimedeltaArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shared logic for __truediv__, __floordiv__, and their reversed versions</span>
+<span class="sd">        with timedelta64-dtype ndarray other.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Let numpy handle it</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">op</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">is_integer_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_float_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span> <span class="ow">and</span> <span class="n">op</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="n">operator</span><span class="o">.</span><span class="n">truediv</span><span class="p">,</span>
+            <span class="n">operator</span><span class="o">.</span><span class="n">floordiv</span><span class="p">,</span>
+        <span class="p">]:</span>
+            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">op</span> <span class="ow">in</span> <span class="p">[</span><span class="n">operator</span><span class="o">.</span><span class="n">floordiv</span><span class="p">,</span> <span class="n">roperator</span><span class="o">.</span><span class="n">rfloordiv</span><span class="p">]:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">|</span> <span class="n">isna</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mask</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">putmask</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@unpack_zerodim_and_defer</span><span class="p">(</span><span class="s2">&quot;__truediv__&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="c1"># timedelta / X is well-defined for timedelta-like or numeric X</span>
+        <span class="n">op</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">truediv</span>
+        <span class="k">if</span> <span class="n">is_scalar</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scalar_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">)</span>
+
+        <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">is_timedelta64_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="n">is_integer_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="n">is_float_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_object_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">res_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">left</span> <span class="o">/</span> <span class="n">right</span> <span class="k">for</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)]</span>
+                <span class="n">res_cols2</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">res_cols</span><span class="p">]</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">res_cols2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">truediv_object_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="nd">@unpack_zerodim_and_defer</span><span class="p">(</span><span class="s2">&quot;__rtruediv__&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__rtruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="c1"># X / timedelta is defined only for timedelta-like X</span>
+        <span class="n">op</span> <span class="o">=</span> <span class="n">roperator</span><span class="o">.</span><span class="n">rtruediv</span>
+        <span class="k">if</span> <span class="n">is_scalar</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scalar_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">)</span>
+
+        <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_timedelta64_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">is_object_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="c1"># Note: unlike in __truediv__, we do not _need_ to do type</span>
+            <span class="c1">#  inference on the result.  It does not raise, a numeric array</span>
+            <span class="c1">#  is returned.  GH#23829</span>
+            <span class="n">result_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">other</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))]</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">result_list</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="nd">@unpack_zerodim_and_defer</span><span class="p">(</span><span class="s2">&quot;__floordiv__&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__floordiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">op</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">floordiv</span>
+        <span class="k">if</span> <span class="n">is_scalar</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scalar_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">)</span>
+
+        <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">is_timedelta64_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="n">is_integer_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="n">is_float_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">is_object_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">res_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">left</span> <span class="o">//</span> <span class="n">right</span> <span class="k">for</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)]</span>
+                <span class="n">res_cols2</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">res_cols</span><span class="p">]</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">res_cols2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">floordiv_object_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+            <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">object</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="nd">@unpack_zerodim_and_defer</span><span class="p">(</span><span class="s2">&quot;__rfloordiv__&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__rfloordiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">op</span> <span class="o">=</span> <span class="n">roperator</span><span class="o">.</span><span class="n">rfloordiv</span>
+        <span class="k">if</span> <span class="n">is_scalar</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scalar_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">)</span>
+
+        <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_timedelta64_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vector_divlike_op</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">op</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">is_object_dtype</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="n">result_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">other</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">//</span> <span class="bp">self</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))]</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">result_list</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+    <span class="nd">@unpack_zerodim_and_defer</span><span class="p">(</span><span class="s2">&quot;__mod__&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__mod__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="c1"># Note: This is a naive implementation, can likely be optimized</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recognized_scalars</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Timedelta</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span> <span class="o">//</span> <span class="n">other</span><span class="p">)</span> <span class="o">*</span> <span class="n">other</span>
+
+    <span class="nd">@unpack_zerodim_and_defer</span><span class="p">(</span><span class="s2">&quot;__rmod__&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__rmod__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="c1"># Note: This is a naive implementation, can likely be optimized</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recognized_scalars</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Timedelta</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">other</span> <span class="o">-</span> <span class="p">(</span><span class="n">other</span> <span class="o">//</span> <span class="bp">self</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span>
+
+    <span class="nd">@unpack_zerodim_and_defer</span><span class="p">(</span><span class="s2">&quot;__divmod__&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__divmod__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="c1"># Note: This is a naive implementation, can likely be optimized</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recognized_scalars</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Timedelta</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+        <span class="n">res1</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">//</span> <span class="n">other</span>
+        <span class="n">res2</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">-</span> <span class="n">res1</span> <span class="o">*</span> <span class="n">other</span>
+        <span class="k">return</span> <span class="n">res1</span><span class="p">,</span> <span class="n">res2</span>
+
+    <span class="nd">@unpack_zerodim_and_defer</span><span class="p">(</span><span class="s2">&quot;__rdivmod__&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__rdivmod__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="c1"># Note: This is a naive implementation, can likely be optimized</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recognized_scalars</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Timedelta</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+        <span class="n">res1</span> <span class="o">=</span> <span class="n">other</span> <span class="o">//</span> <span class="bp">self</span>
+        <span class="n">res2</span> <span class="o">=</span> <span class="n">other</span> <span class="o">-</span> <span class="n">res1</span> <span class="o">*</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="n">res1</span><span class="p">,</span> <span class="n">res2</span>
+
+    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimedeltaArray</span><span class="p">:</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__pos__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimedeltaArray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">freq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__abs__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimedeltaArray</span><span class="p">:</span>
+        <span class="c1"># Note: freq is not preserved</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">))</span>
+
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># Conversion Methods - Vectorized analogues of Timedelta methods</span>
+
+    <span class="k">def</span> <span class="nf">total_seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return total duration of each element expressed in seconds.</span>
+
+<span class="sd">        This method is available directly on TimedeltaArray, TimedeltaIndex</span>
+<span class="sd">        and on Series containing timedelta values under the ``.dt`` namespace.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ndarray, Index or Series</span>
+<span class="sd">            When the calling object is a TimedeltaArray, the return type</span>
+<span class="sd">            is ndarray.  When the calling object is a TimedeltaIndex,</span>
+<span class="sd">            the return type is an Index with a float64 dtype. When the calling object</span>
+<span class="sd">            is a Series, the return type is Series of type `float64` whose</span>
+<span class="sd">            index is the same as the original.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        datetime.timedelta.total_seconds : Standard library version</span>
+<span class="sd">            of this method.</span>
+<span class="sd">        TimedeltaIndex.components : Return a DataFrame with components of</span>
+<span class="sd">            each Timedelta.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        **Series**</span>
+
+<span class="sd">        &gt;&gt;&gt; s = pd.Series(pd.to_timedelta(np.arange(5), unit=&#39;d&#39;))</span>
+<span class="sd">        &gt;&gt;&gt; s</span>
+<span class="sd">        0   0 days</span>
+<span class="sd">        1   1 days</span>
+<span class="sd">        2   2 days</span>
+<span class="sd">        3   3 days</span>
+<span class="sd">        4   4 days</span>
+<span class="sd">        dtype: timedelta64[ns]</span>
+
+<span class="sd">        &gt;&gt;&gt; s.dt.total_seconds()</span>
+<span class="sd">        0         0.0</span>
+<span class="sd">        1     86400.0</span>
+<span class="sd">        2    172800.0</span>
+<span class="sd">        3    259200.0</span>
+<span class="sd">        4    345600.0</span>
+<span class="sd">        dtype: float64</span>
+
+<span class="sd">        **TimedeltaIndex**</span>
+
+<span class="sd">        &gt;&gt;&gt; idx = pd.to_timedelta(np.arange(5), unit=&#39;d&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; idx</span>
+<span class="sd">        TimedeltaIndex([&#39;0 days&#39;, &#39;1 days&#39;, &#39;2 days&#39;, &#39;3 days&#39;, &#39;4 days&#39;],</span>
+<span class="sd">                       dtype=&#39;timedelta64[ns]&#39;, freq=None)</span>
+
+<span class="sd">        &gt;&gt;&gt; idx.total_seconds()</span>
+<span class="sd">        Index([0.0, 86400.0, 172800.0, 259200.0, 345600.0], dtype=&#39;float64&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pps</span> <span class="o">=</span> <span class="n">periods_per_second</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_creso</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_mask_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">asi8</span> <span class="o">/</span> <span class="n">pps</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">to_pytimedelta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">object_</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return an ndarray of datetime.timedelta objects.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ints_to_pytimedelta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ndarray</span><span class="p">)</span>
+
+    <span class="n">days</span> <span class="o">=</span> <span class="n">_field_accessor</span><span class="p">(</span><span class="s2">&quot;days&quot;</span><span class="p">,</span> <span class="s2">&quot;days&quot;</span><span class="p">,</span> <span class="s2">&quot;Number of days for each element.&quot;</span><span class="p">)</span>
+    <span class="n">seconds</span> <span class="o">=</span> <span class="n">_field_accessor</span><span class="p">(</span>
+        <span class="s2">&quot;seconds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;seconds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Number of seconds (&gt;= 0 and less than 1 day) for each element.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">microseconds</span> <span class="o">=</span> <span class="n">_field_accessor</span><span class="p">(</span>
+        <span class="s2">&quot;microseconds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;microseconds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Number of microseconds (&gt;= 0 and less than 1 second) for each element.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">nanoseconds</span> <span class="o">=</span> <span class="n">_field_accessor</span><span class="p">(</span>
+        <span class="s2">&quot;nanoseconds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nanoseconds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Number of nanoseconds (&gt;= 0 and less than 1 microsecond) for each element.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">components</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a DataFrame of the individual resolution components of the Timedeltas.</span>
+
+<span class="sd">        The components (days, hours, minutes seconds, milliseconds, microseconds,</span>
+<span class="sd">        nanoseconds) are returned as columns in a DataFrame.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;days&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;hours&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;minutes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;seconds&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;milliseconds&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;microseconds&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;nanoseconds&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">hasnans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hasna</span>
+        <span class="k">if</span> <span class="n">hasnans</span><span class="p">:</span>
+
+            <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">isna</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">components</span>
+
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">components</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">hasnans</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1"># Constructor Helpers</span>
+
+
+<span class="k">def</span> <span class="nf">sequence_to_td64ns</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">errors</span><span class="p">:</span> <span class="n">DateTimeErrorChoices</span> <span class="o">=</span> <span class="s2">&quot;raise&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Tick</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : list-like</span>
+<span class="sd">    copy : bool, default False</span>
+<span class="sd">    unit : str, optional</span>
+<span class="sd">        The timedelta unit to treat integers as multiples of. For numeric</span>
+<span class="sd">        data this defaults to ``&#39;ns&#39;``.</span>
+<span class="sd">        Must be un-specified if the data contains a str and ``errors==&quot;raise&quot;``.</span>
+<span class="sd">    errors : {&quot;raise&quot;, &quot;coerce&quot;, &quot;ignore&quot;}, default &quot;raise&quot;</span>
+<span class="sd">        How to handle elements that cannot be converted to timedelta64[ns].</span>
+<span class="sd">        See ``pandas.to_timedelta`` for details.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    converted : numpy.ndarray</span>
+<span class="sd">        The sequence converted to a numpy array with dtype ``timedelta64[ns]``.</span>
+<span class="sd">    inferred_freq : Tick or None</span>
+<span class="sd">        The inferred frequency of the sequence.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError : Data cannot be converted to timedelta64[ns].</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Unlike `pandas.to_timedelta`, if setting ``errors=ignore`` will not cause</span>
+<span class="sd">    errors to be ignored; they are caught and subsequently ignored at a</span>
+<span class="sd">    higher level.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">]</span>  <span class="c1"># caller is responsible for checking</span>
+
+    <span class="n">inferred_freq</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">parse_timedelta_unit</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="n">data</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="n">dtl</span><span class="o">.</span><span class="n">ensure_arraylike_for_datetimelike</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">cls_name</span><span class="o">=</span><span class="s2">&quot;TimedeltaArray&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">TimedeltaArray</span><span class="p">):</span>
+        <span class="n">inferred_freq</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">freq</span>
+
+    <span class="c1"># Convert whatever we have into timedelta64[ns] dtype</span>
+    <span class="k">if</span> <span class="n">is_object_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_string_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="c1"># no need to make a copy, need to convert if string-dtyped</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">_objects_to_td64ns</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">)</span>
+        <span class="n">copy</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">elif</span> <span class="n">is_integer_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="c1"># treat as multiples of the given unit</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">copy_made</span> <span class="o">=</span> <span class="n">_ints_to_td64ns</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">)</span>
+        <span class="n">copy</span> <span class="o">=</span> <span class="n">copy</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">copy_made</span>
+
+    <span class="k">elif</span> <span class="n">is_float_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="c1"># cast the unit, multiply base/frac separately</span>
+        <span class="c1"># to avoid precision issues from float -&gt; int</span>
+        <span class="k">if</span> <span class="n">is_extension_array_dtype</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">_mask</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">_data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="c1"># The next few lines are effectively a vectorized &#39;cast_from_unit&#39;</span>
+        <span class="n">m</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">precision_from_unit</span><span class="p">(</span><span class="n">unit</span> <span class="ow">or</span> <span class="s2">&quot;ns&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="c1"># Suppress RuntimeWarning about All-NaN slice</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
+                <span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;invalid value encountered in cast&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span>
+            <span class="p">)</span>
+            <span class="n">base</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="n">frac</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">base</span>
+        <span class="k">if</span> <span class="n">p</span><span class="p">:</span>
+            <span class="n">frac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">frac</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
+                <span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;invalid value encountered in cast&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span>
+            <span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">base</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="p">(</span><span class="n">frac</span> <span class="o">*</span> <span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s2">&quot;timedelta64[ns]&quot;</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">iNaT</span>
+        <span class="n">copy</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">elif</span> <span class="n">is_timedelta64_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="n">data_unit</span> <span class="o">=</span> <span class="n">get_unit_from_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_supported_unit</span><span class="p">(</span><span class="n">data_unit</span><span class="p">):</span>
+            <span class="c1"># cast to closest supported unit, i.e. s or ns</span>
+            <span class="n">new_reso</span> <span class="o">=</span> <span class="n">get_supported_reso</span><span class="p">(</span><span class="n">data_unit</span><span class="p">)</span>
+            <span class="n">new_unit</span> <span class="o">=</span> <span class="n">npy_unit_to_abbrev</span><span class="p">(</span><span class="n">new_reso</span><span class="p">)</span>
+            <span class="n">new_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;m8[</span><span class="si">{</span><span class="n">new_unit</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">astype_overflowsafe</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">new_dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">copy</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># This includes datetime64-dtype, see GH#23539, GH#29794</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dtype </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> cannot be converted to timedelta64[ns]&quot;</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;m&quot;</span>
+    <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="s2">&quot;m8&quot;</span>  <span class="c1"># i.e. not unit-less</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">inferred_freq</span>
+
+
+<span class="k">def</span> <span class="nf">_ints_to_td64ns</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ns&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert an ndarray with integer-dtype to timedelta64[ns] dtype, treating</span>
+<span class="sd">    the integers as multiples of the given timedelta unit.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : numpy.ndarray with integer-dtype</span>
+<span class="sd">    unit : str, default &quot;ns&quot;</span>
+<span class="sd">        The timedelta unit to treat integers as multiples of.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray : timedelta64[ns] array converted from data</span>
+<span class="sd">    bool : whether a copy was made</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">copy_made</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">unit</span> <span class="o">=</span> <span class="n">unit</span> <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;ns&quot;</span>
+
+    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">:</span>
+        <span class="c1"># converting to int64 makes a copy, so we can avoid</span>
+        <span class="c1"># re-copying later</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="n">copy_made</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">unit</span> <span class="o">!=</span> <span class="s2">&quot;ns&quot;</span><span class="p">:</span>
+        <span class="n">dtype_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;timedelta64[</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">]&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">dtype_str</span><span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">astype_overflowsafe</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">TD64NS_DTYPE</span><span class="p">)</span>
+
+        <span class="c1"># the astype conversion makes a copy, so we can avoid re-copying later</span>
+        <span class="n">copy_made</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s2">&quot;timedelta64[ns]&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">copy_made</span>
+
+
+<span class="k">def</span> <span class="nf">_objects_to_td64ns</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="p">:</span> <span class="n">DateTimeErrorChoices</span> <span class="o">=</span> <span class="s2">&quot;raise&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a object-dtyped or string-dtyped array into an</span>
+<span class="sd">    timedelta64[ns]-dtyped array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : ndarray or Index</span>
+<span class="sd">    unit : str, default &quot;ns&quot;</span>
+<span class="sd">        The timedelta unit to treat integers as multiples of.</span>
+<span class="sd">        Must not be specified if the data contains a str.</span>
+<span class="sd">    errors : {&quot;raise&quot;, &quot;coerce&quot;, &quot;ignore&quot;}, default &quot;raise&quot;</span>
+<span class="sd">        How to handle elements that cannot be converted to timedelta64[ns].</span>
+<span class="sd">        See ``pandas.to_timedelta`` for details.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray : timedelta64[ns] array converted from data</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError : Data cannot be converted to timedelta64[ns].</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Unlike `pandas.to_timedelta`, if setting `errors=ignore` will not cause</span>
+<span class="sd">    errors to be ignored; they are caught and subsequently ignored at a</span>
+<span class="sd">    higher level.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># coerce Index to np.ndarray, converting string-dtype if necessary</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">object_</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">array_to_timedelta64</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s2">&quot;timedelta64[ns]&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_validate_td64_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DtypeObj</span><span class="p">:</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">pandas_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_dtype_equal</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;timedelta64&quot;</span><span class="p">)):</span>
+        <span class="c1"># no precision disallowed GH#24806</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;Passing in &#39;timedelta&#39; dtype with no precision is not allowed. &quot;</span>
+            <span class="s2">&quot;Please pass in &#39;timedelta64[ns]&#39; instead.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">!=</span> <span class="s2">&quot;m&quot;</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_supported_unit</span><span class="p">(</span><span class="n">get_unit_from_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">))</span>
+    <span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dtype </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> cannot be converted to timedelta64[ns]&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dtype</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

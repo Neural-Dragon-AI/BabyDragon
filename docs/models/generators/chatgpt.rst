@@ -1,5 +1,5 @@
-chatgpt
-=======
+chatgpt_response
+================
 
-.. automodule:: chatgpt
-   :members:
+.. autofunction:: babydragon.models.generators.chatgpt.chatgpt_response
+

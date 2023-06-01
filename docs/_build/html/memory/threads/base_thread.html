@@ -23,7 +23,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="FifoThread" href="fifo_thread.html" />
-    <link rel="prev" title="kernel_utils" href="../kernels/kernel_utils.html" /> 
+    <link rel="prev" title="calc_shgo_mode" href="../kernels/kernel_utils.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/base_task.html">BaseTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/topic_tree_task.html">TopicTreeTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
@@ -65,12 +66,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html">kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">BaseThread</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread"><code class="docutils literal notranslate"><span class="pre">BaseThread</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.__init__"><code class="docutils literal notranslate"><span class="pre">BaseThread.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.__getitem__"><code class="docutils literal notranslate"><span class="pre">BaseThread.__getitem__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.__len__"><code class="docutils literal notranslate"><span class="pre">BaseThread.__len__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.reset_memory"><code class="docutils literal notranslate"><span class="pre">BaseThread.reset_memory()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.get_message_tokens"><code class="docutils literal notranslate"><span class="pre">BaseThread.get_message_tokens()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.get_message_role"><code class="docutils literal notranslate"><span class="pre">BaseThread.get_message_role()</span></code></a></li>
@@ -90,6 +97,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.messages_after_time"><code class="docutils literal notranslate"><span class="pre">BaseThread.messages_after_time()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.messages_between_time"><code class="docutils literal notranslate"><span class="pre">BaseThread.messages_between_time()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.token_bound_history"><code class="docutils literal notranslate"><span class="pre">BaseThread.token_bound_history()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.__annotations__"><code class="docutils literal notranslate"><span class="pre">BaseThread.__annotations__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.__dict__"><code class="docutils literal notranslate"><span class="pre">BaseThread.__dict__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.base_thread.BaseThread.__module__"><code class="docutils literal notranslate"><span class="pre">BaseThread.__module__</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -99,7 +109,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/python_index.html">PythonIndex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html#prune-index">prune_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html#prune-by-regex">_prune_by_regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html#prune-by-length">_prune_by_length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html#save">save</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html#load">load</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
@@ -113,20 +129,31 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">hf_datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">convert_mark_to_str_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-system">mark_system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-answer">mark_answer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-question">mark_question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#check-dict">check_dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#get-mark-from-response">get_mark_from_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#get-str-from-response">get_str_from_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html#parse-and-embed-functions">parse_and_embed_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html#avg-embeddings">avg_embeddings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/cohere.html">CohereEmbedder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../models/generators/chatgpt.html">chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/chatgpt.html">chatgpt_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul>
@@ -150,6 +177,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
 </ul>
 
         </div>
@@ -181,7 +209,8 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.memory.threads.base_thread.BaseThread">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.threads.base_thread.</span></span><span class="sig-name descname"><span class="pre">BaseThread</span></span><a class="reference internal" href="../../_modules/babydragon/memory/threads/base_thread.html#BaseThread"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.base_thread.BaseThread" title="Permalink to this definition"></a></dt>
-<dd><p>This class is used to keep track of the memory thread of a conversation and the total number of tokens.
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class is used to keep track of the memory thread of a conversation and the total number of tokens.
 All conversation memories should subclass this class. If max_memory is None, it has
 no limit to the number of tokens that can be stored in the memory thread.</p>
 <dl class="field-list simple">
@@ -193,6 +222,36 @@ no limit to the number of tokens that can be stored in the memory thread.</p>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.threads.base_thread.BaseThread.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memory'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/threads/base_thread.html#BaseThread.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.base_thread.BaseThread.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the BaseThread instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the memory thread. Defaults to ‘memory’.</p></li>
+<li><p><strong>max_memory</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – The maximum number of tokens allowed in the memory thread.
+Defaults to None, which means no limit.</p></li>
+<li><p><strong>tokenizer</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em> | </em><em>None</em>) – The tokenizer to be used for tokenizing messages.
+Defaults to None, which means using the tiktoken encoding for the ‘gpt-3.5-turbo’ model.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.threads.base_thread.BaseThread.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/threads/base_thread.html#BaseThread.__getitem__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.base_thread.BaseThread.__getitem__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.threads.base_thread.BaseThread.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/threads/base_thread.html#BaseThread.__len__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.base_thread.BaseThread.__len__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.threads.base_thread.BaseThread.reset_memory">
 <span class="sig-name descname"><span class="pre">reset_memory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/threads/base_thread.html#BaseThread.reset_memory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.base_thread.BaseThread.reset_memory" title="Permalink to this definition"></a></dt>
@@ -470,6 +529,21 @@ If the message is a string, it will search for the string in the content of the 
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.threads.base_thread.BaseThread.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#babydragon.memory.threads.base_thread.BaseThread.__annotations__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.threads.base_thread.BaseThread.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'babydragon.memory.threads.base_thread',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">This</span> <span class="pre">class</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">keep</span> <span class="pre">track</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">memory</span> <span class="pre">thread</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">conversation</span> <span class="pre">and</span> <span class="pre">the</span> <span class="pre">total</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">tokens.\n</span>&#160;&#160;&#160; <span class="pre">All</span> <span class="pre">conversation</span> <span class="pre">memories</span> <span class="pre">should</span> <span class="pre">subclass</span> <span class="pre">this</span> <span class="pre">class.</span> <span class="pre">If</span> <span class="pre">max_memory</span> <span class="pre">is</span> <span class="pre">None,</span> <span class="pre">it</span> <span class="pre">has\n</span>&#160;&#160;&#160; <span class="pre">no</span> <span class="pre">limit</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">tokens</span> <span class="pre">that</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">stored</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">memory</span> <span class="pre">thread.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.__init__&gt;,</span> <span class="pre">'__getitem__':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.__getitem__&gt;,</span> <span class="pre">'__len__':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.__len__&gt;,</span> <span class="pre">'reset_memory':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.reset_memory&gt;,</span> <span class="pre">'get_message_tokens':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.get_message_tokens&gt;,</span> <span class="pre">'get_message_role':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.get_message_role&gt;,</span> <span class="pre">'add_message':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.add_message&gt;,</span> <span class="pre">'remove_message':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.remove_message&gt;,</span> <span class="pre">'find_message':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.find_message&gt;,</span> <span class="pre">'find_role':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.find_role&gt;,</span> <span class="pre">'last_message':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.last_message&gt;,</span> <span class="pre">'first_message':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.first_message&gt;,</span> <span class="pre">'messages_before':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.messages_before&gt;,</span> <span class="pre">'messages_after':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.messages_after&gt;,</span> <span class="pre">'messages_between':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.messages_between&gt;,</span> <span class="pre">'messages_more_tokens':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.messages_more_tokens&gt;,</span> <span class="pre">'messages_less_tokens':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.messages_less_tokens&gt;,</span> <span class="pre">'messages_between_tokens':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.messages_between_tokens&gt;,</span> <span class="pre">'messages_before_time':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.messages_before_time&gt;,</span> <span class="pre">'messages_after_time':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.messages_after_time&gt;,</span> <span class="pre">'messages_between_time':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.messages_between_time&gt;,</span> <span class="pre">'token_bound_history':</span> <span class="pre">&lt;function</span> <span class="pre">BaseThread.token_bound_history&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'BaseThread'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'BaseThread'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#babydragon.memory.threads.base_thread.BaseThread.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.threads.base_thread.BaseThread.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.memory.threads.base_thread'</span></em><a class="headerlink" href="#babydragon.memory.threads.base_thread.BaseThread.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -478,14 +552,14 @@ If the message is a string, it will search for the string in the content of the 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../kernels/kernel_utils.html" class="btn btn-neutral float-left" title="kernel_utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../kernels/kernel_utils.html" class="btn btn-neutral float-left" title="calc_shgo_mode" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="fifo_thread.html" class="btn btn-neutral float-right" title="FifoThread" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+    <p>&#169; Copyright .</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

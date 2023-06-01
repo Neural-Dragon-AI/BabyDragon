@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tasks/base_task.html">BaseTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tasks/topic_tree_task.html">TopicTreeTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
@@ -65,7 +66,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
@@ -75,7 +79,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/python_index.html">PythonIndex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-index">prune_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-by-regex">_prune_by_regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-by-length">_prune_by_length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#save">save</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#load">load</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
@@ -89,26 +99,38 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">hf_datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">convert_mark_to_str_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-system">mark_system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-answer">mark_answer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-question">mark_question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#check-dict">check_dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#get-mark-from-response">get_mark_from_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#get-str-from-response">get_str_from_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html#parse-and-embed-functions">parse_and_embed_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html#avg-embeddings">avg_embeddings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/cohere.html">CohereEmbedder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="github_processors.html">GithubProcessor</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">OsProcessor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor"><code class="docutils literal notranslate"><span class="pre">OsProcessor</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.__init__"><code class="docutils literal notranslate"><span class="pre">OsProcessor.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.get_all_files"><code class="docutils literal notranslate"><span class="pre">OsProcessor.get_all_files()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.get_files_with_extension"><code class="docutils literal notranslate"><span class="pre">OsProcessor.get_files_with_extension()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.get_file_extension"><code class="docutils literal notranslate"><span class="pre">OsProcessor.get_file_extension()</span></code></a></li>
@@ -117,6 +139,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.delete_directory"><code class="docutils literal notranslate"><span class="pre">OsProcessor.delete_directory()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.copy_file"><code class="docutils literal notranslate"><span class="pre">OsProcessor.copy_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.move_file"><code class="docutils literal notranslate"><span class="pre">OsProcessor.move_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.__annotations__"><code class="docutils literal notranslate"><span class="pre">OsProcessor.__annotations__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.__dict__"><code class="docutils literal notranslate"><span class="pre">OsProcessor.__dict__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.__module__"><code class="docutils literal notranslate"><span class="pre">OsProcessor.__module__</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -139,6 +164,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
 </ul>
 
         </div>
@@ -170,11 +196,22 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.os_processor.</span></span><span class="sig-name descname"><span class="pre">OsProcessor</span></span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>directory_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.__init__" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>directory_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p>
 </dd>
 </dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.get_all_files">
 <span class="sig-name descname"><span class="pre">get_all_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor.get_all_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.get_all_files" title="Permalink to this definition"></a></dt>
@@ -296,6 +333,21 @@
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.__annotations__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'babydragon.processors.os_processor',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">OsProcessor.__init__&gt;,</span> <span class="pre">'get_all_files':</span> <span class="pre">&lt;function</span> <span class="pre">OsProcessor.get_all_files&gt;,</span> <span class="pre">'get_files_with_extension':</span> <span class="pre">&lt;function</span> <span class="pre">OsProcessor.get_files_with_extension&gt;,</span> <span class="pre">'get_file_extension':</span> <span class="pre">&lt;function</span> <span class="pre">OsProcessor.get_file_extension&gt;,</span> <span class="pre">'get_subdirectories':</span> <span class="pre">&lt;function</span> <span class="pre">OsProcessor.get_subdirectories&gt;,</span> <span class="pre">'create_directory':</span> <span class="pre">&lt;function</span> <span class="pre">OsProcessor.create_directory&gt;,</span> <span class="pre">'delete_directory':</span> <span class="pre">&lt;function</span> <span class="pre">OsProcessor.delete_directory&gt;,</span> <span class="pre">'copy_file':</span> <span class="pre">&lt;function</span> <span class="pre">OsProcessor.copy_file&gt;,</span> <span class="pre">'move_file':</span> <span class="pre">&lt;function</span> <span class="pre">OsProcessor.move_file&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'OsProcessor'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'OsProcessor'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__doc__':</span> <span class="pre">None,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.processors.os_processor'</span></em><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -311,7 +363,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+    <p>&#169; Copyright .</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

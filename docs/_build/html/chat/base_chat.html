@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tasks/base_task.html">BaseTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tasks/topic_tree_task.html">TopicTreeTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
@@ -65,7 +66,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
@@ -75,27 +79,41 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/python_index.html">PythonIndex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-index">prune_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-by-regex">_prune_by_regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-by-length">_prune_by_length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#save">save</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#load">load</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Prompter</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.chat.base_chat.Prompter"><code class="docutils literal notranslate"><span class="pre">Prompter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.Prompter.__init__"><code class="docutils literal notranslate"><span class="pre">Prompter.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.Prompter.set_default_prompts"><code class="docutils literal notranslate"><span class="pre">Prompter.set_default_prompts()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.Prompter.default_user_prompt"><code class="docutils literal notranslate"><span class="pre">Prompter.default_user_prompt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.Prompter.one_shot_prompt"><code class="docutils literal notranslate"><span class="pre">Prompter.one_shot_prompt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.Prompter.update_system_prompt"><code class="docutils literal notranslate"><span class="pre">Prompter.update_system_prompt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.Prompter.update_user_prompt"><code class="docutils literal notranslate"><span class="pre">Prompter.update_user_prompt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.Prompter.__dict__"><code class="docutils literal notranslate"><span class="pre">Prompter.__dict__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.Prompter.__module__"><code class="docutils literal notranslate"><span class="pre">Prompter.__module__</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#basechat">BaseChat</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat"><code class="docutils literal notranslate"><span class="pre">BaseChat</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat.__init__"><code class="docutils literal notranslate"><span class="pre">BaseChat.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat.__getstate__"><code class="docutils literal notranslate"><span class="pre">BaseChat.__getstate__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat.__setstate__"><code class="docutils literal notranslate"><span class="pre">BaseChat.__setstate__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat.identity_prompter"><code class="docutils literal notranslate"><span class="pre">BaseChat.identity_prompter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat.chat_response"><code class="docutils literal notranslate"><span class="pre">BaseChat.chat_response()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat.reply"><code class="docutils literal notranslate"><span class="pre">BaseChat.reply()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat.__dict__"><code class="docutils literal notranslate"><span class="pre">BaseChat.__dict__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat.__module__"><code class="docutils literal notranslate"><span class="pre">BaseChat.__module__</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat.query"><code class="docutils literal notranslate"><span class="pre">BaseChat.query()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat.reset_logs"><code class="docutils literal notranslate"><span class="pre">BaseChat.reset_logs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.base_chat.BaseChat.get_logs"><code class="docutils literal notranslate"><span class="pre">BaseChat.get_logs()</span></code></a></li>
@@ -112,20 +130,31 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">hf_datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">convert_mark_to_str_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-system">mark_system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-answer">mark_answer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-question">mark_question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#check-dict">check_dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#get-mark-from-response">get_mark_from_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#get-str-from-response">get_str_from_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html#parse-and-embed-functions">parse_and_embed_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html#avg-embeddings">avg_embeddings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/cohere.html">CohereEmbedder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul>
@@ -149,6 +178,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
 </ul>
 
         </div>
@@ -180,7 +210,8 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.chat.base_chat.Prompter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.chat.base_chat.</span></span><span class="sig-name descname"><span class="pre">Prompter</span></span><a class="reference internal" href="../_modules/babydragon/chat/base_chat.html#Prompter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.base_chat.Prompter" title="Permalink to this definition"></a></dt>
-<dd><p>This class handles the system and user prompts and the prompt_func. By subclassing and overriding the
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class handles the system and user prompts and the prompt_func. By subclassing and overriding the
 prompt_func, you can change the way the prompts are composed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -190,6 +221,20 @@ prompt_func, you can change the way the prompts are composed.</p>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.base_chat.Prompter.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/base_chat.html#Prompter.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.base_chat.Prompter.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the Prompter with system and user prompts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system_prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – A string representing the system prompt.</p></li>
+<li><p><strong>user_prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – A string representing the user prompt.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.chat.base_chat.Prompter.set_default_prompts">
 <span class="sig-name descname"><span class="pre">set_default_prompts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/base_chat.html#Prompter.set_default_prompts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.base_chat.Prompter.set_default_prompts" title="Permalink to this definition"></a></dt>
@@ -253,6 +298,16 @@ prompt_func, you can change the way the prompts are composed.</p>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.chat.base_chat.Prompter.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'babydragon.chat.base_chat',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">This</span> <span class="pre">class</span> <span class="pre">handles</span> <span class="pre">the</span> <span class="pre">system</span> <span class="pre">and</span> <span class="pre">user</span> <span class="pre">prompts</span> <span class="pre">and</span> <span class="pre">the</span> <span class="pre">prompt_func.</span> <span class="pre">By</span> <span class="pre">subclassing</span> <span class="pre">and</span> <span class="pre">overriding</span> <span class="pre">the\n</span>&#160;&#160;&#160; <span class="pre">prompt_func,</span> <span class="pre">you</span> <span class="pre">can</span> <span class="pre">change</span> <span class="pre">the</span> <span class="pre">way</span> <span class="pre">the</span> <span class="pre">prompts</span> <span class="pre">are</span> <span class="pre">composed.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">Prompter.__init__&gt;,</span> <span class="pre">'set_default_prompts':</span> <span class="pre">&lt;function</span> <span class="pre">Prompter.set_default_prompts&gt;,</span> <span class="pre">'default_user_prompt':</span> <span class="pre">&lt;function</span> <span class="pre">Prompter.default_user_prompt&gt;,</span> <span class="pre">'one_shot_prompt':</span> <span class="pre">&lt;function</span> <span class="pre">Prompter.one_shot_prompt&gt;,</span> <span class="pre">'update_system_prompt':</span> <span class="pre">&lt;function</span> <span class="pre">Prompter.update_system_prompt&gt;,</span> <span class="pre">'update_user_prompt':</span> <span class="pre">&lt;function</span> <span class="pre">Prompter.update_user_prompt&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'Prompter'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'Prompter'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{'prompt_func':</span> <span class="pre">'Callable[[str],</span> <span class="pre">Tuple[List[str],</span> <span class="pre">str]]'}})</span></em><a class="headerlink" href="#babydragon.chat.base_chat.Prompter.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.chat.base_chat.Prompter.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.chat.base_chat'</span></em><a class="headerlink" href="#babydragon.chat.base_chat.Prompter.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -261,7 +316,8 @@ prompt_func, you can change the way the prompts are composed.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.chat.base_chat.BaseChat">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.chat.base_chat.</span></span><span class="sig-name descname"><span class="pre">BaseChat</span></span><a class="reference internal" href="../_modules/babydragon/chat/base_chat.html#BaseChat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.base_chat.BaseChat" title="Permalink to this definition"></a></dt>
-<dd><p>This is the base class for chatbots, defining the basic functions that a chatbot should have, mainly the calls to
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This is the base class for chatbots, defining the basic functions that a chatbot should have, mainly the calls to
 chat-gpt API, and a basic Gradio interface. It has a prompt_func that acts as a placeholder for a call to chat-gpt
 API without any additional messages. It can be overridden by subclasses to add additional messages to the prompt.</p>
 <dl class="field-list simple">
@@ -272,6 +328,30 @@ API without any additional messages. It can be overridden by subclasses to add a
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.base_chat.BaseChat.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_output_tokens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/base_chat.html#BaseChat.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.base_chat.BaseChat.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the BaseChat with a model and max_output_tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – A string representing the chat model to be used.</p></li>
+<li><p><strong>max_output_tokens</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – An integer representing the maximum number of output tokens.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.base_chat.BaseChat.__getstate__">
+<span class="sig-name descname"><span class="pre">__getstate__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/base_chat.html#BaseChat.__getstate__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.base_chat.BaseChat.__getstate__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.base_chat.BaseChat.__setstate__">
+<span class="sig-name descname"><span class="pre">__setstate__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/base_chat.html#BaseChat.__setstate__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.base_chat.BaseChat.__setstate__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.chat.base_chat.BaseChat.identity_prompter">
 <span class="sig-name descname"><span class="pre">identity_prompter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/base_chat.html#BaseChat.identity_prompter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.base_chat.BaseChat.identity_prompter" title="Permalink to this definition"></a></dt>
@@ -324,6 +404,16 @@ API without any additional messages. It can be overridden by subclasses to add a
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.chat.base_chat.BaseChat.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'babydragon.chat.base_chat',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">This</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">base</span> <span class="pre">class</span> <span class="pre">for</span> <span class="pre">chatbots,</span> <span class="pre">defining</span> <span class="pre">the</span> <span class="pre">basic</span> <span class="pre">functions</span> <span class="pre">that</span> <span class="pre">a</span> <span class="pre">chatbot</span> <span class="pre">should</span> <span class="pre">have,</span> <span class="pre">mainly</span> <span class="pre">the</span> <span class="pre">calls</span> <span class="pre">to\n</span>&#160;&#160;&#160; <span class="pre">chat-gpt</span> <span class="pre">API,</span> <span class="pre">and</span> <span class="pre">a</span> <span class="pre">basic</span> <span class="pre">Gradio</span> <span class="pre">interface.</span> <span class="pre">It</span> <span class="pre">has</span> <span class="pre">a</span> <span class="pre">prompt_func</span> <span class="pre">that</span> <span class="pre">acts</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">placeholder</span> <span class="pre">for</span> <span class="pre">a</span> <span class="pre">call</span> <span class="pre">to</span> <span class="pre">chat-gpt\n</span>&#160;&#160;&#160; <span class="pre">API</span> <span class="pre">without</span> <span class="pre">any</span> <span class="pre">additional</span> <span class="pre">messages.</span> <span class="pre">It</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">overridden</span> <span class="pre">by</span> <span class="pre">subclasses</span> <span class="pre">to</span> <span class="pre">add</span> <span class="pre">additional</span> <span class="pre">messages</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">prompt.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">BaseChat.__init__&gt;,</span> <span class="pre">'__getstate__':</span> <span class="pre">&lt;function</span> <span class="pre">BaseChat.__getstate__&gt;,</span> <span class="pre">'__setstate__':</span> <span class="pre">&lt;function</span> <span class="pre">BaseChat.__setstate__&gt;,</span> <span class="pre">'identity_prompter':</span> <span class="pre">&lt;function</span> <span class="pre">BaseChat.identity_prompter&gt;,</span> <span class="pre">'chat_response':</span> <span class="pre">&lt;function</span> <span class="pre">BaseChat.chat_response&gt;,</span> <span class="pre">'reply':</span> <span class="pre">&lt;function</span> <span class="pre">BaseChat.reply&gt;,</span> <span class="pre">'query':</span> <span class="pre">&lt;function</span> <span class="pre">BaseChat.query&gt;,</span> <span class="pre">'reset_logs':</span> <span class="pre">&lt;function</span> <span class="pre">BaseChat.reset_logs&gt;,</span> <span class="pre">'get_logs':</span> <span class="pre">&lt;function</span> <span class="pre">BaseChat.get_logs&gt;,</span> <span class="pre">'run_text':</span> <span class="pre">&lt;function</span> <span class="pre">BaseChat.run_text&gt;,</span> <span class="pre">'gradio':</span> <span class="pre">&lt;function</span> <span class="pre">BaseChat.gradio&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'BaseChat'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'BaseChat'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#babydragon.chat.base_chat.BaseChat.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.chat.base_chat.BaseChat.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.chat.base_chat'</span></em><a class="headerlink" href="#babydragon.chat.base_chat.BaseChat.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.chat.base_chat.BaseChat.query">
@@ -403,7 +493,7 @@ API without any additional messages. It can be overridden by subclasses to add a
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+    <p>&#169; Copyright .</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

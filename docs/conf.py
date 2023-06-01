@@ -14,7 +14,6 @@ repo_path = os.path.abspath(os.path.dirname("../"))
 print("Repo path: ", repo_path)
 sys.path.insert(0, repo_path)
 project = 'BabyDragon'
-copyright = '2023, Tommaso Furlanello, and Daniel Hug'
 author = 'Tommaso Furlanello, and Daniel Hug'
 
 # -- General configuration ---------------------------------------------------
@@ -36,7 +35,7 @@ autodoc_inherit_docstrings = True
 autodoc_typehints = 'description'
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', "**.ipynb_checkpoints", "__pycache__.py"]
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', 'venv','**.ipynb_checkpoints', '__pycache__.py']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -85,7 +84,16 @@ man_pages = [(master_doc, "libcst", "LibCST Documentation", [author], 1)]
 
 # -- Extension configuration -------------------------------------------------
 autodoc_member_order = "bysource"
-autodoc_default_options = {"members": True, "undoc-members": True}
+# Autodoc settings
+autodoc_default_options = {
+    'members': True,
+    'undoc-members': True,
+    'private-members': True,
+    'special-members': True,
+    'show-inheritance': True,
+    'exclude-members': '__weakref__',
+}
+autosummary_generate = True
 
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 

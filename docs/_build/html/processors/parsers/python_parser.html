@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/base_task.html">BaseTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/topic_tree_task.html">TopicTreeTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
@@ -65,7 +66,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_utils.html">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
@@ -75,7 +79,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/python_index.html">PythonIndex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html#prune-index">prune_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html#prune-by-regex">_prune_by_regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html#prune-by-length">_prune_by_length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html#save">save</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html#load">load</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
@@ -89,20 +99,31 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">hf_datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">convert_mark_to_str_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-system">mark_system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-answer">mark_answer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-question">mark_question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#check-dict">check_dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#get-mark-from-response">get_mark_from_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#get-str-from-response">get_str_from_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html#parse-and-embed-functions">parse_and_embed_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html#avg-embeddings">avg_embeddings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/cohere.html">CohereEmbedder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../models/generators/chatgpt.html">chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/chatgpt.html">chatgpt_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul class="current">
@@ -116,9 +137,12 @@
 <li class="toctree-l1"><a class="reference internal" href="visitors.html#typingcollector">TypingCollector</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">PythonMinifier</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonMinifier"><code class="docutils literal notranslate"><span class="pre">PythonMinifier</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonMinifier.__init__"><code class="docutils literal notranslate"><span class="pre">PythonMinifier.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonMinifier.minify"><code class="docutils literal notranslate"><span class="pre">PythonMinifier.minify()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonMinifier.get_minified_code"><code class="docutils literal notranslate"><span class="pre">PythonMinifier.get_minified_code()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonMinifier.minify_code"><code class="docutils literal notranslate"><span class="pre">PythonMinifier.minify_code()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonMinifier.__dict__"><code class="docutils literal notranslate"><span class="pre">PythonMinifier.__dict__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonMinifier.__module__"><code class="docutils literal notranslate"><span class="pre">PythonMinifier.__module__</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -126,23 +150,34 @@
 <li class="toctree-l1"><a class="reference internal" href="#pythondocstringextractor">PythonDocstringExtractor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonDocstringExtractor"><code class="docutils literal notranslate"><span class="pre">PythonDocstringExtractor</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonDocstringExtractor.extract_docstring"><code class="docutils literal notranslate"><span class="pre">PythonDocstringExtractor.extract_docstring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonDocstringExtractor.__dict__"><code class="docutils literal notranslate"><span class="pre">PythonDocstringExtractor.__dict__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonDocstringExtractor.__module__"><code class="docutils literal notranslate"><span class="pre">PythonDocstringExtractor.__module__</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#functionandclassvisitor">FunctionAndClassVisitor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor"><code class="docutils literal notranslate"><span class="pre">FunctionAndClassVisitor</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__init__"><code class="docutils literal notranslate"><span class="pre">FunctionAndClassVisitor.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.visit_FunctionDef"><code class="docutils literal notranslate"><span class="pre">FunctionAndClassVisitor.visit_FunctionDef()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.visit_ClassDef"><code class="docutils literal notranslate"><span class="pre">FunctionAndClassVisitor.visit_ClassDef()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__abstractmethods__"><code class="docutils literal notranslate"><span class="pre">FunctionAndClassVisitor.__abstractmethods__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__annotations__"><code class="docutils literal notranslate"><span class="pre">FunctionAndClassVisitor.__annotations__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__module__"><code class="docutils literal notranslate"><span class="pre">FunctionAndClassVisitor.__module__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor._abc_impl"><code class="docutils literal notranslate"><span class="pre">FunctionAndClassVisitor._abc_impl</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#pythonparser">PythonParser</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonParser"><code class="docutils literal notranslate"><span class="pre">PythonParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonParser.__init__"><code class="docutils literal notranslate"><span class="pre">PythonParser.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonParser.remove_docstring"><code class="docutils literal notranslate"><span class="pre">PythonParser.remove_docstring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonParser._process_file"><code class="docutils literal notranslate"><span class="pre">PythonParser._process_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonParser.process_file"><code class="docutils literal notranslate"><span class="pre">PythonParser.process_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonParser.process_directory"><code class="docutils literal notranslate"><span class="pre">PythonParser.process_directory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonParser.__annotations__"><code class="docutils literal notranslate"><span class="pre">PythonParser.__annotations__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.python_parser.PythonParser.__module__"><code class="docutils literal notranslate"><span class="pre">PythonParser.__module__</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -155,6 +190,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
 </ul>
 
         </div>
@@ -186,11 +222,22 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonMinifier">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.parsers.python_parser.</span></span><span class="sig-name descname"><span class="pre">PythonMinifier</span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonMinifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonMinifier" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonMinifier.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonMinifier.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonMinifier.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonMinifier.minify">
 <span class="sig-name descname"><span class="pre">minify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonMinifier.minify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonMinifier.minify" title="Permalink to this definition"></a></dt>
@@ -214,6 +261,16 @@
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonMinifier.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'babydragon.processors.parsers.python_parser',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">PythonMinifier.__init__&gt;,</span> <span class="pre">'minify':</span> <span class="pre">&lt;function</span> <span class="pre">PythonMinifier.minify&gt;,</span> <span class="pre">'get_minified_code':</span> <span class="pre">&lt;function</span> <span class="pre">PythonMinifier.get_minified_code&gt;,</span> <span class="pre">'minify_code':</span> <span class="pre">&lt;staticmethod(&lt;function</span> <span class="pre">PythonMinifier.minify_code&gt;)&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'PythonMinifier'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'PythonMinifier'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__doc__':</span> <span class="pre">None,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonMinifier.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonMinifier.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.processors.parsers.python_parser'</span></em><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonMinifier.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -222,7 +279,8 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonDocstringExtractor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.parsers.python_parser.</span></span><span class="sig-name descname"><span class="pre">PythonDocstringExtractor</span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonDocstringExtractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonDocstringExtractor" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonDocstringExtractor.extract_docstring">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extract_docstring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonDocstringExtractor.extract_docstring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonDocstringExtractor.extract_docstring" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
@@ -235,6 +293,16 @@
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonDocstringExtractor.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'babydragon.processors.parsers.python_parser',</span> <span class="pre">'extract_docstring':</span> <span class="pre">&lt;staticmethod(&lt;function</span> <span class="pre">PythonDocstringExtractor.extract_docstring&gt;)&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'PythonDocstringExtractor'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'PythonDocstringExtractor'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__doc__':</span> <span class="pre">None,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonDocstringExtractor.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonDocstringExtractor.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.processors.parsers.python_parser'</span></em><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonDocstringExtractor.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -243,7 +311,13 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.FunctionAndClassVisitor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.parsers.python_parser.</span></span><span class="sig-name descname"><span class="pre">FunctionAndClassVisitor</span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#FunctionAndClassVisitor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CSTVisitor</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#FunctionAndClassVisitor.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.visit_FunctionDef">
 <span class="sig-name descname"><span class="pre">visit_FunctionDef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#FunctionAndClassVisitor.visit_FunctionDef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.visit_FunctionDef" title="Permalink to this definition"></a></dt>
 <dd><p>This method is called for every FunctionDef node in the tree.
@@ -279,6 +353,26 @@ and it does the following:
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__abstractmethods__">
+<span class="sig-name descname"><span class="pre">__abstractmethods__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({})</span></em><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__abstractmethods__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'METADATA_DEPENDENCIES':</span> <span class="pre">&quot;ClassVar[Collection['ProviderT']]&quot;,</span> <span class="pre">'metadata':</span> <span class="pre">&quot;Mapping['ProviderT',</span> <span class="pre">Mapping['CSTNode',</span> <span class="pre">object]]&quot;}</span></em><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__annotations__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.processors.parsers.python_parser'</span></em><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.FunctionAndClassVisitor._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor._abc_impl" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -287,7 +381,8 @@ and it does the following:
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonParser">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.parsers.python_parser.</span></span><span class="sig-name descname"><span class="pre">PythonParser</span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Bases: <a class="reference internal" href="../os_processor.html#babydragon.processors.os_processor.OsProcessor" title="babydragon.processors.os_processor.OsProcessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">OsProcessor</span></code></a></p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>directory_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
@@ -298,6 +393,21 @@ and it does the following:
 </dd>
 </dl>
 <dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonParser.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visitor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minify_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_docstrings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonParser.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>visitor</strong> (<a class="reference internal" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor" title="babydragon.processors.parsers.python_parser.FunctionAndClassVisitor"><em>FunctionAndClassVisitor</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>minify_code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
+<li><p><strong>remove_docstrings</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonParser.remove_docstring">
 <span class="sig-name descname"><span class="pre">remove_docstring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonParser.remove_docstring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser.remove_docstring" title="Permalink to this definition"></a></dt>
 <dd><p>Removes docstrings from the given code and returns the code without docstrings.</p>
@@ -307,6 +417,21 @@ and it does the following:
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonParser._process_file">
+<span class="sig-name descname"><span class="pre">_process_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonParser._process_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser._process_file" title="Permalink to this definition"></a></dt>
+<dd><p>This method is called for every file in the directory.
+It does the following:
+1. Reads the file
+2. Parses the file
+3. Visits the file with the visitor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -343,6 +468,16 @@ It does the following:
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonParser.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser.__annotations__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonParser.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.processors.parsers.python_parser'</span></em><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -358,7 +493,7 @@ It does the following:
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+    <p>&#169; Copyright .</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

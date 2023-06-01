@@ -72,6 +72,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html">PythonIndex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">MemoryIndex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
@@ -165,17 +166,20 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a group of MemoryKernels.</span>
 
-<span class="sd">    Attributes</span>
-<span class="sd">    ----------</span>
-<span class="sd">    memory_kernel_dict : Dict[str, MemoryKernel]</span>
+<span class="sd">    `Attributes:`</span>
+
+<span class="sd">    :attr:`memory_kernel_dict` : Dict[str, MemoryKernel]</span>
 <span class="sd">        A dictionary of MemoryKernel instances.</span>
-<span class="sd">    path_group : dict</span>
+<span class="sd">    </span>
+<span class="sd">    :attr:`path_group` : dict</span>
 <span class="sd">        A dictionary to store the generated path groups.</span>
-<span class="sd">    name : str</span>
+<span class="sd">    </span>
+<span class="sd">    :attr:`name` : str</span>
 <span class="sd">        The name of the MultiKernel.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+
+<div class="viewcode-block" id="MultiKernel.__init__"><a class="viewcode-back" href="../../../../memory/kernels/multi_kernel.html#babydragon.memory.kernels.multi_kernel.MultiKernel.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">memory_kernel_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MemoryKernel</span><span class="p">],</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;memory_kernel_group&quot;</span><span class="p">,</span>
@@ -192,21 +196,20 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">memory_kernel_dict</span> <span class="o">=</span> <span class="n">memory_kernel_dict</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path_group</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span></div></div>
 
 
 <div class="viewcode-block" id="HDBSCANMultiKernel"><a class="viewcode-back" href="../../../../memory/kernels/multi_kernel.html#babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel">[docs]</a><span class="k">class</span> <span class="nc">HDBSCANMultiKernel</span><span class="p">(</span><span class="n">MultiKernel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a group of MemoryKernels clustered using HDBSCAN.</span>
 
-<span class="sd">    ...</span>
+<span class="sd">    `Attributes:`</span>
 
-<span class="sd">    Attributes</span>
-<span class="sd">    ----------</span>
-<span class="sd">    cluster_paths : HDBSCANPaths</span>
+<span class="sd">    :attr:`cluster_paths` : HDBSCANPaths</span>
 <span class="sd">        An instance of HDBSCANPaths to generate paths for the memory kernels.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+
+<div class="viewcode-block" id="HDBSCANMultiKernel.__init__"><a class="viewcode-back" href="../../../../memory/kernels/multi_kernel.html#babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">memory_kernel_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MemoryKernel</span><span class="p">],</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;memory_kernel_group&quot;</span><span class="p">,</span>
@@ -223,7 +226,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">memory_kernel_dict</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cluster_paths</span> <span class="o">=</span> <span class="n">HDBSCANPaths</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster_paths</span> <span class="o">=</span> <span class="n">HDBSCANPaths</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="HDBSCANMultiKernel.generate_path_groups"><a class="viewcode-back" href="../../../../memory/kernels/multi_kernel.html#babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel.generate_path_groups">[docs]</a>    <span class="k">def</span> <span class="nf">generate_path_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -249,15 +252,13 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a group of MemoryKernels clustered using Spectral Clustering.</span>
 
-<span class="sd">    ...</span>
+<span class="sd">    `Attributes:`</span>
 
-<span class="sd">    Attributes</span>
-<span class="sd">    ----------</span>
-<span class="sd">    cluster_paths : SpectralClusteringPaths</span>
+<span class="sd">    :attr:`cluster_paths` : SpectralClusteringPaths</span>
 <span class="sd">        An instance of SpectralClusteringPaths to generate paths for the memory kernels.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="SpectralClusteringMultiKernel.__init__"><a class="viewcode-back" href="../../../../memory/kernels/multi_kernel.html#babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">memory_kernel_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MemoryKernel</span><span class="p">],</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;memory_kernel_group&quot;</span><span class="p">,</span>
@@ -273,7 +274,7 @@
 <span class="sd">            The name of the MultiKernel. Defaults to &quot;memory_kernel_group&quot;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">memory_kernel_dict</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cluster_paths</span> <span class="o">=</span> <span class="n">SpectralClusteringPaths</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster_paths</span> <span class="o">=</span> <span class="n">SpectralClusteringPaths</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="SpectralClusteringMultiKernel.generate_path_groups"><a class="viewcode-back" href="../../../../memory/kernels/multi_kernel.html#babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel.generate_path_groups">[docs]</a>    <span class="k">def</span> <span class="nf">generate_path_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -305,7 +306,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+    <p>&#169; Copyright .</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

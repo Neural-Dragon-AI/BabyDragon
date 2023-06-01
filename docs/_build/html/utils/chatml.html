@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>chatml &mdash; BabyDragon  documentation</title>
+  <title>convert_mark_to_str_prompt &mdash; BabyDragon  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -23,7 +23,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="OpenAiEmbedder" href="../models/embedders/ada2.html" />
-    <link rel="prev" title="hf_datasets" href="hf_datasets.html" /> 
+    <link rel="prev" title="concat_columns" href="hf_datasets.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tasks/base_task.html">BaseTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tasks/topic_tree_task.html">TopicTreeTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
@@ -65,7 +66,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
@@ -75,7 +79,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/python_index.html">PythonIndex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-index">prune_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-by-regex">_prune_by_regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-by-length">_prune_by_length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#save">save</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#load">load</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
@@ -89,20 +99,52 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="pandas.html">pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hf_datasets.html">hf_datasets</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pandas.html">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hf_datasets.html">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">convert_mark_to_str_prompt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.utils.chatml.convert_mark_to_str_prompt"><code class="docutils literal notranslate"><span class="pre">convert_mark_to_str_prompt()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#mark-system">mark_system</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.utils.chatml.mark_system"><code class="docutils literal notranslate"><span class="pre">mark_system()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#mark-answer">mark_answer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.utils.chatml.mark_answer"><code class="docutils literal notranslate"><span class="pre">mark_answer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#mark-question">mark_question</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.utils.chatml.mark_question"><code class="docutils literal notranslate"><span class="pre">mark_question()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#check-dict">check_dict</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.utils.chatml.check_dict"><code class="docutils literal notranslate"><span class="pre">check_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#get-mark-from-response">get_mark_from_response</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.utils.chatml.get_mark_from_response"><code class="docutils literal notranslate"><span class="pre">get_mark_from_response()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#get-str-from-response">get_str_from_response</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.utils.chatml.get_str_from_response"><code class="docutils literal notranslate"><span class="pre">get_str_from_response()</span></code></a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html#parse-and-embed-functions">parse_and_embed_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html#avg-embeddings">avg_embeddings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/cohere.html">CohereEmbedder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul>
@@ -126,6 +168,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
 </ul>
 
         </div>
@@ -142,7 +185,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">chatml</li>
+      <li class="breadcrumb-item active">convert_mark_to_str_prompt</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/utils/chatml.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -152,22 +195,86 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="chatml">
-<h1>chatml<a class="headerlink" href="#chatml" title="Permalink to this heading"></a></h1>
+  <section id="convert-mark-to-str-prompt">
+<h1>convert_mark_to_str_prompt<a class="headerlink" href="#convert-mark-to-str-prompt" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.utils.chatml.convert_mark_to_str_prompt">
+<span class="sig-prename descclassname"><span class="pre">babydragon.utils.chatml.</span></span><span class="sig-name descname"><span class="pre">convert_mark_to_str_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">messages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/utils/chatml.html#convert_mark_to_str_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.utils.chatml.convert_mark_to_str_prompt" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>messages</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>]</em>) – </p></li>
+<li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="mark-system">
+<h1>mark_system<a class="headerlink" href="#mark-system" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.utils.chatml.mark_system">
+<span class="sig-prename descclassname"><span class="pre">babydragon.utils.chatml.</span></span><span class="sig-name descname"><span class="pre">mark_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/utils/chatml.html#mark_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.utils.chatml.mark_system" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="mark-answer">
+<h1>mark_answer<a class="headerlink" href="#mark-answer" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.utils.chatml.mark_answer">
+<span class="sig-prename descclassname"><span class="pre">babydragon.utils.chatml.</span></span><span class="sig-name descname"><span class="pre">mark_answer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">answer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/utils/chatml.html#mark_answer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.utils.chatml.mark_answer" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="mark-question">
+<h1>mark_question<a class="headerlink" href="#mark-question" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.utils.chatml.mark_question">
+<span class="sig-prename descclassname"><span class="pre">babydragon.utils.chatml.</span></span><span class="sig-name descname"><span class="pre">mark_question</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">question</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/utils/chatml.html#mark_question"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.utils.chatml.mark_question" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="check-dict">
+<h1>check_dict<a class="headerlink" href="#check-dict" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.utils.chatml.check_dict">
+<span class="sig-prename descclassname"><span class="pre">babydragon.utils.chatml.</span></span><span class="sig-name descname"><span class="pre">check_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/utils/chatml.html#check_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.utils.chatml.check_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="get-mark-from-response">
+<h1>get_mark_from_response<a class="headerlink" href="#get-mark-from-response" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.utils.chatml.get_mark_from_response">
+<span class="sig-prename descclassname"><span class="pre">babydragon.utils.chatml.</span></span><span class="sig-name descname"><span class="pre">get_mark_from_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gpt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/utils/chatml.html#get_mark_from_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.utils.chatml.get_mark_from_response" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="get-str-from-response">
+<h1>get_str_from_response<a class="headerlink" href="#get-str-from-response" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.utils.chatml.get_str_from_response">
+<span class="sig-prename descclassname"><span class="pre">babydragon.utils.chatml.</span></span><span class="sig-name descname"><span class="pre">get_str_from_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gpt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/utils/chatml.html#get_str_from_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.utils.chatml.get_str_from_response" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="hf_datasets.html" class="btn btn-neutral float-left" title="hf_datasets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="hf_datasets.html" class="btn btn-neutral float-left" title="concat_columns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../models/embedders/ada2.html" class="btn btn-neutral float-right" title="OpenAiEmbedder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+    <p>&#169; Copyright .</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

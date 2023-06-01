@@ -22,7 +22,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="MemoryIndex" href="../indexes/memory_index.html" />
+    <link rel="next" title="PythonIndex" href="../indexes/python_index.html" />
     <link rel="prev" title="FifoThread" href="fifo_thread.html" /> 
 </head>
 
@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/base_task.html">BaseTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/topic_tree_task.html">TopicTreeTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
@@ -65,7 +66,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html">kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul class="current">
@@ -73,11 +77,14 @@
 <li class="toctree-l1"><a class="reference internal" href="fifo_thread.html">FifoThread</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">VectorThread</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.threads.vector_thread.VectorThread"><code class="docutils literal notranslate"><span class="pre">VectorThread</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.vector_thread.VectorThread.__init__"><code class="docutils literal notranslate"><span class="pre">VectorThread.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.vector_thread.VectorThread.index_message"><code class="docutils literal notranslate"><span class="pre">VectorThread.index_message()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.vector_thread.VectorThread.add_message"><code class="docutils literal notranslate"><span class="pre">VectorThread.add_message()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.vector_thread.VectorThread.token_bound_query"><code class="docutils literal notranslate"><span class="pre">VectorThread.token_bound_query()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.vector_thread.VectorThread.sorted_query"><code class="docutils literal notranslate"><span class="pre">VectorThread.sorted_query()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.vector_thread.VectorThread.weighted_query"><code class="docutils literal notranslate"><span class="pre">VectorThread.weighted_query()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.vector_thread.VectorThread.__annotations__"><code class="docutils literal notranslate"><span class="pre">VectorThread.__annotations__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.threads.vector_thread.VectorThread.__module__"><code class="docutils literal notranslate"><span class="pre">VectorThread.__module__</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -85,7 +92,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/python_index.html">PythonIndex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html#prune-index">prune_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html#prune-by-regex">_prune_by_regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html#prune-by-length">_prune_by_length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html#save">save</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../indexes/memory_index.html#load">load</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
@@ -99,20 +112,31 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">hf_datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">convert_mark_to_str_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-system">mark_system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-answer">mark_answer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-question">mark_question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#check-dict">check_dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#get-mark-from-response">get_mark_from_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#get-str-from-response">get_str_from_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html#parse-and-embed-functions">parse_and_embed_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html#avg-embeddings">avg_embeddings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/cohere.html">CohereEmbedder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../models/generators/chatgpt.html">chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/chatgpt.html">chatgpt_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul>
@@ -136,6 +160,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
 </ul>
 
         </div>
@@ -167,8 +192,26 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.memory.threads.vector_thread.VectorThread">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.threads.vector_thread.</span></span><span class="sig-name descname"><span class="pre">VectorThread</span></span><a class="reference internal" href="../../_modules/babydragon/memory/threads/vector_thread.html#VectorThread"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.vector_thread.VectorThread" title="Permalink to this definition"></a></dt>
-<dd><p>vector BaseThread, creates a faiss index with the messages and allows to search for similar messages, memory BaseThread can return messages in either similarity or chronological order
+<dd><p>Bases: <a class="reference internal" href="base_thread.html#babydragon.memory.threads.base_thread.BaseThread" title="babydragon.memory.threads.base_thread.BaseThread"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseThread</span></code></a>, <a class="reference internal" href="../indexes/memory_index.html#babydragon.memory.indexes.memory_index.MemoryIndex" title="babydragon.memory.indexes.memory_index.MemoryIndex"><code class="xref py py-class docutils literal notranslate"><span class="pre">MemoryIndex</span></code></a></p>
+<p>vector BaseThread, creates a faiss index with the messages and allows to search for similar messages, memory BaseThread can return messages in either similarity or chronological order
 add a parameter to choose the order of the messages</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.threads.vector_thread.VectorThread.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vector_memory'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2048</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_mark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/threads/vector_thread.html#VectorThread.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.vector_thread.VectorThread.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize the BaseThread instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The name of the memory thread. Defaults to ‘memory’.</p></li>
+<li><p><strong>max_memory</strong> – The maximum number of tokens allowed in the memory thread.
+Defaults to None, which means no limit.</p></li>
+<li><p><strong>tokenizer</strong> – The tokenizer to be used for tokenizing messages.
+Defaults to None, which means using the tiktoken encoding for the ‘gpt-3.5-turbo’ model.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.threads.vector_thread.VectorThread.index_message">
 <span class="sig-name descname"><span class="pre">index_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/threads/vector_thread.html#VectorThread.index_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.vector_thread.VectorThread.index_message" title="Permalink to this definition"></a></dt>
@@ -258,6 +301,16 @@ If reverse is True, the results are sorted in reverse chronological order with t
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.threads.vector_thread.VectorThread.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#babydragon.memory.threads.vector_thread.VectorThread.__annotations__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.threads.vector_thread.VectorThread.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.memory.threads.vector_thread'</span></em><a class="headerlink" href="#babydragon.memory.threads.vector_thread.VectorThread.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -267,13 +320,13 @@ If reverse is True, the results are sorted in reverse chronological order with t
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="fifo_thread.html" class="btn btn-neutral float-left" title="FifoThread" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../indexes/memory_index.html" class="btn btn-neutral float-right" title="MemoryIndex" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../indexes/python_index.html" class="btn btn-neutral float-right" title="PythonIndex" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+    <p>&#169; Copyright .</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

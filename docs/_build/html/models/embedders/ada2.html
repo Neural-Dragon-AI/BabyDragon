@@ -23,7 +23,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="CohereEmbedder" href="cohere.html" />
-    <link rel="prev" title="chatml" href="../../utils/chatml.html" /> 
+    <link rel="prev" title="convert_mark_to_str_prompt" href="../../utils/chatml.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/base_task.html">BaseTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/topic_tree_task.html">TopicTreeTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
@@ -65,7 +66,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_utils.html">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
@@ -75,7 +79,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/python_index.html">PythonIndex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html#prune-index">prune_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html#prune-by-regex">_prune_by_regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html#prune-by-length">_prune_by_length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html#save">save</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html#load">load</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
@@ -89,9 +99,17 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">hf_datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">convert_mark_to_str_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-system">mark_system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-answer">mark_answer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-question">mark_question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#check-dict">check_dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#get-mark-from-response">get_mark_from_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#get-str-from-response">get_str_from_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul class="current">
@@ -100,8 +118,18 @@
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.models.embedders.ada2.OpenAiEmbedder.get_embedding_size"><code class="docutils literal notranslate"><span class="pre">OpenAiEmbedder.get_embedding_size()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.models.embedders.ada2.OpenAiEmbedder.embed"><code class="docutils literal notranslate"><span class="pre">OpenAiEmbedder.embed()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.models.embedders.ada2.OpenAiEmbedder.batch_embed"><code class="docutils literal notranslate"><span class="pre">OpenAiEmbedder.batch_embed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.models.embedders.ada2.OpenAiEmbedder.__dict__"><code class="docutils literal notranslate"><span class="pre">OpenAiEmbedder.__dict__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.models.embedders.ada2.OpenAiEmbedder.__module__"><code class="docutils literal notranslate"><span class="pre">OpenAiEmbedder.__module__</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#parse-and-embed-functions">parse_and_embed_functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.models.embedders.ada2.parse_and_embed_functions"><code class="docutils literal notranslate"><span class="pre">parse_and_embed_functions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#avg-embeddings">avg_embeddings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.models.embedders.ada2.avg_embeddings"><code class="docutils literal notranslate"><span class="pre">avg_embeddings()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cohere.html">CohereEmbedder</a></li>
@@ -109,8 +137,9 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../generators/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../generators/chatgpt.html">chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generators/cohere.html">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generators/chatgpt.html">chatgpt_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul>
@@ -134,6 +163,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
 </ul>
 
         </div>
@@ -165,7 +195,8 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.models.embedders.ada2.OpenAiEmbedder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.models.embedders.ada2.</span></span><span class="sig-name descname"><span class="pre">OpenAiEmbedder</span></span><a class="reference internal" href="../../_modules/babydragon/models/embedders/ada2.html#OpenAiEmbedder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.models.embedders.ada2.OpenAiEmbedder" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
 <dt class="sig sig-object py" id="babydragon.models.embedders.ada2.OpenAiEmbedder.get_embedding_size">
 <span class="sig-name descname"><span class="pre">get_embedding_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/models/embedders/ada2.html#OpenAiEmbedder.get_embedding_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.models.embedders.ada2.OpenAiEmbedder.get_embedding_size" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -185,6 +216,48 @@
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.models.embedders.ada2.OpenAiEmbedder.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'babydragon.models.embedders.ada2',</span> <span class="pre">'get_embedding_size':</span> <span class="pre">&lt;function</span> <span class="pre">OpenAiEmbedder.get_embedding_size&gt;,</span> <span class="pre">'embed':</span> <span class="pre">&lt;function</span> <span class="pre">OpenAiEmbedder.embed&gt;,</span> <span class="pre">'batch_embed':</span> <span class="pre">&lt;function</span> <span class="pre">OpenAiEmbedder.batch_embed&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'OpenAiEmbedder'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'OpenAiEmbedder'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__doc__':</span> <span class="pre">None,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#babydragon.models.embedders.ada2.OpenAiEmbedder.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.models.embedders.ada2.OpenAiEmbedder.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.models.embedders.ada2'</span></em><a class="headerlink" href="#babydragon.models.embedders.ada2.OpenAiEmbedder.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="parse-and-embed-functions">
+<h1>parse_and_embed_functions<a class="headerlink" href="#parse-and-embed-functions" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.models.embedders.ada2.parse_and_embed_functions">
+<span class="sig-prename descclassname"><span class="pre">babydragon.models.embedders.ada2.</span></span><span class="sig-name descname"><span class="pre">parse_and_embed_functions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/models/embedders/ada2.html#parse_and_embed_functions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.models.embedders.ada2.parse_and_embed_functions" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<em>ndarray</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="avg-embeddings">
+<h1>avg_embeddings<a class="headerlink" href="#avg-embeddings" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.models.embedders.ada2.avg_embeddings">
+<span class="sig-prename descclassname"><span class="pre">babydragon.models.embedders.ada2.</span></span><span class="sig-name descname"><span class="pre">avg_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embeddings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/models/embedders/ada2.html#avg_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.models.embedders.ada2.avg_embeddings" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>embeddings</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><em>ndarray</em><em>]</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -193,14 +266,14 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../../utils/chatml.html" class="btn btn-neutral float-left" title="chatml" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../utils/chatml.html" class="btn btn-neutral float-left" title="convert_mark_to_str_prompt" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="cohere.html" class="btn btn-neutral float-right" title="CohereEmbedder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+    <p>&#169; Copyright .</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

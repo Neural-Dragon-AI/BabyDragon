@@ -23,7 +23,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="PandasIndex" href="pandas_index.html" />
-    <link rel="prev" title="VectorThread" href="../threads/vector_thread.html" /> 
+    <link rel="prev" title="PythonIndex" href="python_index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/base_task.html">BaseTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/topic_tree_task.html">TopicTreeTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
@@ -65,7 +66,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html">kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
@@ -75,9 +79,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="python_index.html">PythonIndex</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">MemoryIndex</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex"><code class="docutils literal notranslate"><span class="pre">MemoryIndex</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__init__"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.__init__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.init_index"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.init_index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__getstate__"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.__getstate__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__setstate__"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.__setstate__()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.from_pandas"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.from_pandas()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.from_hf_dataset"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.from_hf_dataset()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.add_to_index"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.add_to_index()</span></code></a></li>
@@ -86,6 +94,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.get_embedding_by_index"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.get_embedding_by_index()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.get_index_by_value"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.get_index_by_value()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.get_embedding_by_value"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.get_embedding_by_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__annotations__"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.__annotations__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__dict__"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.__dict__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__module__"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.__module__</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.get_all_embeddings"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.get_all_embeddings()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.faiss_query"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.faiss_query()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.token_bound_query"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.token_bound_query()</span></code></a></li>
@@ -94,6 +105,26 @@
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex.prune"><code class="docutils literal notranslate"><span class="pre">MemoryIndex.prune()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#prune-index">prune_index</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.prune_index"><code class="docutils literal notranslate"><span class="pre">prune_index()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#prune-by-regex">_prune_by_regex</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.indexes.memory_index._prune_by_regex"><code class="docutils literal notranslate"><span class="pre">_prune_by_regex()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#prune-by-length">_prune_by_length</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.indexes.memory_index._prune_by_length"><code class="docutils literal notranslate"><span class="pre">_prune_by_length()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#save">save</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#load">load</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.indexes.memory_index.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pandas_index.html">PandasIndex</a></li>
@@ -109,20 +140,31 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">hf_datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">convert_mark_to_str_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-system">mark_system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-answer">mark_answer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#mark-question">mark_question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#check-dict">check_dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#get-mark-from-response">get_mark_from_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html#get-str-from-response">get_str_from_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html#parse-and-embed-functions">parse_and_embed_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html#avg-embeddings">avg_embeddings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/cohere.html">CohereEmbedder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../models/generators/chatgpt.html">chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/generators/chatgpt.html">chatgpt_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul>
@@ -146,6 +188,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
 </ul>
 
         </div>
@@ -177,7 +220,8 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.MemoryIndex">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.indexes.memory_index.</span></span><span class="sig-name descname"><span class="pre">MemoryIndex</span></span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#MemoryIndex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index.MemoryIndex" title="Permalink to this definition"></a></dt>
-<dd><p>this class is a wrapper for a faiss index, it contains information about the format of the index the faiss index itself</p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>this class is a wrapper for a faiss index, it contains information about the format of the index the faiss index itself</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -196,6 +240,29 @@
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.MemoryIndex.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embeddings=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name='memory_index'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backup=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedder=&lt;class</span> <span class="pre">'babydragon.models.embedders.ada2.OpenAiEmbedder'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_batched=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">markdown='text/markdown'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#MemoryIndex.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>Index</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
+<li><p><strong>embeddings</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><em>ndarray</em><em>] </em><em>| </em><em>None</em>) – </p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>load</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
+<li><p><strong>tokenizer</strong> (<em>Encoding</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>max_workers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>backup</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
+<li><p><strong>embedder</strong> (<a class="reference internal" href="../../models/embedders/ada2.html#babydragon.models.embedders.ada2.OpenAiEmbedder" title="babydragon.models.embedders.ada2.OpenAiEmbedder"><em>OpenAiEmbedder</em></a><em> | </em><a class="reference internal" href="../../models/embedders/cohere.html#babydragon.models.embedders.cohere.CohereEmbedder" title="babydragon.models.embedders.cohere.CohereEmbedder"><em>CohereEmbedder</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>is_batched</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
+<li><p><strong>markdown</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.MemoryIndex.init_index">
 <span class="sig-name descname"><span class="pre">init_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embeddings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_embed_batched</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#MemoryIndex.init_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index.MemoryIndex.init_index" title="Permalink to this definition"></a></dt>
@@ -220,13 +287,23 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.MemoryIndex.__getstate__">
+<span class="sig-name descname"><span class="pre">__getstate__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#MemoryIndex.__getstate__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__getstate__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.MemoryIndex.__setstate__">
+<span class="sig-name descname"><span class="pre">__setstate__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#MemoryIndex.__setstate__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__setstate__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.MemoryIndex.from_pandas">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pandas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_frame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memory_index'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embeddings_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">markdown</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'text/markdown'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#MemoryIndex.from_pandas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index.MemoryIndex.from_pandas" title="Permalink to this definition"></a></dt>
 <dd><p>Initialize a MemoryIndex object from a pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data_frame</strong> (<a class="reference internal" href="../../utils/pandas.html#pandas.DataFrame" title="pandas.core.frame.DataFrame"><em>DataFrame</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The DataFrame or path to a CSV file.</p></li>
+<li><p><strong>data_frame</strong> (<em>DataFrame</em><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The DataFrame or path to a CSV file.</p></li>
 <li><p><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – The columns of the DataFrame to use as values.</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the index.</p></li>
 <li><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – The path to save the index.</p></li>
@@ -365,6 +442,21 @@
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.MemoryIndex.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__annotations__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.MemoryIndex.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'babydragon.memory.indexes.memory_index',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">this</span> <span class="pre">class</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">wrapper</span> <span class="pre">for</span> <span class="pre">a</span> <span class="pre">faiss</span> <span class="pre">index,</span> <span class="pre">it</span> <span class="pre">contains</span> <span class="pre">information</span> <span class="pre">about</span> <span class="pre">the</span> <span class="pre">format</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">index</span> <span class="pre">the</span> <span class="pre">faiss</span> <span class="pre">index</span> <span class="pre">itself\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.__init__&gt;,</span> <span class="pre">'init_index':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.init_index&gt;,</span> <span class="pre">'__getstate__':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.__getstate__&gt;,</span> <span class="pre">'__setstate__':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.__setstate__&gt;,</span> <span class="pre">'from_pandas':</span> <span class="pre">&lt;classmethod(&lt;function</span> <span class="pre">MemoryIndex.from_pandas&gt;)&gt;,</span> <span class="pre">'from_hf_dataset':</span> <span class="pre">&lt;classmethod(&lt;function</span> <span class="pre">MemoryIndex.from_hf_dataset&gt;)&gt;,</span> <span class="pre">'add_to_index':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.add_to_index&gt;,</span> <span class="pre">'add_batch_to_index':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.add_batch_to_index&gt;,</span> <span class="pre">'remove_from_index':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.remove_from_index&gt;,</span> <span class="pre">'get_embedding_by_index':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.get_embedding_by_index&gt;,</span> <span class="pre">'get_index_by_value':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.get_index_by_value&gt;,</span> <span class="pre">'get_embedding_by_value':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.get_embedding_by_value&gt;,</span> <span class="pre">'get_all_embeddings':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.get_all_embeddings&gt;,</span> <span class="pre">'faiss_query':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.faiss_query&gt;,</span> <span class="pre">'token_bound_query':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.token_bound_query&gt;,</span> <span class="pre">'save':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.save&gt;,</span> <span class="pre">'load':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.load&gt;,</span> <span class="pre">'prune':</span> <span class="pre">&lt;function</span> <span class="pre">MemoryIndex.prune&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'MemoryIndex'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'MemoryIndex'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__dict__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.MemoryIndex.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.memory.indexes.memory_index'</span></em><a class="headerlink" href="#babydragon.memory.indexes.memory_index.MemoryIndex.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.MemoryIndex.get_all_embeddings">
 <span class="sig-name descname"><span class="pre">get_all_embeddings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#MemoryIndex.get_all_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index.MemoryIndex.get_all_embeddings" title="Permalink to this definition"></a></dt>
@@ -430,19 +522,95 @@
 </dd></dl>
 
 </section>
+<section id="prune-index">
+<h1>prune_index<a class="headerlink" href="#prune-index" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.prune_index">
+<span class="sig-prename descclassname"><span class="pre">babydragon.memory.indexes.memory_index.</span></span><span class="sig-name descname"><span class="pre">prune_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length_constraint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#prune_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index.prune_index" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cls</strong> (<a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex" title="babydragon.memory.indexes.memory_index.MemoryIndex"><em>MemoryIndex</em></a>) – </p></li>
+<li><p><strong>constraint</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>regex_pattern</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>length_constraint</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
+<li><p><strong>tokenizer</strong> (<em>Encoding</em><em> | </em><em>None</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex" title="babydragon.memory.indexes.memory_index.MemoryIndex"><em>MemoryIndex</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="prune-by-regex">
+<h1>_prune_by_regex<a class="headerlink" href="#prune-by-regex" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index._prune_by_regex">
+<span class="sig-prename descclassname"><span class="pre">babydragon.memory.indexes.memory_index.</span></span><span class="sig-name descname"><span class="pre">_prune_by_regex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regex_pattern</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#_prune_by_regex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index._prune_by_regex" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cls</strong> (<a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex" title="babydragon.memory.indexes.memory_index.MemoryIndex"><em>MemoryIndex</em></a>) – </p></li>
+<li><p><strong>regex_pattern</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<em>ndarray</em>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="prune-by-length">
+<h1>_prune_by_length<a class="headerlink" href="#prune-by-length" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index._prune_by_length">
+<span class="sig-prename descclassname"><span class="pre">babydragon.memory.indexes.memory_index.</span></span><span class="sig-name descname"><span class="pre">_prune_by_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length_constraint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#_prune_by_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index._prune_by_length" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cls</strong> (<a class="reference internal" href="#babydragon.memory.indexes.memory_index.MemoryIndex" title="babydragon.memory.indexes.memory_index.MemoryIndex"><em>MemoryIndex</em></a>) – </p></li>
+<li><p><strong>length_constraint</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<em>ndarray</em>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="save">
+<h1>save<a class="headerlink" href="#save" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.save">
+<span class="sig-prename descclassname"><span class="pre">babydragon.memory.indexes.memory_index.</span></span><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index.save" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="load">
+<h1>load<a class="headerlink" href="#load" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="babydragon.memory.indexes.memory_index.load">
+<span class="sig-prename descclassname"><span class="pre">babydragon.memory.indexes.memory_index.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/indexes/memory_index.html#load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.indexes.memory_index.load" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../threads/vector_thread.html" class="btn btn-neutral float-left" title="VectorThread" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="python_index.html" class="btn btn-neutral float-left" title="PythonIndex" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="pandas_index.html" class="btn btn-neutral float-right" title="PandasIndex" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+    <p>&#169; Copyright .</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

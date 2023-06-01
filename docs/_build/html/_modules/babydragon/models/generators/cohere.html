@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>babydragon.models.generators.cohere &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">babydragon.tasks.llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html#llmreader">LLMReader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html#llmwriter">LLMWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">babydragon.tasks.multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html#multikerneltask">MultiKernelTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">babydragon.tasks.base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html#basetask">BaseTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">babydragon.tasks.topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html#topictreetask">TopicTreeTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">babydragon.tasks.embedding_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html#embeddingtask">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">babydragon.memory.kernels.memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html#memorykernel">MemoryKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">babydragon.memory.kernels.kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#clusterpaths">ClusterPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">babydragon.memory.kernels.multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#multikernel">MultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">babydragon.memory.kernels.multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html#multikernelvisualization">MultiKernelVisualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">babydragon.memory.kernels.kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html#calc-shgo-mode">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">babydragon.memory.threads.base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html#basethread">BaseThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">babydragon.memory.threads.fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html#fifothread">FifoThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">babydragon.memory.threads.vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html#vectorthread">VectorThread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html">babydragon.memory.indexes.python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html#pythonindex">PythonIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">babydragon.memory.indexes.memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#memoryindex">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#prune-index">prune_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#prune-by-regex">_prune_by_regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#prune-by-length">_prune_by_length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#save">save</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html#load">load</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">babydragon.memory.indexes.pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html#pandasindex">PandasIndex</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">babydragon.chat.base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html#prompter">Prompter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html#basechat">BaseChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">babydragon.chat.memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#fifochat">FifoChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#vectorchat">VectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#fifovectorchat">FifoVectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">babydragon.chat.chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html#chat">Chat</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">babydragon.utils.pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html#extract-values-and-embeddings">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">babydragon.utils.hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html#concat-columns">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">babydragon.utils.chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#convert-mark-to-str-prompt">convert_mark_to_str_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#mark-system">mark_system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#mark-answer">mark_answer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#mark-question">mark_question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#check-dict">check_dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#get-mark-from-response">get_mark_from_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html#get-str-from-response">get_str_from_response</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">babydragon.models.embedders.ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html#openaiembedder">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html#parse-and-embed-functions">parse_and_embed_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html#avg-embeddings">avg_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">babydragon.models.embedders.cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html#cohereembedder">CohereEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">babydragon.models.embedders.sbert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html#sbertembedder">SBERTEmbedder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">babydragon.models.generators.cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html#cohere-response">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">babydragon.models.generators.chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html#chatgpt-response">chatgpt_response</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">babydragon.processors.github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html#githubprocessor">GithubProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">babydragon.processors.os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html#osprocessor">OsProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">babydragon.processors.parsers.git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html#issueparser">IssueParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html#commitparser">CommitParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">babydragon.processors.parsers.visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#functioncallfinder">FunctionCallFinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#multiplicationcountervisitor">MultiplicationCounterVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#typingcollector">TypingCollector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">babydragon.processors.parsers.python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythonminifier">PythonMinifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythondocstringextractor">PythonDocstringExtractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythonparser">PythonParser</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">babydragon.apps.auto_perspective.perspective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#subjectperspectiveanalyzer">SubjectPerspectiveAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideation">Ideation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">babydragon.models.generators.cohere</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for babydragon.models.generators.cohere</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">cohere</span>
+<span class="n">co</span> <span class="o">=</span> <span class="n">cohere</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="s1">&#39;LeohkffIg5ucAxbMSfiCIhZ0RL9M2uuw0GVb99ZN&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">babydragon.utils.chatml</span> <span class="kn">import</span> <span class="n">convert_mark_to_str_prompt</span>
+
+
+
+<div class="viewcode-block" id="cohere_response"><a class="viewcode-back" href="../../../../models/generators/cohere.html#babydragon.models.generators.cohere.cohere_response">[docs]</a><span class="k">def</span> <span class="nf">cohere_response</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span><span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Call the Cohere API with the given prompt and maximum number of output tokens.</span>
+<span class="sd">        </span>
+
+<span class="sd">        :param prompt: A list of strings representing the prompt to send to the API.</span>
+<span class="sd">        :param max_output_tokens: An integer representing the maximum number of output tokens.</span>
+<span class="sd">        :param model: A string representing the model to use. either command or command-nightly</span>
+<span class="sd">        :return: A tuple containing the API response cohere object and a boolean indicating success.</span>
+<span class="sd">        &quot;&quot;&quot;</span>             
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">prompt</span><span class="o">=</span> <span class="n">convert_mark_to_str_prompt</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Trying to call Cohere API... using model:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">co</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span> <span class="n">model</span><span class="p">,</span>
+            <span class="n">prompt</span><span class="o">=</span> <span class="n">prompt</span><span class="p">,</span>
+            <span class="n">max_tokens</span><span class="o">=</span><span class="n">max_tokens</span><span class="p">,</span>
+            <span class="c1">#end_sequences=[&#39;#SYSTEM:&#39;, &#39;#USER:&#39;],</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">,</span> <span class="kc">True</span>
+
+        <span class="k">except</span><span class="p">:</span>
+              <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">False</span></div>
+        
+
+<div class="viewcode-block" id="cohere_summarize"><a class="viewcode-back" href="../../../../models/generators/cohere.html#babydragon.models.generators.cohere.cohere_summarize">[docs]</a><span class="k">def</span> <span class="nf">cohere_summarize</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;summarize-xlarge&quot;</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="n">extractiveness</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bullets&quot;</span><span class="p">,</span> <span class="n">additional_command</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">co</span><span class="o">.</span><span class="n">summarize</span><span class="p">(</span> 
+    <span class="n">text</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> 
+    <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
+    <span class="n">extractiveness</span><span class="o">=</span><span class="n">extractiveness</span><span class="p">,</span>
+    <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span>
+    <span class="n">additional_command</span><span class="o">=</span><span class="n">additional_command</span>
+    <span class="p">)</span>
+
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">summary</span>
+    <span class="k">return</span> <span class="n">summary</span></div>
+              
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

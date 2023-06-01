@@ -51,9 +51,14 @@
 <li class="toctree-l1"><a class="reference internal" href="llm_task.html#llmwriter">LLMWriter</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">MultiKernelTask</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask"><code class="docutils literal notranslate"><span class="pre">MultiKernelTask</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask.__init__"><code class="docutils literal notranslate"><span class="pre">MultiKernelTask.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask._setup_memory_kernel_group"><code class="docutils literal notranslate"><span class="pre">MultiKernelTask._setup_memory_kernel_group()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask.generate_task_paths"><code class="docutils literal notranslate"><span class="pre">MultiKernelTask.generate_task_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask.llm_response"><code class="docutils literal notranslate"><span class="pre">MultiKernelTask.llm_response()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask._execute_sub_task"><code class="docutils literal notranslate"><span class="pre">MultiKernelTask._execute_sub_task()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask.execute_task"><code class="docutils literal notranslate"><span class="pre">MultiKernelTask.execute_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask.__annotations__"><code class="docutils literal notranslate"><span class="pre">MultiKernelTask.__annotations__</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask.__module__"><code class="docutils literal notranslate"><span class="pre">MultiKernelTask.__module__</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -61,6 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="base_task.html">BaseTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="topic_tree_task.html">TopicTreeTask</a></li>
 <li class="toctree-l1"><a class="reference internal" href="embedding_task.html">EmbeddingTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="embedding_task.html#parallel-embeddings">parallel_embeddings</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
@@ -73,7 +79,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">calc_shgo_mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#estimate-pdf">estimate_pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#sort-paths-by-mode-distance">sort_paths_by_mode_distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html#sort-paths-by-kernel-density">sort_paths_by_kernel_density</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
@@ -83,7 +92,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/python_index.html">PythonIndex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-index">prune_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-by-regex">_prune_by_regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#prune-by-length">_prune_by_length</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#save">save</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html#load">load</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
@@ -97,20 +112,31 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">pandas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">hf_datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">chatml</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">extract_values_and_embeddings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">concat_columns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html#extract-values-and-embeddings-hf">extract_values_and_embeddings_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html#extract-values-hf">extract_values_hf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">convert_mark_to_str_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-system">mark_system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-answer">mark_answer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#mark-question">mark_question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#check-dict">check_dict</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#get-mark-from-response">get_mark_from_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html#get-str-from-response">get_str_from_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html#parse-and-embed-functions">parse_and_embed_functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html#avg-embeddings">avg_embeddings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/cohere.html">CohereEmbedder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html">cohere_response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/cohere.html#cohere-summarize">cohere_summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/generators/chatgpt.html">chatgpt_response</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul>
@@ -134,6 +160,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#generate-perspective-prompt">generate_perspective_prompt</a></li>
 </ul>
 
         </div>
@@ -165,7 +192,8 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.tasks.multi_kernel_task.MultiKernelTask">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.tasks.multi_kernel_task.</span></span><span class="sig-name descname"><span class="pre">MultiKernelTask</span></span><a class="reference internal" href="../_modules/babydragon/tasks/multi_kernel_task.html#MultiKernelTask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Bases: <a class="reference internal" href="base_task.html#babydragon.tasks.base_task.BaseTask" title="babydragon.tasks.base_task.BaseTask"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseTask</span></code></a></p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>memory_kernel_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>) – </p></li>
@@ -181,6 +209,36 @@
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.tasks.multi_kernel_task.MultiKernelTask.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">memory_kernel_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chatbot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_kernel_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_kernel_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustering_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MultiKernelTask'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calls_per_minute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/tasks/multi_kernel_task.html#MultiKernelTask.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Construct a new ‘BaseTask’ object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>]</em>) – A list of lists containing the paths of sub-tasks.</p></li>
+<li><p><strong>max_workers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The maximum number of worker threads to spawn (default is 1).</p></li>
+<li><p><strong>task_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – A unique identifier for the task (default is “task”).</p></li>
+<li><p><strong>calls_per_minute</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The maximum number of calls that can be made per minute (default is 20).</p></li>
+<li><p><strong>backup</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – A flag to indicate whether to save results as backup or not (default is True).</p></li>
+<li><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The path to save the results file.</p></li>
+<li><p><strong>memory_kernel_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>) – </p></li>
+<li><p><strong>chatbot</strong> (<a class="reference internal" href="../chat/base_chat.html#babydragon.chat.base_chat.BaseChat" title="babydragon.chat.base_chat.BaseChat"><em>BaseChat</em></a>) – </p></li>
+<li><p><strong>parent_kernel_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>child_kernel_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>system_prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>clustering_method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>path_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>]</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.tasks.multi_kernel_task.MultiKernelTask._setup_memory_kernel_group">
+<span class="sig-name descname"><span class="pre">_setup_memory_kernel_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/tasks/multi_kernel_task.html#MultiKernelTask._setup_memory_kernel_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask._setup_memory_kernel_group" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.tasks.multi_kernel_task.MultiKernelTask.generate_task_paths">
 <span class="sig-name descname"><span class="pre">generate_task_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/tasks/multi_kernel_task.html#MultiKernelTask.generate_task_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask.generate_task_paths" title="Permalink to this definition"></a></dt>
@@ -200,6 +258,23 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="babydragon.tasks.multi_kernel_task.MultiKernelTask._execute_sub_task">
+<span class="sig-name descname"><span class="pre">_execute_sub_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/tasks/multi_kernel_task.html#MultiKernelTask._execute_sub_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask._execute_sub_task" title="Permalink to this definition"></a></dt>
+<dd><p>Execute a sub-task and return the results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sub_path</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – A list containing the path of the sub-task.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list containing the results of the sub-task.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="babydragon.tasks.multi_kernel_task.MultiKernelTask.execute_task">
 <span class="sig-name descname"><span class="pre">execute_task</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/tasks/multi_kernel_task.html#MultiKernelTask.execute_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask.execute_task" title="Permalink to this definition"></a></dt>
 <dd><p>Execute the main task and handle errors.</p>
@@ -210,6 +285,16 @@
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.tasks.multi_kernel_task.MultiKernelTask.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask.__annotations__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.tasks.multi_kernel_task.MultiKernelTask.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'babydragon.tasks.multi_kernel_task'</span></em><a class="headerlink" href="#babydragon.tasks.multi_kernel_task.MultiKernelTask.__module__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -226,7 +311,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+    <p>&#169; Copyright .</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

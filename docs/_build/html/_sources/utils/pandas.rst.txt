@@ -1,5 +1,5 @@
-pandas
-======
+extract_values_and_embeddings
+=============================
 
-.. automodule:: pandas
-   :members:
+.. autofunction:: babydragon.utils.pandas.extract_values_and_embeddings
+
