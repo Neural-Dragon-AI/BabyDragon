@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>babydragon.memory.kernels.multi_kernel &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">LLMReader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html#llmwriter">LLMWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">MultiKernelTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">BaseTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">TopicTreeTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">EmbeddingTask</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">MemoryKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">ClusterPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">MultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">BaseThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">FifoThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">VectorThread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">PandasIndex</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">Prompter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html#basechat">BaseChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">FifoChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#vectorchat">VectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#fifovectorchat">FifoVectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">Chat</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">CohereEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">SBERTEmbedder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">GithubProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">OsProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">IssueParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html#commitparser">CommitParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">FunctionCallFinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#multiplicationcountervisitor">MultiplicationCounterVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#typingcollector">TypingCollector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">PythonMinifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythondocstringextractor">PythonDocstringExtractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythonparser">PythonParser</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">SubjectPerspectiveAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideation">Ideation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">babydragon.memory.kernels.multi_kernel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for babydragon.memory.kernels.multi_kernel</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">babydragon.chat.chat</span> <span class="kn">import</span> <span class="n">Chat</span>
+<span class="kn">from</span> <span class="nn">babydragon.memory.kernels.kernel_clustering</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">HDBSCANPaths</span><span class="p">,</span> <span class="n">SpectralClusteringPaths</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">babydragon.memory.kernels.memory_kernel</span> <span class="kn">import</span> <span class="n">MemoryKernel</span>
+<span class="kn">from</span> <span class="nn">babydragon.tasks.llm_task</span> <span class="kn">import</span> <span class="n">LLMWriter</span>
+
+
+<div class="viewcode-block" id="MultiKernel"><a class="viewcode-back" href="../../../../memory/kernels/multi_kernel.html#babydragon.memory.kernels.multi_kernel.MultiKernel">[docs]</a><span class="k">class</span> <span class="nc">MultiKernel</span><span class="p">(</span><span class="n">MemoryKernel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a group of MemoryKernels.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    memory_kernel_dict : Dict[str, MemoryKernel]</span>
+<span class="sd">        A dictionary of MemoryKernel instances.</span>
+<span class="sd">    path_group : dict</span>
+<span class="sd">        A dictionary to store the generated path groups.</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The name of the MultiKernel.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">memory_kernel_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MemoryKernel</span><span class="p">],</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;memory_kernel_group&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the MultiKernel with a dictionary of MemoryKernel instances.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        memory_kernel_dict : Dict[str, MemoryKernel]</span>
+<span class="sd">            A dictionary of MemoryKernel instances.</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            The name of the MultiKernel. Defaults to &quot;memory_kernel_group&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memory_kernel_dict</span> <span class="o">=</span> <span class="n">memory_kernel_dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_group</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span></div>
+
+
+<div class="viewcode-block" id="HDBSCANMultiKernel"><a class="viewcode-back" href="../../../../memory/kernels/multi_kernel.html#babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel">[docs]</a><span class="k">class</span> <span class="nc">HDBSCANMultiKernel</span><span class="p">(</span><span class="n">MultiKernel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a group of MemoryKernels clustered using HDBSCAN.</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cluster_paths : HDBSCANPaths</span>
+<span class="sd">        An instance of HDBSCANPaths to generate paths for the memory kernels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">memory_kernel_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MemoryKernel</span><span class="p">],</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;memory_kernel_group&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the HDBSCANMultiKernel with a dictionary of MemoryKernel instances.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        memory_kernel_dict : Dict[str, MemoryKernel]</span>
+<span class="sd">            A dictionary of MemoryKernel instances.</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            The name of the MultiKernel. Defaults to &quot;memory_kernel_group&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">memory_kernel_dict</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster_paths</span> <span class="o">=</span> <span class="n">HDBSCANPaths</span><span class="p">()</span>
+
+<div class="viewcode-block" id="HDBSCANMultiKernel.generate_path_groups"><a class="viewcode-back" href="../../../../memory/kernels/multi_kernel.html#babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel.generate_path_groups">[docs]</a>    <span class="k">def</span> <span class="nf">generate_path_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate path groups based on the provided number of clusters.</span>
+
+<span class="sd">        If the number of clusters is not provided (``None``), the square root of the length </span>
+<span class="sd">        of the embeddings will be used as the number of clusters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_clusters (int, optional): The number of clusters. Defaults to ``None``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path_group</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_kernel_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">embeddings</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">node_embeddings</span>
+            <span class="k">if</span> <span class="n">num_clusters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">num_clusters</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)))</span>
+            <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_paths</span><span class="o">.</span><span class="n">create_paths</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">)</span>
+            <span class="n">path_group</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_group</span> <span class="o">=</span> <span class="n">path_group</span></div></div>
+
+
+<div class="viewcode-block" id="SpectralClusteringMultiKernel"><a class="viewcode-back" href="../../../../memory/kernels/multi_kernel.html#babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel">[docs]</a><span class="k">class</span> <span class="nc">SpectralClusteringMultiKernel</span><span class="p">(</span><span class="n">MultiKernel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a group of MemoryKernels clustered using Spectral Clustering.</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cluster_paths : SpectralClusteringPaths</span>
+<span class="sd">        An instance of SpectralClusteringPaths to generate paths for the memory kernels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">memory_kernel_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MemoryKernel</span><span class="p">],</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;memory_kernel_group&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the SpectralClusteringMultiKernel with a dictionary of MemoryKernel instances.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        memory_kernel_dict : Dict[str, MemoryKernel]</span>
+<span class="sd">            A dictionary of MemoryKernel instances.</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            The name of the MultiKernel. Defaults to &quot;memory_kernel_group&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">memory_kernel_dict</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster_paths</span> <span class="o">=</span> <span class="n">SpectralClusteringPaths</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SpectralClusteringMultiKernel.generate_path_groups"><a class="viewcode-back" href="../../../../memory/kernels/multi_kernel.html#babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel.generate_path_groups">[docs]</a>    <span class="k">def</span> <span class="nf">generate_path_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate path groups based on the provided number of clusters.</span>
+
+<span class="sd">        If the number of clusters is not provided (``None``), the square root of the length </span>
+<span class="sd">        of the embeddings will be used as the number of clusters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_clusters (int, optional): The number of clusters. Defaults to ``None``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path_group</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_kernel_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">A_k</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">A_k</span>
+            <span class="k">if</span> <span class="n">num_clusters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">num_clusters</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A_k</span><span class="p">)))</span>
+            <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_paths</span><span class="o">.</span><span class="n">create_paths</span><span class="p">(</span><span class="n">A_k</span><span class="p">,</span> <span class="n">num_clusters</span><span class="p">)</span>
+            <span class="n">path_group</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">paths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path_group</span> <span class="o">=</span> <span class="n">path_group</span></div></div>
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

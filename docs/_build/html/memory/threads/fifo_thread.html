@@ -168,14 +168,24 @@
 outs are passe to the longterm_memory, lucid_memory is a redundant memory that stores all the messages</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.threads.fifo_thread.FifoThread.to_longterm">
-<span class="sig-name descname"><span class="pre">to_longterm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/threads/fifo_thread.html#FifoThread.to_longterm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.fifo_thread.FifoThread.to_longterm" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">to_longterm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/threads/fifo_thread.html#FifoThread.to_longterm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.fifo_thread.FifoThread.to_longterm" title="Permalink to this definition"></a></dt>
 <dd><p>move the message at the index idx to the longterm_memory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>idx</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.threads.fifo_thread.FifoThread.add_message">
-<span class="sig-name descname"><span class="pre">add_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/threads/fifo_thread.html#FifoThread.add_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.fifo_thread.FifoThread.add_message" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">add_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/threads/fifo_thread.html#FifoThread.add_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.threads.fifo_thread.FifoThread.add_message" title="Permalink to this definition"></a></dt>
 <dd><p>add a message to the memory_thread, if the memory_thread is full remove the oldest message from the memory_thread using the FIFO principle, if not enough space is available remove the oldest messages until enough space is available</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – </p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

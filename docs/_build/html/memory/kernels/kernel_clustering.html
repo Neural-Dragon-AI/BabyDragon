@@ -57,9 +57,27 @@
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="memory_kernel.html">MemoryKernel</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">ClusterPaths</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#hdbscanpaths">HDBSCANPaths</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ClusterPaths</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.kernels.kernel_clustering.ClusterPaths"><code class="docutils literal notranslate"><span class="pre">ClusterPaths</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.kernel_clustering.ClusterPaths.create_paths"><code class="docutils literal notranslate"><span class="pre">ClusterPaths.create_paths()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#hdbscanpaths">HDBSCANPaths</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.kernels.kernel_clustering.HDBSCANPaths"><code class="docutils literal notranslate"><span class="pre">HDBSCANPaths</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.kernel_clustering.HDBSCANPaths.create_paths"><code class="docutils literal notranslate"><span class="pre">HDBSCANPaths.create_paths()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#spectralclusteringpaths">SpectralClusteringPaths</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.kernels.kernel_clustering.SpectralClusteringPaths"><code class="docutils literal notranslate"><span class="pre">SpectralClusteringPaths</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.kernel_clustering.SpectralClusteringPaths.create_paths"><code class="docutils literal notranslate"><span class="pre">SpectralClusteringPaths.create_paths()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="multi_kernel.html">MultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
@@ -154,12 +172,75 @@
              
   <section id="clusterpaths">
 <h1>ClusterPaths<a class="headerlink" href="#clusterpaths" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.kernel_clustering.ClusterPaths">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.kernels.kernel_clustering.</span></span><span class="sig-name descname"><span class="pre">ClusterPaths</span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/kernel_clustering.html#ClusterPaths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.kernel_clustering.ClusterPaths" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.kernel_clustering.ClusterPaths.create_paths">
+<span class="sig-name descname"><span class="pre">create_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embeddings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_clusters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/kernel_clustering.html#ClusterPaths.create_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.kernel_clustering.ClusterPaths.create_paths" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>embeddings</strong> (<em>ndarray</em>) – </p></li>
+<li><p><strong>num_clusters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="hdbscanpaths">
 <h1>HDBSCANPaths<a class="headerlink" href="#hdbscanpaths" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.kernel_clustering.HDBSCANPaths">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.kernels.kernel_clustering.</span></span><span class="sig-name descname"><span class="pre">HDBSCANPaths</span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/kernel_clustering.html#HDBSCANPaths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.kernel_clustering.HDBSCANPaths" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.kernel_clustering.HDBSCANPaths.create_paths">
+<span class="sig-name descname"><span class="pre">create_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embeddings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_clusters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/kernel_clustering.html#HDBSCANPaths.create_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.kernel_clustering.HDBSCANPaths.create_paths" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>embeddings</strong> (<em>ndarray</em>) – </p></li>
+<li><p><strong>num_clusters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="spectralclusteringpaths">
 <h1>SpectralClusteringPaths<a class="headerlink" href="#spectralclusteringpaths" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.kernel_clustering.SpectralClusteringPaths">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.kernels.kernel_clustering.</span></span><span class="sig-name descname"><span class="pre">SpectralClusteringPaths</span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/kernel_clustering.html#SpectralClusteringPaths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.kernel_clustering.SpectralClusteringPaths" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.kernel_clustering.SpectralClusteringPaths.create_paths">
+<span class="sig-name descname"><span class="pre">create_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_clusters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/kernel_clustering.html#SpectralClusteringPaths.create_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.kernel_clustering.SpectralClusteringPaths.create_paths" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>ndarray</em>) – </p></li>
+<li><p><strong>num_clusters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

@@ -60,9 +60,31 @@
 <li class="toctree-l1"><a class="reference internal" href="kernel_clustering.html">ClusterPaths</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">MultiKernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MultiKernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel.MultiKernel"><code class="docutils literal notranslate"><span class="pre">MultiKernel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel.MultiKernel.memory_kernel_dict"><code class="docutils literal notranslate"><span class="pre">MultiKernel.memory_kernel_dict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel.MultiKernel.path_group"><code class="docutils literal notranslate"><span class="pre">MultiKernel.path_group</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel.MultiKernel.name"><code class="docutils literal notranslate"><span class="pre">MultiKernel.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#hdbscanmultikernel">HDBSCANMultiKernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel"><code class="docutils literal notranslate"><span class="pre">HDBSCANMultiKernel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel.cluster_paths"><code class="docutils literal notranslate"><span class="pre">HDBSCANMultiKernel.cluster_paths</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel.generate_path_groups"><code class="docutils literal notranslate"><span class="pre">HDBSCANMultiKernel.generate_path_groups()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel"><code class="docutils literal notranslate"><span class="pre">SpectralClusteringMultiKernel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel.cluster_paths"><code class="docutils literal notranslate"><span class="pre">SpectralClusteringMultiKernel.cluster_paths</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel.generate_path_groups"><code class="docutils literal notranslate"><span class="pre">SpectralClusteringMultiKernel.generate_path_groups()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="multi_kernel_visualization.html">MultiKernelVisualization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kernel_utils.html">kernel_utils</a></li>
@@ -154,12 +176,143 @@
              
   <section id="multikernel">
 <h1>MultiKernel<a class="headerlink" href="#multikernel" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel.MultiKernel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.kernels.multi_kernel.</span></span><span class="sig-name descname"><span class="pre">MultiKernel</span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel.html#MultiKernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel.MultiKernel" title="Permalink to this definition"></a></dt>
+<dd><p>Represents a group of MemoryKernels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>memory_kernel_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="memory_kernel.html#babydragon.memory.kernels.memory_kernel.MemoryKernel" title="babydragon.memory.kernels.memory_kernel.MemoryKernel"><em>MemoryKernel</em></a><em>]</em>) – </p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel.MultiKernel.memory_kernel_dict">
+<span class="sig-name descname"><span class="pre">memory_kernel_dict</span></span><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel.MultiKernel.memory_kernel_dict" title="Permalink to this definition"></a></dt>
+<dd><p>A dictionary of MemoryKernel instances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference internal" href="memory_kernel.html#babydragon.memory.kernels.memory_kernel.MemoryKernel" title="babydragon.memory.kernels.memory_kernel.MemoryKernel">MemoryKernel</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel.MultiKernel.path_group">
+<span class="sig-name descname"><span class="pre">path_group</span></span><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel.MultiKernel.path_group" title="Permalink to this definition"></a></dt>
+<dd><p>A dictionary to store the generated path groups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel.MultiKernel.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel.MultiKernel.name" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the MultiKernel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="hdbscanmultikernel">
 <h1>HDBSCANMultiKernel<a class="headerlink" href="#hdbscanmultikernel" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.kernels.multi_kernel.</span></span><span class="sig-name descname"><span class="pre">HDBSCANMultiKernel</span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel.html#HDBSCANMultiKernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel" title="Permalink to this definition"></a></dt>
+<dd><p>Represents a group of MemoryKernels clustered using HDBSCAN.</p>
+<p>…</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>memory_kernel_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="memory_kernel.html#babydragon.memory.kernels.memory_kernel.MemoryKernel" title="babydragon.memory.kernels.memory_kernel.MemoryKernel"><em>MemoryKernel</em></a><em>]</em>) – </p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel.cluster_paths">
+<span class="sig-name descname"><span class="pre">cluster_paths</span></span><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel.cluster_paths" title="Permalink to this definition"></a></dt>
+<dd><p>An instance of HDBSCANPaths to generate paths for the memory kernels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="kernel_clustering.html#babydragon.memory.kernels.kernel_clustering.HDBSCANPaths" title="babydragon.memory.kernels.kernel_clustering.HDBSCANPaths">HDBSCANPaths</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel.generate_path_groups">
+<span class="sig-name descname"><span class="pre">generate_path_groups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel.html#HDBSCANMultiKernel.generate_path_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel.HDBSCANMultiKernel.generate_path_groups" title="Permalink to this definition"></a></dt>
+<dd><p>Generate path groups based on the provided number of clusters.</p>
+<p>If the number of clusters is not provided (<code class="docutils literal notranslate"><span class="pre">None</span></code>), the square root of the length
+of the embeddings will be used as the number of clusters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>num_clusters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – The number of clusters. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="spectralclusteringmultikernel">
 <h1>SpectralClusteringMultiKernel<a class="headerlink" href="#spectralclusteringmultikernel" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.kernels.multi_kernel.</span></span><span class="sig-name descname"><span class="pre">SpectralClusteringMultiKernel</span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel.html#SpectralClusteringMultiKernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel" title="Permalink to this definition"></a></dt>
+<dd><p>Represents a group of MemoryKernels clustered using Spectral Clustering.</p>
+<p>…</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>memory_kernel_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="memory_kernel.html#babydragon.memory.kernels.memory_kernel.MemoryKernel" title="babydragon.memory.kernels.memory_kernel.MemoryKernel"><em>MemoryKernel</em></a><em>]</em>) – </p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel.cluster_paths">
+<span class="sig-name descname"><span class="pre">cluster_paths</span></span><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel.cluster_paths" title="Permalink to this definition"></a></dt>
+<dd><p>An instance of SpectralClusteringPaths to generate paths for the memory kernels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="kernel_clustering.html#babydragon.memory.kernels.kernel_clustering.SpectralClusteringPaths" title="babydragon.memory.kernels.kernel_clustering.SpectralClusteringPaths">SpectralClusteringPaths</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel.generate_path_groups">
+<span class="sig-name descname"><span class="pre">generate_path_groups</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel.html#SpectralClusteringMultiKernel.generate_path_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel.SpectralClusteringMultiKernel.generate_path_groups" title="Permalink to this definition"></a></dt>
+<dd><p>Generate path groups based on the provided number of clusters.</p>
+<p>If the number of clusters is not provided (<code class="docutils literal notranslate"><span class="pre">None</span></code>), the square root of the length
+of the embeddings will be used as the number of clusters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>num_clusters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – The number of clusters. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

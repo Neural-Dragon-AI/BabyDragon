@@ -120,11 +120,48 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">SubjectPerspectiveAnalyzer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#ideation">Ideation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#ideacluster">IdeaCluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#summarizer">Summarizer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SubjectPerspectiveAnalyzer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.SubjectPerspectiveAnalyzer"><code class="docutils literal notranslate"><span class="pre">SubjectPerspectiveAnalyzer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.SubjectPerspectiveAnalyzer.analyze_subject_perspective"><code class="docutils literal notranslate"><span class="pre">SubjectPerspectiveAnalyzer.analyze_subject_perspective()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#ideation">Ideation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.Ideation"><code class="docutils literal notranslate"><span class="pre">Ideation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.Ideation.retrieve_ideas"><code class="docutils literal notranslate"><span class="pre">Ideation.retrieve_ideas()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#ideacluster">IdeaCluster</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster"><code class="docutils literal notranslate"><span class="pre">IdeaCluster</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.create_idea_index"><code class="docutils literal notranslate"><span class="pre">IdeaCluster.create_idea_index()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.cluster_embeddings"><code class="docutils literal notranslate"><span class="pre">IdeaCluster.cluster_embeddings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.count_tokens_per_cluster"><code class="docutils literal notranslate"><span class="pre">IdeaCluster.count_tokens_per_cluster()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.create_minimum_spanning_paths"><code class="docutils literal notranslate"><span class="pre">IdeaCluster.create_minimum_spanning_paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.plot_embeddings_with_path"><code class="docutils literal notranslate"><span class="pre">IdeaCluster.plot_embeddings_with_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.get_clustered_ideas"><code class="docutils literal notranslate"><span class="pre">IdeaCluster.get_clustered_ideas()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#summarizer">Summarizer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.Summarizer"><code class="docutils literal notranslate"><span class="pre">Summarizer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.Summarizer.summarize_texts"><code class="docutils literal notranslate"><span class="pre">Summarizer.summarize_texts()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#perspectivepromptgenerator">PerspectivePromptGenerator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator"><code class="docutils literal notranslate"><span class="pre">PerspectivePromptGenerator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.handle_future"><code class="docutils literal notranslate"><span class="pre">PerspectivePromptGenerator.handle_future()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.generate_prompts"><code class="docutils literal notranslate"><span class="pre">PerspectivePromptGenerator.generate_prompts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.save_prompts_to_json"><code class="docutils literal notranslate"><span class="pre">PerspectivePromptGenerator.save_prompts_to_json()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -153,18 +190,163 @@
              
   <section id="subjectperspectiveanalyzer">
 <h1>SubjectPerspectiveAnalyzer<a class="headerlink" href="#subjectperspectiveanalyzer" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.SubjectPerspectiveAnalyzer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.apps.auto_perspective.perspective.</span></span><span class="sig-name descname"><span class="pre">SubjectPerspectiveAnalyzer</span></span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#SubjectPerspectiveAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.SubjectPerspectiveAnalyzer" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>chatbot</strong> (<a class="reference internal" href="../../chat/chat.html#babydragon.chat.chat.Chat" title="babydragon.chat.chat.Chat"><em>Chat</em></a>) – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.SubjectPerspectiveAnalyzer.analyze_subject_perspective">
+<span class="sig-name descname"><span class="pre">analyze_subject_perspective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_perspective</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#SubjectPerspectiveAnalyzer.analyze_subject_perspective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.SubjectPerspectiveAnalyzer.analyze_subject_perspective" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_subject</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>user_perspective</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="ideation">
 <h1>Ideation<a class="headerlink" href="#ideation" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.Ideation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.apps.auto_perspective.perspective.</span></span><span class="sig-name descname"><span class="pre">Ideation</span></span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#Ideation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.Ideation" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>memory_index</strong> (<a class="reference internal" href="../../memory/indexes/memory_index.html#babydragon.memory.indexes.memory_index.MemoryIndex" title="babydragon.memory.indexes.memory_index.MemoryIndex"><em>MemoryIndex</em></a>) – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.Ideation.retrieve_ideas">
+<span class="sig-name descname"><span class="pre">retrieve_ideas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queries</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_tokens</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#Ideation.retrieve_ideas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.Ideation.retrieve_ideas" title="Permalink to this definition"></a></dt>
+<dd><p>Generate ideas based on the given list of queries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>queries</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>) – The list of queries for generating ideas.</p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of top search results to consider.</p></li>
+<li><p><strong>max_tokens</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The maximum number of tokens to return.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of ideas generated based on the queries.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="ideacluster">
 <h1>IdeaCluster<a class="headerlink" href="#ideacluster" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.IdeaCluster">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.apps.auto_perspective.perspective.</span></span><span class="sig-name descname"><span class="pre">IdeaCluster</span></span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#IdeaCluster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ideas</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – </p></li>
+<li><p><strong>max_tokens_per_cluster</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.IdeaCluster.create_idea_index">
+<span class="sig-name descname"><span class="pre">create_idea_index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#IdeaCluster.create_idea_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.create_idea_index" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.IdeaCluster.cluster_embeddings">
+<span class="sig-name descname"><span class="pre">cluster_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_neighbors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_cluster_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#IdeaCluster.cluster_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.cluster_embeddings" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_neighbors</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>min_cluster_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.IdeaCluster.count_tokens_per_cluster">
+<span class="sig-name descname"><span class="pre">count_tokens_per_cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#IdeaCluster.count_tokens_per_cluster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.count_tokens_per_cluster" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.IdeaCluster.create_minimum_spanning_paths">
+<span class="sig-name descname"><span class="pre">create_minimum_spanning_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#IdeaCluster.create_minimum_spanning_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.create_minimum_spanning_paths" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.IdeaCluster.plot_embeddings_with_path">
+<span class="sig-name descname"><span class="pre">plot_embeddings_with_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#IdeaCluster.plot_embeddings_with_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.plot_embeddings_with_path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.IdeaCluster.get_clustered_ideas">
+<span class="sig-name descname"><span class="pre">get_clustered_ideas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#IdeaCluster.get_clustered_ideas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.IdeaCluster.get_clustered_ideas" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="summarizer">
 <h1>Summarizer<a class="headerlink" href="#summarizer" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.Summarizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.apps.auto_perspective.perspective.</span></span><span class="sig-name descname"><span class="pre">Summarizer</span></span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#Summarizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.Summarizer" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>texts</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.Summarizer.summarize_texts">
+<span class="sig-name descname"><span class="pre">summarize_texts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#Summarizer.summarize_texts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.Summarizer.summarize_texts" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="perspectivepromptgenerator">
 <h1>PerspectivePromptGenerator<a class="headerlink" href="#perspectivepromptgenerator" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.apps.auto_perspective.perspective.</span></span><span class="sig-name descname"><span class="pre">PerspectivePromptGenerator</span></span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#PerspectivePromptGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.handle_future">
+<span class="sig-name descname"><span class="pre">handle_future</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">future</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#PerspectivePromptGenerator.handle_future"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.handle_future" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.generate_prompts">
+<span class="sig-name descname"><span class="pre">generate_prompts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#PerspectivePromptGenerator.generate_prompts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.generate_prompts" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.save_prompts_to_json">
+<span class="sig-name descname"><span class="pre">save_prompts_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/apps/auto_perspective/perspective.html#PerspectivePromptGenerator.save_prompts_to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.save_prompts_to_json" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 
 

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>babydragon.apps.auto_perspective.perspective &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">LLMReader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html#llmwriter">LLMWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">MultiKernelTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">BaseTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">TopicTreeTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">EmbeddingTask</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">MemoryKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">ClusterPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">MultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">BaseThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">FifoThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">VectorThread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">PandasIndex</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">Prompter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html#basechat">BaseChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">FifoChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#vectorchat">VectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#fifovectorchat">FifoVectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">Chat</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">CohereEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">SBERTEmbedder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">GithubProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">OsProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">IssueParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html#commitparser">CommitParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">FunctionCallFinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#multiplicationcountervisitor">MultiplicationCounterVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#typingcollector">TypingCollector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">PythonMinifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythondocstringextractor">PythonDocstringExtractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythonparser">PythonParser</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">SubjectPerspectiveAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideation">Ideation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">babydragon.apps.auto_perspective.perspective</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for babydragon.apps.auto_perspective.perspective</h1><div class="highlight"><pre>
+<span></span>
+
+<span class="kn">from</span> <span class="nn">babydragon.chat.chat</span> <span class="kn">import</span> <span class="n">Chat</span>
+<span class="kn">from</span> <span class="nn">babydragon.utils.multithreading</span> <span class="kn">import</span> <span class="n">RateLimitedThreadPoolExecutor</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">as_completed</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">perf_counter</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">babydragon.memory.indexes.memory_index</span> <span class="kn">import</span> <span class="n">MemoryIndex</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">hdbscan</span>
+<span class="kn">import</span> <span class="nn">umap</span>
+<span class="kn">from</span> <span class="nn">babydragon.memory.indexes.memory_index</span> <span class="kn">import</span> <span class="n">MemoryIndex</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span><span class="p">,</span> <span class="n">squareform</span>
+<span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">cm</span>
+<span class="kn">from</span> <span class="nn">babydragon.models.embedders.cohere</span> <span class="kn">import</span> <span class="n">CohereEmbedder</span>
+<span class="kn">from</span> <span class="nn">babydragon.models.generators.cohere</span> <span class="kn">import</span> <span class="n">cohere_summarize</span>
+
+<span class="kn">import</span> <span class="nn">tiktoken</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span>
+
+
+<div class="viewcode-block" id="SubjectPerspectiveAnalyzer"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.SubjectPerspectiveAnalyzer">[docs]</a><span class="k">class</span> <span class="nc">SubjectPerspectiveAnalyzer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">:</span> <span class="s1">&#39;Chat&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span> <span class="o">=</span> <span class="n">chatbot</span>
+
+<div class="viewcode-block" id="SubjectPerspectiveAnalyzer.analyze_subject_perspective"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.SubjectPerspectiveAnalyzer.analyze_subject_perspective">[docs]</a>    <span class="k">def</span> <span class="nf">analyze_subject_perspective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_subject</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_perspective</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">prompts</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;Generate ideas and concepts that explore the connection between </span><span class="si">{</span><span class="n">user_subject</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">user_perspective</span><span class="si">}</span><span class="s2">, considering both traditional and unconventional approaches.&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;List key concepts or topics that would help analyze </span><span class="si">{</span><span class="n">user_subject</span><span class="si">}</span><span class="s2"> through the lens of </span><span class="si">{</span><span class="n">user_perspective</span><span class="si">}</span><span class="s2">, including relevant principles, theories, or models.&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Identify potential areas or research topics where </span><span class="si">{</span><span class="n">user_subject</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">user_perspective</span><span class="si">}</span><span class="s2"> intersect, highlighting intriguing or innovative perspectives.&quot;</span>
+        <span class="p">]</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">with</span> <span class="n">RateLimitedThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">calls_per_minute</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+            <span class="n">future_to_prompt</span> <span class="o">=</span> <span class="p">{</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_analyze_prompt</span><span class="p">,</span> <span class="n">prompt</span><span class="p">):</span> <span class="n">prompt</span> <span class="k">for</span> <span class="n">prompt</span> <span class="ow">in</span> <span class="n">prompts</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">future_to_prompt</span><span class="p">):</span>
+                <span class="n">prompt</span> <span class="o">=</span> <span class="n">future_to_prompt</span><span class="p">[</span><span class="n">future</span><span class="p">]</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">output</span><span class="p">[</span><span class="n">prompt</span><span class="p">]</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;An exception occurred while analyzing prompt &quot;</span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span><span class="s1">&quot;: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">while</span> <span class="n">counter</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">output</span><span class="p">[</span><span class="n">prompt</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_prompt</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+                            <span class="k">break</span>
+                        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;An exception occurred while analyzing prompt &quot;</span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span><span class="s1">&quot;: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">counter</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                        <span class="n">output</span><span class="p">[</span><span class="n">prompt</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">return</span> <span class="n">output</span></div>
+
+    <span class="k">def</span> <span class="nf">_analyze_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_format_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">formatted_response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">formatted_response</span></div>
+    
+
+<div class="viewcode-block" id="Ideation"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.Ideation">[docs]</a><span class="k">class</span> <span class="nc">Ideation</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memory_index</span><span class="p">:</span> <span class="n">MemoryIndex</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memory_index</span> <span class="o">=</span> <span class="n">memory_index</span>
+
+<div class="viewcode-block" id="Ideation.retrieve_ideas"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.Ideation.retrieve_ideas">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_ideas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queries</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">max_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate ideas based on the given list of queries.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            queries: The list of queries for generating ideas.</span>
+<span class="sd">            k: The number of top search results to consider.</span>
+<span class="sd">            max_tokens: The maximum number of tokens to return.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of ideas generated based on the queries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ideas</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">queries</span> <span class="ow">in</span> <span class="n">queries</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">query</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">query</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">query</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">top_k_hints</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_index</span><span class="o">.</span><span class="n">token_bound_query</span><span class="p">(</span>
+                    <span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="n">max_tokens</span>
+                <span class="p">)</span>
+                <span class="n">last_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_index</span><span class="o">.</span><span class="n">query_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">hints_tokens</span> <span class="o">=</span> <span class="n">last_query</span><span class="p">[</span><span class="s2">&quot;hints_tokens&quot;</span><span class="p">]</span>
+                <span class="n">returned_tokens</span> <span class="o">=</span> <span class="n">last_query</span><span class="p">[</span><span class="s2">&quot;returned_tokens&quot;</span><span class="p">]</span>
+
+                <span class="n">ideas</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;key_task&quot;</span><span class="p">:</span> <span class="n">key</span><span class="p">,</span> <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">,</span> <span class="s2">&quot;hints&quot;</span><span class="p">:</span> <span class="n">top_k_hints</span><span class="p">,</span> <span class="s2">&quot;scores&quot;</span><span class="p">:</span> <span class="n">scores</span><span class="p">,</span> <span class="s2">&quot;hints_tokens&quot;</span><span class="p">:</span> <span class="n">hints_tokens</span><span class="p">,</span> <span class="s2">&quot;returned_tokens&quot;</span><span class="p">:</span> <span class="n">returned_tokens</span><span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">ideas</span></div></div>
+
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tiktoken</span><span class="o">.</span><span class="n">encoding_for_model</span><span class="p">(</span><span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="IdeaCluster"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.IdeaCluster">[docs]</a><span class="k">class</span> <span class="nc">IdeaCluster</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ideas</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">max_tokens_per_cluster</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ideas</span> <span class="o">=</span> <span class="n">ideas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_tokens_per_cluster</span> <span class="o">=</span> <span class="n">max_tokens_per_cluster</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idea_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_idea_index</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster_labels</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="IdeaCluster.create_idea_index"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.IdeaCluster.create_idea_index">[docs]</a>    <span class="k">def</span> <span class="nf">create_idea_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">gathered_docs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idea</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ideas</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">hint</span> <span class="ow">in</span> <span class="n">idea</span><span class="p">[</span><span class="s2">&quot;hints&quot;</span><span class="p">]:</span>
+                <span class="n">gathered_docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hint</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gathered_docs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">gathered_docs</span><span class="p">)</span>
+        <span class="n">idea_index</span> <span class="o">=</span> <span class="n">MemoryIndex</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gathered_docs</span><span class="p">,</span> <span class="n">is_batched</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ideas&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">idea_index</span></div>
+
+<div class="viewcode-block" id="IdeaCluster.cluster_embeddings"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.IdeaCluster.cluster_embeddings">[docs]</a>    <span class="k">def</span> <span class="nf">cluster_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">min_cluster_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+        <span class="n">reducer</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">UMAP</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">n_neighbors</span><span class="p">)</span>
+        <span class="n">reduced_embeddings</span> <span class="o">=</span> <span class="n">reducer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idea_index</span><span class="o">.</span><span class="n">get_all_embeddings</span><span class="p">())</span>
+
+        <span class="n">clusterer</span> <span class="o">=</span> <span class="n">hdbscan</span><span class="o">.</span><span class="n">HDBSCAN</span><span class="p">(</span><span class="n">min_cluster_size</span><span class="o">=</span><span class="n">min_cluster_size</span><span class="p">)</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">clusterer</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">reduced_embeddings</span><span class="p">)</span>
+
+        <span class="n">token_count_per_cluster</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count_tokens_per_cluster</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">token_count_per_cluster</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">token_count_per_cluster</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_tokens_per_cluster</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">labels</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Clusters created successfully.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Clusters exceed the maximum token count.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IdeaCluster.count_tokens_per_cluster"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.IdeaCluster.count_tokens_per_cluster">[docs]</a>    <span class="k">def</span> <span class="nf">count_tokens_per_cluster</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="n">token_count_per_cluster</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gathered_docs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">token_count_per_cluster</span><span class="p">:</span>
+                <span class="n">token_count_per_cluster</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">token_count_per_cluster</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">token_count_per_cluster</span></div>
+
+<div class="viewcode-block" id="IdeaCluster.create_minimum_spanning_paths"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.IdeaCluster.create_minimum_spanning_paths">[docs]</a>    <span class="k">def</span> <span class="nf">create_minimum_spanning_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You must run cluster_embeddings() before creating minimum spanning paths.&quot;</span><span class="p">)</span>
+
+        <span class="n">unique_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cluster_labels</span><span class="p">)</span>
+        <span class="n">min_span_paths</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">unique_labels</span><span class="p">:</span>
+
+
+            <span class="c1"># Get the indices of the current cluster</span>
+            <span class="n">cluster_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cluster_labels</span> <span class="o">==</span> <span class="n">label</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># Calculate the pairwise distances between embeddings in the cluster</span>
+            <span class="n">cluster_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idea_index</span><span class="o">.</span><span class="n">embeddings</span><span class="p">[</span><span class="n">cluster_indices</span><span class="p">]</span>
+            <span class="n">dist_matrix</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="n">pdist</span><span class="p">(</span><span class="n">cluster_embeddings</span><span class="p">))</span>
+
+            <span class="c1"># Create a graph from the distance matrix</span>
+            <span class="n">graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">from_numpy_array</span><span class="p">(</span><span class="n">dist_matrix</span><span class="p">)</span>
+
+            <span class="c1"># Compute the minimum spanning tree of the graph</span>
+            <span class="n">min_span_tree</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">minimum_spanning_tree</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+            <span class="c1"># Get the minimum spanning paths</span>
+            <span class="n">min_span_paths_cluster</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">min_span_tree</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                    <span class="n">orig_u</span> <span class="o">=</span> <span class="n">cluster_indices</span><span class="p">[</span><span class="n">u</span><span class="p">]</span>
+                    <span class="n">orig_v</span> <span class="o">=</span> <span class="n">cluster_indices</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+                    <span class="n">min_span_paths_cluster</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">orig_u</span><span class="p">)</span>
+                    <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                    <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="c1"># Add the last node to complete the path</span>
+            <span class="n">min_span_paths_cluster</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">orig_v</span><span class="p">)</span>
+
+            <span class="n">min_span_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">min_span_paths_cluster</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_span_paths</span> <span class="o">=</span> <span class="n">min_span_paths</span></div>
+
+    
+<div class="viewcode-block" id="IdeaCluster.plot_embeddings_with_path"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.IdeaCluster.plot_embeddings_with_path">[docs]</a>    <span class="k">def</span> <span class="nf">plot_embeddings_with_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_span_paths</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idea_index</span><span class="o">.</span><span class="n">embeddings</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Minimum Spanning Paths&quot;</span>
+        <span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+        <span class="n">reduced_embeddings</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+            <span class="n">path_embeddings</span> <span class="o">=</span> <span class="n">reduced_embeddings</span><span class="p">[</span><span class="n">path</span><span class="p">]</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                <span class="n">path_embeddings</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="n">path_embeddings</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Cluster </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">path_embeddings</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">path_embeddings</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span>
+                    <span class="p">[</span><span class="n">path_embeddings</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">path_embeddings</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+<div class="viewcode-block" id="IdeaCluster.get_clustered_ideas"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.IdeaCluster.get_clustered_ideas">[docs]</a>    <span class="k">def</span> <span class="nf">get_clustered_ideas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You must run cluster_embeddings() before getting clustered ideas.&quot;</span><span class="p">)</span>
+        
+        <span class="n">clustered_ideas</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">idea</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cluster_labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idea_index</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">clustered_ideas</span><span class="p">:</span>
+                <span class="n">clustered_ideas</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">idea</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">clustered_ideas</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+        
+        <span class="c1"># Convert the dictionary to a list of lists (each list corresponds to a cluster)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">clustered_ideas</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div></div>
+
+
+<div class="viewcode-block" id="Summarizer"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.Summarizer">[docs]</a><span class="k">class</span> <span class="nc">Summarizer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">texts</span> <span class="o">=</span> <span class="n">texts</span>
+
+<div class="viewcode-block" id="Summarizer.summarize_texts"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.Summarizer.summarize_texts">[docs]</a>    <span class="k">def</span> <span class="nf">summarize_texts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">with</span> <span class="n">RateLimitedThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">calls_per_minute</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+            <span class="n">future_to_text</span> <span class="o">=</span> <span class="p">{</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_summarize_text</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span> <span class="n">text</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">texts</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">future_to_text</span><span class="p">):</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">future_to_text</span><span class="p">[</span><span class="n">future</span><span class="p">]</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">output</span><span class="p">[</span><span class="n">text</span><span class="p">]</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;An exception occurred while summarizing text: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span></div>
+
+    <span class="k">def</span> <span class="nf">_summarize_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="n">cohere_summarize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;summarize-xlarge&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">extractiveness</span><span class="o">=</span><span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">summary</span></div>
+
+
+<span class="k">def</span> <span class="nf">generate_perspective_prompt</span><span class="p">(</span><span class="n">user_subject</span><span class="p">,</span> <span class="n">user_perspective</span><span class="p">,</span> <span class="n">seed_model</span> <span class="o">=</span> <span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">chat_instance</span> <span class="o">=</span> <span class="n">Chat</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">seed_model</span><span class="p">)</span>
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SubjectPerspectiveAnalyzer</span><span class="p">(</span><span class="n">chat_instance</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">analyze_subject_perspective</span><span class="p">(</span><span class="n">user_subject</span><span class="p">,</span> <span class="n">user_perspective</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time to analyze_perspective: &quot;</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+
+    <span class="n">dataset_url</span> <span class="o">=</span> <span class="s2">&quot;Cohere/wikipedia-22-12-simple-embeddings&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">MemoryIndex</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;wiki_index&quot;</span><span class="p">,</span> <span class="n">load</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_batched</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">embedder</span><span class="o">=</span><span class="n">CohereEmbedder</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">loaded</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">loaded</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">loaded</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Index not found, creating new index&quot;</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">MemoryIndex</span><span class="o">.</span><span class="n">from_hf_dataset</span><span class="p">(</span><span class="n">dataset_url</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">],</span><span class="n">embeddings_column</span><span class="o">=</span> <span class="s2">&quot;emb&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;wiki_index&quot;</span><span class="p">,</span> <span class="n">is_batched</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">embedder</span><span class="o">=</span><span class="n">CohereEmbedder</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time to index: &quot;</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">ideation</span> <span class="o">=</span> <span class="n">Ideation</span><span class="p">(</span><span class="n">memory_index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">ideas</span> <span class="o">=</span> <span class="n">ideation</span><span class="o">.</span><span class="n">retrieve_ideas</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+    <span class="n">token_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">idea</span> <span class="ow">in</span> <span class="n">ideas</span><span class="p">:</span>
+        <span class="n">token_count</span> <span class="o">+=</span> <span class="n">idea</span><span class="p">[</span><span class="s2">&quot;returned_tokens&quot;</span><span class="p">]</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time to retrieve ideas: &quot;</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of tokens: &quot;</span><span class="p">,</span> <span class="n">token_count</span><span class="p">)</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">max_tokens_per_cluster</span> <span class="o">=</span> <span class="mi">20000</span>
+    <span class="n">idea_cluster</span> <span class="o">=</span> <span class="n">IdeaCluster</span><span class="p">(</span><span class="n">ideas</span><span class="p">,</span> <span class="n">max_tokens_per_cluster</span><span class="p">)</span>
+    <span class="n">idea_cluster</span><span class="o">.</span><span class="n">cluster_embeddings</span><span class="p">()</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ideas</span> <span class="o">=</span> <span class="n">idea_cluster</span><span class="o">.</span><span class="n">get_clustered_ideas</span><span class="p">()</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">combined_idea</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ideas_tokens</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idea</span> <span class="ow">in</span> <span class="n">ideas</span><span class="p">:</span>
+        <span class="n">combined_idea</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">idea</span><span class="p">))</span>
+        <span class="n">ideas_tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">combined_idea</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time to cluster ideas: &quot;</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of clusters: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ideas</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of tokens in each cluster: &quot;</span><span class="p">,</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="k">for</span> <span class="n">tokens</span> <span class="ow">in</span> <span class="n">ideas_tokens</span><span class="p">])</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">summarizer</span> <span class="o">=</span> <span class="n">Summarizer</span><span class="p">(</span><span class="n">combined_idea</span><span class="p">)</span>
+    <span class="n">summaries</span> <span class="o">=</span> <span class="n">summarizer</span><span class="o">.</span><span class="n">summarize_texts</span><span class="p">()</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time to summarize: &quot;</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of summaries: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">summaries</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of tokens in each summary: &quot;</span><span class="p">,</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">summary</span><span class="p">))</span> <span class="k">for</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summaries</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="n">system_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;With the summarized information from Cohere about the essential ideas, concenpts, priciples, and intersection points between </span><span class="si">{</span><span class="n">user_subject</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">user_perspective</span><span class="si">}</span><span class="s2">, construct an appealing and context-aware chatbot prompt that impels the chatbot to respond with insights and perspectives born from the synergy of these two domains. Use the tips below to help you create an effective chatbot prompt: 1. Begin with a concise introduction: Initiate the chatbot prompt by setting the context, encompassing the user&#39;s specified subject and perspective. 2. Accentuate the intersection: Secure that the chatbot prompt underlines the connection between the user_subject and user_perspective, leading to more pertinent and perceptive responses. 3. Foster exploration: Ensure the chatbot prompt provokes the chatbot to delve into the main ideas, principles, and concepts from the summaries with a thoughtful and reflective approach. 4. Pose open-ended questions: Incorporate open-ended queries in the chatbot prompt, stimulating the chatbot to contemplate beyond the summaries and offer comprehensive responses. 5. Prioritize simplicity: Maintain the chatbot prompt&#39;s clarity and brevity, assisting the chatbot in comprehending the context and reacting suitably. 6. Steer the conversation: Craft the chatbot prompt in a manner that subtly directs the chatbot&#39;s answers, confirming they consistently focus on the user_subject and user_perspective. By leveraging these tips, develop a chatbot prompt that generates responses illustrative of the user&#39;s specified subject and perspective, culminating in a customized and significant interaction. Remember to conclude the prompt with 7 content pillars that will help the chatbot use the perspective at the best of its capacity. &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user_subject</span><span class="o">=</span><span class="n">user_subject</span><span class="p">,</span> <span class="n">user_perspective</span><span class="o">=</span><span class="n">user_perspective</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">summary</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">summaries</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+        <span class="n">system_prompt</span> <span class="o">+=</span> <span class="n">summary</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+    <span class="n">prompt_generator</span> <span class="o">=</span> <span class="n">Chat</span><span class="p">(</span><span class="n">name</span><span class="o">=</span> <span class="s2">&quot;prompt generator&quot;</span><span class="p">,</span><span class="n">system_prompt</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">,</span> <span class="n">max_output_tokens</span><span class="o">=</span> <span class="mi">2000</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;gpt-4&quot;</span><span class="p">)</span>
+    <span class="n">perspective_prompt</span> <span class="o">=</span> <span class="n">prompt_generator</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">additional_prompt</span> <span class="o">=</span>  <span class="s2">&quot;&quot;&quot; </span><span class="se">\n\n</span><span class="s2"> Bear in mind that while engaging with the user, questions may arise that seem unrelated to the initial prompt. It&#39;s crucial to maintain flexibility and creativity, interpreting and addressing these topics through the unique prism provided by the initial prompt.&quot;&quot;&quot;</span>
+    <span class="n">perspective_prompt</span> <span class="o">+=</span> <span class="n">additional_prompt</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time to generate prompt: &quot;</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">perspective_prompt</span>
+
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<div class="viewcode-block" id="PerspectivePromptGenerator"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator">[docs]</a><span class="k">class</span> <span class="nc">PerspectivePromptGenerator</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subjects</span><span class="p">,</span> <span class="n">perspectives</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">calls_per_minute</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">base_filename</span><span class="o">=</span><span class="s2">&quot;prompt_&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subjects</span> <span class="o">=</span> <span class="n">subjects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">perspectives</span> <span class="o">=</span> <span class="n">perspectives</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">executor</span> <span class="o">=</span> <span class="n">RateLimitedThreadPoolExecutor</span><span class="p">(</span>
+            <span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">,</span> 
+            <span class="n">calls_per_minute</span><span class="o">=</span><span class="n">calls_per_minute</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prompts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_filename</span> <span class="o">=</span> <span class="n">base_filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>  <span class="c1"># create a lock</span>
+
+<div class="viewcode-block" id="PerspectivePromptGenerator.handle_future"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.handle_future">[docs]</a>    <span class="k">def</span> <span class="nf">handle_future</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">future</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prompts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            <span class="n">complete_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_filename</span> <span class="o">+</span> <span class="s2">&quot;results.json&quot;</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>  <span class="c1"># acquire the lock before writing to the file</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_prompts_to_json</span><span class="p">(</span><span class="n">complete_filename</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">error_report</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="s2">&quot;traceback&quot;</span><span class="p">:</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prompts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error_report</span><span class="p">)</span>
+            <span class="n">complete_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_filename</span> <span class="o">+</span> <span class="s2">&quot;errors.json&quot;</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>  <span class="c1"># acquire the lock before writing to the file</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_prompts_to_json</span><span class="p">(</span><span class="n">complete_filename</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="PerspectivePromptGenerator.generate_prompts"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.generate_prompts">[docs]</a>    <span class="k">def</span> <span class="nf">generate_prompts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">subject</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subjects</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">perspective</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">perspectives</span><span class="p">:</span>
+                <span class="n">future</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+                    <span class="n">generate_perspective_prompt</span><span class="p">,</span> 
+                    <span class="n">subject</span><span class="p">,</span> 
+                    <span class="n">perspective</span>
+                <span class="p">)</span>
+                <span class="n">future</span><span class="o">.</span><span class="n">add_done_callback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handle_future</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">prompts</span></div>
+
+<div class="viewcode-block" id="PerspectivePromptGenerator.save_prompts_to_json"><a class="viewcode-back" href="../../../../apps/auto_perspective/perspective.html#babydragon.apps.auto_perspective.perspective.PerspectivePromptGenerator.save_prompts_to_json">[docs]</a>    <span class="k">def</span> <span class="nf">save_prompts_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prompts</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

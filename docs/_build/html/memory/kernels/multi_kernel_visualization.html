@@ -63,8 +63,24 @@
 <li class="toctree-l1"><a class="reference internal" href="multi_kernel.html">MultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">MultiKernelVisualization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MultiKernelVisualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization"><code class="docutils literal notranslate"><span class="pre">MultiKernelVisualization</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization.plot_embeddings_with_path"><code class="docutils literal notranslate"><span class="pre">MultiKernelVisualization.plot_embeddings_with_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization.visualize_paths"><code class="docutils literal notranslate"><span class="pre">MultiKernelVisualization.visualize_paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization.plot_singular_values"><code class="docutils literal notranslate"><span class="pre">MultiKernelVisualization.plot_singular_values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis"><code class="docutils literal notranslate"><span class="pre">MultiKernelStabilityAnalysis</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis.get_cluster_labels"><code class="docutils literal notranslate"><span class="pre">MultiKernelStabilityAnalysis.get_cluster_labels()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis.compute_nmi"><code class="docutils literal notranslate"><span class="pre">MultiKernelStabilityAnalysis.compute_nmi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis.evaluate_stability"><code class="docutils literal notranslate"><span class="pre">MultiKernelStabilityAnalysis.evaluate_stability()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="kernel_utils.html">kernel_utils</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
@@ -154,9 +170,83 @@
              
   <section id="multikernelvisualization">
 <h1>MultiKernelVisualization<a class="headerlink" href="#multikernelvisualization" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.kernels.multi_kernel_visualization.</span></span><span class="sig-name descname"><span class="pre">MultiKernelVisualization</span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel_visualization.html#MultiKernelVisualization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>memory_kernel_group</strong> (<a class="reference internal" href="multi_kernel.html#babydragon.memory.kernels.multi_kernel.MultiKernel" title="babydragon.memory.kernels.multi_kernel.MultiKernel"><em>MultiKernel</em></a>) – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization.plot_embeddings_with_path">
+<span class="sig-name descname"><span class="pre">plot_embeddings_with_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embeddings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paths</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel_visualization.html#MultiKernelVisualization.plot_embeddings_with_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization.plot_embeddings_with_path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization.visualize_paths">
+<span class="sig-name descname"><span class="pre">visualize_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel_visualization.html#MultiKernelVisualization.visualize_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization.visualize_paths" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization.plot_singular_values">
+<span class="sig-name descname"><span class="pre">plot_singular_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel_visualization.html#MultiKernelVisualization.plot_singular_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelVisualization.plot_singular_values" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="multikernelstabilityanalysis">
 <h1>MultiKernelStabilityAnalysis<a class="headerlink" href="#multikernelstabilityanalysis" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.kernels.multi_kernel_visualization.</span></span><span class="sig-name descname"><span class="pre">MultiKernelStabilityAnalysis</span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel_visualization.html#MultiKernelStabilityAnalysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>memory_kernel_group</strong> (<a class="reference internal" href="multi_kernel.html#babydragon.memory.kernels.multi_kernel.MultiKernel" title="babydragon.memory.kernels.multi_kernel.MultiKernel"><em>MultiKernel</em></a>) – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis.get_cluster_labels">
+<span class="sig-name descname"><span class="pre">get_cluster_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel_visualization.html#MultiKernelStabilityAnalysis.get_cluster_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis.get_cluster_labels" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kernel_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<em>ndarray</em>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis.compute_nmi">
+<span class="sig-name descname"><span class="pre">compute_nmi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel_label1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_label2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel_visualization.html#MultiKernelStabilityAnalysis.compute_nmi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis.compute_nmi" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel_label1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>kernel_label2</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis.evaluate_stability">
+<span class="sig-name descname"><span class="pre">evaluate_stability</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/multi_kernel_visualization.html#MultiKernelStabilityAnalysis.evaluate_stability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.multi_kernel_visualization.MultiKernelStabilityAnalysis.evaluate_stability" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

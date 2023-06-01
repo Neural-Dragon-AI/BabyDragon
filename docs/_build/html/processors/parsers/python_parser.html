@@ -186,7 +186,12 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonMinifier">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.parsers.python_parser.</span></span><span class="sig-name descname"><span class="pre">PythonMinifier</span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonMinifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonMinifier" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p>
+</dd>
+</dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonMinifier.minify">
 <span class="sig-name descname"><span class="pre">minify</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonMinifier.minify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonMinifier.minify" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -198,8 +203,16 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonMinifier.minify_code">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">minify_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonMinifier.minify_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonMinifier.minify_code" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">minify_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonMinifier.minify_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonMinifier.minify_code" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -211,8 +224,16 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.parsers.python_parser.</span></span><span class="sig-name descname"><span class="pre">PythonDocstringExtractor</span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonDocstringExtractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonDocstringExtractor" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonDocstringExtractor.extract_docstring">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extract_docstring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function_def</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FunctionDef</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonDocstringExtractor.extract_docstring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonDocstringExtractor.extract_docstring" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extract_docstring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonDocstringExtractor.extract_docstring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonDocstringExtractor.extract_docstring" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>function_def</strong> (<em>FunctionDef</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -224,22 +245,38 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.parsers.python_parser.</span></span><span class="sig-name descname"><span class="pre">FunctionAndClassVisitor</span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#FunctionAndClassVisitor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.visit_FunctionDef">
-<span class="sig-name descname"><span class="pre">visit_FunctionDef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FunctionDef</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../utils/pandas.html#pandas.ArrowDtype.None" title="pandas.ArrowDtype.None"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#FunctionAndClassVisitor.visit_FunctionDef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.visit_FunctionDef" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">visit_FunctionDef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#FunctionAndClassVisitor.visit_FunctionDef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.visit_FunctionDef" title="Permalink to this definition"></a></dt>
 <dd><p>This method is called for every FunctionDef node in the tree.
 and it does the following:
 1. Gets the source code for the node
 2. Adds the node to the list of function nodes
 3. Adds the source code to the list of function source codes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>FunctionDef</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.visit_ClassDef">
-<span class="sig-name descname"><span class="pre">visit_ClassDef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClassDef</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../utils/pandas.html#pandas.ArrowDtype.None" title="pandas.ArrowDtype.None"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#FunctionAndClassVisitor.visit_ClassDef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.visit_ClassDef" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">visit_ClassDef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#FunctionAndClassVisitor.visit_ClassDef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor.visit_ClassDef" title="Permalink to this definition"></a></dt>
 <dd><p>This method is called for every ClassDef node in the tree.
 and it does the following:
 1. Gets the source code for the node
 2. Adds the node to the list of class nodes
 3. Adds the source code to the list of class source codes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>ClassDef</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -250,15 +287,33 @@ and it does the following:
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonParser">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.parsers.python_parser.</span></span><span class="sig-name descname"><span class="pre">PythonParser</span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>visitor</strong> (<a class="reference internal" href="#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor" title="babydragon.processors.parsers.python_parser.FunctionAndClassVisitor"><em>FunctionAndClassVisitor</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>minify_code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
+<li><p><strong>remove_docstrings</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonParser.remove_docstring">
-<span class="sig-name descname"><span class="pre">remove_docstring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonParser.remove_docstring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser.remove_docstring" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">remove_docstring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonParser.remove_docstring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser.remove_docstring" title="Permalink to this definition"></a></dt>
 <dd><p>Removes docstrings from the given code and returns the code without docstrings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tree</strong> (<em>Module</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonParser.process_file">
-<span class="sig-name descname"><span class="pre">process_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonParser.process_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser.process_file" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonParser.process_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser.process_file" title="Permalink to this definition"></a></dt>
 <dd><p>This method is called for every file in the directory.
 It does the following:
 1. Runs flake8 on the file
@@ -266,16 +321,26 @@ if flake8 returns a non-zero exit code, it means the file has a syntax error
 2. Reads the file
 3. Parses the file
 4. Visits the file with the visitor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.parsers.python_parser.PythonParser.process_directory">
-<span class="sig-name descname"><span class="pre">process_directory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><span class="pre">FunctionDef</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ClassDef</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonParser.process_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser.process_directory" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">process_directory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/python_parser.html#PythonParser.process_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.python_parser.PythonParser.process_directory" title="Permalink to this definition"></a></dt>
 <dd><p>This method is called for every directory.
 It does the following:
 1. Gets all the python files in the directory
 2. Processes each file
 3. Returns the list of function source codes, class source codes, function nodes, and class nodes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<em>FunctionDef</em>], <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<em>ClassDef</em>]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

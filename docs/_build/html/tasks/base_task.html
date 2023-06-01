@@ -174,6 +174,18 @@
 <dt class="sig sig-object py" id="babydragon.tasks.base_task.BaseTask">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.tasks.base_task.</span></span><span class="sig-name descname"><span class="pre">BaseTask</span></span><a class="reference internal" href="../_modules/babydragon/tasks/base_task.html#BaseTask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.tasks.base_task.BaseTask" title="Permalink to this definition"></a></dt>
 <dd><p>A class to encapsulate base tasks and handle rate-limited multi-threaded execution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>max_workers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>task_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>calls_per_minute</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>backup</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
+<li><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="babydragon.tasks.base_task.BaseTask.task_id">
 <span class="sig-name descname"><span class="pre">task_id</span></span><a class="headerlink" href="#babydragon.tasks.base_task.BaseTask.task_id" title="Permalink to this definition"></a></dt>
@@ -275,14 +287,19 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.tasks.base_task.BaseTask.execute_task">
-<span class="sig-name descname"><span class="pre">execute_task</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../utils/pandas.html#pandas.ArrowDtype.None" title="pandas.ArrowDtype.None"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/babydragon/tasks/base_task.html#BaseTask.execute_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.tasks.base_task.BaseTask.execute_task" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">execute_task</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/tasks/base_task.html#BaseTask.execute_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.tasks.base_task.BaseTask.execute_task" title="Permalink to this definition"></a></dt>
 <dd><p>Execute the main task and handle errors.</p>
 <p>The results are saved to a file if ‘self.backup’ is True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.tasks.base_task.BaseTask.work">
-<span class="sig-name descname"><span class="pre">work</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/babydragon/tasks/base_task.html#BaseTask.work"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.tasks.base_task.BaseTask.work" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">work</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/tasks/base_task.html#BaseTask.work"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.tasks.base_task.BaseTask.work" title="Permalink to this definition"></a></dt>
 <dd><p>Execute the task and return a sorted list of results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>

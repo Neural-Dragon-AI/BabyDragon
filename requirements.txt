@@ -19,3 +19,5 @@ datasets
 cohere
 sphinx
 sphintx_rtd_theme
+hdbscan
+umap

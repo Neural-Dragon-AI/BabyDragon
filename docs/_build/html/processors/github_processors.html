@@ -172,7 +172,16 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.processors.github_processors.GithubProcessor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.github_processors.</span></span><span class="sig-name descname"><span class="pre">GithubProcessor</span></span><a class="reference internal" href="../_modules/babydragon/processors/github_processors.html#GithubProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.github_processors.GithubProcessor" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_directory</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>minify_code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
+<li><p><strong>remove_docstrings</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.github_processors.GithubProcessor.get_public_repos">
 <span class="sig-name descname"><span class="pre">get_public_repos</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/processors/github_processors.html#GithubProcessor.get_public_repos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.github_processors.GithubProcessor.get_public_repos" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a list of all public repos for the user.</p>
@@ -180,8 +189,13 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.processors.github_processors.GithubProcessor.clone_repo">
-<span class="sig-name descname"><span class="pre">clone_repo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/processors/github_processors.html#GithubProcessor.clone_repo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.github_processors.GithubProcessor.clone_repo" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">clone_repo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/processors/github_processors.html#GithubProcessor.clone_repo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.github_processors.GithubProcessor.clone_repo" title="Permalink to this definition"></a></dt>
 <dd><p>Clones the repo at the specified url and returns the path to the repo.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>repo_url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">

@@ -169,16 +169,37 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="babydragon.memory.kernels.memory_kernel.MemoryKernel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.memory.kernels.memory_kernel.</span></span><span class="sig-name descname"><span class="pre">MemoryKernel</span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mem_index</strong> (<a class="reference internal" href="../indexes/memory_index.html#babydragon.memory.indexes.memory_index.MemoryIndex" title="babydragon.memory.indexes.memory_index.MemoryIndex"><em>MemoryIndex</em></a>) – </p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+<li><p><strong>save_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.kernels.memory_kernel.MemoryKernel.cos_sim">
-<span class="sig-name descname"><span class="pre">cos_sim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.cos_sim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.cos_sim" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">cos_sim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.cos_sim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.cos_sim" title="Permalink to this definition"></a></dt>
 <dd><p>Computes the cosine similarity cos_sim(a[i], b[j]) for all i and j.
 :return: Matrix with res[i][j]  = cos_sim(a[i], b[j])</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>ndarray</em>) – </p></li>
+<li><p><strong>b</strong> (<em>ndarray</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.kernels.memory_kernel.MemoryKernel.compute_kernel">
-<span class="sig-name descname"><span class="pre">compute_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embedding_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.65</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_softmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.compute_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.compute_kernel" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">compute_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embedding_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.65</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_softmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.compute_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.compute_kernel" title="Permalink to this definition"></a></dt>
 <dd><p>Compute the adjacency matrix of the graph.</p>
 <p>Parameters:
 embedding_set (numpy array): The embedding matrix of the nodes.
@@ -187,11 +208,23 @@ use_softmax (bool): Whether to use softmax to compute the adjacency matrix.
 cos_sim_batch (bool): Whether to use batch processing to compute the cosine similarity.</p>
 <p>Returns:
 adj_matrix (numpy array): The adjacency matrix of the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>embedding_set</strong> (<em>ndarray</em>) – </p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
+<li><p><strong>use_softmax</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.kernels.memory_kernel.MemoryKernel.k_hop_message_passing">
-<span class="sig-name descname"><span class="pre">k_hop_message_passing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.k_hop_message_passing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.k_hop_message_passing" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">k_hop_message_passing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.k_hop_message_passing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.k_hop_message_passing" title="Permalink to this definition"></a></dt>
 <dd><p>Compute the k-hop adjacency matrix and aggregated features using message passing.</p>
 <p>Parameters:
 A (numpy array): The adjacency matrix of the graph.
@@ -200,11 +233,23 @@ k (int): The number of hops for message passing.</p>
 <p>Returns:
 A_k (numpy array): The k-hop adjacency matrix.
 agg_features (numpy array): The aggregated feature matrix for each node in the k-hop neighborhood.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>A</strong> (<em>ndarray</em>) – </p></li>
+<li><p><strong>node_features</strong> (<em>ndarray</em>) – </p></li>
+<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<em>ndarray</em>, <em>ndarray</em>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.kernels.memory_kernel.MemoryKernel.graph_sylvester_embedding">
-<span class="sig-name descname"><span class="pre">graph_sylvester_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.graph_sylvester_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.graph_sylvester_embedding" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">graph_sylvester_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.graph_sylvester_embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.graph_sylvester_embedding" title="Permalink to this definition"></a></dt>
 <dd><p>Compute the spectral kernel descriptor or the Spectral Graph Wavelet descriptor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -225,7 +270,7 @@ agg_features (numpy array): The aggregated feature matrix for each node in the k
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.kernels.memory_kernel.MemoryKernel.gen_gse_embeddings">
-<span class="sig-name descname"><span class="pre">gen_gse_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embeddings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.gen_gse_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.gen_gse_embeddings" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">gen_gse_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embeddings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.gen_gse_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.gen_gse_embeddings" title="Permalink to this definition"></a></dt>
 <dd><p>Generate Graph Sylvester Embeddings.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -246,7 +291,7 @@ agg_features (numpy array): The aggregated feature matrix for each node in the k
 
 <dl class="py method">
 <dt class="sig sig-object py" id="babydragon.memory.kernels.memory_kernel.MemoryKernel.create_k_hop_index">
-<span class="sig-name descname"><span class="pre">create_k_hop_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.create_k_hop_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.create_k_hop_index" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_k_hop_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/memory/kernels/memory_kernel.html#MemoryKernel.create_k_hop_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.memory.kernels.memory_kernel.MemoryKernel.create_k_hop_index" title="Permalink to this definition"></a></dt>
 <dd><p>Create a k-hop index by computing the adjacency matrix, k-hop adjacency matrix,
 aggregated features, and updating the memory index.</p>
 <dl class="field-list simple">
