@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.core.dtypes.dtypes &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.core.dtypes.dtypes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.core.dtypes.dtypes</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Define extension dtypes.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">MutableMapping</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pytz</span>
+
+<span class="kn">from</span> <span class="nn">pandas._libs</span> <span class="kn">import</span> <span class="n">missing</span> <span class="k">as</span> <span class="n">libmissing</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.interval</span> <span class="kn">import</span> <span class="n">Interval</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.properties</span> <span class="kn">import</span> <span class="n">cache_readonly</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.tslibs</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseOffset</span><span class="p">,</span>
+    <span class="n">NaT</span><span class="p">,</span>
+    <span class="n">NaTType</span><span class="p">,</span>
+    <span class="n">Period</span><span class="p">,</span>
+    <span class="n">Timestamp</span><span class="p">,</span>
+    <span class="n">timezones</span><span class="p">,</span>
+    <span class="n">to_offset</span><span class="p">,</span>
+    <span class="n">tz_compare</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.tslibs.dtypes</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PeriodDtypeBase</span><span class="p">,</span>
+    <span class="n">abbrev_to_npy_unit</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Dtype</span><span class="p">,</span>
+    <span class="n">DtypeObj</span><span class="p">,</span>
+    <span class="n">Ordered</span><span class="p">,</span>
+    <span class="n">npt</span><span class="p">,</span>
+    <span class="n">type_t</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ExtensionDtype</span><span class="p">,</span>
+    <span class="n">register_extension_dtype</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.generic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ABCCategoricalIndex</span><span class="p">,</span>
+    <span class="n">ABCIndex</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.inference</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_bool</span><span class="p">,</span>
+    <span class="n">is_list_like</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">tzinfo</span>
+
+    <span class="kn">import</span> <span class="nn">pyarrow</span>
+
+    <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">Categorical</span><span class="p">,</span>
+        <span class="n">Index</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">BaseMaskedArray</span><span class="p">,</span>
+        <span class="n">DatetimeArray</span><span class="p">,</span>
+        <span class="n">IntervalArray</span><span class="p">,</span>
+        <span class="n">PandasArray</span><span class="p">,</span>
+        <span class="n">PeriodArray</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="n">str_type</span> <span class="o">=</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">PandasExtensionDtype</span><span class="p">(</span><span class="n">ExtensionDtype</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A np.dtype duck-typed class, suitable for holding a custom dtype.</span>
+
+<span class="sd">    THIS IS NOT A REAL NUMPY DTYPE</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">type</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="c1"># The Any type annotations above are here only because mypy seems to have a</span>
+    <span class="c1"># problem dealing with multiple inheritance from PandasExtensionDtype</span>
+    <span class="c1"># and ExtensionDtype&#39;s @properties in the subclasses below. The kind and</span>
+    <span class="c1"># type variables in those subclasses are explicitly typed below.</span>
+    <span class="n">subdtype</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="nb">str</span><span class="p">:</span> <span class="n">str_type</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">itemsize</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">base</span><span class="p">:</span> <span class="n">DtypeObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">isbuiltin</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">isnative</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">_cache_dtypes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">str_type</span><span class="p">,</span> <span class="n">PandasExtensionDtype</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">str_type</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string representation for a particular object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;sub-classes should implement an __hash__ method&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">str_type</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="c1"># pickle support; we don&#39;t want to pickle the cache</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">reset_cache</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;clear the cache&quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_cache_dtypes</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">class</span> <span class="nc">CategoricalDtypeType</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    the type of CategoricalDtype, this metaclass determines subclass ability</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="CategoricalDtype"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.CategoricalDtype">[docs]</a><span class="nd">@register_extension_dtype</span>
+<span class="k">class</span> <span class="nc">CategoricalDtype</span><span class="p">(</span><span class="n">PandasExtensionDtype</span><span class="p">,</span> <span class="n">ExtensionDtype</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Type for categorical data with the categories and orderedness.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    categories : sequence, optional</span>
+<span class="sd">        Must be unique, and must not contain any nulls.</span>
+<span class="sd">        The categories are stored in an Index,</span>
+<span class="sd">        and if an index is provided the dtype of that index will be used.</span>
+<span class="sd">    ordered : bool or None, default False</span>
+<span class="sd">        Whether or not this categorical is treated as a ordered categorical.</span>
+<span class="sd">        None can be used to maintain the ordered value of existing categoricals when</span>
+<span class="sd">        used in operations that combine categoricals, e.g. astype, and will resolve to</span>
+<span class="sd">        False if there is no existing ordered to maintain.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    categories</span>
+<span class="sd">    ordered</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    Categorical : Represent a categorical variable in classic R / S-plus fashion.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This class is useful for specifying the type of a ``Categorical``</span>
+<span class="sd">    independent of the values. See :ref:`categorical.categoricaldtype`</span>
+<span class="sd">    for more.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; t = pd.CategoricalDtype(categories=[&#39;b&#39;, &#39;a&#39;], ordered=True)</span>
+<span class="sd">    &gt;&gt;&gt; pd.Series([&#39;a&#39;, &#39;b&#39;, &#39;a&#39;, &#39;c&#39;], dtype=t)</span>
+<span class="sd">    0      a</span>
+<span class="sd">    1      b</span>
+<span class="sd">    2      a</span>
+<span class="sd">    3    NaN</span>
+<span class="sd">    dtype: category</span>
+<span class="sd">    Categories (2, object): [&#39;b&#39; &lt; &#39;a&#39;]</span>
+
+<span class="sd">    An empty CategoricalDtype with a specific dtype can be created</span>
+<span class="sd">    by providing an empty index. As follows,</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.CategoricalDtype(pd.DatetimeIndex([])).categories.dtype</span>
+<span class="sd">    dtype(&#39;&lt;M8[ns]&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># TODO: Document public vs. private API</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;category&quot;</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">CategoricalDtypeType</span><span class="p">]</span> <span class="o">=</span> <span class="n">CategoricalDtypeType</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="n">str_type</span> <span class="o">=</span> <span class="s2">&quot;O&quot;</span>
+    <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;|O08&quot;</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;O&quot;</span><span class="p">)</span>
+    <span class="n">_metadata</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;categories&quot;</span><span class="p">,</span> <span class="s2">&quot;ordered&quot;</span><span class="p">)</span>
+    <span class="n">_cache_dtypes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">str_type</span><span class="p">,</span> <span class="n">PandasExtensionDtype</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="n">Ordered</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_finalize</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">ordered</span><span class="p">,</span> <span class="n">fastpath</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_fastpath</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CategoricalDtype</span><span class="p">:</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_finalize</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">ordered</span><span class="p">,</span> <span class="n">fastpath</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_categorical_dtype</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">CategoricalDtype</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="n">Ordered</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CategoricalDtype</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">categories</span> <span class="ow">is</span> <span class="n">ordered</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">dtype</span>
+        <span class="k">if</span> <span class="n">categories</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">categories</span> <span class="o">=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">categories</span>
+        <span class="k">if</span> <span class="n">ordered</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ordered</span> <span class="o">=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">ordered</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">ordered</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_values_or_dtype</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">categories</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="p">:</span> <span class="n">Dtype</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CategoricalDtype</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct dtype from the input parameters used in :class:`Categorical`.</span>
+
+<span class="sd">        This constructor method specifically does not do the factorization</span>
+<span class="sd">        step, if that is needed to find the categories. This constructor may</span>
+<span class="sd">        therefore return ``CategoricalDtype(categories=None, ordered=None)``,</span>
+<span class="sd">        which may not be useful. Additional steps may therefore have to be</span>
+<span class="sd">        taken to create the final dtype.</span>
+
+<span class="sd">        The return dtype is specified from the inputs in this prioritized</span>
+<span class="sd">        order:</span>
+<span class="sd">        1. if dtype is a CategoricalDtype, return dtype</span>
+<span class="sd">        2. if dtype is the string &#39;category&#39;, create a CategoricalDtype from</span>
+<span class="sd">           the supplied categories and ordered parameters, and return that.</span>
+<span class="sd">        3. if values is a categorical, use value.dtype, but override it with</span>
+<span class="sd">           categories and ordered if either/both of those are not None.</span>
+<span class="sd">        4. if dtype is None and values is not a categorical, construct the</span>
+<span class="sd">           dtype from categories and ordered, even if either of those is None.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        values : list-like, optional</span>
+<span class="sd">            The list-like must be 1-dimensional.</span>
+<span class="sd">        categories : list-like, optional</span>
+<span class="sd">            Categories for the CategoricalDtype.</span>
+<span class="sd">        ordered : bool, optional</span>
+<span class="sd">            Designating if the categories are ordered.</span>
+<span class="sd">        dtype : CategoricalDtype or the string &quot;category&quot;, optional</span>
+<span class="sd">            If ``CategoricalDtype``, cannot be used together with</span>
+<span class="sd">            `categories` or `ordered`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CategoricalDtype</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; pd.CategoricalDtype._from_values_or_dtype()</span>
+<span class="sd">        CategoricalDtype(categories=None, ordered=None)</span>
+<span class="sd">        &gt;&gt;&gt; pd.CategoricalDtype._from_values_or_dtype(</span>
+<span class="sd">        ...     categories=[&#39;a&#39;, &#39;b&#39;], ordered=True</span>
+<span class="sd">        ... )</span>
+<span class="sd">        CategoricalDtype(categories=[&#39;a&#39;, &#39;b&#39;], ordered=True)</span>
+<span class="sd">        &gt;&gt;&gt; dtype1 = pd.CategoricalDtype([&#39;a&#39;, &#39;b&#39;], ordered=True)</span>
+<span class="sd">        &gt;&gt;&gt; dtype2 = pd.CategoricalDtype([&#39;x&#39;, &#39;y&#39;], ordered=False)</span>
+<span class="sd">        &gt;&gt;&gt; c = pd.Categorical([0, 1], dtype=dtype1, fastpath=True)</span>
+<span class="sd">        &gt;&gt;&gt; pd.CategoricalDtype._from_values_or_dtype(</span>
+<span class="sd">        ...     c, [&#39;x&#39;, &#39;y&#39;], ordered=True, dtype=dtype2</span>
+<span class="sd">        ... )</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">            ...</span>
+<span class="sd">        ValueError: Cannot specify `categories` or `ordered` together with</span>
+<span class="sd">        `dtype`.</span>
+
+<span class="sd">        The supplied dtype takes precedence over values&#39; dtype:</span>
+
+<span class="sd">        &gt;&gt;&gt; pd.CategoricalDtype._from_values_or_dtype(c, dtype=dtype2)</span>
+<span class="sd">        CategoricalDtype(categories=[&#39;x&#39;, &#39;y&#39;], ordered=False)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># The dtype argument takes precedence over values.dtype (if any)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ordered</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_dtype</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+                        <span class="c1"># GH#49309 preserve orderedness</span>
+                        <span class="n">ordered</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">ordered</span>
+
+                    <span class="n">dtype</span> <span class="o">=</span> <span class="n">CategoricalDtype</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">ordered</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown dtype </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">categories</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">ordered</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Cannot specify `categories` or `ordered` together with `dtype`.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">CategoricalDtype</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot not construct CategoricalDtype from </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_dtype</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+            <span class="c1"># If no &quot;dtype&quot; was passed, use the one from &quot;values&quot;, but honor</span>
+            <span class="c1"># the &quot;ordered&quot; and &quot;categories&quot; arguments</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">_from_categorical_dtype</span><span class="p">(</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">ordered</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If dtype=None and values is not categorical, create a new dtype.</span>
+            <span class="c1"># Note: This could potentially have categories=None and</span>
+            <span class="c1"># ordered=None.</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">CategoricalDtype</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">ordered</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">CategoricalDtype</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CategoricalDtype.construct_from_string"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.CategoricalDtype.construct_from_string">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">construct_from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="n">str_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CategoricalDtype</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct a CategoricalDtype from a string.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        string : str</span>
+<span class="sd">            Must be the string &quot;category&quot; in order to be successfully constructed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CategoricalDtype</span>
+<span class="sd">            Instance of the dtype.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If a CategoricalDtype cannot be constructed from the input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;construct_from_string&#39; expects a string, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">string</span> <span class="o">!=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot construct a &#39;CategoricalDtype&#39; from &#39;</span><span class="si">{</span><span class="n">string</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># need ordered=None to ensure that operations specifying dtype=&quot;category&quot; don&#39;t</span>
+        <span class="c1"># override the ordered value for existing categoricals</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">ordered</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categories</span><span class="p">,</span> <span class="n">ordered</span><span class="p">:</span> <span class="n">Ordered</span><span class="p">,</span> <span class="n">fastpath</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ordered</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate_ordered</span><span class="p">(</span><span class="n">ordered</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">categories</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">categories</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_categories</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">fastpath</span><span class="o">=</span><span class="n">fastpath</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_categories</span> <span class="o">=</span> <span class="n">categories</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ordered</span> <span class="o">=</span> <span class="n">ordered</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">MutableMapping</span><span class="p">[</span><span class="n">str_type</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># for pickle compat. __get_state__ is defined in the</span>
+        <span class="c1"># PandasExtensionDtype superclass and uses the public properties to</span>
+        <span class="c1"># pickle -&gt; need to set the settable private ones here (see GH26067)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_categories</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;categories&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ordered</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ordered&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="c1"># _hash_categories returns a uint64, so use the negative</span>
+        <span class="c1"># space for when we have unknown categories to avoid a conflict</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ordered</span><span class="p">:</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mi">2</span>
+        <span class="c1"># We *do* want to include the real self.ordered here</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hash_categories</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rules for CDT equality:</span>
+<span class="sd">        1) Any CDT is equal to the string &#39;category&#39;</span>
+<span class="sd">        2) Any CDT is equal to itself</span>
+<span class="sd">        3) Any CDT is equal to a CDT with categories=None regardless of ordered</span>
+<span class="sd">        4) A CDT with ordered=True is only equal to another CDT with</span>
+<span class="sd">           ordered=True and identical categories in the same order</span>
+<span class="sd">        5) A CDT with ordered={False, None} is only equal to another CDT with</span>
+<span class="sd">           ordered={False, None} and identical categories, but same order is</span>
+<span class="sd">           not required. There is no distinction between False/None.</span>
+<span class="sd">        6) Any other comparison returns False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">other</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">elif</span> <span class="n">other</span> <span class="ow">is</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;ordered&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;categories&quot;</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">other</span><span class="o">.</span><span class="n">categories</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># For non-fully-initialized dtypes, these are only equal to</span>
+            <span class="c1">#  - the string &quot;category&quot; (handled above)</span>
+            <span class="c1">#  - other CategoricalDtype with categories=None</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="n">categories</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ordered</span> <span class="ow">or</span> <span class="n">other</span><span class="o">.</span><span class="n">ordered</span><span class="p">:</span>
+            <span class="c1"># At least one has ordered=True; equal if both have ordered=True</span>
+            <span class="c1"># and the same values for categories in the same order.</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ordered</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">ordered</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span>
+                <span class="n">other</span><span class="o">.</span><span class="n">categories</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Neither has ordered=True; equal if both have the same categories,</span>
+            <span class="c1"># but same order is not necessary.  There is no distinction between</span>
+            <span class="c1"># ordered=False and ordered=None: CDT(., False) and CDT(., None)</span>
+            <span class="c1"># will be equal if they have the same categories.</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">categories</span>
+
+            <span class="c1"># GH#36280 the ordering of checks here is for performance</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">left</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">right</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">categories</span><span class="p">):</span>
+                <span class="c1"># Check and see if they happen to be identical categories</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+            <span class="k">if</span> <span class="n">left</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="nb">object</span><span class="p">:</span>
+                <span class="c1"># Faster than calculating hash</span>
+                <span class="n">indexer</span> <span class="o">=</span> <span class="n">left</span><span class="o">.</span><span class="n">get_indexer</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+                <span class="c1"># Because left and right have the same length and are unique,</span>
+                <span class="c1">#  `indexer` not having any -1s implies that there is a</span>
+                <span class="c1">#  bijection between `left` and `right`.</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">indexer</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+            <span class="c1"># With object-dtype we need a comparison that identifies</span>
+            <span class="c1">#  e.g. int(2) as distinct from float(2)</span>
+            <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">hash</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">str_type</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;None&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">_format_data</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># self.categories is RangeIndex</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">_range</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;CategoricalDtype(categories=</span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">, ordered=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ordered</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">_hash_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.util.hashing</span> <span class="kn">import</span> <span class="p">(</span>
+            <span class="n">combine_hash_arrays</span><span class="p">,</span>
+            <span class="n">hash_array</span><span class="p">,</span>
+            <span class="n">hash_tuples</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">categories</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span>
+        <span class="n">ordered</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ordered</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">categories</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="c1"># assumes if any individual category is a tuple, then all our. ATM</span>
+            <span class="c1"># I don&#39;t really want to support just some of the categories being</span>
+            <span class="c1"># tuples.</span>
+            <span class="n">cat_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>  <span class="c1"># breaks if a np.array of categories</span>
+            <span class="n">cat_array</span> <span class="o">=</span> <span class="n">hash_tuples</span><span class="p">(</span><span class="n">cat_list</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">categories</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;O&quot;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">({</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">})</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># TODO: hash_array doesn&#39;t handle mixed types. It casts</span>
+                <span class="c1"># everything to a str first, which means we treat</span>
+                <span class="c1"># {&#39;1&#39;, &#39;2&#39;} the same as {&#39;1&#39;, 2}</span>
+                <span class="c1"># find a better solution</span>
+                <span class="n">hashed</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">((</span><span class="nb">tuple</span><span class="p">(</span><span class="n">categories</span><span class="p">),</span> <span class="n">ordered</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">hashed</span>
+
+            <span class="k">if</span> <span class="n">DatetimeTZDtype</span><span class="o">.</span><span class="n">is_dtype</span><span class="p">(</span><span class="n">categories</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+                <span class="c1"># Avoid future warning.</span>
+                <span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">)</span>
+
+            <span class="n">cat_array</span> <span class="o">=</span> <span class="n">hash_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">categories</span><span class="p">),</span> <span class="n">categorize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ordered</span><span class="p">:</span>
+            <span class="n">cat_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">cat_array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cat_array</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">cat_array</span><span class="o">.</span><span class="n">dtype</span><span class="p">)]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cat_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cat_array</span><span class="p">])</span>
+        <span class="n">combined_hashed</span> <span class="o">=</span> <span class="n">combine_hash_arrays</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">cat_array</span><span class="p">),</span> <span class="n">num_items</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">cat_array</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">bitwise_xor</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">combined_hashed</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CategoricalDtype.construct_array_type"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.CategoricalDtype.construct_array_type">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">construct_array_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">type_t</span><span class="p">[</span><span class="n">Categorical</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the array type associated with this dtype.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">Categorical</span>
+
+        <span class="k">return</span> <span class="n">Categorical</span></div>
+
+<div class="viewcode-block" id="CategoricalDtype.validate_ordered"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.CategoricalDtype.validate_ordered">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">validate_ordered</span><span class="p">(</span><span class="n">ordered</span><span class="p">:</span> <span class="n">Ordered</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validates that we have a valid ordered parameter. If</span>
+<span class="sd">        it is not a boolean, a TypeError will be raised.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ordered : object</span>
+<span class="sd">            The parameter to be verified.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If &#39;ordered&#39; is not a boolean.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_bool</span><span class="p">(</span><span class="n">ordered</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;ordered&#39; must either be &#39;True&#39; or &#39;False&#39;&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CategoricalDtype.validate_categories"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.CategoricalDtype.validate_categories">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">validate_categories</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">fastpath</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Index</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validates that we have good categories</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        categories : array-like</span>
+<span class="sd">        fastpath : bool</span>
+<span class="sd">            Whether to skip nan and uniqueness checks</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        categories : Index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.indexes.base</span> <span class="kn">import</span> <span class="n">Index</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fastpath</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">categories</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Parameter &#39;categories&#39; must be list-like, was </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">ABCIndex</span><span class="p">):</span>
+            <span class="n">categories</span> <span class="o">=</span> <span class="n">Index</span><span class="o">.</span><span class="n">_with_infer</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">tupleize_cols</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fastpath</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">categories</span><span class="o">.</span><span class="n">hasnans</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Categorical categories cannot be null&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">categories</span><span class="o">.</span><span class="n">is_unique</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Categorical categories must be unique&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">ABCCategoricalIndex</span><span class="p">):</span>
+            <span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span><span class="o">.</span><span class="n">categories</span>
+
+        <span class="k">return</span> <span class="n">categories</span></div>
+
+<div class="viewcode-block" id="CategoricalDtype.update_dtype"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.CategoricalDtype.update_dtype">[docs]</a>    <span class="k">def</span> <span class="nf">update_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">str_type</span> <span class="o">|</span> <span class="n">CategoricalDtype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CategoricalDtype</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a CategoricalDtype with categories and ordered taken from dtype</span>
+<span class="sd">        if specified, otherwise falling back to self if unspecified</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dtype : CategoricalDtype</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        new_dtype : CategoricalDtype</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;category&quot;</span><span class="p">:</span>
+            <span class="c1"># dtype=&#39;category&#39; should not change anything</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;a CategoricalDtype must be passed to perform an update, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># from here on, dtype is a CategoricalDtype</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">CategoricalDtype</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+        <span class="c1"># update categories/ordered unless they&#39;ve been explicitly passed as None</span>
+        <span class="n">new_categories</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dtype</span><span class="o">.</span><span class="n">categories</span> <span class="k">if</span> <span class="n">dtype</span><span class="o">.</span><span class="n">categories</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span>
+        <span class="p">)</span>
+        <span class="n">new_ordered</span> <span class="o">=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">ordered</span> <span class="k">if</span> <span class="n">dtype</span><span class="o">.</span><span class="n">ordered</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">ordered</span>
+
+        <span class="k">return</span> <span class="n">CategoricalDtype</span><span class="p">(</span><span class="n">new_categories</span><span class="p">,</span> <span class="n">new_ordered</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">categories</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Index</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        An ``Index`` containing the unique categories allowed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_categories</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ordered</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Ordered</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Whether the categories have an ordered relationship.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ordered</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_is_boolean</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="n">is_bool_dtype</span>
+
+        <span class="k">return</span> <span class="n">is_bool_dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_common_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtypes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DtypeObj</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DtypeObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.arrays.sparse</span> <span class="kn">import</span> <span class="n">SparseDtype</span>
+
+        <span class="c1"># check if we have all categorical dtype with identical categories</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">CategoricalDtype</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dtypes</span><span class="p">):</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">dtypes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">first</span> <span class="o">==</span> <span class="n">other</span> <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="n">dtypes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+                <span class="k">return</span> <span class="n">first</span>
+
+        <span class="c1"># special case non-initialized categorical</span>
+        <span class="c1"># TODO we should figure out the expected return value in general</span>
+        <span class="n">non_init_cats</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">CategoricalDtype</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">categories</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dtypes</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">non_init_cats</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">non_init_cats</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># categorical is aware of Sparse -&gt; extract sparse subdtypes</span>
+        <span class="n">dtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">subtype</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">SparseDtype</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dtypes</span><span class="p">]</span>
+        <span class="c1"># extract the categories&#39; dtype</span>
+        <span class="n">non_cat_dtypes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">dtype</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">CategoricalDtype</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dtypes</span>
+        <span class="p">]</span>
+        <span class="c1"># TODO should categorical always give an answer?</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.dtypes.cast</span> <span class="kn">import</span> <span class="n">find_common_type</span>
+
+        <span class="k">return</span> <span class="n">find_common_type</span><span class="p">(</span><span class="n">non_cat_dtypes</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DatetimeTZDtype"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.DatetimeTZDtype">[docs]</a><span class="nd">@register_extension_dtype</span>
+<span class="k">class</span> <span class="nc">DatetimeTZDtype</span><span class="p">(</span><span class="n">PandasExtensionDtype</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An ExtensionDtype for timezone-aware datetime data.</span>
+
+<span class="sd">    **This is not an actual numpy dtype**, but a duck type.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    unit : str, default &quot;ns&quot;</span>
+<span class="sd">        The precision of the datetime data. Currently limited</span>
+<span class="sd">        to ``&quot;ns&quot;``.</span>
+<span class="sd">    tz : str, int, or datetime.tzinfo</span>
+<span class="sd">        The timezone.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    unit</span>
+<span class="sd">    tz</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    pytz.UnknownTimeZoneError</span>
+<span class="sd">        When the requested timezone cannot be found.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; pd.DatetimeTZDtype(tz=&#39;UTC&#39;)</span>
+<span class="sd">    datetime64[ns, UTC]</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.DatetimeTZDtype(tz=&#39;dateutil/US/Central&#39;)</span>
+<span class="sd">    datetime64[ns, tzfile(&#39;/usr/share/zoneinfo/US/Central&#39;)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Timestamp</span><span class="p">]</span> <span class="o">=</span> <span class="n">Timestamp</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="n">str_type</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="mi">101</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;M8[ns]&quot;</span><span class="p">)</span>  <span class="c1"># TODO: depend on reso?</span>
+    <span class="n">_metadata</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;unit&quot;</span><span class="p">,</span> <span class="s2">&quot;tz&quot;</span><span class="p">)</span>
+    <span class="n">_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(datetime64|M8)\[(?P&lt;unit&gt;.+), (?P&lt;tz&gt;.+)\]&quot;</span><span class="p">)</span>
+    <span class="n">_cache_dtypes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">str_type</span><span class="p">,</span> <span class="n">PandasExtensionDtype</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">na_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NaTType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">NaT</span>
+
+    <span class="c1"># error: Signature of &quot;str&quot; incompatible with supertype &quot;PandasExtensionDtype&quot;</span>
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;|M8[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">str_type</span> <span class="o">|</span> <span class="n">DatetimeTZDtype</span> <span class="o">=</span> <span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">DatetimeTZDtype</span><span class="p">):</span>
+            <span class="c1"># error: &quot;str&quot; has no attribute &quot;tz&quot;</span>
+            <span class="n">unit</span><span class="p">,</span> <span class="n">tz</span> <span class="o">=</span> <span class="n">unit</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="n">unit</span><span class="o">.</span><span class="n">tz</span>  <span class="c1"># type: ignore[attr-defined]</span>
+
+        <span class="k">if</span> <span class="n">unit</span> <span class="o">!=</span> <span class="s2">&quot;ns&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">tz</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># maybe a string like datetime64[ns, tz], which we support for</span>
+                <span class="c1"># now.</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">construct_from_string</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+                <span class="n">unit</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">unit</span>
+                <span class="n">tz</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">tz</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Passing a dtype alias like &#39;datetime64[ns, </span><span class="si">{</span><span class="n">tz</span><span class="si">}</span><span class="s2">]&#39; &quot;</span>
+                    <span class="s2">&quot;to DatetimeTZDtype is no longer supported. Use &quot;</span>
+                    <span class="s2">&quot;&#39;DatetimeTZDtype.construct_from_string()&#39; instead.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;ms&quot;</span><span class="p">,</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span> <span class="s2">&quot;ns&quot;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;DatetimeTZDtype only supports s, ms, us, ns units&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tz</span><span class="p">:</span>
+            <span class="n">tz</span> <span class="o">=</span> <span class="n">timezones</span><span class="o">.</span><span class="n">maybe_get_tz</span><span class="p">(</span><span class="n">tz</span><span class="p">)</span>
+            <span class="n">tz</span> <span class="o">=</span> <span class="n">timezones</span><span class="o">.</span><span class="n">tz_standardize</span><span class="p">(</span><span class="n">tz</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">tz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">pytz</span><span class="o">.</span><span class="n">UnknownTimeZoneError</span><span class="p">(</span><span class="n">tz</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tz</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;A &#39;tz&#39; is required.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span> <span class="o">=</span> <span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tz</span> <span class="o">=</span> <span class="n">tz</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">_creso</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The NPY_DATETIMEUNIT corresponding to this dtype&#39;s resolution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">abbrev_to_npy_unit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">str_type</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The precision of the datetime data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tz</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tzinfo</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The timezone.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tz</span>
+
+<div class="viewcode-block" id="DatetimeTZDtype.construct_array_type"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.DatetimeTZDtype.construct_array_type">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">construct_array_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">type_t</span><span class="p">[</span><span class="n">DatetimeArray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the array type associated with this dtype.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="n">DatetimeArray</span>
+
+        <span class="k">return</span> <span class="n">DatetimeArray</span></div>
+
+<div class="viewcode-block" id="DatetimeTZDtype.construct_from_string"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.DatetimeTZDtype.construct_from_string">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">construct_from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="n">str_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatetimeTZDtype</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct a DatetimeTZDtype from a string.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        string : str</span>
+<span class="sd">            The string alias for this DatetimeTZDtype.</span>
+<span class="sd">            Should be formatted like ``datetime64[ns, &lt;tz&gt;]``,</span>
+<span class="sd">            where ``&lt;tz&gt;`` is the timezone name.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; DatetimeTZDtype.construct_from_string(&#39;datetime64[ns, UTC]&#39;)</span>
+<span class="sd">        datetime64[ns, UTC]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;construct_from_string&#39; expects a string, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Cannot construct a &#39;DatetimeTZDtype&#39; from &#39;</span><span class="si">{</span><span class="n">string</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_match</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">],</span> <span class="n">tz</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;tz&quot;</span><span class="p">])</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="c1"># KeyError if maybe_get_tz tries and fails to get a</span>
+                <span class="c1">#  pytz timezone (actually pytz.UnknownTimeZoneError).</span>
+                <span class="c1"># TypeError if we pass a nonsense tz;</span>
+                <span class="c1"># ValueError if we pass a unit other than &quot;ns&quot;</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">str_type</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;datetime64[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tz</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">str_type</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A string representation of the dtype.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="c1"># make myself hashable</span>
+        <span class="c1"># TODO: update this.</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;M8[&quot;</span><span class="p">):</span>
+                <span class="n">other</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;datetime64[</span><span class="si">{</span><span class="n">other</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="n">other</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">DatetimeTZDtype</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">unit</span>
+            <span class="ow">and</span> <span class="n">tz_compare</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tz</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">tz</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># for pickle compat. __get_state__ is defined in the</span>
+        <span class="c1"># PandasExtensionDtype superclass and uses the public properties to</span>
+        <span class="c1"># pickle -&gt; need to set the settable private ones here (see GH26067)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tz</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;tz&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PeriodDtype"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.PeriodDtype">[docs]</a><span class="nd">@register_extension_dtype</span>
+<span class="k">class</span> <span class="nc">PeriodDtype</span><span class="p">(</span><span class="n">PeriodDtypeBase</span><span class="p">,</span> <span class="n">PandasExtensionDtype</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An ExtensionDtype for Period data.</span>
+
+<span class="sd">    **This is not an actual numpy dtype**, but a duck type.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    freq : str or DateOffset</span>
+<span class="sd">        The frequency of this PeriodDtype.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    freq</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; pd.PeriodDtype(freq=&#39;D&#39;)</span>
+<span class="sd">    period[D]</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.PeriodDtype(freq=pd.offsets.MonthEnd())</span>
+<span class="sd">    period[M]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Period</span><span class="p">]</span> <span class="o">=</span> <span class="n">Period</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="n">str_type</span> <span class="o">=</span> <span class="s2">&quot;O&quot;</span>
+    <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;|O08&quot;</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;O&quot;</span><span class="p">)</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="mi">102</span>
+    <span class="n">_metadata</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;freq&quot;</span><span class="p">,)</span>
+    <span class="n">_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(P|p)eriod\[(?P&lt;freq&gt;.+)\]&quot;</span><span class="p">)</span>
+    <span class="n">_cache_dtypes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">str_type</span><span class="p">,</span> <span class="n">PandasExtensionDtype</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        freq : frequency</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">PeriodDtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">freq</span>
+
+        <span class="k">elif</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># empty constructor for pickle compat</span>
+            <span class="c1"># -10_000 corresponds to PeriodDtypeCode.UNDEFINED</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">PeriodDtypeBase</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">-</span><span class="mi">10_000</span><span class="p">)</span>
+            <span class="n">u</span><span class="o">.</span><span class="n">_freq</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="n">u</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">BaseOffset</span><span class="p">):</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_parse_dtype_strict</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_cache_dtypes</span><span class="p">[</span><span class="n">freq</span><span class="o">.</span><span class="n">freqstr</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">dtype_code</span> <span class="o">=</span> <span class="n">freq</span><span class="o">.</span><span class="n">_period_dtype_code</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">PeriodDtypeBase</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dtype_code</span><span class="p">)</span>
+            <span class="n">u</span><span class="o">.</span><span class="n">_freq</span> <span class="o">=</span> <span class="n">freq</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_cache_dtypes</span><span class="p">[</span><span class="n">freq</span><span class="o">.</span><span class="n">freqstr</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span>
+            <span class="k">return</span> <span class="n">u</span>
+
+    <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">,)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">freq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The frequency object of this PeriodDtype.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_freq</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_parse_dtype_strict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="n">str_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseOffset</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># note: freq is already of type str!</span>
+            <span class="k">if</span> <span class="n">freq</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;period[&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">freq</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Period[&quot;</span><span class="p">):</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_match</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">freq</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;freq&quot;</span><span class="p">)</span>
+
+            <span class="n">freq_offset</span> <span class="o">=</span> <span class="n">to_offset</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">freq_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">freq_offset</span>
+
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;could not construct PeriodDtype&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PeriodDtype.construct_from_string"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.PeriodDtype.construct_from_string">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">construct_from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="n">str_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PeriodDtype</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Strict construction from a string, raise a TypeError if not</span>
+<span class="sd">        possible</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;period[&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Period[&quot;</span><span class="p">))</span>
+            <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">BaseOffset</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="c1"># do not parse string like U as period[U]</span>
+            <span class="c1"># avoid tuple to be regarded as freq</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="n">string</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Cannot construct a &#39;PeriodDtype&#39; from &#39;</span><span class="si">{</span><span class="n">string</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;construct_from_string&#39; expects a string, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">str_type</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">str_type</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;period[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">freqstr</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">na_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NaTType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">NaT</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="c1"># make myself hashable</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">other</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">()]</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PeriodDtype</span><span class="p">):</span>
+            <span class="c1"># For freqs that can be held by a PeriodDtype, this check is</span>
+            <span class="c1"># equivalent to (and much faster than) self.freq == other.freq</span>
+            <span class="n">sfreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span>
+            <span class="n">ofreq</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">freq</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">sfreq</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="n">ofreq</span><span class="o">.</span><span class="n">n</span>
+                <span class="ow">and</span> <span class="n">sfreq</span><span class="o">.</span><span class="n">_period_dtype_code</span> <span class="o">==</span> <span class="n">ofreq</span><span class="o">.</span><span class="n">_period_dtype_code</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># for pickle compat. __getstate__ is defined in the</span>
+        <span class="c1"># PandasExtensionDtype superclass and uses the public properties to</span>
+        <span class="c1"># pickle -&gt; need to set the settable private ones here (see GH26067)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_freq</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="PeriodDtype.is_dtype"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.PeriodDtype.is_dtype">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">is_dtype</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a boolean if we if the passed type is an actual dtype that we</span>
+<span class="sd">        can match (via string or type)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># PeriodDtype can be instantiated from freq string like &quot;U&quot;,</span>
+            <span class="c1"># but doesn&#39;t regard freq str like &quot;U&quot; as dtype.</span>
+            <span class="k">if</span> <span class="n">dtype</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;period[&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dtype</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Period[&quot;</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_parse_dtype_strict</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">is_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PeriodDtype.construct_array_type"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.PeriodDtype.construct_array_type">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">construct_array_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">type_t</span><span class="p">[</span><span class="n">PeriodArray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the array type associated with this dtype.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="n">PeriodArray</span>
+
+        <span class="k">return</span> <span class="n">PeriodArray</span></div>
+
+    <span class="k">def</span> <span class="nf">__from_arrow__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n">pyarrow</span><span class="o">.</span><span class="n">Array</span> <span class="o">|</span> <span class="n">pyarrow</span><span class="o">.</span><span class="n">ChunkedArray</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PeriodArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct PeriodArray from pyarrow Array/ChunkedArray.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">pyarrow</span>
+
+        <span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="n">PeriodArray</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.arrays.arrow._arrow_utils</span> <span class="kn">import</span> <span class="p">(</span>
+            <span class="n">pyarrow_array_to_numpy_and_mask</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">pyarrow</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+            <span class="n">chunks</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">chunks</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">chunks</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">pyarrow_array_to_numpy_and_mask</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span>
+            <span class="n">parr</span> <span class="o">=</span> <span class="n">PeriodArray</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">freq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="c1"># error: Invalid index type &quot;ndarray[Any, dtype[bool_]]&quot; for &quot;PeriodArray&quot;;</span>
+            <span class="c1"># expected type &quot;Union[int, Sequence[int], Sequence[bool], slice]&quot;</span>
+            <span class="n">parr</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">NaT</span>  <span class="c1"># type: ignore[index]</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parr</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">PeriodArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int64&quot;</span><span class="p">),</span> <span class="n">freq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PeriodArray</span><span class="o">.</span><span class="n">_concat_same_type</span><span class="p">(</span><span class="n">results</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IntervalDtype"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.IntervalDtype">[docs]</a><span class="nd">@register_extension_dtype</span>
+<span class="k">class</span> <span class="nc">IntervalDtype</span><span class="p">(</span><span class="n">PandasExtensionDtype</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An ExtensionDtype for Interval data.</span>
+
+<span class="sd">    **This is not an actual numpy dtype**, but a duck type.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    subtype : str, np.dtype</span>
+<span class="sd">        The dtype of the Interval bounds.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    subtype</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; pd.IntervalDtype(subtype=&#39;int64&#39;, closed=&#39;both&#39;)</span>
+<span class="sd">    interval[int64, both]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;interval&quot;</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="n">str_type</span> <span class="o">=</span> <span class="s2">&quot;O&quot;</span>
+    <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;|O08&quot;</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;O&quot;</span><span class="p">)</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="mi">103</span>
+    <span class="n">_metadata</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;subtype&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;closed&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;(I|i)nterval\[(?P&lt;subtype&gt;[^,]+(\[.+\])?)&quot;</span>
+        <span class="sa">r</span><span class="s2">&quot;(, (?P&lt;closed&gt;(right|left|both|neither)))?\]&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">_cache_dtypes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">str_type</span><span class="p">,</span> <span class="n">PandasExtensionDtype</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">closed</span><span class="p">:</span> <span class="n">str_type</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="p">(</span>
+            <span class="n">is_string_dtype</span><span class="p">,</span>
+            <span class="n">pandas_dtype</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">closed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">closed</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="s2">&quot;neither&quot;</span><span class="p">}:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;closed must be one of &#39;right&#39;, &#39;left&#39;, &#39;both&#39;, &#39;neither&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subtype</span><span class="p">,</span> <span class="n">IntervalDtype</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">closed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">closed</span> <span class="o">!=</span> <span class="n">subtype</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;dtype.closed and &#39;closed&#39; do not match. &quot;</span>
+                    <span class="s2">&quot;Try IntervalDtype(dtype.subtype, closed) instead.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">subtype</span>
+        <span class="k">elif</span> <span class="n">subtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># we are called as an empty constructor</span>
+            <span class="c1"># generally for pickle compat</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="n">u</span><span class="o">.</span><span class="n">_subtype</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">u</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="n">closed</span>
+            <span class="k">return</span> <span class="n">u</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subtype</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">subtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;interval&quot;</span><span class="p">:</span>
+            <span class="n">subtype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subtype</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_match</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">subtype</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">gd</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+                    <span class="n">subtype</span> <span class="o">=</span> <span class="n">gd</span><span class="p">[</span><span class="s2">&quot;subtype&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">gd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;closed&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">closed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">closed</span> <span class="o">!=</span> <span class="n">gd</span><span class="p">[</span><span class="s2">&quot;closed&quot;</span><span class="p">]:</span>
+                                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                                    <span class="s2">&quot;&#39;closed&#39; keyword does not match value &quot;</span>
+                                    <span class="s2">&quot;specified in dtype string&quot;</span>
+                                <span class="p">)</span>
+                        <span class="n">closed</span> <span class="o">=</span> <span class="n">gd</span><span class="p">[</span><span class="s2">&quot;closed&quot;</span><span class="p">]</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">subtype</span> <span class="o">=</span> <span class="n">pandas_dtype</span><span class="p">(</span><span class="n">subtype</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;could not construct IntervalDtype&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+
+        <span class="k">if</span> <span class="n">CategoricalDtype</span><span class="o">.</span><span class="n">is_dtype</span><span class="p">(</span><span class="n">subtype</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_string_dtype</span><span class="p">(</span><span class="n">subtype</span><span class="p">):</span>
+            <span class="c1"># GH 19016</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;category, object, and string subtypes are not supported &quot;</span>
+                <span class="s2">&quot;for IntervalDtype&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subtype</span><span class="si">}{</span><span class="n">closed</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_cache_dtypes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="n">u</span><span class="o">.</span><span class="n">_subtype</span> <span class="o">=</span> <span class="n">subtype</span>
+            <span class="n">u</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="n">closed</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_cache_dtypes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span>
+            <span class="k">return</span> <span class="n">u</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">_can_hold_na</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">subtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subtype</span>
+        <span class="k">if</span> <span class="n">subtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># partially-initialized</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;_can_hold_na is not defined for partially-initialized IntervalDtype&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">subtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;u&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">closed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">subtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The dtype of the Interval bounds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subtype</span>
+
+<div class="viewcode-block" id="IntervalDtype.construct_array_type"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.IntervalDtype.construct_array_type">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">construct_array_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">IntervalArray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the array type associated with this dtype.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="n">IntervalArray</span>
+
+        <span class="k">return</span> <span class="n">IntervalArray</span></div>
+
+<div class="viewcode-block" id="IntervalDtype.construct_from_string"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.IntervalDtype.construct_from_string">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">construct_from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="n">str_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IntervalDtype</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        attempt to construct this type from a string, raise a TypeError</span>
+<span class="sd">        if its not possible</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;construct_from_string&#39; expects a string, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;interval&quot;</span> <span class="ow">or</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_match</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Cannot construct a &#39;IntervalDtype&#39; from &#39;</span><span class="si">{</span><span class="n">string</span><span class="si">}</span><span class="s2">&#39;.</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Incorrectly formatted string passed to constructor. &quot;</span>
+            <span class="s2">&quot;Valid formats include Interval or Interval[dtype] &quot;</span>
+            <span class="s2">&quot;where dtype is numeric, datetime, or timedelta&quot;</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">Interval</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">Interval</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">str_type</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;interval&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Only partially initialized GH#38394</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;interval[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">subtype</span><span class="si">}</span><span class="s2">]&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;interval[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">subtype</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="c1"># make myself hashable</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">IntervalDtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtype</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">other</span><span class="o">.</span><span class="n">subtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># None should match any subtype</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="n">is_dtype_equal</span>
+
+            <span class="k">return</span> <span class="n">is_dtype_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subtype</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">subtype</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># for pickle compat. __get_state__ is defined in the</span>
+        <span class="c1"># PandasExtensionDtype superclass and uses the public properties to</span>
+        <span class="c1"># pickle -&gt; need to set the settable private ones here (see GH26067)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_subtype</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;subtype&quot;</span><span class="p">]</span>
+
+        <span class="c1"># backward-compat older pickles won&#39;t have &quot;closed&quot; key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;closed&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<div class="viewcode-block" id="IntervalDtype.is_dtype"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.IntervalDtype.is_dtype">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">is_dtype</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a boolean if we if the passed type is an actual dtype that we</span>
+<span class="sd">        can match (via string or type)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;interval&quot;</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">construct_from_string</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">is_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__from_arrow__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n">pyarrow</span><span class="o">.</span><span class="n">Array</span> <span class="o">|</span> <span class="n">pyarrow</span><span class="o">.</span><span class="n">ChunkedArray</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IntervalArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct IntervalArray from pyarrow Array/ChunkedArray.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">pyarrow</span>
+
+        <span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="n">IntervalArray</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">pyarrow</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+            <span class="n">chunks</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">chunks</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">chunks</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">pyarrow</span><span class="o">.</span><span class="n">ExtensionArray</span><span class="p">):</span>
+                <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">storage</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">subtype</span><span class="p">)</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">subtype</span><span class="p">)</span>
+            <span class="n">iarr</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iarr</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">IntervalArray</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">subtype</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">subtype</span><span class="p">),</span>
+                <span class="n">closed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">closed</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">IntervalArray</span><span class="o">.</span><span class="n">_concat_same_type</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_common_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtypes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DtypeObj</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DtypeObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">IntervalDtype</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dtypes</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">closed</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;IntervalDtype&quot;</span><span class="p">,</span> <span class="n">dtypes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">closed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="s2">&quot;IntervalDtype&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">closed</span> <span class="o">==</span> <span class="n">closed</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dtypes</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+
+        <span class="kn">from</span> <span class="nn">pandas.core.dtypes.cast</span> <span class="kn">import</span> <span class="n">find_common_type</span>
+
+        <span class="n">common</span> <span class="o">=</span> <span class="n">find_common_type</span><span class="p">([</span><span class="n">cast</span><span class="p">(</span><span class="s2">&quot;IntervalDtype&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">subtype</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dtypes</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">common</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">IntervalDtype</span><span class="p">(</span><span class="n">common</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="n">closed</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">PandasDtype</span><span class="p">(</span><span class="n">ExtensionDtype</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Pandas ExtensionDtype for NumPy dtypes.</span>
+
+<span class="sd">    This is mostly for internal compatibility, and is not especially</span>
+<span class="sd">    useful on its own.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dtype : object</span>
+<span class="sd">        Object to be converted to a NumPy data type object.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    numpy.dtype</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_metadata</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;_dtype&quot;</span><span class="p">,)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">DTypeLike</span> <span class="o">|</span> <span class="n">PandasDtype</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">PandasDtype</span><span class="p">):</span>
+            <span class="c1"># make constructor univalent</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">numpy_dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;PandasDtype(</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">numpy_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The NumPy dtype this PandasDtype wraps.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A bit-width name for this data-type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The type object used to instantiate a scalar of this NumPy data-type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="o">.</span><span class="n">type</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_is_numeric</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="c1"># exclude object, str, unicode, void.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;biufc&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_is_boolean</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;b&quot;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">construct_from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PandasDtype</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;construct_from_string&#39; expects a string, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Cannot construct a &#39;PandasDtype&#39; from &#39;</span><span class="si">{</span><span class="n">string</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">construct_array_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">type_t</span><span class="p">[</span><span class="n">PandasArray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the array type associated with this dtype.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="n">PandasArray</span>
+
+        <span class="k">return</span> <span class="n">PandasArray</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kind</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A character code (one of &#39;biufcmMOSUV&#39;) identifying the general kind of data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="o">.</span><span class="n">kind</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">itemsize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The element size of this data-type object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="o">.</span><span class="n">itemsize</span>
+
+
+<span class="k">class</span> <span class="nc">BaseMaskedDtype</span><span class="p">(</span><span class="n">ExtensionDtype</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for dtypes for BaseMaskedArray subclasses.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">type</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">na_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">libmissing</span><span class="o">.</span><span class="n">NAType</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">libmissing</span><span class="o">.</span><span class="n">NA</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">numpy_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an instance of our numpy dtype&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">kind</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">numpy_dtype</span><span class="o">.</span><span class="n">kind</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">itemsize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of bytes in this dtype&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">numpy_dtype</span><span class="o">.</span><span class="n">itemsize</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">construct_array_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">type_t</span><span class="p">[</span><span class="n">BaseMaskedArray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the array type associated with this dtype.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_numpy_dtype</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseMaskedDtype</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct the MaskedDtype corresponding to the given numpy dtype.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">pandas.core.arrays.boolean</span> <span class="kn">import</span> <span class="n">BooleanDtype</span>
+
+            <span class="k">return</span> <span class="n">BooleanDtype</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;u&quot;</span><span class="p">]:</span>
+            <span class="kn">from</span> <span class="nn">pandas.core.arrays.integer</span> <span class="kn">import</span> <span class="n">INT_STR_TO_DTYPE</span>
+
+            <span class="k">return</span> <span class="n">INT_STR_TO_DTYPE</span><span class="p">[</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;f&quot;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">pandas.core.arrays.floating</span> <span class="kn">import</span> <span class="n">FLOAT_STR_TO_DTYPE</span>
+
+            <span class="k">return</span> <span class="n">FLOAT_STR_TO_DTYPE</span><span class="p">[</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_common_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtypes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DtypeObj</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DtypeObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># We unwrap any masked dtypes, find the common dtype we would use</span>
+        <span class="c1">#  for that, then re-mask the result.</span>
+        <span class="kn">from</span> <span class="nn">pandas.core.dtypes.cast</span> <span class="kn">import</span> <span class="n">find_common_type</span>
+
+        <span class="n">new_dtype</span> <span class="o">=</span> <span class="n">find_common_type</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">dtype</span><span class="o">.</span><span class="n">numpy_dtype</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">BaseMaskedDtype</span><span class="p">)</span> <span class="k">else</span> <span class="n">dtype</span>
+                <span class="k">for</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">dtypes</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="c1"># If we ever support e.g. Masked[DatetimeArray] then this will change</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">from_numpy_dtype</span><span class="p">(</span><span class="n">new_dtype</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">NotImplementedError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

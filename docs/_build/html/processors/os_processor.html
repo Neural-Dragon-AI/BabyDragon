@@ -4,9 +4,11 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>os_processor &mdash; BabyDragon  documentation</title>
+  <title>OsProcessor &mdash; BabyDragon  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,11 +18,12 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="git_metadata" href="parsers/git_metadata.html" />
-    <link rel="prev" title="github_processors" href="github_processors.html" /> 
+    <link rel="next" title="IssueParser" href="parsers/git_metadata.html" />
+    <link rel="prev" title="GithubProcessor" href="github_processors.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,59 +47,57 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tasks/llm_task.html">llm_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tasks/base_task.html">base_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tasks/topic_tree_task.html">topic_tree_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html">embedding_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/llm_task.html">LLMReader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/llm_task.html#llmwriter">LLMWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/multi_kernel_task.html">MultiKernelTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/base_task.html">BaseTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/topic_tree_task.html">TopicTreeTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html">EmbeddingTask</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/memory_kernel.html">memory_kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html">multi_kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/memory_kernel.html">MemoryKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_clustering.html">ClusterPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html">MultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">kernel_utils</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../memory/threads/base_thread.html">base_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/threads/fifo_thread.html">fifo_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/threads/vector_thread.html">vector_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/threads/todo/python_thread.html">python_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/base_thread.html">BaseThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/fifo_thread.html">FifoThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/vector_thread.html">VectorThread</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/python_index.html">python_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html">memory_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/pandas_index.html">pandas_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/github_index.html">github_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/multi_index.html">multi_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../chat/base_chat.html">base_chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../chat/memory_chat.html">memory_chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../chat/chat.html">chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../chat/prompts/default_prompts.html">default_prompts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/base_chat.html">Prompter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/base_chat.html#basechat">BaseChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/memory_chat.html">FifoChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/memory_chat.html#vectorchat">VectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/memory_chat.html#fifovectorchat">FifoVectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chat/chat.html">Chat</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../utils/multithreading.html">multithreading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">hf_datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">chatml</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html">ada2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../models/embedders/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../models/embedders/sbert.html">sbert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/cohere.html">CohereEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
@@ -105,27 +106,39 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="github_processors.html">github_processors</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">os_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers/git_metadata.html">git_metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers/visitors.html">visitors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers/python_parser.html">python_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers/todo/subs_parser.html">subs_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers/todo/latex_parser.html">latex_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers/todo/md_parser.html">md_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers/todo/wiki_parser.html">wiki_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parsers/todo/git_processor.html">git_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/arxiv_processor.html">arxiv_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/wiki_processor.html">wiki_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/chatgpt_processor.html">chatgpt_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/mit_course_processor.html">mit_course_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/youtube_processor.html">youtube_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/pubmed_processor.html">pubmed_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/gutenberg_processor.html">gutenberg_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github_processors.html">GithubProcessor</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OsProcessor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor"><code class="docutils literal notranslate"><span class="pre">OsProcessor</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.get_all_files"><code class="docutils literal notranslate"><span class="pre">OsProcessor.get_all_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.get_files_with_extension"><code class="docutils literal notranslate"><span class="pre">OsProcessor.get_files_with_extension()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.get_file_extension"><code class="docutils literal notranslate"><span class="pre">OsProcessor.get_file_extension()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.get_subdirectories"><code class="docutils literal notranslate"><span class="pre">OsProcessor.get_subdirectories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.create_directory"><code class="docutils literal notranslate"><span class="pre">OsProcessor.create_directory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.delete_directory"><code class="docutils literal notranslate"><span class="pre">OsProcessor.delete_directory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.copy_file"><code class="docutils literal notranslate"><span class="pre">OsProcessor.copy_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.os_processor.OsProcessor.move_file"><code class="docutils literal notranslate"><span class="pre">OsProcessor.move_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parsers/git_metadata.html">IssueParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers/git_metadata.html#commitparser">CommitParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers/visitors.html">FunctionCallFinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers/visitors.html#multiplicationcountervisitor">MultiplicationCounterVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers/visitors.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers/visitors.html#typingcollector">TypingCollector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers/python_parser.html">PythonMinifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers/python_parser.html#pythondocstringextractor">PythonDocstringExtractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers/python_parser.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parsers/python_parser.html#pythonparser">PythonParser</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html">perspective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html">SubjectPerspectiveAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#ideation">Ideation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
 </ul>
 
         </div>
@@ -142,7 +155,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">os_processor</li>
+      <li class="breadcrumb-item active">OsProcessor</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/processors/os_processor.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -152,80 +165,69 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="os-processor">
-<h1>os_processor<a class="headerlink" href="#os-processor" title="Permalink to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">OsProcessor</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">directory_path</span> <span class="o">=</span> <span class="n">directory_path</span>
+  <section id="osprocessor">
+<h1>OsProcessor<a class="headerlink" href="#osprocessor" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.os_processor.</span></span><span class="sig-name descname"><span class="pre">OsProcessor</span></span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.get_all_files">
+<span class="sig-name descname"><span class="pre">get_all_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../utils/pandas.html#pandas.ArrowDtype.None" title="pandas.ArrowDtype.None"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor.get_all_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.get_all_files" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of all files in a directory</p>
+</dd></dl>
 
-    <span class="k">def</span> <span class="nf">get_all_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of all files in a directory&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">directory_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">directory_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory_path</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.get_files_with_extension">
+<span class="sig-name descname"><span class="pre">get_files_with_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extension</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../utils/pandas.html#pandas.ArrowDtype.None" title="pandas.ArrowDtype.None"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor.get_files_with_extension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.get_files_with_extension" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of all files in a directory with a given extension</p>
+</dd></dl>
 
-        <span class="n">all_files</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">directory_path</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-                <span class="n">all_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.get_file_extension">
+<span class="sig-name descname"><span class="pre">get_file_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor.get_file_extension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.get_file_extension" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the extension of a file</p>
+</dd></dl>
 
-        <span class="k">return</span> <span class="n">all_files</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.get_subdirectories">
+<span class="sig-name descname"><span class="pre">get_subdirectories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../utils/pandas.html#pandas.ArrowDtype.None" title="pandas.ArrowDtype.None"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor.get_subdirectories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.get_subdirectories" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of all subdirectories in a directory</p>
+</dd></dl>
 
-    <span class="k">def</span> <span class="nf">get_files_with_extension</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of all files in a directory with a given extension&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">directory_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">directory_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory_path</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.create_directory">
+<span class="sig-name descname"><span class="pre">create_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../utils/pandas.html#pandas.ArrowDtype.None" title="pandas.ArrowDtype.None"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor.create_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.create_directory" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a directory if it does not exist</p>
+</dd></dl>
 
-        <span class="n">all_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_files</span><span class="p">(</span><span class="n">directory_path</span><span class="p">)</span>
-        <span class="n">files_with_extension</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">all_files</span> <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">extension</span><span class="p">)]</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.delete_directory">
+<span class="sig-name descname"><span class="pre">delete_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../utils/pandas.html#pandas.ArrowDtype.None" title="pandas.ArrowDtype.None"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor.delete_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.delete_directory" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes a directory if it exists</p>
+</dd></dl>
 
-        <span class="k">return</span> <span class="n">files_with_extension</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.copy_file">
+<span class="sig-name descname"><span class="pre">copy_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../utils/pandas.html#pandas.ArrowDtype.None" title="pandas.ArrowDtype.None"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor.copy_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.copy_file" title="Permalink to this definition"></a></dt>
+<dd><p>Copies a file from one location to another</p>
+</dd></dl>
 
-    <span class="k">def</span> <span class="nf">get_file_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the extension of a file&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.os_processor.OsProcessor.move_file">
+<span class="sig-name descname"><span class="pre">move_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../utils/pandas.html#pandas.ArrowDtype.None" title="pandas.ArrowDtype.None"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/babydragon/processors/os_processor.html#OsProcessor.move_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.os_processor.OsProcessor.move_file" title="Permalink to this definition"></a></dt>
+<dd><p>Moves a file from one location to another</p>
+</dd></dl>
 
-    <span class="k">def</span> <span class="nf">get_subdirectories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of all subdirectories in a directory&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">directory_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">directory_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory_path</span>
+</dd></dl>
 
-        <span class="n">subdirectories</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">directory_path</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
-        <span class="p">]</span>
-
-        <span class="k">return</span> <span class="n">subdirectories</span>
-
-    <span class="k">def</span> <span class="nf">create_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a directory if it does not exist&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">directory_path</span><span class="p">):</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory_path</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">delete_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deletes a directory if it exists&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">directory_path</span><span class="p">):</span>
-            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">directory_path</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">copy_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">destination_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Copies a file from one location to another&quot;&quot;&quot;</span>
-        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">source_path</span><span class="p">,</span> <span class="n">destination_path</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">move_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">destination_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Moves a file from one location to another&quot;&quot;&quot;</span>
-        <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">source_path</span><span class="p">,</span> <span class="n">destination_path</span><span class="p">)</span>
-</pre></div>
-</div>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="github_processors.html" class="btn btn-neutral float-left" title="github_processors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="parsers/git_metadata.html" class="btn btn-neutral float-right" title="git_metadata" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="github_processors.html" class="btn btn-neutral float-left" title="GithubProcessor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="parsers/git_metadata.html" class="btn btn-neutral float-right" title="IssueParser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

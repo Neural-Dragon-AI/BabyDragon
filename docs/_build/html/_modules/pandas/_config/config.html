@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas._config.config &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas._config.config</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas._config.config</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The config module holds package-wide configurables and provides</span>
+<span class="sd">a uniform API for working with them.</span>
+
+<span class="sd">Overview</span>
+<span class="sd">========</span>
+
+<span class="sd">This module supports the following requirements:</span>
+<span class="sd">- options are referenced using keys in dot.notation, e.g. &quot;x.y.option - z&quot;.</span>
+<span class="sd">- keys are case-insensitive.</span>
+<span class="sd">- functions should accept partial/regex keys, when unambiguous.</span>
+<span class="sd">- options can be registered by modules at import time.</span>
+<span class="sd">- options can be registered at init-time (via core.config_init)</span>
+<span class="sd">- options have a default value, and (optionally) a description and</span>
+<span class="sd">  validation function associated with them.</span>
+<span class="sd">- options can be deprecated, in which case referencing them</span>
+<span class="sd">  should produce a warning.</span>
+<span class="sd">- deprecated options can optionally be rerouted to a replacement</span>
+<span class="sd">  so that accessing a deprecated option reroutes to a differently</span>
+<span class="sd">  named option.</span>
+<span class="sd">- options can be reset to their default value.</span>
+<span class="sd">- all option can be reset to their default value at once.</span>
+<span class="sd">- all options in a certain sub - namespace can be reset at once.</span>
+<span class="sd">- the user can set / get / reset or ask for the description of an option.</span>
+<span class="sd">- a developer can register and mark an option as deprecated.</span>
+<span class="sd">- you can register a callback to be invoked when the option value</span>
+<span class="sd">  is set or reset. Changing the stored value is considered misuse, but</span>
+<span class="sd">  is not verboten.</span>
+
+<span class="sd">Implementation</span>
+<span class="sd">==============</span>
+
+<span class="sd">- Data is stored using nested dictionaries, and should be accessed</span>
+<span class="sd">  through the provided API.</span>
+
+<span class="sd">- &quot;Registered options&quot; and &quot;Deprecated options&quot; have metadata associated</span>
+<span class="sd">  with them, which are stored in auxiliary dictionaries keyed on the</span>
+<span class="sd">  fully-qualified key, e.g. &quot;x.y.z.option&quot;.</span>
+
+<span class="sd">- the config_init module is imported by the package&#39;s __init__.py file.</span>
+<span class="sd">  placing any register_option() calls there will ensure those options</span>
+<span class="sd">  are available as soon as pandas is loaded. If you use register_option</span>
+<span class="sd">  in a module, it will only be available after that module is imported,</span>
+<span class="sd">  which you should be aware of.</span>
+
+<span class="sd">- `config_prefix` is a context_manager (for use with the `with` keyword)</span>
+<span class="sd">  which can save developers some typing, see the docstring.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ContextDecorator</span><span class="p">,</span>
+    <span class="n">contextmanager</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Generator</span><span class="p">,</span>
+    <span class="n">Generic</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">NamedTuple</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">F</span><span class="p">,</span>
+    <span class="n">T</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.util._exceptions</span> <span class="kn">import</span> <span class="n">find_stack_level</span>
+
+
+<span class="k">class</span> <span class="nc">DeprecatedOption</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">rkey</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">removal_ver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">RegisteredOption</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">defval</span><span class="p">:</span> <span class="nb">object</span>
+    <span class="n">doc</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">validator</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">object</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">cb</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
+
+
+<span class="c1"># holds deprecated option metadata</span>
+<span class="n">_deprecated_options</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DeprecatedOption</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># holds registered option metadata</span>
+<span class="n">_registered_options</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">RegisteredOption</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># holds the current values for registered options</span>
+<span class="n">_global_config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># keys which have a special meaning</span>
+<span class="n">_reserved_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">OptionError</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised for pandas.options.</span>
+
+<span class="sd">    Backwards compatible with KeyError checks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+<span class="c1">#</span>
+<span class="c1"># User API</span>
+
+
+<span class="k">def</span> <span class="nf">_get_single_key</span><span class="p">(</span><span class="n">pat</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="n">_select_options</span><span class="p">(</span><span class="n">pat</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">silent</span><span class="p">:</span>
+            <span class="n">_warn_if_deprecated</span><span class="p">(</span><span class="n">pat</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">OptionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No such keys(s): </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">pat</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">OptionError</span><span class="p">(</span><span class="s2">&quot;Pattern matched multiple keys&quot;</span><span class="p">)</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">silent</span><span class="p">:</span>
+        <span class="n">_warn_if_deprecated</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="n">key</span> <span class="o">=</span> <span class="n">_translate_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">key</span>
+
+
+<span class="k">def</span> <span class="nf">_get_option</span><span class="p">(</span><span class="n">pat</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">_get_single_key</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="n">silent</span><span class="p">)</span>
+
+    <span class="c1"># walk the nested dict</span>
+    <span class="n">root</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">_get_root</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">root</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_set_option</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># must at least 1 arg deal with constraints later</span>
+    <span class="n">nargs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">nargs</span> <span class="ow">or</span> <span class="n">nargs</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must provide an even number of non-keyword arguments&quot;</span><span class="p">)</span>
+
+    <span class="c1"># default to false</span>
+    <span class="n">silent</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;silent&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">kwarg</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;_set_option() got an unexpected keyword argument &quot;</span><span class="si">{</span><span class="n">kwarg</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">args</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">_get_single_key</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">silent</span><span class="p">)</span>
+
+        <span class="n">o</span> <span class="o">=</span> <span class="n">_get_registered_option</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">o</span> <span class="ow">and</span> <span class="n">o</span><span class="o">.</span><span class="n">validator</span><span class="p">:</span>
+            <span class="n">o</span><span class="o">.</span><span class="n">validator</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="c1"># walk the nested dict</span>
+        <span class="n">root</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">_get_root</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">root</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">cb</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">silent</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                    <span class="n">o</span><span class="o">.</span><span class="n">cb</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">o</span><span class="o">.</span><span class="n">cb</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_describe_option</span><span class="p">(</span><span class="n">pat</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">_print_desc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="n">_select_options</span><span class="p">(</span><span class="n">pat</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">OptionError</span><span class="p">(</span><span class="s2">&quot;No such keys(s)&quot;</span><span class="p">)</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">_build_option_description</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">_print_desc</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">s</span>
+
+
+<span class="k">def</span> <span class="nf">_reset_option</span><span class="p">(</span><span class="n">pat</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="n">_select_options</span><span class="p">(</span><span class="n">pat</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">OptionError</span><span class="p">(</span><span class="s2">&quot;No such keys(s)&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">pat</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">pat</span> <span class="o">!=</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;You must specify at least 4 characters when &quot;</span>
+            <span class="s2">&quot;resetting multiple keys, use the special keyword &quot;</span>
+            <span class="s1">&#39;&quot;all&quot; to reset all the options to their default value&#39;</span>
+        <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="n">_set_option</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">_registered_options</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">defval</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_default_val</span><span class="p">(</span><span class="n">pat</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">_get_single_key</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_get_registered_option</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">defval</span>
+
+
+<span class="k">class</span> <span class="nc">DictWrapper</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;provide attribute-style access to a nested dict&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;prefix&quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;prefix&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span>
+        <span class="n">prefix</span> <span class="o">+=</span> <span class="n">key</span>
+        <span class="c1"># you can&#39;t set new keys</span>
+        <span class="c1"># can you can&#39;t overwrite subtrees</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">_set_option</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">OptionError</span><span class="p">(</span><span class="s2">&quot;You can only set the value of existing options&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;prefix&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span>
+        <span class="n">prefix</span> <span class="o">+=</span> <span class="n">key</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">)[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">OptionError</span><span class="p">(</span><span class="s2">&quot;No such option&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DictWrapper</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_get_option</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+
+<span class="c1"># For user convenience,  we&#39;d like to have the available options described</span>
+<span class="c1"># in the docstring. For dev convenience we&#39;d like to generate the docstrings</span>
+<span class="c1"># dynamically instead of maintaining them by hand. To this, we use the</span>
+<span class="c1"># class below which wraps functions inside a callable, and converts</span>
+<span class="c1"># __doc__ into a property function. The doctsrings below are templates</span>
+<span class="c1"># using the py2.6+ advanced formatting syntax to plug in a concise list</span>
+<span class="c1"># of options, and option descriptions.</span>
+
+
+<span class="k">class</span> <span class="nc">CallableDynamicDoc</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">doc_tmpl</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__doc_tmpl__</span> <span class="o">=</span> <span class="n">doc_tmpl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__func__</span> <span class="o">=</span> <span class="n">func</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__func__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="c1"># error: Signature of &quot;__doc__&quot; incompatible with supertype &quot;object&quot;</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">__doc__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="n">opts_desc</span> <span class="o">=</span> <span class="n">_describe_option</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">_print_desc</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">opts_list</span> <span class="o">=</span> <span class="n">pp_options_list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">_registered_options</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__doc_tmpl__</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">opts_desc</span><span class="o">=</span><span class="n">opts_desc</span><span class="p">,</span> <span class="n">opts_list</span><span class="o">=</span><span class="n">opts_list</span><span class="p">)</span>
+
+
+<span class="n">_get_option_tmpl</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">get_option(pat)</span>
+
+<span class="s2">Retrieves the value of the specified option.</span>
+
+<span class="s2">Available options:</span>
+
+<span class="si">{opts_list}</span>
+
+<span class="s2">Parameters</span>
+<span class="s2">----------</span>
+<span class="s2">pat : str</span>
+<span class="s2">    Regexp which should match a single option.</span>
+<span class="s2">    Note: partial matches are supported for convenience, but unless you use the</span>
+<span class="s2">    full option name (e.g. x.y.z.option_name), your code may break in future</span>
+<span class="s2">    versions if new options with similar names are introduced.</span>
+
+<span class="s2">Returns</span>
+<span class="s2">-------</span>
+<span class="s2">result : the value of the option</span>
+
+<span class="s2">Raises</span>
+<span class="s2">------</span>
+<span class="s2">OptionError : if no such option exists</span>
+
+<span class="s2">Notes</span>
+<span class="s2">-----</span>
+<span class="s2">Please reference the :ref:`User Guide &lt;options&gt;` for more information.</span>
+
+<span class="s2">The available options with its descriptions:</span>
+
+<span class="si">{opts_desc}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">_set_option_tmpl</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">set_option(pat, value)</span>
+
+<span class="s2">Sets the value of the specified option.</span>
+
+<span class="s2">Available options:</span>
+
+<span class="si">{opts_list}</span>
+
+<span class="s2">Parameters</span>
+<span class="s2">----------</span>
+<span class="s2">pat : str</span>
+<span class="s2">    Regexp which should match a single option.</span>
+<span class="s2">    Note: partial matches are supported for convenience, but unless you use the</span>
+<span class="s2">    full option name (e.g. x.y.z.option_name), your code may break in future</span>
+<span class="s2">    versions if new options with similar names are introduced.</span>
+<span class="s2">value : object</span>
+<span class="s2">    New value of option.</span>
+
+<span class="s2">Returns</span>
+<span class="s2">-------</span>
+<span class="s2">None</span>
+
+<span class="s2">Raises</span>
+<span class="s2">------</span>
+<span class="s2">OptionError if no such option exists</span>
+
+<span class="s2">Notes</span>
+<span class="s2">-----</span>
+<span class="s2">Please reference the :ref:`User Guide &lt;options&gt;` for more information.</span>
+
+<span class="s2">The available options with its descriptions:</span>
+
+<span class="si">{opts_desc}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">_describe_option_tmpl</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">describe_option(pat, _print_desc=False)</span>
+
+<span class="s2">Prints the description for one or more registered options.</span>
+
+<span class="s2">Call with no arguments to get a listing for all registered options.</span>
+
+<span class="s2">Available options:</span>
+
+<span class="si">{opts_list}</span>
+
+<span class="s2">Parameters</span>
+<span class="s2">----------</span>
+<span class="s2">pat : str</span>
+<span class="s2">    Regexp pattern. All matching keys will have their description displayed.</span>
+<span class="s2">_print_desc : bool, default True</span>
+<span class="s2">    If True (default) the description(s) will be printed to stdout.</span>
+<span class="s2">    Otherwise, the description(s) will be returned as a unicode string</span>
+<span class="s2">    (for testing).</span>
+
+<span class="s2">Returns</span>
+<span class="s2">-------</span>
+<span class="s2">None by default, the description(s) as a unicode string if _print_desc</span>
+<span class="s2">is False</span>
+
+<span class="s2">Notes</span>
+<span class="s2">-----</span>
+<span class="s2">Please reference the :ref:`User Guide &lt;options&gt;` for more information.</span>
+
+<span class="s2">The available options with its descriptions:</span>
+
+<span class="si">{opts_desc}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">_reset_option_tmpl</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">reset_option(pat)</span>
+
+<span class="s2">Reset one or more options to their default value.</span>
+
+<span class="s2">Pass &quot;all&quot; as argument to reset all options.</span>
+
+<span class="s2">Available options:</span>
+
+<span class="si">{opts_list}</span>
+
+<span class="s2">Parameters</span>
+<span class="s2">----------</span>
+<span class="s2">pat : str/regex</span>
+<span class="s2">    If specified only options matching `prefix*` will be reset.</span>
+<span class="s2">    Note: partial matches are supported for convenience, but unless you</span>
+<span class="s2">    use the full option name (e.g. x.y.z.option_name), your code may break</span>
+<span class="s2">    in future versions if new options with similar names are introduced.</span>
+
+<span class="s2">Returns</span>
+<span class="s2">-------</span>
+<span class="s2">None</span>
+
+<span class="s2">Notes</span>
+<span class="s2">-----</span>
+<span class="s2">Please reference the :ref:`User Guide &lt;options&gt;` for more information.</span>
+
+<span class="s2">The available options with its descriptions:</span>
+
+<span class="si">{opts_desc}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># bind the functions with their docstrings into a Callable</span>
+<span class="c1"># and use that as the functions exposed in pd.api</span>
+<span class="n">get_option</span> <span class="o">=</span> <span class="n">CallableDynamicDoc</span><span class="p">(</span><span class="n">_get_option</span><span class="p">,</span> <span class="n">_get_option_tmpl</span><span class="p">)</span>
+<span class="n">set_option</span> <span class="o">=</span> <span class="n">CallableDynamicDoc</span><span class="p">(</span><span class="n">_set_option</span><span class="p">,</span> <span class="n">_set_option_tmpl</span><span class="p">)</span>
+<span class="n">reset_option</span> <span class="o">=</span> <span class="n">CallableDynamicDoc</span><span class="p">(</span><span class="n">_reset_option</span><span class="p">,</span> <span class="n">_reset_option_tmpl</span><span class="p">)</span>
+<span class="n">describe_option</span> <span class="o">=</span> <span class="n">CallableDynamicDoc</span><span class="p">(</span><span class="n">_describe_option</span><span class="p">,</span> <span class="n">_describe_option_tmpl</span><span class="p">)</span>
+<span class="n">options</span> <span class="o">=</span> <span class="n">DictWrapper</span><span class="p">(</span><span class="n">_global_config</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="c1"># Functions for use by pandas developers, in addition to User - api</span>
+
+
+<div class="viewcode-block" id="option_context"><a class="viewcode-back" href="../../../utils/pandas.html#pandas.option_context">[docs]</a><span class="k">class</span> <span class="nc">option_context</span><span class="p">(</span><span class="n">ContextDecorator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Context manager to temporarily set options in the `with` statement context.</span>
+
+<span class="sd">    You need to invoke as ``option_context(pat, val, [(pat, val), ...])``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from pandas import option_context</span>
+<span class="sd">    &gt;&gt;&gt; with option_context(&#39;display.max_rows&#39;, 10, &#39;display.max_columns&#39;, 5):</span>
+<span class="sd">    ...     pass</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Need to invoke as option_context(pat, val, [(pat, val), ...]).&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ops</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">args</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">undo</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pat</span><span class="p">,</span> <span class="n">_get_option</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span> <span class="k">for</span> <span class="n">pat</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ops</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">pat</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ops</span><span class="p">:</span>
+            <span class="n">_set_option</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">undo</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pat</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">undo</span><span class="p">:</span>
+                <span class="n">_set_option</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">register_option</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">defval</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">doc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">validator</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">object</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">cb</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Register an option in the package-wide pandas config object</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    key : str</span>
+<span class="sd">        Fully-qualified key, e.g. &quot;x.y.option - z&quot;.</span>
+<span class="sd">    defval : object</span>
+<span class="sd">        Default value of the option.</span>
+<span class="sd">    doc : str</span>
+<span class="sd">        Description of the option.</span>
+<span class="sd">    validator : Callable, optional</span>
+<span class="sd">        Function of a single argument, should raise `ValueError` if</span>
+<span class="sd">        called with a value which is not a legal value for the option.</span>
+<span class="sd">    cb</span>
+<span class="sd">        a function of a single argument &quot;key&quot;, which is called</span>
+<span class="sd">        immediately after an option value is set/reset. key is</span>
+<span class="sd">        the full name of the option.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError if `validator` is specified and `defval` is not a valid value.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">keyword</span>
+    <span class="kn">import</span> <span class="nn">tokenize</span>
+
+    <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_registered_options</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">OptionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Option &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; has already been registered&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_reserved_keys</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">OptionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Option &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; is a reserved key&quot;</span><span class="p">)</span>
+
+    <span class="c1"># the default value should be legal</span>
+    <span class="k">if</span> <span class="n">validator</span><span class="p">:</span>
+        <span class="n">validator</span><span class="p">(</span><span class="n">defval</span><span class="p">)</span>
+
+    <span class="c1"># walk the nested dict, creating dicts as needed along the path</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;^&quot;</span> <span class="o">+</span> <span class="n">tokenize</span><span class="o">.</span><span class="n">Name</span> <span class="o">+</span> <span class="s2">&quot;$&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> is not a valid identifier&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">keyword</span><span class="o">.</span><span class="n">iskeyword</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> is a python keyword&quot;</span><span class="p">)</span>
+
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">_global_config</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Path prefix to option &#39;</span><span class="si">{option}</span><span class="s2">&#39; is already an option&quot;</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">OptionError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">[:</span><span class="n">i</span><span class="p">])))</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cursor</span><span class="p">:</span>
+            <span class="n">cursor</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">OptionError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+
+    <span class="n">cursor</span><span class="p">[</span><span class="n">path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">defval</span>  <span class="c1"># initialize</span>
+
+    <span class="c1"># save the option metadata</span>
+    <span class="n">_registered_options</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">RegisteredOption</span><span class="p">(</span>
+        <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">defval</span><span class="o">=</span><span class="n">defval</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="n">validator</span><span class="p">,</span> <span class="n">cb</span><span class="o">=</span><span class="n">cb</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">deprecate_option</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">rkey</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">removal_ver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mark option `key` as deprecated, if code attempts to access this option,</span>
+<span class="sd">    a warning will be produced, using `msg` if given, or a default message</span>
+<span class="sd">    if not.</span>
+<span class="sd">    if `rkey` is given, any access to the key will be re-routed to `rkey`.</span>
+
+<span class="sd">    Neither the existence of `key` nor that if `rkey` is checked. If they</span>
+<span class="sd">    do not exist, any subsequence access will fail as usual, after the</span>
+<span class="sd">    deprecation warning is given.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    key : str</span>
+<span class="sd">        Name of the option to be deprecated.</span>
+<span class="sd">        must be a fully-qualified option name (e.g &quot;x.y.z.rkey&quot;).</span>
+<span class="sd">    msg : str, optional</span>
+<span class="sd">        Warning message to output when the key is referenced.</span>
+<span class="sd">        if no message is given a default message will be emitted.</span>
+<span class="sd">    rkey : str, optional</span>
+<span class="sd">        Name of an option to reroute access to.</span>
+<span class="sd">        If specified, any referenced `key` will be</span>
+<span class="sd">        re-routed to `rkey` including set/get/reset.</span>
+<span class="sd">        rkey must be a fully-qualified option name (e.g &quot;x.y.z.rkey&quot;).</span>
+<span class="sd">        used by the default message if no `msg` is specified.</span>
+<span class="sd">    removal_ver : str, optional</span>
+<span class="sd">        Specifies the version in which this option will</span>
+<span class="sd">        be removed. used by the default message if no `msg` is specified.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    OptionError</span>
+<span class="sd">        If the specified key has already been deprecated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_deprecated_options</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">OptionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Option &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; has already been defined as deprecated.&quot;</span><span class="p">)</span>
+
+    <span class="n">_deprecated_options</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">DeprecatedOption</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">rkey</span><span class="p">,</span> <span class="n">removal_ver</span><span class="p">)</span>
+
+
+<span class="c1">#</span>
+<span class="c1"># functions internal to the module</span>
+
+
+<span class="k">def</span> <span class="nf">_select_options</span><span class="p">(</span><span class="n">pat</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    returns a list of keys matching `pat`</span>
+
+<span class="sd">    if pat==&quot;all&quot;, returns all registered options</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># short-circuit for exact key</span>
+    <span class="k">if</span> <span class="n">pat</span> <span class="ow">in</span> <span class="n">_registered_options</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">pat</span><span class="p">]</span>
+
+    <span class="c1"># else look through all of them</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">_registered_options</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">pat</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>  <span class="c1"># reserved key</span>
+        <span class="k">return</span> <span class="n">keys</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)]</span>
+
+
+<span class="k">def</span> <span class="nf">_get_root</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">_global_config</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_is_deprecated</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns True if the given option has been deprecated&quot;&quot;&quot;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_deprecated_options</span>
+
+
+<span class="k">def</span> <span class="nf">_get_deprecated_option</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieves the metadata for a deprecated option, if `key` is deprecated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    DeprecatedOption (namedtuple) if key is deprecated, None otherwise</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">_deprecated_options</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">d</span>
+
+
+<span class="k">def</span> <span class="nf">_get_registered_option</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieves the option metadata if `key` is a registered option.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    RegisteredOption (namedtuple) if key is deprecated, None otherwise</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_registered_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_translate_key</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    if key id deprecated and a replacement key defined, will return the</span>
+<span class="sd">    replacement key, otherwise returns `key` as - is</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">_get_deprecated_option</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">d</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="n">rkey</span> <span class="ow">or</span> <span class="n">key</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">key</span>
+
+
+<span class="k">def</span> <span class="nf">_warn_if_deprecated</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks if `key` is a deprecated option and if so, prints a warning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool - True if `key` is deprecated, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">_get_deprecated_option</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">d</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">msg</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="n">d</span><span class="o">.</span><span class="n">msg</span><span class="p">,</span>
+                <span class="ne">FutureWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; is deprecated&quot;</span>
+            <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">removal_ver</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; and will be removed in </span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">removal_ver</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">rkey</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, please use &#39;</span><span class="si">{</span><span class="n">d</span><span class="o">.</span><span class="n">rkey</span><span class="si">}</span><span class="s2">&#39; instead.&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;, please refrain from using it.&quot;</span>
+
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">FutureWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">())</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span> <span class="nf">_build_option_description</span><span class="p">(</span><span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds a formatted description of a registered option and prints it&quot;&quot;&quot;</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="n">_get_registered_option</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">_get_deprecated_option</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> &quot;</span>
+
+    <span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">doc</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;No description available.&quot;</span>
+
+    <span class="k">if</span> <span class="n">o</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">    [default: </span><span class="si">{</span><span class="n">o</span><span class="o">.</span><span class="n">defval</span><span class="si">}</span><span class="s2">] [currently: </span><span class="si">{</span><span class="n">_get_option</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="kc">True</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+    <span class="k">if</span> <span class="n">d</span><span class="p">:</span>
+        <span class="n">rkey</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">rkey</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">    (Deprecated&quot;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, use `</span><span class="si">{</span><span class="n">rkey</span><span class="si">}</span><span class="s2">` instead.&quot;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;)&quot;</span>
+
+    <span class="k">return</span> <span class="n">s</span>
+
+
+<span class="k">def</span> <span class="nf">pp_options_list</span><span class="p">(</span><span class="n">keys</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span> <span class="n">_print</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds a concise listing of available options, grouped by prefix&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">groupby</span>
+    <span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">wrap</span>
+
+    <span class="k">def</span> <span class="nf">pp</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ks</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">pfx</span> <span class="o">=</span> <span class="s2">&quot;- &quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.[&quot;</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span>
+            <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ks</span><span class="p">),</span>
+            <span class="n">width</span><span class="p">,</span>
+            <span class="n">initial_indent</span><span class="o">=</span><span class="n">pfx</span><span class="p">,</span>
+            <span class="n">subsequent_indent</span><span class="o">=</span><span class="s2">&quot;  &quot;</span><span class="p">,</span>
+            <span class="n">break_long_words</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">ls</span> <span class="ow">and</span> <span class="n">ls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">ls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">ls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+        <span class="k">return</span> <span class="n">ls</span>
+
+    <span class="n">ls</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">singles</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">singles</span><span class="p">:</span>
+        <span class="n">ls</span> <span class="o">+=</span> <span class="n">pp</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">singles</span><span class="p">)</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groupby</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">keys</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[:</span> <span class="n">x</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)]):</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="p">)]</span>
+        <span class="n">ls</span> <span class="o">+=</span> <span class="n">pp</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">ks</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_print</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+
+<span class="c1">#</span>
+<span class="c1"># helpers</span>
+
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">config_prefix</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    contextmanager for multiple invocations of API with a common prefix</span>
+
+<span class="sd">    supported API functions: (register / get / set )__option</span>
+
+<span class="sd">    Warning: This is not thread - safe, and won&#39;t work properly if you import</span>
+<span class="sd">    the API functions into your module using the &quot;from x import y&quot; construct.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    import pandas._config.config as cf</span>
+<span class="sd">    with cf.config_prefix(&quot;display.font&quot;):</span>
+<span class="sd">        cf.register_option(&quot;color&quot;, &quot;red&quot;)</span>
+<span class="sd">        cf.register_option(&quot;size&quot;, &quot; 5 pt&quot;)</span>
+<span class="sd">        cf.set_option(size, &quot; 6 pt&quot;)</span>
+<span class="sd">        cf.get_option(size)</span>
+<span class="sd">        ...</span>
+
+<span class="sd">        etc&#39;</span>
+
+<span class="sd">    will register options &quot;display.font.color&quot;, &quot;display.font.size&quot;, set the</span>
+<span class="sd">    value of &quot;display.font.size&quot;... and so on.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Note: reset_option relies on set_option, and on key directly</span>
+    <span class="c1"># it does not fit in to this monkey-patching scheme</span>
+
+    <span class="k">global</span> <span class="n">register_option</span><span class="p">,</span> <span class="n">get_option</span><span class="p">,</span> <span class="n">set_option</span>
+
+    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">F</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">F</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+            <span class="n">pkey</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">pkey</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">inner</span><span class="p">)</span>
+
+    <span class="n">_register_option</span> <span class="o">=</span> <span class="n">register_option</span>
+    <span class="n">_get_option</span> <span class="o">=</span> <span class="n">get_option</span>
+    <span class="n">_set_option</span> <span class="o">=</span> <span class="n">set_option</span>
+    <span class="n">set_option</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span><span class="n">set_option</span><span class="p">)</span>
+    <span class="n">get_option</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span><span class="n">get_option</span><span class="p">)</span>
+    <span class="n">register_option</span> <span class="o">=</span> <span class="n">wrap</span><span class="p">(</span><span class="n">register_option</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">set_option</span> <span class="o">=</span> <span class="n">_set_option</span>
+        <span class="n">get_option</span> <span class="o">=</span> <span class="n">_get_option</span>
+        <span class="n">register_option</span> <span class="o">=</span> <span class="n">_register_option</span>
+
+
+<span class="c1"># These factories and methods are handy for use as the validator</span>
+<span class="c1"># arg in register_option</span>
+
+
+<span class="k">def</span> <span class="nf">is_type_factory</span><span class="p">(</span><span class="n">_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    `_type` - a type to be compared against (e.g. type(x) == `_type`)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    validator - a function of a single argument x , which raises</span>
+<span class="sd">                ValueError if type(x) is not equal to `_type`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="n">_type</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value must have type &#39;</span><span class="si">{</span><span class="n">_type</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">inner</span>
+
+
+<span class="k">def</span> <span class="nf">is_instance_factory</span><span class="p">(</span><span class="n">_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    `_type` - the type to be checked against</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    validator - a function of a single argument x , which raises</span>
+<span class="sd">                ValueError if x is not an instance of `_type`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_type</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="n">_type</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_type</span><span class="p">)</span>
+        <span class="n">type_repr</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">_type</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">type_repr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">_type</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">_type</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value must be an instance of </span><span class="si">{</span><span class="n">type_repr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">inner</span>
+
+
+<span class="k">def</span> <span class="nf">is_one_of_factory</span><span class="p">(</span><span class="n">legal_values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
+    <span class="n">callables</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">legal_values</span> <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
+    <span class="n">legal_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">legal_values</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">legal_values</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">callables</span><span class="p">):</span>
+                <span class="n">uvals</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">lval</span><span class="p">)</span> <span class="k">for</span> <span class="n">lval</span> <span class="ow">in</span> <span class="n">legal_values</span><span class="p">]</span>
+                <span class="n">pp_values</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">uvals</span><span class="p">)</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Value must be one of </span><span class="si">{</span><span class="n">pp_values</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">callables</span><span class="p">):</span>
+                    <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; or a callable&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">inner</span>
+
+
+<span class="k">def</span> <span class="nf">is_nonnegative_int</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Verify that value is None or a positive int.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : None or int</span>
+<span class="sd">            The `value` to be checked.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        When the value is not None or is a negative integer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Value must be a nonnegative integer or None&quot;</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+
+<span class="c1"># common type validators, for convenience</span>
+<span class="c1"># usage: register_option(... , validator = is_int)</span>
+<span class="n">is_int</span> <span class="o">=</span> <span class="n">is_type_factory</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">is_bool</span> <span class="o">=</span> <span class="n">is_type_factory</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">is_float</span> <span class="o">=</span> <span class="n">is_type_factory</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">is_str</span> <span class="o">=</span> <span class="n">is_type_factory</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">is_text</span> <span class="o">=</span> <span class="n">is_instance_factory</span><span class="p">((</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">is_callable</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    `obj` - the object to be checked</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    validator - returns True if object is callable</span>
+<span class="sd">        raises ValueError otherwise.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Value must be a callable&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

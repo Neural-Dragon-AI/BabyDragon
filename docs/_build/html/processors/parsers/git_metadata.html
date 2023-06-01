@@ -4,9 +4,11 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>git_metadata &mdash; BabyDragon  documentation</title>
+  <title>IssueParser &mdash; BabyDragon  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,11 +18,12 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/doctools.js"></script>
         <script src="../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="visitors" href="visitors.html" />
-    <link rel="prev" title="os_processor" href="../os_processor.html" /> 
+    <link rel="next" title="FunctionCallFinder" href="visitors.html" />
+    <link rel="prev" title="OsProcessor" href="../os_processor.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,59 +47,57 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../tasks/llm_task.html">llm_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tasks/base_task.html">base_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tasks/topic_tree_task.html">topic_tree_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html">embedding_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/llm_task.html">LLMReader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/llm_task.html#llmwriter">LLMWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/multi_kernel_task.html">MultiKernelTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/base_task.html">BaseTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/topic_tree_task.html">TopicTreeTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/embedding_task.html">EmbeddingTask</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/memory_kernel.html">MemoryKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_clustering.html">ClusterPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel.html">MultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/threads/base_thread.html">base_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/threads/fifo_thread.html">fifo_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/threads/vector_thread.html">vector_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/threads/todo/python_thread.html">python_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/threads/base_thread.html">BaseThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/threads/fifo_thread.html">FifoThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/threads/vector_thread.html">VectorThread</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/python_index.html">python_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html">memory_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/pandas_index.html">pandas_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/todo/github_index.html">github_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../chat/base_chat.html">base_chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../chat/memory_chat.html">memory_chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../chat/chat.html">chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../chat/prompts/default_prompts.html">default_prompts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/base_chat.html">Prompter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/base_chat.html#basechat">BaseChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/memory_chat.html">FifoChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/memory_chat.html#vectorchat">VectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/memory_chat.html#fifovectorchat">FifoVectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../chat/chat.html">Chat</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../utils/multithreading.html">multithreading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utils/pandas.html">pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utils/hf_datasets.html">hf_datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../utils/chatml.html">chatml</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html">ada2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/sbert.html">sbert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/cohere.html">CohereEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
@@ -105,27 +106,40 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../github_processors.html">github_processors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../os_processor.html">os_processor</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">git_metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visitors.html">visitors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="python_parser.html">python_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/subs_parser.html">subs_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/latex_parser.html">latex_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/md_parser.html">md_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/wiki_parser.html">wiki_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo/git_processor.html">git_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../todo/arxiv_processor.html">arxiv_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../todo/wiki_processor.html">wiki_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../todo/chatgpt_processor.html">chatgpt_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../todo/mit_course_processor.html">mit_course_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../todo/youtube_processor.html">youtube_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../todo/pubmed_processor.html">pubmed_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../todo/gutenberg_processor.html">gutenberg_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../github_processors.html">GithubProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../os_processor.html">OsProcessor</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">IssueParser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.processors.parsers.git_metadata.IssueParser"><code class="docutils literal notranslate"><span class="pre">IssueParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.git_metadata.IssueParser.get_issues"><code class="docutils literal notranslate"><span class="pre">IssueParser.get_issues()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.git_metadata.IssueParser.parse_issues"><code class="docutils literal notranslate"><span class="pre">IssueParser.parse_issues()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#commitparser">CommitParser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.processors.parsers.git_metadata.CommitParser"><code class="docutils literal notranslate"><span class="pre">CommitParser</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.git_metadata.CommitParser.get_commits"><code class="docutils literal notranslate"><span class="pre">CommitParser.get_commits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.processors.parsers.git_metadata.CommitParser.parse_commits"><code class="docutils literal notranslate"><span class="pre">CommitParser.parse_commits()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="visitors.html">FunctionCallFinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visitors.html#multiplicationcountervisitor">MultiplicationCounterVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visitors.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visitors.html#typingcollector">TypingCollector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_parser.html">PythonMinifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_parser.html#pythondocstringextractor">PythonDocstringExtractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_parser.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_parser.html#pythonparser">PythonParser</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html">perspective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html">SubjectPerspectiveAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#ideation">Ideation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
 </ul>
 
         </div>
@@ -142,7 +156,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">git_metadata</li>
+      <li class="breadcrumb-item active">IssueParser</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/processors/parsers/git_metadata.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -152,84 +166,55 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="git-metadata">
-<h1>git_metadata<a class="headerlink" href="#git-metadata" title="Permalink to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">IssueParser</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">Github</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">repo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="n">repo_name</span><span class="p">)</span>
+  <section id="issueparser">
+<h1>IssueParser<a class="headerlink" href="#issueparser" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.git_metadata.IssueParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.parsers.git_metadata.</span></span><span class="sig-name descname"><span class="pre">IssueParser</span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/git_metadata.html#IssueParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.git_metadata.IssueParser" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.git_metadata.IssueParser.get_issues">
+<span class="sig-name descname"><span class="pre">get_issues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'open'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/git_metadata.html#IssueParser.get_issues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.git_metadata.IssueParser.get_issues" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of all issues in the repo with the specified state.</p>
+</dd></dl>
 
-    <span class="k">def</span> <span class="nf">get_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a list of all issues in the repo with the specified state.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">issues</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">get_issues</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">):</span>
-            <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">issue</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">issues</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.git_metadata.IssueParser.parse_issues">
+<span class="sig-name descname"><span class="pre">parse_issues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'open'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/git_metadata.html#IssueParser.parse_issues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.git_metadata.IssueParser.parse_issues" title="Permalink to this definition"></a></dt>
+<dd><p>Parses all issues in the repo with the specified state and returns a list of dicts.
+Each dict contains the issue number, title, body, and labels.</p>
+</dd></dl>
 
-    <span class="k">def</span> <span class="nf">parse_issues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parses all issues in the repo with the specified state and returns a list of dicts.</span>
-<span class="sd">        Each dict contains the issue number, title, body, and labels.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parsed_issues</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">issues</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_issues</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">issues</span><span class="p">:</span>
-            <span class="n">parsed_issue</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="n">issue</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
-                <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">issue</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
-                <span class="s2">&quot;body&quot;</span><span class="p">:</span> <span class="n">issue</span><span class="o">.</span><span class="n">body</span><span class="p">,</span>
-                <span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">label</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">issue</span><span class="o">.</span><span class="n">labels</span><span class="p">],</span>
-            <span class="p">}</span>
-            <span class="n">parsed_issues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_issue</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">parsed_issues</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CommitParser</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo_name</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">Github</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">repo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">get_repo</span><span class="p">(</span><span class="n">repo_name</span><span class="p">)</span>
+</dd></dl>
 
-    <span class="k">def</span> <span class="nf">get_commits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a list of all commits in the main branch of the repository.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">commits</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">branch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">get_branch</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">commit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">get_commits</span><span class="p">(</span><span class="n">sha</span><span class="o">=</span><span class="n">branch</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">sha</span><span class="p">):</span>
-            <span class="n">commits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">commit</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">commits</span>
+</section>
+<section id="commitparser">
+<h1>CommitParser<a class="headerlink" href="#commitparser" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.git_metadata.CommitParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.processors.parsers.git_metadata.</span></span><span class="sig-name descname"><span class="pre">CommitParser</span></span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/git_metadata.html#CommitParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.git_metadata.CommitParser" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.git_metadata.CommitParser.get_commits">
+<span class="sig-name descname"><span class="pre">get_commits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/git_metadata.html#CommitParser.get_commits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.git_metadata.CommitParser.get_commits" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of all commits in the main branch of the repository.</p>
+</dd></dl>
 
-    <span class="k">def</span> <span class="nf">parse_commits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parses all commits in the main branch of the repository and returns a list of dicts.</span>
-<span class="sd">        Each dict contains the commit sha, commit message, and author information.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parsed_commits</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">commits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_commits</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">commit</span> <span class="ow">in</span> <span class="n">commits</span><span class="p">:</span>
-            <span class="n">parsed_commit</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;sha&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">sha</span><span class="p">,</span>
-                <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">message</span><span class="p">,</span>
-                <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                    <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
-                    <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">date</span><span class="p">,</span>
-                <span class="p">},</span>
-            <span class="p">}</span>
-            <span class="n">parsed_commits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parsed_commit</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">parsed_commits</span>
-</pre></div>
-</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.processors.parsers.git_metadata.CommitParser.parse_commits">
+<span class="sig-name descname"><span class="pre">parse_commits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/babydragon/processors/parsers/git_metadata.html#CommitParser.parse_commits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.processors.parsers.git_metadata.CommitParser.parse_commits" title="Permalink to this definition"></a></dt>
+<dd><p>Parses all commits in the main branch of the repository and returns a list of dicts.
+Each dict contains the commit sha, commit message, and author information.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../os_processor.html" class="btn btn-neutral float-left" title="os_processor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="visitors.html" class="btn btn-neutral float-right" title="visitors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../os_processor.html" class="btn btn-neutral float-left" title="OsProcessor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="visitors.html" class="btn btn-neutral float-right" title="FunctionCallFinder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

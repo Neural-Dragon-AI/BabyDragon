@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.plotting._core &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/vector_thread.html">vector_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/chat.html">chat</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/python_parser.html">python_parser</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.plotting._core</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.plotting._core</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Sequence</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas._config</span> <span class="kn">import</span> <span class="n">get_option</span>
+
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="n">IndexLabel</span>
+<span class="kn">from</span> <span class="nn">pandas.util._decorators</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Appender</span><span class="p">,</span>
+    <span class="n">Substitution</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_integer</span><span class="p">,</span>
+    <span class="n">is_list_like</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.generic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ABCDataFrame</span><span class="p">,</span>
+    <span class="n">ABCSeries</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.base</span> <span class="kn">import</span> <span class="n">PandasObject</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">matplotlib.axes</span> <span class="kn">import</span> <span class="n">Axes</span>
+
+    <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+
+<span class="k">def</span> <span class="nf">hist_series</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">xlabelsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">xrot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ylabelsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">yrot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">legend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draw histogram of the input series using matplotlib.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    by : object, optional</span>
+<span class="sd">        If passed, then used to form histograms for separate groups.</span>
+<span class="sd">    ax : matplotlib axis object</span>
+<span class="sd">        If not passed, uses gca().</span>
+<span class="sd">    grid : bool, default True</span>
+<span class="sd">        Whether to show axis grid lines.</span>
+<span class="sd">    xlabelsize : int, default None</span>
+<span class="sd">        If specified changes the x-axis label size.</span>
+<span class="sd">    xrot : float, default None</span>
+<span class="sd">        Rotation of x axis labels.</span>
+<span class="sd">    ylabelsize : int, default None</span>
+<span class="sd">        If specified changes the y-axis label size.</span>
+<span class="sd">    yrot : float, default None</span>
+<span class="sd">        Rotation of y axis labels.</span>
+<span class="sd">    figsize : tuple, default None</span>
+<span class="sd">        Figure size in inches by default.</span>
+<span class="sd">    bins : int or sequence, default 10</span>
+<span class="sd">        Number of histogram bins to be used. If an integer is given, bins + 1</span>
+<span class="sd">        bin edges are calculated and returned. If bins is a sequence, gives</span>
+<span class="sd">        bin edges, including left edge of first bin and right edge of last</span>
+<span class="sd">        bin. In this case, bins is returned unmodified.</span>
+<span class="sd">    backend : str, default None</span>
+<span class="sd">        Backend to use instead of the backend specified in the option</span>
+<span class="sd">        ``plotting.backend``. For instance, &#39;matplotlib&#39;. Alternatively, to</span>
+<span class="sd">        specify the ``plotting.backend`` for the whole session, set</span>
+<span class="sd">        ``pd.options.plotting.backend``.</span>
+<span class="sd">    legend : bool, default False</span>
+<span class="sd">        Whether to show the legend.</span>
+
+<span class="sd">        .. versionadded:: 1.1.0</span>
+
+<span class="sd">    **kwargs</span>
+<span class="sd">        To be passed to the actual plotting function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    matplotlib.AxesSubplot</span>
+<span class="sd">        A histogram plot.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    matplotlib.axes.Axes.hist : Plot a histogram using matplotlib.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plot_backend</span> <span class="o">=</span> <span class="n">_get_plot_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plot_backend</span><span class="o">.</span><span class="n">hist_series</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">by</span><span class="o">=</span><span class="n">by</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+        <span class="n">xlabelsize</span><span class="o">=</span><span class="n">xlabelsize</span><span class="p">,</span>
+        <span class="n">xrot</span><span class="o">=</span><span class="n">xrot</span><span class="p">,</span>
+        <span class="n">ylabelsize</span><span class="o">=</span><span class="n">ylabelsize</span><span class="p">,</span>
+        <span class="n">yrot</span><span class="o">=</span><span class="n">yrot</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
+        <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
+        <span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">hist_frame</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">column</span><span class="p">:</span> <span class="n">IndexLabel</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">xlabelsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">xrot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ylabelsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">yrot</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">sharex</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">sharey</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">layout</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">legend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Make a histogram of the DataFrame&#39;s columns.</span>
+
+<span class="sd">    A `histogram`_ is a representation of the distribution of data.</span>
+<span class="sd">    This function calls :meth:`matplotlib.pyplot.hist`, on each series in</span>
+<span class="sd">    the DataFrame, resulting in one histogram per column.</span>
+
+<span class="sd">    .. _histogram: https://en.wikipedia.org/wiki/Histogram</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : DataFrame</span>
+<span class="sd">        The pandas object holding the data.</span>
+<span class="sd">    column : str or sequence, optional</span>
+<span class="sd">        If passed, will be used to limit data to a subset of columns.</span>
+<span class="sd">    by : object, optional</span>
+<span class="sd">        If passed, then used to form histograms for separate groups.</span>
+<span class="sd">    grid : bool, default True</span>
+<span class="sd">        Whether to show axis grid lines.</span>
+<span class="sd">    xlabelsize : int, default None</span>
+<span class="sd">        If specified changes the x-axis label size.</span>
+<span class="sd">    xrot : float, default None</span>
+<span class="sd">        Rotation of x axis labels. For example, a value of 90 displays the</span>
+<span class="sd">        x labels rotated 90 degrees clockwise.</span>
+<span class="sd">    ylabelsize : int, default None</span>
+<span class="sd">        If specified changes the y-axis label size.</span>
+<span class="sd">    yrot : float, default None</span>
+<span class="sd">        Rotation of y axis labels. For example, a value of 90 displays the</span>
+<span class="sd">        y labels rotated 90 degrees clockwise.</span>
+<span class="sd">    ax : Matplotlib axes object, default None</span>
+<span class="sd">        The axes to plot the histogram on.</span>
+<span class="sd">    sharex : bool, default True if ax is None else False</span>
+<span class="sd">        In case subplots=True, share x axis and set some x axis labels to</span>
+<span class="sd">        invisible; defaults to True if ax is None otherwise False if an ax</span>
+<span class="sd">        is passed in.</span>
+<span class="sd">        Note that passing in both an ax and sharex=True will alter all x axis</span>
+<span class="sd">        labels for all subplots in a figure.</span>
+<span class="sd">    sharey : bool, default False</span>
+<span class="sd">        In case subplots=True, share y axis and set some y axis labels to</span>
+<span class="sd">        invisible.</span>
+<span class="sd">    figsize : tuple, optional</span>
+<span class="sd">        The size in inches of the figure to create. Uses the value in</span>
+<span class="sd">        `matplotlib.rcParams` by default.</span>
+<span class="sd">    layout : tuple, optional</span>
+<span class="sd">        Tuple of (rows, columns) for the layout of the histograms.</span>
+<span class="sd">    bins : int or sequence, default 10</span>
+<span class="sd">        Number of histogram bins to be used. If an integer is given, bins + 1</span>
+<span class="sd">        bin edges are calculated and returned. If bins is a sequence, gives</span>
+<span class="sd">        bin edges, including left edge of first bin and right edge of last</span>
+<span class="sd">        bin. In this case, bins is returned unmodified.</span>
+
+<span class="sd">    backend : str, default None</span>
+<span class="sd">        Backend to use instead of the backend specified in the option</span>
+<span class="sd">        ``plotting.backend``. For instance, &#39;matplotlib&#39;. Alternatively, to</span>
+<span class="sd">        specify the ``plotting.backend`` for the whole session, set</span>
+<span class="sd">        ``pd.options.plotting.backend``.</span>
+
+<span class="sd">    legend : bool, default False</span>
+<span class="sd">        Whether to show the legend.</span>
+
+<span class="sd">        .. versionadded:: 1.1.0</span>
+
+<span class="sd">    **kwargs</span>
+<span class="sd">        All other plotting keyword arguments to be passed to</span>
+<span class="sd">        :meth:`matplotlib.pyplot.hist`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    matplotlib.AxesSubplot or numpy.ndarray of them</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    matplotlib.pyplot.hist : Plot a histogram using matplotlib.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    This example draws a histogram based on the length and width of</span>
+<span class="sd">    some animals, displayed in three bins</span>
+
+<span class="sd">    .. plot::</span>
+<span class="sd">        :context: close-figs</span>
+
+<span class="sd">        &gt;&gt;&gt; df = pd.DataFrame({</span>
+<span class="sd">        ...     &#39;length&#39;: [1.5, 0.5, 1.2, 0.9, 3],</span>
+<span class="sd">        ...     &#39;width&#39;: [0.7, 0.2, 0.15, 0.2, 1.1]</span>
+<span class="sd">        ...     }, index=[&#39;pig&#39;, &#39;rabbit&#39;, &#39;duck&#39;, &#39;chicken&#39;, &#39;horse&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; hist = df.hist(bins=3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plot_backend</span> <span class="o">=</span> <span class="n">_get_plot_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plot_backend</span><span class="o">.</span><span class="n">hist_frame</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">,</span>
+        <span class="n">by</span><span class="o">=</span><span class="n">by</span><span class="p">,</span>
+        <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+        <span class="n">xlabelsize</span><span class="o">=</span><span class="n">xlabelsize</span><span class="p">,</span>
+        <span class="n">xrot</span><span class="o">=</span><span class="n">xrot</span><span class="p">,</span>
+        <span class="n">ylabelsize</span><span class="o">=</span><span class="n">ylabelsize</span><span class="p">,</span>
+        <span class="n">yrot</span><span class="o">=</span><span class="n">yrot</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">sharex</span><span class="o">=</span><span class="n">sharex</span><span class="p">,</span>
+        <span class="n">sharey</span><span class="o">=</span><span class="n">sharey</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span>
+        <span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span>
+        <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="n">_boxplot_doc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Make a box plot from DataFrame columns.</span>
+
+<span class="s2">Make a box-and-whisker plot from DataFrame columns, optionally grouped</span>
+<span class="s2">by some other columns. A box plot is a method for graphically depicting</span>
+<span class="s2">groups of numerical data through their quartiles.</span>
+<span class="s2">The box extends from the Q1 to Q3 quartile values of the data,</span>
+<span class="s2">with a line at the median (Q2). The whiskers extend from the edges</span>
+<span class="s2">of box to show the range of the data. By default, they extend no more than</span>
+<span class="s2">`1.5 * IQR (IQR = Q3 - Q1)` from the edges of the box, ending at the farthest</span>
+<span class="s2">data point within that interval. Outliers are plotted as separate dots.</span>
+
+<span class="s2">For further details see</span>
+<span class="s2">Wikipedia&#39;s entry for `boxplot &lt;https://en.wikipedia.org/wiki/Box_plot&gt;`_.</span>
+
+<span class="s2">Parameters</span>
+<span class="s2">----------</span>
+<span class="si">%(data)s</span><span class="se">\</span>
+<span class="s2">column : str or list of str, optional</span>
+<span class="s2">    Column name or list of names, or vector.</span>
+<span class="s2">    Can be any valid input to :meth:`pandas.DataFrame.groupby`.</span>
+<span class="s2">by : str or array-like, optional</span>
+<span class="s2">    Column in the DataFrame to :meth:`pandas.DataFrame.groupby`.</span>
+<span class="s2">    One box-plot will be done per value of columns in `by`.</span>
+<span class="s2">ax : object of class matplotlib.axes.Axes, optional</span>
+<span class="s2">    The matplotlib axes to be used by boxplot.</span>
+<span class="s2">fontsize : float or str</span>
+<span class="s2">    Tick label font size in points or as a string (e.g., `large`).</span>
+<span class="s2">rot : float, default 0</span>
+<span class="s2">    The rotation angle of labels (in degrees)</span>
+<span class="s2">    with respect to the screen coordinate system.</span>
+<span class="s2">grid : bool, default True</span>
+<span class="s2">    Setting this to True will show the grid.</span>
+<span class="s2">figsize : A tuple (width, height) in inches</span>
+<span class="s2">    The size of the figure to create in matplotlib.</span>
+<span class="s2">layout : tuple (rows, columns), optional</span>
+<span class="s2">    For example, (3, 5) will display the subplots</span>
+<span class="s2">    using 3 rows and 5 columns, starting from the top-left.</span>
+<span class="s2">return_type : {&#39;axes&#39;, &#39;dict&#39;, &#39;both&#39;} or None, default &#39;axes&#39;</span>
+<span class="s2">    The kind of object to return. The default is ``axes``.</span>
+
+<span class="s2">    * &#39;axes&#39; returns the matplotlib axes the boxplot is drawn on.</span>
+<span class="s2">    * &#39;dict&#39; returns a dictionary whose values are the matplotlib</span>
+<span class="s2">      Lines of the boxplot.</span>
+<span class="s2">    * &#39;both&#39; returns a namedtuple with the axes and dict.</span>
+<span class="s2">    * when grouping with ``by``, a Series mapping columns to</span>
+<span class="s2">      ``return_type`` is returned.</span>
+
+<span class="s2">      If ``return_type`` is `None`, a NumPy array</span>
+<span class="s2">      of axes with the same shape as ``layout`` is returned.</span>
+<span class="si">%(backend)s</span><span class="se">\</span>
+
+<span class="s2">**kwargs</span>
+<span class="s2">    All other plotting keyword arguments to be passed to</span>
+<span class="s2">    :func:`matplotlib.pyplot.boxplot`.</span>
+
+<span class="s2">Returns</span>
+<span class="s2">-------</span>
+<span class="s2">result</span>
+<span class="s2">    See Notes.</span>
+
+<span class="s2">See Also</span>
+<span class="s2">--------</span>
+<span class="s2">pandas.Series.plot.hist: Make a histogram.</span>
+<span class="s2">matplotlib.pyplot.boxplot : Matplotlib equivalent plot.</span>
+
+<span class="s2">Notes</span>
+<span class="s2">-----</span>
+<span class="s2">The return type depends on the `return_type` parameter:</span>
+
+<span class="s2">* &#39;axes&#39; : object of class matplotlib.axes.Axes</span>
+<span class="s2">* &#39;dict&#39; : dict of matplotlib.lines.Line2D objects</span>
+<span class="s2">* &#39;both&#39; : a namedtuple with structure (ax, lines)</span>
+
+<span class="s2">For data grouped with ``by``, return a Series of the above or a numpy</span>
+<span class="s2">array:</span>
+
+<span class="s2">* :class:`~pandas.Series`</span>
+<span class="s2">* :class:`~numpy.array` (for ``return_type = None``)</span>
+
+<span class="s2">Use ``return_type=&#39;dict&#39;`` when you want to tweak the appearance</span>
+<span class="s2">of the lines after plotting. In this case a dict containing the Lines</span>
+<span class="s2">making up the boxes, caps, fliers, medians, and whiskers is returned.</span>
+
+<span class="s2">Examples</span>
+<span class="s2">--------</span>
+
+<span class="s2">Boxplots can be created for every column in the dataframe</span>
+<span class="s2">by ``df.boxplot()`` or indicating the columns to be used:</span>
+
+<span class="s2">.. plot::</span>
+<span class="s2">    :context: close-figs</span>
+
+<span class="s2">    &gt;&gt;&gt; np.random.seed(1234)</span>
+<span class="s2">    &gt;&gt;&gt; df = pd.DataFrame(np.random.randn(10, 4),</span>
+<span class="s2">    ...                   columns=[&#39;Col1&#39;, &#39;Col2&#39;, &#39;Col3&#39;, &#39;Col4&#39;])</span>
+<span class="s2">    &gt;&gt;&gt; boxplot = df.boxplot(column=[&#39;Col1&#39;, &#39;Col2&#39;, &#39;Col3&#39;])  # doctest: +SKIP</span>
+
+<span class="s2">Boxplots of variables distributions grouped by the values of a third</span>
+<span class="s2">variable can be created using the option ``by``. For instance:</span>
+
+<span class="s2">.. plot::</span>
+<span class="s2">    :context: close-figs</span>
+
+<span class="s2">    &gt;&gt;&gt; df = pd.DataFrame(np.random.randn(10, 2),</span>
+<span class="s2">    ...                   columns=[&#39;Col1&#39;, &#39;Col2&#39;])</span>
+<span class="s2">    &gt;&gt;&gt; df[&#39;X&#39;] = pd.Series([&#39;A&#39;, &#39;A&#39;, &#39;A&#39;, &#39;A&#39;, &#39;A&#39;,</span>
+<span class="s2">    ...                      &#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;])</span>
+<span class="s2">    &gt;&gt;&gt; boxplot = df.boxplot(by=&#39;X&#39;)</span>
+
+<span class="s2">A list of strings (i.e. ``[&#39;X&#39;, &#39;Y&#39;]``) can be passed to boxplot</span>
+<span class="s2">in order to group the data by combination of the variables in the x-axis:</span>
+
+<span class="s2">.. plot::</span>
+<span class="s2">    :context: close-figs</span>
+
+<span class="s2">    &gt;&gt;&gt; df = pd.DataFrame(np.random.randn(10, 3),</span>
+<span class="s2">    ...                   columns=[&#39;Col1&#39;, &#39;Col2&#39;, &#39;Col3&#39;])</span>
+<span class="s2">    &gt;&gt;&gt; df[&#39;X&#39;] = pd.Series([&#39;A&#39;, &#39;A&#39;, &#39;A&#39;, &#39;A&#39;, &#39;A&#39;,</span>
+<span class="s2">    ...                      &#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;, &#39;B&#39;])</span>
+<span class="s2">    &gt;&gt;&gt; df[&#39;Y&#39;] = pd.Series([&#39;A&#39;, &#39;B&#39;, &#39;A&#39;, &#39;B&#39;, &#39;A&#39;,</span>
+<span class="s2">    ...                      &#39;B&#39;, &#39;A&#39;, &#39;B&#39;, &#39;A&#39;, &#39;B&#39;])</span>
+<span class="s2">    &gt;&gt;&gt; boxplot = df.boxplot(column=[&#39;Col1&#39;, &#39;Col2&#39;], by=[&#39;X&#39;, &#39;Y&#39;])</span>
+
+<span class="s2">The layout of boxplot can be adjusted giving a tuple to ``layout``:</span>
+
+<span class="s2">.. plot::</span>
+<span class="s2">    :context: close-figs</span>
+
+<span class="s2">    &gt;&gt;&gt; boxplot = df.boxplot(column=[&#39;Col1&#39;, &#39;Col2&#39;], by=&#39;X&#39;,</span>
+<span class="s2">    ...                      layout=(2, 1))</span>
+
+<span class="s2">Additional formatting can be done to the boxplot, like suppressing the grid</span>
+<span class="s2">(``grid=False``), rotating the labels in the x-axis (i.e. ``rot=45``)</span>
+<span class="s2">or changing the fontsize (i.e. ``fontsize=15``):</span>
+
+<span class="s2">.. plot::</span>
+<span class="s2">    :context: close-figs</span>
+
+<span class="s2">    &gt;&gt;&gt; boxplot = df.boxplot(grid=False, rot=45, fontsize=15)  # doctest: +SKIP</span>
+
+<span class="s2">The parameter ``return_type`` can be used to select the type of element</span>
+<span class="s2">returned by `boxplot`.  When ``return_type=&#39;axes&#39;`` is selected,</span>
+<span class="s2">the matplotlib axes on which the boxplot is drawn are returned:</span>
+
+<span class="s2">    &gt;&gt;&gt; boxplot = df.boxplot(column=[&#39;Col1&#39;, &#39;Col2&#39;], return_type=&#39;axes&#39;)</span>
+<span class="s2">    &gt;&gt;&gt; type(boxplot)</span>
+<span class="s2">    &lt;class &#39;matplotlib.axes._subplots.AxesSubplot&#39;&gt;</span>
+
+<span class="s2">When grouping with ``by``, a Series mapping columns to ``return_type``</span>
+<span class="s2">is returned:</span>
+
+<span class="s2">    &gt;&gt;&gt; boxplot = df.boxplot(column=[&#39;Col1&#39;, &#39;Col2&#39;], by=&#39;X&#39;,</span>
+<span class="s2">    ...                      return_type=&#39;axes&#39;)</span>
+<span class="s2">    &gt;&gt;&gt; type(boxplot)</span>
+<span class="s2">    &lt;class &#39;pandas.core.series.Series&#39;&gt;</span>
+
+<span class="s2">If ``return_type`` is `None`, a NumPy array of axes with the same shape</span>
+<span class="s2">as ``layout`` is returned:</span>
+
+<span class="s2">    &gt;&gt;&gt; boxplot = df.boxplot(column=[&#39;Col1&#39;, &#39;Col2&#39;], by=&#39;X&#39;,</span>
+<span class="s2">    ...                      return_type=None)</span>
+<span class="s2">    &gt;&gt;&gt; type(boxplot)</span>
+<span class="s2">    &lt;class &#39;numpy.ndarray&#39;&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">_backend_doc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">backend : str, default None</span>
+<span class="s2">    Backend to use instead of the backend specified in the option</span>
+<span class="s2">    ``plotting.backend``. For instance, &#39;matplotlib&#39;. Alternatively, to</span>
+<span class="s2">    specify the ``plotting.backend`` for the whole session, set</span>
+<span class="s2">    ``pd.options.plotting.backend``.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="n">_bar_or_line_doc</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Parameters</span>
+<span class="s2">        ----------</span>
+<span class="s2">        x : label or position, optional</span>
+<span class="s2">            Allows plotting of one column versus another. If not specified,</span>
+<span class="s2">            the index of the DataFrame is used.</span>
+<span class="s2">        y : label or position, optional</span>
+<span class="s2">            Allows plotting of one column versus another. If not specified,</span>
+<span class="s2">            all numerical columns are used.</span>
+<span class="s2">        color : str, array-like, or dict, optional</span>
+<span class="s2">            The color for each of the DataFrame&#39;s columns. Possible values are:</span>
+
+<span class="s2">            - A single color string referred to by name, RGB or RGBA code,</span>
+<span class="s2">                for instance &#39;red&#39; or &#39;#a98d19&#39;.</span>
+
+<span class="s2">            - A sequence of color strings referred to by name, RGB or RGBA</span>
+<span class="s2">                code, which will be used for each column recursively. For</span>
+<span class="s2">                instance [&#39;green&#39;,&#39;yellow&#39;] each column&#39;s </span><span class="si">%(kind)s</span><span class="s2"> will be filled in</span>
+<span class="s2">                green or yellow, alternatively. If there is only a single column to</span>
+<span class="s2">                be plotted, then only the first color from the color list will be</span>
+<span class="s2">                used.</span>
+
+<span class="s2">            - A dict of the form {column name : color}, so that each column will be</span>
+<span class="s2">                colored accordingly. For example, if your columns are called `a` and</span>
+<span class="s2">                `b`, then passing {&#39;a&#39;: &#39;green&#39;, &#39;b&#39;: &#39;red&#39;} will color </span><span class="si">%(kind)s</span><span class="s2">s for</span>
+<span class="s2">                column `a` in green and </span><span class="si">%(kind)s</span><span class="s2">s for column `b` in red.</span>
+
+<span class="s2">            .. versionadded:: 1.1.0</span>
+
+<span class="s2">        **kwargs</span>
+<span class="s2">            Additional keyword arguments are documented in</span>
+<span class="s2">            :meth:`DataFrame.plot`.</span>
+
+<span class="s2">        Returns</span>
+<span class="s2">        -------</span>
+<span class="s2">        matplotlib.axes.Axes or np.ndarray of them</span>
+<span class="s2">            An ndarray is returned with one :class:`matplotlib.axes.Axes`</span>
+<span class="s2">            per column when ``subplots=True``.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="nd">@Substitution</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;data : DataFrame</span><span class="se">\n</span><span class="s2">    The data to visualize.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="nd">@Appender</span><span class="p">(</span><span class="n">_boxplot_doc</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">boxplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">column</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">rot</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">layout</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">return_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">plot_backend</span> <span class="o">=</span> <span class="n">_get_plot_backend</span><span class="p">(</span><span class="s2">&quot;matplotlib&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plot_backend</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">,</span>
+        <span class="n">by</span><span class="o">=</span><span class="n">by</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
+        <span class="n">rot</span><span class="o">=</span><span class="n">rot</span><span class="p">,</span>
+        <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span>
+        <span class="n">return_type</span><span class="o">=</span><span class="n">return_type</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="nd">@Substitution</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">_backend_doc</span><span class="p">)</span>
+<span class="nd">@Appender</span><span class="p">(</span><span class="n">_boxplot_doc</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">boxplot_frame</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">column</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">rot</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">layout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">return_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">plot_backend</span> <span class="o">=</span> <span class="n">_get_plot_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plot_backend</span><span class="o">.</span><span class="n">boxplot_frame</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">,</span>
+        <span class="n">by</span><span class="o">=</span><span class="n">by</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
+        <span class="n">rot</span><span class="o">=</span><span class="n">rot</span><span class="p">,</span>
+        <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span>
+        <span class="n">return_type</span><span class="o">=</span><span class="n">return_type</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">boxplot_frame_groupby</span><span class="p">(</span>
+    <span class="n">grouped</span><span class="p">,</span>
+    <span class="n">subplots</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">column</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">rot</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">layout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">sharex</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">sharey</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Make box plots from DataFrameGroupBy data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    grouped : Grouped DataFrame</span>
+<span class="sd">    subplots : bool</span>
+<span class="sd">        * ``False`` - no subplots will be used</span>
+<span class="sd">        * ``True`` - create a subplot for each group.</span>
+
+<span class="sd">    column : column name or list of names, or vector</span>
+<span class="sd">        Can be any valid input to groupby.</span>
+<span class="sd">    fontsize : float or str</span>
+<span class="sd">    rot : label rotation angle</span>
+<span class="sd">    grid : Setting this to True will show the grid</span>
+<span class="sd">    ax : Matplotlib axis object, default None</span>
+<span class="sd">    figsize : A tuple (width, height) in inches</span>
+<span class="sd">    layout : tuple (optional)</span>
+<span class="sd">        The layout of the plot: (rows, columns).</span>
+<span class="sd">    sharex : bool, default False</span>
+<span class="sd">        Whether x-axes will be shared among subplots.</span>
+<span class="sd">    sharey : bool, default True</span>
+<span class="sd">        Whether y-axes will be shared among subplots.</span>
+<span class="sd">    backend : str, default None</span>
+<span class="sd">        Backend to use instead of the backend specified in the option</span>
+<span class="sd">        ``plotting.backend``. For instance, &#39;matplotlib&#39;. Alternatively, to</span>
+<span class="sd">        specify the ``plotting.backend`` for the whole session, set</span>
+<span class="sd">        ``pd.options.plotting.backend``.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        All other plotting keyword arguments to be passed to</span>
+<span class="sd">        matplotlib&#39;s boxplot function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict of key/value = group key/DataFrame.boxplot return value</span>
+<span class="sd">    or DataFrame.boxplot return value in case subplots=figures=False</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    You can create boxplots for grouped data and show them as separate subplots:</span>
+
+<span class="sd">    .. plot::</span>
+<span class="sd">        :context: close-figs</span>
+
+<span class="sd">        &gt;&gt;&gt; import itertools</span>
+<span class="sd">        &gt;&gt;&gt; tuples = [t for t in itertools.product(range(1000), range(4))]</span>
+<span class="sd">        &gt;&gt;&gt; index = pd.MultiIndex.from_tuples(tuples, names=[&#39;lvl0&#39;, &#39;lvl1&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; data = np.random.randn(len(index),4)</span>
+<span class="sd">        &gt;&gt;&gt; df = pd.DataFrame(data, columns=list(&#39;ABCD&#39;), index=index)</span>
+<span class="sd">        &gt;&gt;&gt; grouped = df.groupby(level=&#39;lvl1&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; grouped.boxplot(rot=45, fontsize=12, figsize=(8,10))  # doctest: +SKIP</span>
+
+<span class="sd">    The ``subplots=False`` option shows the boxplots in a single figure.</span>
+
+<span class="sd">    .. plot::</span>
+<span class="sd">        :context: close-figs</span>
+
+<span class="sd">        &gt;&gt;&gt; grouped.boxplot(subplots=False, rot=45, fontsize=12)  # doctest: +SKIP</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plot_backend</span> <span class="o">=</span> <span class="n">_get_plot_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plot_backend</span><span class="o">.</span><span class="n">boxplot_frame_groupby</span><span class="p">(</span>
+        <span class="n">grouped</span><span class="p">,</span>
+        <span class="n">subplots</span><span class="o">=</span><span class="n">subplots</span><span class="p">,</span>
+        <span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">,</span>
+        <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
+        <span class="n">rot</span><span class="o">=</span><span class="n">rot</span><span class="p">,</span>
+        <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span>
+        <span class="n">sharex</span><span class="o">=</span><span class="n">sharex</span><span class="p">,</span>
+        <span class="n">sharey</span><span class="o">=</span><span class="n">sharey</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">PlotAccessor</span><span class="p">(</span><span class="n">PandasObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Make plots of Series or DataFrame.</span>
+
+<span class="sd">    Uses the backend specified by the</span>
+<span class="sd">    option ``plotting.backend``. By default, matplotlib is used.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Series or DataFrame</span>
+<span class="sd">        The object for which the method is called.</span>
+<span class="sd">    x : label or position, default None</span>
+<span class="sd">        Only used if data is a DataFrame.</span>
+<span class="sd">    y : label, position or list of label, positions, default None</span>
+<span class="sd">        Allows plotting of one column versus another. Only used if data is a</span>
+<span class="sd">        DataFrame.</span>
+<span class="sd">    kind : str</span>
+<span class="sd">        The kind of plot to produce:</span>
+
+<span class="sd">        - &#39;line&#39; : line plot (default)</span>
+<span class="sd">        - &#39;bar&#39; : vertical bar plot</span>
+<span class="sd">        - &#39;barh&#39; : horizontal bar plot</span>
+<span class="sd">        - &#39;hist&#39; : histogram</span>
+<span class="sd">        - &#39;box&#39; : boxplot</span>
+<span class="sd">        - &#39;kde&#39; : Kernel Density Estimation plot</span>
+<span class="sd">        - &#39;density&#39; : same as &#39;kde&#39;</span>
+<span class="sd">        - &#39;area&#39; : area plot</span>
+<span class="sd">        - &#39;pie&#39; : pie plot</span>
+<span class="sd">        - &#39;scatter&#39; : scatter plot (DataFrame only)</span>
+<span class="sd">        - &#39;hexbin&#39; : hexbin plot (DataFrame only)</span>
+<span class="sd">    ax : matplotlib axes object, default None</span>
+<span class="sd">        An axes of the current figure.</span>
+<span class="sd">    subplots : bool or sequence of iterables, default False</span>
+<span class="sd">        Whether to group columns into subplots:</span>
+
+<span class="sd">        - ``False`` : No subplots will be used</span>
+<span class="sd">        - ``True`` : Make separate subplots for each column.</span>
+<span class="sd">        - sequence of iterables of column labels: Create a subplot for each</span>
+<span class="sd">          group of columns. For example `[(&#39;a&#39;, &#39;c&#39;), (&#39;b&#39;, &#39;d&#39;)]` will</span>
+<span class="sd">          create 2 subplots: one with columns &#39;a&#39; and &#39;c&#39;, and one</span>
+<span class="sd">          with columns &#39;b&#39; and &#39;d&#39;. Remaining columns that aren&#39;t specified</span>
+<span class="sd">          will be plotted in additional subplots (one per column).</span>
+
+<span class="sd">          .. versionadded:: 1.5.0</span>
+
+<span class="sd">    sharex : bool, default True if ax is None else False</span>
+<span class="sd">        In case ``subplots=True``, share x axis and set some x axis labels</span>
+<span class="sd">        to invisible; defaults to True if ax is None otherwise False if</span>
+<span class="sd">        an ax is passed in; Be aware, that passing in both an ax and</span>
+<span class="sd">        ``sharex=True`` will alter all x axis labels for all axis in a figure.</span>
+<span class="sd">    sharey : bool, default False</span>
+<span class="sd">        In case ``subplots=True``, share y axis and set some y axis labels to invisible.</span>
+<span class="sd">    layout : tuple, optional</span>
+<span class="sd">        (rows, columns) for the layout of subplots.</span>
+<span class="sd">    figsize : a tuple (width, height) in inches</span>
+<span class="sd">        Size of a figure object.</span>
+<span class="sd">    use_index : bool, default True</span>
+<span class="sd">        Use index as ticks for x axis.</span>
+<span class="sd">    title : str or list</span>
+<span class="sd">        Title to use for the plot. If a string is passed, print the string</span>
+<span class="sd">        at the top of the figure. If a list is passed and `subplots` is</span>
+<span class="sd">        True, print each item in the list above the corresponding subplot.</span>
+<span class="sd">    grid : bool, default None (matlab style default)</span>
+<span class="sd">        Axis grid lines.</span>
+<span class="sd">    legend : bool or {&#39;reverse&#39;}</span>
+<span class="sd">        Place legend on axis subplots.</span>
+<span class="sd">    style : list or dict</span>
+<span class="sd">        The matplotlib line style per column.</span>
+<span class="sd">    logx : bool or &#39;sym&#39;, default False</span>
+<span class="sd">        Use log scaling or symlog scaling on x axis.</span>
+
+<span class="sd">    logy : bool or &#39;sym&#39; default False</span>
+<span class="sd">        Use log scaling or symlog scaling on y axis.</span>
+
+<span class="sd">    loglog : bool or &#39;sym&#39;, default False</span>
+<span class="sd">        Use log scaling or symlog scaling on both x and y axes.</span>
+
+<span class="sd">    xticks : sequence</span>
+<span class="sd">        Values to use for the xticks.</span>
+<span class="sd">    yticks : sequence</span>
+<span class="sd">        Values to use for the yticks.</span>
+<span class="sd">    xlim : 2-tuple/list</span>
+<span class="sd">        Set the x limits of the current axes.</span>
+<span class="sd">    ylim : 2-tuple/list</span>
+<span class="sd">        Set the y limits of the current axes.</span>
+<span class="sd">    xlabel : label, optional</span>
+<span class="sd">        Name to use for the xlabel on x-axis. Default uses index name as xlabel, or the</span>
+<span class="sd">        x-column name for planar plots.</span>
+
+<span class="sd">        .. versionadded:: 1.1.0</span>
+
+<span class="sd">        .. versionchanged:: 1.2.0</span>
+
+<span class="sd">           Now applicable to planar plots (`scatter`, `hexbin`).</span>
+
+<span class="sd">        .. versionchanged:: 2.0.0</span>
+
+<span class="sd">            Now applicable to histograms.</span>
+
+<span class="sd">    ylabel : label, optional</span>
+<span class="sd">        Name to use for the ylabel on y-axis. Default will show no ylabel, or the</span>
+<span class="sd">        y-column name for planar plots.</span>
+
+<span class="sd">        .. versionadded:: 1.1.0</span>
+
+<span class="sd">        .. versionchanged:: 1.2.0</span>
+
+<span class="sd">           Now applicable to planar plots (`scatter`, `hexbin`).</span>
+
+<span class="sd">        .. versionchanged:: 2.0.0</span>
+
+<span class="sd">            Now applicable to histograms.</span>
+
+<span class="sd">    rot : float, default None</span>
+<span class="sd">        Rotation for ticks (xticks for vertical, yticks for horizontal</span>
+<span class="sd">        plots).</span>
+<span class="sd">    fontsize : float, default None</span>
+<span class="sd">        Font size for xticks and yticks.</span>
+<span class="sd">    colormap : str or matplotlib colormap object, default None</span>
+<span class="sd">        Colormap to select colors from. If string, load colormap with that</span>
+<span class="sd">        name from matplotlib.</span>
+<span class="sd">    colorbar : bool, optional</span>
+<span class="sd">        If True, plot colorbar (only relevant for &#39;scatter&#39; and &#39;hexbin&#39;</span>
+<span class="sd">        plots).</span>
+<span class="sd">    position : float</span>
+<span class="sd">        Specify relative alignments for bar plot layout.</span>
+<span class="sd">        From 0 (left/bottom-end) to 1 (right/top-end). Default is 0.5</span>
+<span class="sd">        (center).</span>
+<span class="sd">    table : bool, Series or DataFrame, default False</span>
+<span class="sd">        If True, draw a table using the data in the DataFrame and the data</span>
+<span class="sd">        will be transposed to meet matplotlib&#39;s default layout.</span>
+<span class="sd">        If a Series or DataFrame is passed, use passed data to draw a</span>
+<span class="sd">        table.</span>
+<span class="sd">    yerr : DataFrame, Series, array-like, dict and str</span>
+<span class="sd">        See :ref:`Plotting with Error Bars &lt;visualization.errorbars&gt;` for</span>
+<span class="sd">        detail.</span>
+<span class="sd">    xerr : DataFrame, Series, array-like, dict and str</span>
+<span class="sd">        Equivalent to yerr.</span>
+<span class="sd">    stacked : bool, default False in line and bar plots, and True in area plot</span>
+<span class="sd">        If True, create stacked plot.</span>
+<span class="sd">    secondary_y : bool or sequence, default False</span>
+<span class="sd">        Whether to plot on the secondary y-axis if a list/tuple, which</span>
+<span class="sd">        columns to plot on secondary y-axis.</span>
+<span class="sd">    mark_right : bool, default True</span>
+<span class="sd">        When using a secondary_y axis, automatically mark the column</span>
+<span class="sd">        labels with &quot;(right)&quot; in the legend.</span>
+<span class="sd">    include_bool : bool, default is False</span>
+<span class="sd">        If True, boolean values can be plotted.</span>
+<span class="sd">    backend : str, default None</span>
+<span class="sd">        Backend to use instead of the backend specified in the option</span>
+<span class="sd">        ``plotting.backend``. For instance, &#39;matplotlib&#39;. Alternatively, to</span>
+<span class="sd">        specify the ``plotting.backend`` for the whole session, set</span>
+<span class="sd">        ``pd.options.plotting.backend``.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Options to pass to matplotlib plotting method.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    :class:`matplotlib.axes.Axes` or numpy.ndarray of them</span>
+<span class="sd">        If the backend is not the default matplotlib one, the return value</span>
+<span class="sd">        will be the object returned by the backend.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - See matplotlib documentation online for more on this subject</span>
+<span class="sd">    - If `kind` = &#39;bar&#39; or &#39;barh&#39;, you can specify relative alignments</span>
+<span class="sd">      for bar plot layout by `position` keyword.</span>
+<span class="sd">      From 0 (left/bottom-end) to 1 (right/top-end). Default is 0.5</span>
+<span class="sd">      (center)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_common_kinds</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="s2">&quot;barh&quot;</span><span class="p">,</span> <span class="s2">&quot;kde&quot;</span><span class="p">,</span> <span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="s2">&quot;area&quot;</span><span class="p">,</span> <span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="s2">&quot;box&quot;</span><span class="p">)</span>
+    <span class="n">_series_kinds</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;pie&quot;</span><span class="p">,)</span>
+    <span class="n">_dataframe_kinds</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;scatter&quot;</span><span class="p">,</span> <span class="s2">&quot;hexbin&quot;</span><span class="p">)</span>
+    <span class="n">_kind_aliases</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="s2">&quot;kde&quot;</span><span class="p">}</span>
+    <span class="n">_all_kinds</span> <span class="o">=</span> <span class="n">_common_kinds</span> <span class="o">+</span> <span class="n">_series_kinds</span> <span class="o">+</span> <span class="n">_dataframe_kinds</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="n">data</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_call_args</span><span class="p">(</span><span class="n">backend_name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function makes calls to this accessor `__call__` method compatible</span>
+<span class="sd">        with the previous `SeriesPlotMethods.__call__` and</span>
+<span class="sd">        `DataFramePlotMethods.__call__`. Those had slightly different</span>
+<span class="sd">        signatures, since `DataFramePlotMethods` accepted `x` and `y`</span>
+<span class="sd">        parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ABCSeries</span><span class="p">):</span>
+            <span class="n">arg_def</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">,</span> <span class="s2">&quot;line&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;ax&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;figsize&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;use_index&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;legend&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;style&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;logx&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;logy&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;loglog&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;xticks&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;yticks&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;xlim&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;ylim&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;rot&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;colormap&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;yerr&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;xerr&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;secondary_y&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;xlabel&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;ylabel&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ABCDataFrame</span><span class="p">):</span>
+            <span class="n">arg_def</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">,</span> <span class="s2">&quot;line&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;ax&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;subplots&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;sharex&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;sharey&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;layout&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;figsize&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;use_index&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;legend&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;style&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;logx&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;logy&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;loglog&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;xticks&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;yticks&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;xlim&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;ylim&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;rot&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;colormap&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;yerr&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;xerr&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;secondary_y&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;xlabel&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;ylabel&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Called plot accessor for type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="s2">&quot;expected Series or DataFrame&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">args</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ABCSeries</span><span class="p">):</span>
+            <span class="n">positional_args</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">keyword_args</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">arg_def</span><span class="p">,</span> <span class="n">args</span><span class="p">)]</span>
+            <span class="p">)</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;`Series.plot()` should not be called with positional &quot;</span>
+                <span class="s2">&quot;arguments, only keyword arguments. The order of &quot;</span>
+                <span class="s2">&quot;positional arguments will change in the future. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Use `Series.plot(</span><span class="si">{</span><span class="n">keyword_args</span><span class="si">}</span><span class="s2">)` instead of &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;`Series.plot(</span><span class="si">{</span><span class="n">positional_args</span><span class="si">}</span><span class="s2">)`.&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">pos_args</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">arg_def</span><span class="p">,</span> <span class="n">args</span><span class="p">)}</span>
+        <span class="k">if</span> <span class="n">backend_name</span> <span class="o">==</span> <span class="s2">&quot;pandas.plotting._matplotlib&quot;</span><span class="p">:</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arg_def</span><span class="p">,</span> <span class="o">**</span><span class="n">pos_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">pos_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">,</span> <span class="s2">&quot;line&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">kwargs</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">plot_backend</span> <span class="o">=</span> <span class="n">_get_plot_backend</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;backend&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_call_args</span><span class="p">(</span>
+            <span class="n">plot_backend</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
+        <span class="p">)</span>
+
+        <span class="n">kind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kind_aliases</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">kind</span><span class="p">)</span>
+
+        <span class="c1"># when using another backend, get out of the way</span>
+        <span class="k">if</span> <span class="n">plot_backend</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="s2">&quot;pandas.plotting._matplotlib&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">plot_backend</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_kinds</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2"> is not a valid plot kind&quot;</span><span class="p">)</span>
+
+        <span class="c1"># The original data structured can be transformed before passed to the</span>
+        <span class="c1"># backend. For example, for DataFrame is common to set the index as the</span>
+        <span class="c1"># `x` parameter, and return a Series with the parameter `y` as values.</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ABCSeries</span><span class="p">):</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;reuse_plot&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_kinds</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ABCDataFrame</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">plot_backend</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;plot kind </span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2"> can only be used for data frames&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_series_kinds</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ABCDataFrame</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;subplots&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2"> requires either y column or &#39;subplots=True&#39;&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">is_integer</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">_holds_integer</span><span class="p">():</span>
+                        <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
+                    <span class="c1"># converted to series actually. copy to not modify</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ABCDataFrame</span><span class="p">):</span>
+            <span class="n">data_cols</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">is_integer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">_holds_integer</span><span class="p">():</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="n">data_cols</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">ABCSeries</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;x must be a label or position&quot;</span><span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># check if we have y as int or list of ints</span>
+                <span class="n">int_ylist</span> <span class="o">=</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">is_integer</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">y</span><span class="p">)</span>
+                <span class="n">int_y_arg</span> <span class="o">=</span> <span class="n">is_integer</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="ow">or</span> <span class="n">int_ylist</span>
+                <span class="k">if</span> <span class="n">int_y_arg</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">_holds_integer</span><span class="p">():</span>
+                    <span class="n">y</span> <span class="o">=</span> <span class="n">data_cols</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
+
+                <span class="n">label_kw</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;label&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="kc">False</span>
+                <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;xerr&quot;</span><span class="p">,</span> <span class="s2">&quot;yerr&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="p">(</span>
+                        <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">kw</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_integer</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">kw</span><span class="p">])</span>
+                    <span class="p">):</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">kwargs</span><span class="p">[</span><span class="n">kw</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="n">kw</span><span class="p">]]</span>
+                        <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+                            <span class="k">pass</span>
+
+                <span class="c1"># don&#39;t overwrite</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ABCSeries</span><span class="p">):</span>
+                    <span class="n">label_name</span> <span class="o">=</span> <span class="n">label_kw</span> <span class="ow">or</span> <span class="n">y</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">label_name</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">match</span> <span class="o">=</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">label_kw</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_kw</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">label_kw</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="s2">&quot;label should be list-like and same length as y&quot;</span>
+                        <span class="p">)</span>
+                    <span class="n">label_name</span> <span class="o">=</span> <span class="n">label_kw</span> <span class="ow">or</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">label_name</span>
+
+        <span class="k">return</span> <span class="n">plot_backend</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="fm">__call__</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="vm">__doc__</span>
+
+    <span class="nd">@Appender</span><span class="p">(</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        matplotlib.pyplot.plot : Plot y versus x as lines and/or markers.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; s = pd.Series([1, 3, 2])</span>
+<span class="sd">            &gt;&gt;&gt; s.plot.line()</span>
+<span class="sd">            &lt;AxesSubplot: ylabel=&#39;Density&#39;&gt;</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            The following example shows the populations for some animals</span>
+<span class="sd">            over the years.</span>
+
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({</span>
+<span class="sd">            ...    &#39;pig&#39;: [20, 18, 489, 675, 1776],</span>
+<span class="sd">            ...    &#39;horse&#39;: [4, 25, 281, 600, 1900]</span>
+<span class="sd">            ...    }, index=[1990, 1997, 2003, 2009, 2014])</span>
+<span class="sd">            &gt;&gt;&gt; lines = df.plot.line()</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">           :context: close-figs</span>
+
+<span class="sd">           An example with subplots, so an array of axes is returned.</span>
+
+<span class="sd">           &gt;&gt;&gt; axes = df.plot.line(subplots=True)</span>
+<span class="sd">           &gt;&gt;&gt; type(axes)</span>
+<span class="sd">           &lt;class &#39;numpy.ndarray&#39;&gt;</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">           :context: close-figs</span>
+
+<span class="sd">           Let&#39;s repeat the same example, but specifying colors for</span>
+<span class="sd">           each column (in this case, for each animal).</span>
+
+<span class="sd">           &gt;&gt;&gt; axes = df.plot.line(</span>
+<span class="sd">           ...     subplots=True, color={&quot;pig&quot;: &quot;pink&quot;, &quot;horse&quot;: &quot;#742802&quot;}</span>
+<span class="sd">           ... )</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            The following example shows the relationship between both</span>
+<span class="sd">            populations.</span>
+
+<span class="sd">            &gt;&gt;&gt; lines = df.plot.line(x=&#39;pig&#39;, y=&#39;horse&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="p">)</span>
+    <span class="nd">@Substitution</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;line&quot;</span><span class="p">)</span>
+    <span class="nd">@Appender</span><span class="p">(</span><span class="n">_bar_or_line_doc</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotAccessor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot Series or DataFrame as lines.</span>
+
+<span class="sd">        This function is useful to plot lines using DataFrame&#39;s values</span>
+<span class="sd">        as coordinates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@Appender</span><span class="p">(</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        DataFrame.plot.barh : Horizontal bar plot.</span>
+<span class="sd">        DataFrame.plot : Make plots of a DataFrame.</span>
+<span class="sd">        matplotlib.pyplot.bar : Make a bar plot with matplotlib.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Basic plot.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({&#39;lab&#39;:[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;], &#39;val&#39;:[10, 30, 20]})</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.bar(x=&#39;lab&#39;, y=&#39;val&#39;, rot=0)</span>
+
+<span class="sd">        Plot a whole dataframe to a bar plot. Each column is assigned a</span>
+<span class="sd">        distinct color, and each row is nested in a group along the</span>
+<span class="sd">        horizontal axis.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; speed = [0.1, 17.5, 40, 48, 52, 69, 88]</span>
+<span class="sd">            &gt;&gt;&gt; lifespan = [2, 8, 70, 1.5, 25, 12, 28]</span>
+<span class="sd">            &gt;&gt;&gt; index = [&#39;snail&#39;, &#39;pig&#39;, &#39;elephant&#39;,</span>
+<span class="sd">            ...          &#39;rabbit&#39;, &#39;giraffe&#39;, &#39;coyote&#39;, &#39;horse&#39;]</span>
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({&#39;speed&#39;: speed,</span>
+<span class="sd">            ...                    &#39;lifespan&#39;: lifespan}, index=index)</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.bar(rot=0)</span>
+
+<span class="sd">        Plot stacked bar charts for the DataFrame</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.bar(stacked=True)</span>
+
+<span class="sd">        Instead of nesting, the figure can be split by column with</span>
+<span class="sd">        ``subplots=True``. In this case, a :class:`numpy.ndarray` of</span>
+<span class="sd">        :class:`matplotlib.axes.Axes` are returned.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; axes = df.plot.bar(rot=0, subplots=True)</span>
+<span class="sd">            &gt;&gt;&gt; axes[1].legend(loc=2)  # doctest: +SKIP</span>
+
+<span class="sd">        If you don&#39;t like the default colours, you can specify how you&#39;d</span>
+<span class="sd">        like each column to be colored.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; axes = df.plot.bar(</span>
+<span class="sd">            ...     rot=0, subplots=True, color={&quot;speed&quot;: &quot;red&quot;, &quot;lifespan&quot;: &quot;green&quot;}</span>
+<span class="sd">            ... )</span>
+<span class="sd">            &gt;&gt;&gt; axes[1].legend(loc=2)  # doctest: +SKIP</span>
+
+<span class="sd">        Plot a single column.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.bar(y=&#39;speed&#39;, rot=0)</span>
+
+<span class="sd">        Plot only selected categories for the DataFrame.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.bar(x=&#39;lifespan&#39;, rot=0)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">)</span>
+    <span class="nd">@Substitution</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">)</span>
+    <span class="nd">@Appender</span><span class="p">(</span><span class="n">_bar_or_line_doc</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">bar</span><span class="p">(</span>  <span class="c1"># pylint: disable=disallowed-name</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotAccessor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Vertical bar plot.</span>
+
+<span class="sd">        A bar plot is a plot that presents categorical data with</span>
+<span class="sd">        rectangular bars with lengths proportional to the values that they</span>
+<span class="sd">        represent. A bar plot shows comparisons among discrete categories. One</span>
+<span class="sd">        axis of the plot shows the specific categories being compared, and the</span>
+<span class="sd">        other axis represents a measured value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@Appender</span><span class="p">(</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        DataFrame.plot.bar: Vertical bar plot.</span>
+<span class="sd">        DataFrame.plot : Make plots of DataFrame using matplotlib.</span>
+<span class="sd">        matplotlib.axes.Axes.bar : Plot a vertical bar plot using matplotlib.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Basic example</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({&#39;lab&#39;: [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;], &#39;val&#39;: [10, 30, 20]})</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.barh(x=&#39;lab&#39;, y=&#39;val&#39;)</span>
+
+<span class="sd">        Plot a whole DataFrame to a horizontal bar plot</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; speed = [0.1, 17.5, 40, 48, 52, 69, 88]</span>
+<span class="sd">            &gt;&gt;&gt; lifespan = [2, 8, 70, 1.5, 25, 12, 28]</span>
+<span class="sd">            &gt;&gt;&gt; index = [&#39;snail&#39;, &#39;pig&#39;, &#39;elephant&#39;,</span>
+<span class="sd">            ...          &#39;rabbit&#39;, &#39;giraffe&#39;, &#39;coyote&#39;, &#39;horse&#39;]</span>
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({&#39;speed&#39;: speed,</span>
+<span class="sd">            ...                    &#39;lifespan&#39;: lifespan}, index=index)</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.barh()</span>
+
+<span class="sd">        Plot stacked barh charts for the DataFrame</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.barh(stacked=True)</span>
+
+<span class="sd">        We can specify colors for each column</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.barh(color={&quot;speed&quot;: &quot;red&quot;, &quot;lifespan&quot;: &quot;green&quot;})</span>
+
+<span class="sd">        Plot a column of the DataFrame to a horizontal bar plot</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; speed = [0.1, 17.5, 40, 48, 52, 69, 88]</span>
+<span class="sd">            &gt;&gt;&gt; lifespan = [2, 8, 70, 1.5, 25, 12, 28]</span>
+<span class="sd">            &gt;&gt;&gt; index = [&#39;snail&#39;, &#39;pig&#39;, &#39;elephant&#39;,</span>
+<span class="sd">            ...          &#39;rabbit&#39;, &#39;giraffe&#39;, &#39;coyote&#39;, &#39;horse&#39;]</span>
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({&#39;speed&#39;: speed,</span>
+<span class="sd">            ...                    &#39;lifespan&#39;: lifespan}, index=index)</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.barh(y=&#39;speed&#39;)</span>
+
+<span class="sd">        Plot DataFrame versus the desired column</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; speed = [0.1, 17.5, 40, 48, 52, 69, 88]</span>
+<span class="sd">            &gt;&gt;&gt; lifespan = [2, 8, 70, 1.5, 25, 12, 28]</span>
+<span class="sd">            &gt;&gt;&gt; index = [&#39;snail&#39;, &#39;pig&#39;, &#39;elephant&#39;,</span>
+<span class="sd">            ...          &#39;rabbit&#39;, &#39;giraffe&#39;, &#39;coyote&#39;, &#39;horse&#39;]</span>
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({&#39;speed&#39;: speed,</span>
+<span class="sd">            ...                    &#39;lifespan&#39;: lifespan}, index=index)</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.barh(x=&#39;lifespan&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">)</span>
+    <span class="nd">@Substitution</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">)</span>
+    <span class="nd">@Appender</span><span class="p">(</span><span class="n">_bar_or_line_doc</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">barh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotAccessor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make a horizontal bar plot.</span>
+
+<span class="sd">        A horizontal bar plot is a plot that presents quantitative data with</span>
+<span class="sd">        rectangular bars with lengths proportional to the values that they</span>
+<span class="sd">        represent. A bar plot shows comparisons among discrete categories. One</span>
+<span class="sd">        axis of the plot shows the specific categories being compared, and the</span>
+<span class="sd">        other axis represents a measured value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;barh&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotAccessor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make a box plot of the DataFrame columns.</span>
+
+<span class="sd">        A box plot is a method for graphically depicting groups of numerical</span>
+<span class="sd">        data through their quartiles.</span>
+<span class="sd">        The box extends from the Q1 to Q3 quartile values of the data,</span>
+<span class="sd">        with a line at the median (Q2). The whiskers extend from the edges</span>
+<span class="sd">        of box to show the range of the data. The position of the whiskers</span>
+<span class="sd">        is set by default to 1.5*IQR (IQR = Q3 - Q1) from the edges of the</span>
+<span class="sd">        box. Outlier points are those past the end of the whiskers.</span>
+
+<span class="sd">        For further details see Wikipedia&#39;s</span>
+<span class="sd">        entry for `boxplot &lt;https://en.wikipedia.org/wiki/Box_plot&gt;`__.</span>
+
+<span class="sd">        A consideration when using this chart is that the box and the whiskers</span>
+<span class="sd">        can overlap, which is very common when plotting small sets of data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        by : str or sequence</span>
+<span class="sd">            Column in the DataFrame to group by.</span>
+
+<span class="sd">            .. versionchanged:: 1.4.0</span>
+
+<span class="sd">               Previously, `by` is silently ignore and makes no groupings</span>
+
+<span class="sd">        **kwargs</span>
+<span class="sd">            Additional keywords are documented in</span>
+<span class="sd">            :meth:`DataFrame.plot`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`matplotlib.axes.Axes` or numpy.ndarray of them</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        DataFrame.boxplot: Another method to draw a box plot.</span>
+<span class="sd">        Series.plot.box: Draw a box plot from a Series object.</span>
+<span class="sd">        matplotlib.pyplot.boxplot: Draw a box plot in matplotlib.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Draw a box plot from a DataFrame with four columns of randomly</span>
+<span class="sd">        generated data.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; data = np.random.randn(25, 4)</span>
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame(data, columns=list(&#39;ABCD&#39;))</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.box()</span>
+
+<span class="sd">        You can also generate groupings if you specify the `by` parameter (which</span>
+<span class="sd">        can take a column name, or a list or tuple of column names):</span>
+
+<span class="sd">        .. versionchanged:: 1.4.0</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; age_list = [8, 10, 12, 14, 72, 74, 76, 78, 20, 25, 30, 35, 60, 85]</span>
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({&quot;gender&quot;: list(&quot;MMMMMMMMFFFFFF&quot;), &quot;age&quot;: age_list})</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.box(column=&quot;age&quot;, by=&quot;gender&quot;, figsize=(10, 8))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;box&quot;</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="n">by</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">hist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotAccessor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw one histogram of the DataFrame&#39;s columns.</span>
+
+<span class="sd">        A histogram is a representation of the distribution of data.</span>
+<span class="sd">        This function groups the values of all given Series in the DataFrame</span>
+<span class="sd">        into bins and draws all bins in one :class:`matplotlib.axes.Axes`.</span>
+<span class="sd">        This is useful when the DataFrame&#39;s Series are in a similar scale.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        by : str or sequence, optional</span>
+<span class="sd">            Column in the DataFrame to group by.</span>
+
+<span class="sd">            .. versionchanged:: 1.4.0</span>
+
+<span class="sd">               Previously, `by` is silently ignore and makes no groupings</span>
+
+<span class="sd">        bins : int, default 10</span>
+<span class="sd">            Number of histogram bins to be used.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Additional keyword arguments are documented in</span>
+<span class="sd">            :meth:`DataFrame.plot`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        class:`matplotlib.AxesSubplot`</span>
+<span class="sd">            Return a histogram plot.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        DataFrame.hist : Draw histograms per DataFrame&#39;s Series.</span>
+<span class="sd">        Series.hist : Draw a histogram with Series&#39; data.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        When we roll a die 6000 times, we expect to get each value around 1000</span>
+<span class="sd">        times. But when we roll two dice and sum the result, the distribution</span>
+<span class="sd">        is going to be quite different. A histogram illustrates those</span>
+<span class="sd">        distributions.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame(</span>
+<span class="sd">            ...     np.random.randint(1, 7, 6000),</span>
+<span class="sd">            ...     columns = [&#39;one&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; df[&#39;two&#39;] = df[&#39;one&#39;] + np.random.randint(1, 7, 6000)</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.hist(bins=12, alpha=0.5)</span>
+
+<span class="sd">        A grouped histogram can be generated by providing the parameter `by` (which</span>
+<span class="sd">        can be a column name, or a list of column names):</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; age_list = [8, 10, 12, 14, 72, 74, 76, 78, 20, 25, 30, 35, 60, 85]</span>
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({&quot;gender&quot;: list(&quot;MMMMMMMMFFFFFF&quot;), &quot;age&quot;: age_list})</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.hist(column=[&quot;age&quot;], by=&quot;gender&quot;, figsize=(10, 8))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="n">by</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">kde</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bw_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotAccessor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate Kernel Density Estimate plot using Gaussian kernels.</span>
+
+<span class="sd">        In statistics, `kernel density estimation`_ (KDE) is a non-parametric</span>
+<span class="sd">        way to estimate the probability density function (PDF) of a random</span>
+<span class="sd">        variable. This function uses Gaussian kernels and includes automatic</span>
+<span class="sd">        bandwidth determination.</span>
+
+<span class="sd">        .. _kernel density estimation:</span>
+<span class="sd">            https://en.wikipedia.org/wiki/Kernel_density_estimation</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bw_method : str, scalar or callable, optional</span>
+<span class="sd">            The method used to calculate the estimator bandwidth. This can be</span>
+<span class="sd">            &#39;scott&#39;, &#39;silverman&#39;, a scalar constant or a callable.</span>
+<span class="sd">            If None (default), &#39;scott&#39; is used.</span>
+<span class="sd">            See :class:`scipy.stats.gaussian_kde` for more information.</span>
+<span class="sd">        ind : NumPy array or int, optional</span>
+<span class="sd">            Evaluation points for the estimated PDF. If None (default),</span>
+<span class="sd">            1000 equally spaced points are used. If `ind` is a NumPy array, the</span>
+<span class="sd">            KDE is evaluated at the points passed. If `ind` is an integer,</span>
+<span class="sd">            `ind` number of equally spaced points are used.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Additional keyword arguments are documented in</span>
+<span class="sd">            :meth:`DataFrame.plot`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.axes.Axes or numpy.ndarray of them</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        scipy.stats.gaussian_kde : Representation of a kernel-density</span>
+<span class="sd">            estimate using Gaussian kernels. This is the function used</span>
+<span class="sd">            internally to estimate the PDF.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Given a Series of points randomly sampled from an unknown</span>
+<span class="sd">        distribution, estimate its PDF using KDE with automatic</span>
+<span class="sd">        bandwidth determination and plot the results, evaluating them at</span>
+<span class="sd">        1000 equally spaced points (default):</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; s = pd.Series([1, 2, 2.5, 3, 3.5, 4, 5])</span>
+<span class="sd">            &gt;&gt;&gt; ax = s.plot.kde()</span>
+
+<span class="sd">        A scalar bandwidth can be specified. Using a small bandwidth value can</span>
+<span class="sd">        lead to over-fitting, while using a large bandwidth value may result</span>
+<span class="sd">        in under-fitting:</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = s.plot.kde(bw_method=0.3)</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = s.plot.kde(bw_method=3)</span>
+
+<span class="sd">        Finally, the `ind` parameter determines the evaluation points for the</span>
+<span class="sd">        plot of the estimated PDF:</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = s.plot.kde(ind=[1, 2, 3, 4, 5])</span>
+
+<span class="sd">        For DataFrame, it works in the same way:</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({</span>
+<span class="sd">            ...     &#39;x&#39;: [1, 2, 2.5, 3, 3.5, 4, 5],</span>
+<span class="sd">            ...     &#39;y&#39;: [4, 4, 4.5, 5, 5.5, 6, 6],</span>
+<span class="sd">            ... })</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.kde()</span>
+
+<span class="sd">        A scalar bandwidth can be specified. Using a small bandwidth value can</span>
+<span class="sd">        lead to over-fitting, while using a large bandwidth value may result</span>
+<span class="sd">        in under-fitting:</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.kde(bw_method=0.3)</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.kde(bw_method=3)</span>
+
+<span class="sd">        Finally, the `ind` parameter determines the evaluation points for the</span>
+<span class="sd">        plot of the estimated PDF:</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.kde(ind=[1, 2, 3, 4, 5, 6])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;kde&quot;</span><span class="p">,</span> <span class="n">bw_method</span><span class="o">=</span><span class="n">bw_method</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">density</span> <span class="o">=</span> <span class="n">kde</span>
+
+    <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stacked</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotAccessor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw a stacked area plot.</span>
+
+<span class="sd">        An area plot displays quantitative data visually.</span>
+<span class="sd">        This function wraps the matplotlib area function.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : label or position, optional</span>
+<span class="sd">            Coordinates for the X axis. By default uses the index.</span>
+<span class="sd">        y : label or position, optional</span>
+<span class="sd">            Column to plot. By default uses all columns.</span>
+<span class="sd">        stacked : bool, default True</span>
+<span class="sd">            Area plots are stacked by default. Set to False to create a</span>
+<span class="sd">            unstacked plot.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Additional keyword arguments are documented in</span>
+<span class="sd">            :meth:`DataFrame.plot`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.axes.Axes or numpy.ndarray</span>
+<span class="sd">            Area plot, or array of area plots if subplots is True.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        DataFrame.plot : Make plots of DataFrame using matplotlib / pylab.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Draw an area plot based on basic business metrics:</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({</span>
+<span class="sd">            ...     &#39;sales&#39;: [3, 2, 3, 9, 10, 6],</span>
+<span class="sd">            ...     &#39;signups&#39;: [5, 5, 6, 12, 14, 13],</span>
+<span class="sd">            ...     &#39;visits&#39;: [20, 42, 28, 62, 81, 50],</span>
+<span class="sd">            ... }, index=pd.date_range(start=&#39;2018/01/01&#39;, end=&#39;2018/07/01&#39;,</span>
+<span class="sd">            ...                        freq=&#39;M&#39;))</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.area()</span>
+
+<span class="sd">        Area plots are stacked by default. To produce an unstacked plot,</span>
+<span class="sd">        pass ``stacked=False``:</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.area(stacked=False)</span>
+
+<span class="sd">        Draw an area plot for a single column:</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.area(y=&#39;sales&#39;)</span>
+
+<span class="sd">        Draw with a different `x`:</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({</span>
+<span class="sd">            ...     &#39;sales&#39;: [3, 2, 3],</span>
+<span class="sd">            ...     &#39;visits&#39;: [20, 42, 28],</span>
+<span class="sd">            ...     &#39;day&#39;: [1, 2, 3],</span>
+<span class="sd">            ... })</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.area(x=&#39;day&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;area&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="n">stacked</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotAccessor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a pie plot.</span>
+
+<span class="sd">        A pie plot is a proportional representation of the numerical data in a</span>
+<span class="sd">        column. This function wraps :meth:`matplotlib.pyplot.pie` for the</span>
+<span class="sd">        specified column. If no column reference is passed and</span>
+<span class="sd">        ``subplots=True`` a pie plot is drawn for each numerical column</span>
+<span class="sd">        independently.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y : int or label, optional</span>
+<span class="sd">            Label or position of the column to plot.</span>
+<span class="sd">            If not provided, ``subplots=True`` argument must be passed.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Keyword arguments to pass on to :meth:`DataFrame.plot`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.axes.Axes or np.ndarray of them</span>
+<span class="sd">            A NumPy array is returned when `subplots` is True.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        Series.plot.pie : Generate a pie plot for a Series.</span>
+<span class="sd">        DataFrame.plot : Make plots of a DataFrame.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        In the example below we have a DataFrame with the information about</span>
+<span class="sd">        planet&#39;s mass and radius. We pass the &#39;mass&#39; column to the</span>
+<span class="sd">        pie function to get a pie plot.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({&#39;mass&#39;: [0.330, 4.87 , 5.97],</span>
+<span class="sd">            ...                    &#39;radius&#39;: [2439.7, 6051.8, 6378.1]},</span>
+<span class="sd">            ...                   index=[&#39;Mercury&#39;, &#39;Venus&#39;, &#39;Earth&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; plot = df.plot.pie(y=&#39;mass&#39;, figsize=(5, 5))</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; plot = df.plot.pie(subplots=True, figsize=(11, 6))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">,</span> <span class="n">ABCDataFrame</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;subplots&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pie requires either y column or &#39;subplots=True&#39;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;pie&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotAccessor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a scatter plot with varying marker point size and color.</span>
+
+<span class="sd">        The coordinates of each point are defined by two dataframe columns and</span>
+<span class="sd">        filled circles are used to represent each point. This kind of plot is</span>
+<span class="sd">        useful to see complex correlations between two variables. Points could</span>
+<span class="sd">        be for instance natural 2D coordinates like longitude and latitude in</span>
+<span class="sd">        a map or, in general, any pair of metrics that can be plotted against</span>
+<span class="sd">        each other.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : int or str</span>
+<span class="sd">            The column name or column position to be used as horizontal</span>
+<span class="sd">            coordinates for each point.</span>
+<span class="sd">        y : int or str</span>
+<span class="sd">            The column name or column position to be used as vertical</span>
+<span class="sd">            coordinates for each point.</span>
+<span class="sd">        s : str, scalar or array-like, optional</span>
+<span class="sd">            The size of each point. Possible values are:</span>
+
+<span class="sd">            - A string with the name of the column to be used for marker&#39;s size.</span>
+
+<span class="sd">            - A single scalar so all points have the same size.</span>
+
+<span class="sd">            - A sequence of scalars, which will be used for each point&#39;s size</span>
+<span class="sd">              recursively. For instance, when passing [2,14] all points size</span>
+<span class="sd">              will be either 2 or 14, alternatively.</span>
+
+<span class="sd">              .. versionchanged:: 1.1.0</span>
+
+<span class="sd">        c : str, int or array-like, optional</span>
+<span class="sd">            The color of each point. Possible values are:</span>
+
+<span class="sd">            - A single color string referred to by name, RGB or RGBA code,</span>
+<span class="sd">              for instance &#39;red&#39; or &#39;#a98d19&#39;.</span>
+
+<span class="sd">            - A sequence of color strings referred to by name, RGB or RGBA</span>
+<span class="sd">              code, which will be used for each point&#39;s color recursively. For</span>
+<span class="sd">              instance [&#39;green&#39;,&#39;yellow&#39;] all points will be filled in green or</span>
+<span class="sd">              yellow, alternatively.</span>
+
+<span class="sd">            - A column name or position whose values will be used to color the</span>
+<span class="sd">              marker points according to a colormap.</span>
+
+<span class="sd">        **kwargs</span>
+<span class="sd">            Keyword arguments to pass on to :meth:`DataFrame.plot`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`matplotlib.axes.Axes` or numpy.ndarray of them</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        matplotlib.pyplot.scatter : Scatter plot using multiple input data</span>
+<span class="sd">            formats.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Let&#39;s see how to draw a scatter plot using coordinates from the values</span>
+<span class="sd">        in a DataFrame&#39;s columns.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame([[5.1, 3.5, 0], [4.9, 3.0, 0], [7.0, 3.2, 1],</span>
+<span class="sd">            ...                    [6.4, 3.2, 1], [5.9, 3.0, 2]],</span>
+<span class="sd">            ...                   columns=[&#39;length&#39;, &#39;width&#39;, &#39;species&#39;])</span>
+<span class="sd">            &gt;&gt;&gt; ax1 = df.plot.scatter(x=&#39;length&#39;,</span>
+<span class="sd">            ...                       y=&#39;width&#39;,</span>
+<span class="sd">            ...                       c=&#39;DarkBlue&#39;)</span>
+
+<span class="sd">        And now with the color determined by a column as well.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; ax2 = df.plot.scatter(x=&#39;length&#39;,</span>
+<span class="sd">            ...                       y=&#39;width&#39;,</span>
+<span class="sd">            ...                       c=&#39;species&#39;,</span>
+<span class="sd">            ...                       colormap=&#39;viridis&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;scatter&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">hexbin</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reduce_C_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gridsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotAccessor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a hexagonal binning plot.</span>
+
+<span class="sd">        Generate a hexagonal binning plot of `x` versus `y`. If `C` is `None`</span>
+<span class="sd">        (the default), this is a histogram of the number of occurrences</span>
+<span class="sd">        of the observations at ``(x[i], y[i])``.</span>
+
+<span class="sd">        If `C` is specified, specifies values at given coordinates</span>
+<span class="sd">        ``(x[i], y[i])``. These values are accumulated for each hexagonal</span>
+<span class="sd">        bin and then reduced according to `reduce_C_function`,</span>
+<span class="sd">        having as default the NumPy&#39;s mean function (:meth:`numpy.mean`).</span>
+<span class="sd">        (If `C` is specified, it must also be a 1-D sequence</span>
+<span class="sd">        of the same length as `x` and `y`, or a column label.)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : int or str</span>
+<span class="sd">            The column label or position for x points.</span>
+<span class="sd">        y : int or str</span>
+<span class="sd">            The column label or position for y points.</span>
+<span class="sd">        C : int or str, optional</span>
+<span class="sd">            The column label or position for the value of `(x, y)` point.</span>
+<span class="sd">        reduce_C_function : callable, default `np.mean`</span>
+<span class="sd">            Function of one argument that reduces all the values in a bin to</span>
+<span class="sd">            a single number (e.g. `np.mean`, `np.max`, `np.sum`, `np.std`).</span>
+<span class="sd">        gridsize : int or tuple of (int, int), default 100</span>
+<span class="sd">            The number of hexagons in the x-direction.</span>
+<span class="sd">            The corresponding number of hexagons in the y-direction is</span>
+<span class="sd">            chosen in a way that the hexagons are approximately regular.</span>
+<span class="sd">            Alternatively, gridsize can be a tuple with two elements</span>
+<span class="sd">            specifying the number of hexagons in the x-direction and the</span>
+<span class="sd">            y-direction.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Additional keyword arguments are documented in</span>
+<span class="sd">            :meth:`DataFrame.plot`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.AxesSubplot</span>
+<span class="sd">            The matplotlib ``Axes`` on which the hexbin is plotted.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        DataFrame.plot : Make plots of a DataFrame.</span>
+<span class="sd">        matplotlib.pyplot.hexbin : Hexagonal binning plot using matplotlib,</span>
+<span class="sd">            the matplotlib function that is used under the hood.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        The following examples are generated with random data from</span>
+<span class="sd">        a normal distribution.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; n = 10000</span>
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({&#39;x&#39;: np.random.randn(n),</span>
+<span class="sd">            ...                    &#39;y&#39;: np.random.randn(n)})</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.hexbin(x=&#39;x&#39;, y=&#39;y&#39;, gridsize=20)</span>
+
+<span class="sd">        The next example uses `C` and `np.sum` as `reduce_C_function`.</span>
+<span class="sd">        Note that `&#39;observations&#39;` values ranges from 1 to 5 but the result</span>
+<span class="sd">        plot shows values up to more than 25. This is because of the</span>
+<span class="sd">        `reduce_C_function`.</span>
+
+<span class="sd">        .. plot::</span>
+<span class="sd">            :context: close-figs</span>
+
+<span class="sd">            &gt;&gt;&gt; n = 500</span>
+<span class="sd">            &gt;&gt;&gt; df = pd.DataFrame({</span>
+<span class="sd">            ...     &#39;coord_x&#39;: np.random.uniform(-3, 3, size=n),</span>
+<span class="sd">            ...     &#39;coord_y&#39;: np.random.uniform(30, 50, size=n),</span>
+<span class="sd">            ...     &#39;observations&#39;: np.random.randint(1,5, size=n)</span>
+<span class="sd">            ...     })</span>
+<span class="sd">            &gt;&gt;&gt; ax = df.plot.hexbin(x=&#39;coord_x&#39;,</span>
+<span class="sd">            ...                     y=&#39;coord_y&#39;,</span>
+<span class="sd">            ...                     C=&#39;observations&#39;,</span>
+<span class="sd">            ...                     reduce_C_function=np.sum,</span>
+<span class="sd">            ...                     gridsize=10,</span>
+<span class="sd">            ...                     cmap=&quot;viridis&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">reduce_C_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;reduce_C_function&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reduce_C_function</span>
+        <span class="k">if</span> <span class="n">gridsize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;gridsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gridsize</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hexbin&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="n">_backends</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span> <span class="nf">_load_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">ModuleType</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a pandas plotting backend.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    backend : str</span>
+<span class="sd">        The identifier for the backend. Either an entrypoint item registered</span>
+<span class="sd">        with importlib.metadata, &quot;matplotlib&quot;, or a module name.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    types.ModuleType</span>
+<span class="sd">        The imported backend.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
+
+    <span class="k">if</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">:</span>
+        <span class="c1"># Because matplotlib is an optional dependency and first-party backend,</span>
+        <span class="c1"># we need to attempt an import here to raise an ImportError if needed.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;pandas.plotting._matplotlib&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">&quot;matplotlib is required for plotting when the &quot;</span>
+                <span class="s1">&#39;default backend &quot;matplotlib&quot; is selected.&#39;</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">module</span>
+
+    <span class="n">found_backend</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">()</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;pandas_plotting_backends&quot;</span>
+    <span class="c1"># entry_points lost dict API ~ PY 3.10</span>
+    <span class="c1"># https://github.com/python/importlib_metadata/issues/298</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="s2">&quot;select&quot;</span><span class="p">):</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>  <span class="c1"># pyright: ignore[reportGeneralTypeIssues]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">())</span>
+    <span class="k">for</span> <span class="n">entry_point</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">:</span>
+        <span class="n">found_backend</span> <span class="o">=</span> <span class="n">entry_point</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">backend</span>
+        <span class="k">if</span> <span class="n">found_backend</span><span class="p">:</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">entry_point</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">found_backend</span><span class="p">:</span>
+        <span class="c1"># Fall back to unregistered, module name approach.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
+            <span class="n">found_backend</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="c1"># We re-raise later on.</span>
+            <span class="k">pass</span>
+
+    <span class="k">if</span> <span class="n">found_backend</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s2">&quot;plot&quot;</span><span class="p">):</span>
+            <span class="c1"># Validate that the interface is implemented when the option is set,</span>
+            <span class="c1"># rather than at plot time.</span>
+            <span class="k">return</span> <span class="n">module</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Could not find plotting backend &#39;</span><span class="si">{</span><span class="n">backend</span><span class="si">}</span><span class="s2">&#39;. Ensure that you&#39;ve &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;installed the package providing the &#39;</span><span class="si">{</span><span class="n">backend</span><span class="si">}</span><span class="s2">&#39; entrypoint, or that &quot;</span>
+        <span class="s2">&quot;the package has a top-level `.plot` method.&quot;</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_plot_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the plotting backend to use (e.g. `pandas.plotting._matplotlib`).</span>
+
+<span class="sd">    The plotting system of pandas uses matplotlib by default, but the idea here</span>
+<span class="sd">    is that it can also work with other third-party backends. This function</span>
+<span class="sd">    returns the module which provides a top-level `.plot` method that will</span>
+<span class="sd">    actually do the plotting. The backend is specified from a string, which</span>
+<span class="sd">    either comes from the keyword argument `backend`, or, if not specified, from</span>
+<span class="sd">    the option `pandas.options.plotting.backend`. All the rest of the code in</span>
+<span class="sd">    this file uses the backend specified there for the plotting.</span>
+
+<span class="sd">    The backend is imported lazily, as matplotlib is a soft dependency, and</span>
+<span class="sd">    pandas can be used without it being installed.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Modifies `_backends` with imported backend as a side effect.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">backend_str</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">backend</span> <span class="ow">or</span> <span class="n">get_option</span><span class="p">(</span><span class="s2">&quot;plotting.backend&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">backend_str</span> <span class="ow">in</span> <span class="n">_backends</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_backends</span><span class="p">[</span><span class="n">backend_str</span><span class="p">]</span>
+
+    <span class="n">module</span> <span class="o">=</span> <span class="n">_load_backend</span><span class="p">(</span><span class="n">backend_str</span><span class="p">)</span>
+    <span class="n">_backends</span><span class="p">[</span><span class="n">backend_str</span><span class="p">]</span> <span class="o">=</span> <span class="n">module</span>
+    <span class="k">return</span> <span class="n">module</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

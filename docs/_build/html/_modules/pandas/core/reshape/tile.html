@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.core.reshape.tile &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.core.reshape.tile</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.core.reshape.tile</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Quantilization functions and related stuff</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Literal</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pandas._libs</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Timedelta</span><span class="p">,</span>
+    <span class="n">Timestamp</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.lib</span> <span class="kn">import</span> <span class="n">infer_dtype</span>
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="n">IntervalLeftRight</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DT64NS_DTYPE</span><span class="p">,</span>
+    <span class="n">ensure_platform_int</span><span class="p">,</span>
+    <span class="n">is_bool_dtype</span><span class="p">,</span>
+    <span class="n">is_categorical_dtype</span><span class="p">,</span>
+    <span class="n">is_datetime64_dtype</span><span class="p">,</span>
+    <span class="n">is_datetime64tz_dtype</span><span class="p">,</span>
+    <span class="n">is_datetime_or_timedelta_dtype</span><span class="p">,</span>
+    <span class="n">is_extension_array_dtype</span><span class="p">,</span>
+    <span class="n">is_integer</span><span class="p">,</span>
+    <span class="n">is_list_like</span><span class="p">,</span>
+    <span class="n">is_numeric_dtype</span><span class="p">,</span>
+    <span class="n">is_scalar</span><span class="p">,</span>
+    <span class="n">is_timedelta64_dtype</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.generic</span> <span class="kn">import</span> <span class="n">ABCSeries</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.missing</span> <span class="kn">import</span> <span class="n">isna</span>
+
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Categorical</span><span class="p">,</span>
+    <span class="n">Index</span><span class="p">,</span>
+    <span class="n">IntervalIndex</span><span class="p">,</span>
+    <span class="n">to_datetime</span><span class="p">,</span>
+    <span class="n">to_timedelta</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core</span> <span class="kn">import</span> <span class="n">nanops</span>
+<span class="kn">import</span> <span class="nn">pandas.core.algorithms</span> <span class="k">as</span> <span class="nn">algos</span>
+
+
+<div class="viewcode-block" id="cut"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.cut">[docs]</a><span class="k">def</span> <span class="nf">cut</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">,</span>
+    <span class="n">bins</span><span class="p">,</span>
+    <span class="n">right</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">retbins</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">precision</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">include_lowest</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">duplicates</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;raise&quot;</span><span class="p">,</span>
+    <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bin values into discrete intervals.</span>
+
+<span class="sd">    Use `cut` when you need to segment and sort data values into bins. This</span>
+<span class="sd">    function is also useful for going from a continuous variable to a</span>
+<span class="sd">    categorical variable. For example, `cut` could convert ages to groups of</span>
+<span class="sd">    age ranges. Supports binning into an equal number of bins, or a</span>
+<span class="sd">    pre-specified array of bins.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array-like</span>
+<span class="sd">        The input array to be binned. Must be 1-dimensional.</span>
+<span class="sd">    bins : int, sequence of scalars, or IntervalIndex</span>
+<span class="sd">        The criteria to bin by.</span>
+
+<span class="sd">        * int : Defines the number of equal-width bins in the range of `x`. The</span>
+<span class="sd">          range of `x` is extended by .1% on each side to include the minimum</span>
+<span class="sd">          and maximum values of `x`.</span>
+<span class="sd">        * sequence of scalars : Defines the bin edges allowing for non-uniform</span>
+<span class="sd">          width. No extension of the range of `x` is done.</span>
+<span class="sd">        * IntervalIndex : Defines the exact bins to be used. Note that</span>
+<span class="sd">          IntervalIndex for `bins` must be non-overlapping.</span>
+
+<span class="sd">    right : bool, default True</span>
+<span class="sd">        Indicates whether `bins` includes the rightmost edge or not. If</span>
+<span class="sd">        ``right == True`` (the default), then the `bins` ``[1, 2, 3, 4]``</span>
+<span class="sd">        indicate (1,2], (2,3], (3,4]. This argument is ignored when</span>
+<span class="sd">        `bins` is an IntervalIndex.</span>
+<span class="sd">    labels : array or False, default None</span>
+<span class="sd">        Specifies the labels for the returned bins. Must be the same length as</span>
+<span class="sd">        the resulting bins. If False, returns only integer indicators of the</span>
+<span class="sd">        bins. This affects the type of the output container (see below).</span>
+<span class="sd">        This argument is ignored when `bins` is an IntervalIndex. If True,</span>
+<span class="sd">        raises an error. When `ordered=False`, labels must be provided.</span>
+<span class="sd">    retbins : bool, default False</span>
+<span class="sd">        Whether to return the bins or not. Useful when bins is provided</span>
+<span class="sd">        as a scalar.</span>
+<span class="sd">    precision : int, default 3</span>
+<span class="sd">        The precision at which to store and display the bins labels.</span>
+<span class="sd">    include_lowest : bool, default False</span>
+<span class="sd">        Whether the first interval should be left-inclusive or not.</span>
+<span class="sd">    duplicates : {default &#39;raise&#39;, &#39;drop&#39;}, optional</span>
+<span class="sd">        If bin edges are not unique, raise ValueError or drop non-uniques.</span>
+<span class="sd">    ordered : bool, default True</span>
+<span class="sd">        Whether the labels are ordered or not. Applies to returned types</span>
+<span class="sd">        Categorical and Series (with Categorical dtype). If True,</span>
+<span class="sd">        the resulting categorical will be ordered. If False, the resulting</span>
+<span class="sd">        categorical will be unordered (labels must be provided).</span>
+
+<span class="sd">        .. versionadded:: 1.1.0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : Categorical, Series, or ndarray</span>
+<span class="sd">        An array-like object representing the respective bin for each value</span>
+<span class="sd">        of `x`. The type depends on the value of `labels`.</span>
+
+<span class="sd">        * None (default) : returns a Series for Series `x` or a</span>
+<span class="sd">          Categorical for all other inputs. The values stored within</span>
+<span class="sd">          are Interval dtype.</span>
+
+<span class="sd">        * sequence of scalars : returns a Series for Series `x` or a</span>
+<span class="sd">          Categorical for all other inputs. The values stored within</span>
+<span class="sd">          are whatever the type in the sequence is.</span>
+
+<span class="sd">        * False : returns an ndarray of integers.</span>
+
+<span class="sd">    bins : numpy.ndarray or IntervalIndex.</span>
+<span class="sd">        The computed or specified bins. Only returned when `retbins=True`.</span>
+<span class="sd">        For scalar or sequence `bins`, this is an ndarray with the computed</span>
+<span class="sd">        bins. If set `duplicates=drop`, `bins` will drop non-unique bin. For</span>
+<span class="sd">        an IntervalIndex `bins`, this is equal to `bins`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    qcut : Discretize variable into equal-sized buckets based on rank</span>
+<span class="sd">        or based on sample quantiles.</span>
+<span class="sd">    Categorical : Array type for storing data that come from a</span>
+<span class="sd">        fixed set of values.</span>
+<span class="sd">    Series : One-dimensional array with axis labels (including time series).</span>
+<span class="sd">    IntervalIndex : Immutable Index implementing an ordered, sliceable set.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Any NA values will be NA in the result. Out of bounds values will be NA in</span>
+<span class="sd">    the resulting Series or Categorical object.</span>
+
+<span class="sd">    Reference :ref:`the user guide &lt;reshaping.tile.cut&gt;` for more examples.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Discretize into three equal-sized bins.</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.cut(np.array([1, 7, 5, 4, 6, 3]), 3)</span>
+<span class="sd">    ... # doctest: +ELLIPSIS</span>
+<span class="sd">    [(0.994, 3.0], (5.0, 7.0], (3.0, 5.0], (3.0, 5.0], (5.0, 7.0], ...</span>
+<span class="sd">    Categories (3, interval[float64, right]): [(0.994, 3.0] &lt; (3.0, 5.0] ...</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.cut(np.array([1, 7, 5, 4, 6, 3]), 3, retbins=True)</span>
+<span class="sd">    ... # doctest: +ELLIPSIS</span>
+<span class="sd">    ([(0.994, 3.0], (5.0, 7.0], (3.0, 5.0], (3.0, 5.0], (5.0, 7.0], ...</span>
+<span class="sd">    Categories (3, interval[float64, right]): [(0.994, 3.0] &lt; (3.0, 5.0] ...</span>
+<span class="sd">    array([0.994, 3.   , 5.   , 7.   ]))</span>
+
+<span class="sd">    Discovers the same bins, but assign them specific labels. Notice that</span>
+<span class="sd">    the returned Categorical&#39;s categories are `labels` and is ordered.</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.cut(np.array([1, 7, 5, 4, 6, 3]),</span>
+<span class="sd">    ...        3, labels=[&quot;bad&quot;, &quot;medium&quot;, &quot;good&quot;])</span>
+<span class="sd">    [&#39;bad&#39;, &#39;good&#39;, &#39;medium&#39;, &#39;medium&#39;, &#39;good&#39;, &#39;bad&#39;]</span>
+<span class="sd">    Categories (3, object): [&#39;bad&#39; &lt; &#39;medium&#39; &lt; &#39;good&#39;]</span>
+
+<span class="sd">    ``ordered=False`` will result in unordered categories when labels are passed.</span>
+<span class="sd">    This parameter can be used to allow non-unique labels:</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.cut(np.array([1, 7, 5, 4, 6, 3]), 3,</span>
+<span class="sd">    ...        labels=[&quot;B&quot;, &quot;A&quot;, &quot;B&quot;], ordered=False)</span>
+<span class="sd">    [&#39;B&#39;, &#39;B&#39;, &#39;A&#39;, &#39;A&#39;, &#39;B&#39;, &#39;B&#39;]</span>
+<span class="sd">    Categories (2, object): [&#39;A&#39;, &#39;B&#39;]</span>
+
+<span class="sd">    ``labels=False`` implies you just want the bins back.</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.cut([0, 1, 1, 2], bins=4, labels=False)</span>
+<span class="sd">    array([0, 1, 1, 3])</span>
+
+<span class="sd">    Passing a Series as an input returns a Series with categorical dtype:</span>
+
+<span class="sd">    &gt;&gt;&gt; s = pd.Series(np.array([2, 4, 6, 8, 10]),</span>
+<span class="sd">    ...               index=[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; pd.cut(s, 3)</span>
+<span class="sd">    ... # doctest: +ELLIPSIS</span>
+<span class="sd">    a    (1.992, 4.667]</span>
+<span class="sd">    b    (1.992, 4.667]</span>
+<span class="sd">    c    (4.667, 7.333]</span>
+<span class="sd">    d     (7.333, 10.0]</span>
+<span class="sd">    e     (7.333, 10.0]</span>
+<span class="sd">    dtype: category</span>
+<span class="sd">    Categories (3, interval[float64, right]): [(1.992, 4.667] &lt; (4.667, ...</span>
+
+<span class="sd">    Passing a Series as an input returns a Series with mapping value.</span>
+<span class="sd">    It is used to map numerically to intervals based on bins.</span>
+
+<span class="sd">    &gt;&gt;&gt; s = pd.Series(np.array([2, 4, 6, 8, 10]),</span>
+<span class="sd">    ...               index=[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; pd.cut(s, [0, 2, 4, 6, 8, 10], labels=False, retbins=True, right=False)</span>
+<span class="sd">    ... # doctest: +ELLIPSIS</span>
+<span class="sd">    (a    1.0</span>
+<span class="sd">     b    2.0</span>
+<span class="sd">     c    3.0</span>
+<span class="sd">     d    4.0</span>
+<span class="sd">     e    NaN</span>
+<span class="sd">     dtype: float64,</span>
+<span class="sd">     array([ 0,  2,  4,  6,  8, 10]))</span>
+
+<span class="sd">    Use `drop` optional when bins is not unique</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.cut(s, [0, 2, 4, 6, 10, 10], labels=False, retbins=True,</span>
+<span class="sd">    ...        right=False, duplicates=&#39;drop&#39;)</span>
+<span class="sd">    ... # doctest: +ELLIPSIS</span>
+<span class="sd">    (a    1.0</span>
+<span class="sd">     b    2.0</span>
+<span class="sd">     c    3.0</span>
+<span class="sd">     d    3.0</span>
+<span class="sd">     e    NaN</span>
+<span class="sd">     dtype: float64,</span>
+<span class="sd">     array([ 0,  2,  4,  6, 10]))</span>
+
+<span class="sd">    Passing an IntervalIndex for `bins` results in those categories exactly.</span>
+<span class="sd">    Notice that values not covered by the IntervalIndex are set to NaN. 0</span>
+<span class="sd">    is to the left of the first bin (which is closed on the right), and 1.5</span>
+<span class="sd">    falls between two bins.</span>
+
+<span class="sd">    &gt;&gt;&gt; bins = pd.IntervalIndex.from_tuples([(0, 1), (2, 3), (4, 5)])</span>
+<span class="sd">    &gt;&gt;&gt; pd.cut([0, 0.5, 1.5, 2.5, 4.5], bins)</span>
+<span class="sd">    [NaN, (0.0, 1.0], NaN, (2.0, 3.0], (4.0, 5.0]]</span>
+<span class="sd">    Categories (3, interval[int64, right]): [(0, 1] &lt; (2, 3] &lt; (4, 5]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># NOTE: this binning code is changed a bit from histogram for var(x) == 0</span>
+
+    <span class="n">original</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">_preprocess_for_cut</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">_coerce_to_type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">iterable</span><span class="p">(</span><span class="n">bins</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">is_scalar</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="ow">and</span> <span class="n">bins</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`bins` should be a positive integer.&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>  <span class="c1"># for array-like</span>
+            <span class="n">sz</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">sz</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span>
+
+        <span class="k">if</span> <span class="n">sz</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot cut empty array&quot;</span><span class="p">)</span>
+
+        <span class="n">rng</span> <span class="o">=</span> <span class="p">(</span><span class="n">nanops</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">nanops</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">mn</span><span class="p">,</span> <span class="n">mx</span> <span class="o">=</span> <span class="p">(</span><span class="n">mi</span> <span class="o">+</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">mi</span> <span class="ow">in</span> <span class="n">rng</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">mn</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">mx</span><span class="p">):</span>
+            <span class="c1"># GH 24314</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;cannot specify integer `bins` when input data contains infinity&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">mn</span> <span class="o">==</span> <span class="n">mx</span><span class="p">:</span>  <span class="c1"># adjust end points before binning</span>
+            <span class="n">mn</span> <span class="o">-=</span> <span class="mf">0.001</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mn</span><span class="p">)</span> <span class="k">if</span> <span class="n">mn</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.001</span>
+            <span class="n">mx</span> <span class="o">+=</span> <span class="mf">0.001</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mx</span><span class="p">)</span> <span class="k">if</span> <span class="n">mx</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.001</span>
+            <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mn</span><span class="p">,</span> <span class="n">mx</span><span class="p">,</span> <span class="n">bins</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># adjust end points after binning</span>
+            <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mn</span><span class="p">,</span> <span class="n">mx</span><span class="p">,</span> <span class="n">bins</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">adj</span> <span class="o">=</span> <span class="p">(</span><span class="n">mx</span> <span class="o">-</span> <span class="n">mn</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.001</span>  <span class="c1"># 0.1% of the range</span>
+            <span class="k">if</span> <span class="n">right</span><span class="p">:</span>
+                <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">adj</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">bins</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">adj</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">IntervalIndex</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">bins</span><span class="o">.</span><span class="n">is_overlapping</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Overlapping IntervalIndex is not accepted.&quot;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_datetime64tz_dtype</span><span class="p">(</span><span class="n">bins</span><span class="p">):</span>
+            <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">DT64NS_DTYPE</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">_convert_bin_to_numeric_type</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+        <span class="c1"># GH 26045: cast to float64 to avoid an overflow</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bins</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float64&quot;</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;bins must increase monotonically.&quot;</span><span class="p">)</span>
+
+    <span class="n">fac</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">_bins_to_cuts</span><span class="p">(</span>
+        <span class="n">x</span><span class="p">,</span>
+        <span class="n">bins</span><span class="p">,</span>
+        <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">,</span>
+        <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+        <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">,</span>
+        <span class="n">include_lowest</span><span class="o">=</span><span class="n">include_lowest</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="n">duplicates</span><span class="o">=</span><span class="n">duplicates</span><span class="p">,</span>
+        <span class="n">ordered</span><span class="o">=</span><span class="n">ordered</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_postprocess_for_cut</span><span class="p">(</span><span class="n">fac</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">retbins</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">original</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="qcut"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.qcut">[docs]</a><span class="k">def</span> <span class="nf">qcut</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">,</span>
+    <span class="n">q</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">retbins</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">precision</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">duplicates</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;raise&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Quantile-based discretization function.</span>
+
+<span class="sd">    Discretize variable into equal-sized buckets based on rank or based</span>
+<span class="sd">    on sample quantiles. For example 1000 values for 10 quantiles would</span>
+<span class="sd">    produce a Categorical object indicating quantile membership for each data point.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : 1d ndarray or Series</span>
+<span class="sd">    q : int or list-like of float</span>
+<span class="sd">        Number of quantiles. 10 for deciles, 4 for quartiles, etc. Alternately</span>
+<span class="sd">        array of quantiles, e.g. [0, .25, .5, .75, 1.] for quartiles.</span>
+<span class="sd">    labels : array or False, default None</span>
+<span class="sd">        Used as labels for the resulting bins. Must be of the same length as</span>
+<span class="sd">        the resulting bins. If False, return only integer indicators of the</span>
+<span class="sd">        bins. If True, raises an error.</span>
+<span class="sd">    retbins : bool, optional</span>
+<span class="sd">        Whether to return the (bins, labels) or not. Can be useful if bins</span>
+<span class="sd">        is given as a scalar.</span>
+<span class="sd">    precision : int, optional</span>
+<span class="sd">        The precision at which to store and display the bins labels.</span>
+<span class="sd">    duplicates : {default &#39;raise&#39;, &#39;drop&#39;}, optional</span>
+<span class="sd">        If bin edges are not unique, raise ValueError or drop non-uniques.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : Categorical or Series or array of integers if labels is False</span>
+<span class="sd">        The return type (Categorical or Series) depends on the input: a Series</span>
+<span class="sd">        of type category if input is a Series else Categorical. Bins are</span>
+<span class="sd">        represented as categories when categorical data is returned.</span>
+<span class="sd">    bins : ndarray of floats</span>
+<span class="sd">        Returned only if `retbins` is True.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Out of bounds values will be NA in the resulting Categorical object</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; pd.qcut(range(5), 4)</span>
+<span class="sd">    ... # doctest: +ELLIPSIS</span>
+<span class="sd">    [(-0.001, 1.0], (-0.001, 1.0], (1.0, 2.0], (2.0, 3.0], (3.0, 4.0]]</span>
+<span class="sd">    Categories (4, interval[float64, right]): [(-0.001, 1.0] &lt; (1.0, 2.0] ...</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.qcut(range(5), 3, labels=[&quot;good&quot;, &quot;medium&quot;, &quot;bad&quot;])</span>
+<span class="sd">    ... # doctest: +SKIP</span>
+<span class="sd">    [good, good, medium, bad, bad]</span>
+<span class="sd">    Categories (3, object): [good &lt; medium &lt; bad]</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.qcut(range(5), 4, labels=False)</span>
+<span class="sd">    array([0, 0, 1, 2, 3])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">original</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">_preprocess_for_cut</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">_coerce_to_type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">quantiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">q</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_integer</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">else</span> <span class="n">q</span>
+
+    <span class="n">x_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x_np</span> <span class="o">=</span> <span class="n">x_np</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x_np</span><span class="p">)]</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">x_np</span><span class="p">,</span> <span class="n">quantiles</span><span class="p">)</span>
+
+    <span class="n">fac</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">_bins_to_cuts</span><span class="p">(</span>
+        <span class="n">x</span><span class="p">,</span>
+        <span class="n">bins</span><span class="p">,</span>
+        <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+        <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">,</span>
+        <span class="n">include_lowest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="n">duplicates</span><span class="o">=</span><span class="n">duplicates</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_postprocess_for_cut</span><span class="p">(</span><span class="n">fac</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">retbins</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">original</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_bins_to_cuts</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">,</span>
+    <span class="n">bins</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">right</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">precision</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">include_lowest</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">duplicates</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;raise&quot;</span><span class="p">,</span>
+    <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ordered</span> <span class="ow">and</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;labels&#39; must be provided if &#39;ordered = False&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">duplicates</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;raise&quot;</span><span class="p">,</span> <span class="s2">&quot;drop&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;invalid value for &#39;duplicates&#39; parameter, valid options are: raise, drop&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">IntervalIndex</span><span class="p">):</span>
+        <span class="c1"># we have a fast-path here</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="n">bins</span><span class="o">.</span><span class="n">get_indexer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">Categorical</span><span class="o">.</span><span class="n">from_codes</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">bins</span>
+
+    <span class="n">unique_bins</span> <span class="o">=</span> <span class="n">algos</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_bins</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">duplicates</span> <span class="o">==</span> <span class="s2">&quot;raise&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Bin edges must be unique: </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;You can drop duplicate edges by setting the &#39;duplicates&#39; kwarg&quot;</span>
+            <span class="p">)</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">unique_bins</span>
+
+    <span class="n">side</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span> <span class="k">if</span> <span class="n">right</span> <span class="k">else</span> <span class="s2">&quot;right&quot;</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="n">ensure_platform_int</span><span class="p">(</span><span class="n">bins</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="n">side</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">include_lowest</span><span class="p">:</span>
+        <span class="n">ids</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">bins</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">na_mask</span> <span class="o">=</span> <span class="n">isna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">ids</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">ids</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">has_nas</span> <span class="o">=</span> <span class="n">na_mask</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">labels</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Bin labels must either be False, None or passed in as a &quot;</span>
+                <span class="s2">&quot;list-like argument&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">_format_labels</span><span class="p">(</span>
+                <span class="n">bins</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">,</span> <span class="n">include_lowest</span><span class="o">=</span><span class="n">include_lowest</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ordered</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;labels must be unique if ordered=True; pass ordered=False &quot;</span>
+                <span class="s2">&quot;for duplicate labels&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Bin labels must be one fewer than the number of bin edges&quot;</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_categorical_dtype</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">Categorical</span><span class="p">(</span>
+                <span class="n">labels</span><span class="p">,</span>
+                <span class="n">categories</span><span class="o">=</span><span class="n">labels</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">ordered</span><span class="o">=</span><span class="n">ordered</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="c1"># TODO: handle mismatch between categorical label order and pandas.cut order.</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">putmask</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">na_mask</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">algos</span><span class="o">.</span><span class="n">take_nd</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">ids</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">ids</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">has_nas</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">putmask</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">na_mask</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">bins</span>
+
+
+<span class="k">def</span> <span class="nf">_coerce_to_type</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    if the passed data is of datetime/timedelta, bool or nullable int type,</span>
+<span class="sd">    this method converts it to numeric so that cut or qcut method can</span>
+<span class="sd">    handle it</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">is_datetime64tz_dtype</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
+    <span class="k">elif</span> <span class="n">is_datetime64_dtype</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">to_datetime</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">is_timedelta64_dtype</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">to_timedelta</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;timedelta64[ns]&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">is_bool_dtype</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="c1"># GH 20303</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="c1"># To support cut and qcut for IntegerArray we convert to float dtype.</span>
+    <span class="c1"># Will properly support in the future.</span>
+    <span class="c1"># https://github.com/pandas-dev/pandas/pull/31290</span>
+    <span class="c1"># https://github.com/pandas-dev/pandas/issues/31389</span>
+    <span class="k">elif</span> <span class="n">is_extension_array_dtype</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">na_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># GH 19768: force NaT to NaN during integer conversion</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">notna</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">dtype</span>
+
+
+<span class="k">def</span> <span class="nf">_convert_bin_to_numeric_type</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    if the passed bin is of datetime/timedelta type,</span>
+<span class="sd">    this method converts it to integer</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bins : list-like of bins</span>
+<span class="sd">    dtype : dtype of data</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError if bins are not of a compat dtype to dtype</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bins_dtype</span> <span class="o">=</span> <span class="n">infer_dtype</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_timedelta64_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">bins_dtype</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;timedelta&quot;</span><span class="p">,</span> <span class="s2">&quot;timedelta64&quot;</span><span class="p">]:</span>
+            <span class="n">bins</span> <span class="o">=</span> <span class="n">to_timedelta</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;bins must be of timedelta64 dtype&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">is_datetime64_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_datetime64tz_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">bins_dtype</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">,</span> <span class="s2">&quot;datetime64&quot;</span><span class="p">]:</span>
+            <span class="n">bins</span> <span class="o">=</span> <span class="n">to_datetime</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">is_datetime64_dtype</span><span class="p">(</span><span class="n">bins</span><span class="p">):</span>
+                <span class="c1"># As of 2.0, to_datetime may give non-nano, so we need to convert</span>
+                <span class="c1">#  here until the rest of this file recognizes non-nano</span>
+                <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;bins must be of datetime64 dtype&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">bins</span>
+
+
+<span class="k">def</span> <span class="nf">_convert_bin_to_datelike_type</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert bins to a DatetimeIndex or TimedeltaIndex if the original dtype is</span>
+<span class="sd">    datelike</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bins : list-like of bins</span>
+<span class="sd">    dtype : dtype of data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bins : Array-like of bins, DatetimeIndex or TimedeltaIndex if dtype is</span>
+<span class="sd">           datelike</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_datetime64tz_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">to_datetime</span><span class="p">(</span><span class="n">bins</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">tz</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">is_datetime_or_timedelta_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">Index</span><span class="p">(</span><span class="n">bins</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bins</span>
+
+
+<span class="k">def</span> <span class="nf">_format_labels</span><span class="p">(</span>
+    <span class="n">bins</span><span class="p">,</span> <span class="n">precision</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">include_lowest</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;based on the dtype, return our labels&quot;&quot;&quot;</span>
+    <span class="n">closed</span><span class="p">:</span> <span class="n">IntervalLeftRight</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span> <span class="k">if</span> <span class="n">right</span> <span class="k">else</span> <span class="s2">&quot;left&quot;</span>
+
+    <span class="n">formatter</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">Timestamp</span><span class="p">]</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">],</span> <span class="n">Timedelta</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">is_datetime64tz_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Timestamp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">dtype</span><span class="o">.</span><span class="n">tz</span><span class="p">)</span>
+        <span class="n">adjust</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">-</span> <span class="n">Timedelta</span><span class="p">(</span><span class="s2">&quot;1ns&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">is_datetime64_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">Timestamp</span>
+        <span class="n">adjust</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">-</span> <span class="n">Timedelta</span><span class="p">(</span><span class="s2">&quot;1ns&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">is_timedelta64_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">Timedelta</span>
+        <span class="n">adjust</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">-</span> <span class="n">Timedelta</span><span class="p">(</span><span class="s2">&quot;1ns&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">precision</span> <span class="o">=</span> <span class="n">_infer_precision</span><span class="p">(</span><span class="n">precision</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_round_frac</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
+        <span class="n">adjust</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="n">precision</span><span class="p">)</span>
+
+    <span class="n">breaks</span> <span class="o">=</span> <span class="p">[</span><span class="n">formatter</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">right</span> <span class="ow">and</span> <span class="n">include_lowest</span><span class="p">:</span>
+        <span class="c1"># adjust lhs of first interval by precision to account for being right closed</span>
+        <span class="n">breaks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">adjust</span><span class="p">(</span><span class="n">breaks</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">IntervalIndex</span><span class="o">.</span><span class="n">from_breaks</span><span class="p">(</span><span class="n">breaks</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="n">closed</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_preprocess_for_cut</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    handles preprocessing for cut where we convert passed</span>
+<span class="sd">    input to array, strip the index information and store it</span>
+<span class="sd">    separately</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check that the passed array is a Pandas or Numpy object</span>
+    <span class="c1"># We don&#39;t want to strip away a Pandas data-type here (e.g. datetimetz)</span>
+    <span class="n">ndim</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;ndim&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ndim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input array must be 1 dimensional&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="k">def</span> <span class="nf">_postprocess_for_cut</span><span class="p">(</span><span class="n">fac</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">retbins</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">original</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    handles post processing for the cut method where</span>
+<span class="sd">    we combine the index information if the originally passed</span>
+<span class="sd">    datatype was a series</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">ABCSeries</span><span class="p">):</span>
+        <span class="n">fac</span> <span class="o">=</span> <span class="n">original</span><span class="o">.</span><span class="n">_constructor</span><span class="p">(</span><span class="n">fac</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">original</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">original</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">retbins</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fac</span>
+
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">_convert_bin_to_datelike_type</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fac</span><span class="p">,</span> <span class="n">bins</span>
+
+
+<span class="k">def</span> <span class="nf">_round_frac</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">precision</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Round the fractional part of the given number</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">frac</span><span class="p">,</span> <span class="n">whole</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">modf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">whole</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">digits</span> <span class="o">=</span> <span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">frac</span><span class="p">))))</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">precision</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">digits</span> <span class="o">=</span> <span class="n">precision</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">digits</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_infer_precision</span><span class="p">(</span><span class="n">base_precision</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Infer an appropriate precision for _round_frac</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">precision</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">base_precision</span><span class="p">,</span> <span class="mi">20</span><span class="p">):</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="p">[</span><span class="n">_round_frac</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">algos</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">bins</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">precision</span>
+    <span class="k">return</span> <span class="n">base_precision</span>  <span class="c1"># default</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

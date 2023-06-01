@@ -33,7 +33,6 @@ Welcome to BabyDragon's documentation!
    memory/threads/base_thread
    memory/threads/fifo_thread
    memory/threads/vector_thread
-   memory/threads/todo/python_thread
 
 .. toctree::
    :maxdepth: 2
@@ -42,12 +41,6 @@ Welcome to BabyDragon's documentation!
    memory/indexes/python_index
    memory/indexes/memory_index
    memory/indexes/pandas_index
-   memory/indexes/todo/youtube_index
-   memory/indexes/todo/parquet_index
-   memory/indexes/todo/wiki_index
-   memory/indexes/todo/gutenberg_index
-   memory/indexes/todo/github_index
-   memory/indexes/todo/multi_index
 
 .. toctree::
    :maxdepth: 2
@@ -56,8 +49,7 @@ Welcome to BabyDragon's documentation!
    chat/base_chat
    chat/memory_chat
    chat/chat
-   chat/prompts/perspective_prompt
-   chat/prompts/default_prompts
+
 
 .. toctree::
    :maxdepth: 2
@@ -93,18 +85,7 @@ Welcome to BabyDragon's documentation!
    processors/parsers/git_metadata
    processors/parsers/visitors
    processors/parsers/python_parser
-   processors/parsers/todo/subs_parser
-   processors/parsers/todo/latex_parser
-   processors/parsers/todo/md_parser
-   processors/parsers/todo/wiki_parser
-   processors/parsers/todo/git_processor
-   processors/todo/arxiv_processor
-   processors/todo/wiki_processor
-   processors/todo/chatgpt_processor
-   processors/todo/mit_course_processor
-   processors/todo/youtube_processor
-   processors/todo/pubmed_processor
-   processors/todo/gutenberg_processor
+
 
 .. toctree::
    :maxdepth: 2

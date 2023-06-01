@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.core.reshape.melt &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.core.reshape.melt</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.core.reshape.melt</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Hashable</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pandas.util._decorators</span> <span class="kn">import</span> <span class="n">Appender</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_extension_array_dtype</span><span class="p">,</span>
+    <span class="n">is_list_like</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.concat</span> <span class="kn">import</span> <span class="n">concat_compat</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.missing</span> <span class="kn">import</span> <span class="n">notna</span>
+
+<span class="kn">import</span> <span class="nn">pandas.core.algorithms</span> <span class="k">as</span> <span class="nn">algos</span>
+<span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="n">Categorical</span>
+<span class="kn">import</span> <span class="nn">pandas.core.common</span> <span class="k">as</span> <span class="nn">com</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.api</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Index</span><span class="p">,</span>
+    <span class="n">MultiIndex</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.reshape.concat</span> <span class="kn">import</span> <span class="n">concat</span>
+<span class="kn">from</span> <span class="nn">pandas.core.reshape.util</span> <span class="kn">import</span> <span class="n">tile_compat</span>
+<span class="kn">from</span> <span class="nn">pandas.core.shared_docs</span> <span class="kn">import</span> <span class="n">_shared_docs</span>
+<span class="kn">from</span> <span class="nn">pandas.core.tools.numeric</span> <span class="kn">import</span> <span class="n">to_numeric</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="n">AnyArrayLike</span>
+
+    <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+
+<div class="viewcode-block" id="melt"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.melt">[docs]</a><span class="nd">@Appender</span><span class="p">(</span><span class="n">_shared_docs</span><span class="p">[</span><span class="s2">&quot;melt&quot;</span><span class="p">]</span> <span class="o">%</span> <span class="p">{</span><span class="s2">&quot;caller&quot;</span><span class="p">:</span> <span class="s2">&quot;pd.melt(df, &quot;</span><span class="p">,</span> <span class="s2">&quot;other&quot;</span><span class="p">:</span> <span class="s2">&quot;DataFrame.melt&quot;</span><span class="p">})</span>
+<span class="k">def</span> <span class="nf">melt</span><span class="p">(</span>
+    <span class="n">frame</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">id_vars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">value_vars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">var_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">value_name</span><span class="p">:</span> <span class="n">Hashable</span> <span class="o">=</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
+    <span class="n">col_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ignore_index</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+    <span class="c1"># If multiindex, gather names of columns on all level for checking presence</span>
+    <span class="c1"># of `id_vars` and `value_vars`</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">MultiIndex</span><span class="p">):</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">columns</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">c</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">value_name</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;value_name (</span><span class="si">{</span><span class="n">value_name</span><span class="si">}</span><span class="s2">) cannot match an element in &quot;</span>
+            <span class="s2">&quot;the DataFrame columns.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">id_vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">id_vars</span><span class="p">):</span>
+            <span class="n">id_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">id_vars</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">MultiIndex</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">id_vars</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;id_vars must be a list of tuples when columns are a MultiIndex&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Check that `id_vars` are in frame</span>
+            <span class="n">id_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">id_vars</span><span class="p">)</span>
+            <span class="n">missing</span> <span class="o">=</span> <span class="n">Index</span><span class="p">(</span><span class="n">com</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">id_vars</span><span class="p">))</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">missing</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="s2">&quot;The following &#39;id_vars&#39; are not present &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;in the DataFrame: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">id_vars</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">value_vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">value_vars</span><span class="p">):</span>
+            <span class="n">value_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">value_vars</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">MultiIndex</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value_vars</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;value_vars must be a list of tuples when columns are a MultiIndex&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">value_vars</span><span class="p">)</span>
+            <span class="c1"># Check that `value_vars` are in frame</span>
+            <span class="n">missing</span> <span class="o">=</span> <span class="n">Index</span><span class="p">(</span><span class="n">com</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">value_vars</span><span class="p">))</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">missing</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="s2">&quot;The following &#39;value_vars&#39; are not present in &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;the DataFrame: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">col_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">col_level</span><span class="p">)</span><span class="o">.</span><span class="n">get_indexer</span><span class="p">(</span>
+                <span class="n">id_vars</span> <span class="o">+</span> <span class="n">value_vars</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">algos</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_indexer_for</span><span class="p">(</span><span class="n">id_vars</span> <span class="o">+</span> <span class="n">value_vars</span><span class="p">))</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">col_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># allow list or other?</span>
+        <span class="c1"># frame is a copy</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">col_level</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">var_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">MultiIndex</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">)):</span>
+                <span class="n">var_name</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">var_name</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;variable_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">))]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">var_name</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;variable&quot;</span>
+            <span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">var_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">var_name</span><span class="p">]</span>
+
+    <span class="n">N</span><span class="p">,</span> <span class="n">K</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">K</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">id_vars</span><span class="p">)</span>
+
+    <span class="n">mdata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Hashable</span><span class="p">,</span> <span class="n">AnyArrayLike</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">id_vars</span><span class="p">:</span>
+        <span class="n">id_data</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_extension_array_dtype</span><span class="p">(</span><span class="n">id_data</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">K</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">id_data</span> <span class="o">=</span> <span class="n">concat</span><span class="p">([</span><span class="n">id_data</span><span class="p">]</span> <span class="o">*</span> <span class="n">K</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># We can&#39;t concat empty list. (GH 46044)</span>
+                <span class="n">id_data</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">id_data</span><span class="p">)([],</span> <span class="n">name</span><span class="o">=</span><span class="n">id_data</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">id_data</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># error: Incompatible types in assignment (expression has type</span>
+            <span class="c1"># &quot;ndarray[Any, dtype[Any]]&quot;, variable has type &quot;Series&quot;)</span>
+            <span class="n">id_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">id_data</span><span class="o">.</span><span class="n">_values</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>  <span class="c1"># type: ignore[assignment]</span>
+        <span class="n">mdata</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">id_data</span>
+
+    <span class="n">mcolumns</span> <span class="o">=</span> <span class="n">id_vars</span> <span class="o">+</span> <span class="n">var_name</span> <span class="o">+</span> <span class="p">[</span><span class="n">value_name</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">mdata</span><span class="p">[</span><span class="n">value_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">frame</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mdata</span><span class="p">[</span><span class="n">value_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">var_name</span><span class="p">):</span>
+        <span class="c1"># asanyarray will keep the columns as an Index</span>
+        <span class="n">mdata</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">_get_level_values</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">_constructor</span><span class="p">(</span><span class="n">mdata</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">mcolumns</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ignore_index</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">tile_compat</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="lreshape"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.lreshape">[docs]</a><span class="k">def</span> <span class="nf">lreshape</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">dropna</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reshape wide-format data to long. Generalized inverse of DataFrame.pivot.</span>
+
+<span class="sd">    Accepts a dictionary, ``groups``, in which each key is a new column name</span>
+<span class="sd">    and each value is a list of old column names that will be &quot;melted&quot; under</span>
+<span class="sd">    the new column name as part of the reshape.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : DataFrame</span>
+<span class="sd">        The wide-format DataFrame.</span>
+<span class="sd">    groups : dict</span>
+<span class="sd">        {new_name : list_of_columns}.</span>
+<span class="sd">    dropna : bool, default True</span>
+<span class="sd">        Do not include columns whose entries are all NaN.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    DataFrame</span>
+<span class="sd">        Reshaped DataFrame.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    melt : Unpivot a DataFrame from wide to long format, optionally leaving</span>
+<span class="sd">        identifiers set.</span>
+<span class="sd">    pivot : Create a spreadsheet-style pivot table as a DataFrame.</span>
+<span class="sd">    DataFrame.pivot : Pivot without aggregation that can handle</span>
+<span class="sd">        non-numeric data.</span>
+<span class="sd">    DataFrame.pivot_table : Generalization of pivot that can handle</span>
+<span class="sd">        duplicate values for one index/column pair.</span>
+<span class="sd">    DataFrame.unstack : Pivot based on the index values instead of a</span>
+<span class="sd">        column.</span>
+<span class="sd">    wide_to_long : Wide panel to long format. Less flexible but more</span>
+<span class="sd">        user-friendly than melt.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; data = pd.DataFrame({&#39;hr1&#39;: [514, 573], &#39;hr2&#39;: [545, 526],</span>
+<span class="sd">    ...                      &#39;team&#39;: [&#39;Red Sox&#39;, &#39;Yankees&#39;],</span>
+<span class="sd">    ...                      &#39;year1&#39;: [2007, 2007], &#39;year2&#39;: [2008, 2008]})</span>
+<span class="sd">    &gt;&gt;&gt; data</span>
+<span class="sd">       hr1  hr2     team  year1  year2</span>
+<span class="sd">    0  514  545  Red Sox   2007   2008</span>
+<span class="sd">    1  573  526  Yankees   2007   2008</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.lreshape(data, {&#39;year&#39;: [&#39;year1&#39;, &#39;year2&#39;], &#39;hr&#39;: [&#39;hr1&#39;, &#39;hr2&#39;]})</span>
+<span class="sd">          team  year   hr</span>
+<span class="sd">    0  Red Sox  2007  514</span>
+<span class="sd">    1  Yankees  2007  573</span>
+<span class="sd">    2  Red Sox  2008  545</span>
+<span class="sd">    3  Yankees  2008  526</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">groups</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">groups</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">keys</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">)</span>
+
+    <span class="n">all_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">)))</span>
+    <span class="n">id_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">all_cols</span><span class="p">))</span>
+
+    <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">seq</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">!=</span> <span class="n">K</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All column lists must be same length&quot;</span><span class="p">)</span>
+
+    <span class="n">mdata</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">pivot_cols</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="n">to_concat</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">_values</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+
+        <span class="n">mdata</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="n">concat_compat</span><span class="p">(</span><span class="n">to_concat</span><span class="p">)</span>
+        <span class="n">pivot_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">id_cols</span><span class="p">:</span>
+        <span class="n">mdata</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">_values</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dropna</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mdata</span><span class="p">[</span><span class="n">pivot_cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]]),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pivot_cols</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">&amp;=</span> <span class="n">notna</span><span class="p">(</span><span class="n">mdata</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">mask</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">mdata</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mdata</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">_constructor</span><span class="p">(</span><span class="n">mdata</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">id_cols</span> <span class="o">+</span> <span class="n">pivot_cols</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="wide_to_long"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.wide_to_long">[docs]</a><span class="k">def</span> <span class="nf">wide_to_long</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">stubnames</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">sep</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\d+&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Unpivot a DataFrame from wide to long format.</span>
+
+<span class="sd">    Less flexible but more user-friendly than melt.</span>
+
+<span class="sd">    With stubnames [&#39;A&#39;, &#39;B&#39;], this function expects to find one or more</span>
+<span class="sd">    group of columns with format</span>
+<span class="sd">    A-suffix1, A-suffix2,..., B-suffix1, B-suffix2,...</span>
+<span class="sd">    You specify what you want to call this suffix in the resulting long format</span>
+<span class="sd">    with `j` (for example `j=&#39;year&#39;`)</span>
+
+<span class="sd">    Each row of these wide variables are assumed to be uniquely identified by</span>
+<span class="sd">    `i` (can be a single column name or a list of column names)</span>
+
+<span class="sd">    All remaining variables in the data frame are left intact.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : DataFrame</span>
+<span class="sd">        The wide-format DataFrame.</span>
+<span class="sd">    stubnames : str or list-like</span>
+<span class="sd">        The stub name(s). The wide format variables are assumed to</span>
+<span class="sd">        start with the stub names.</span>
+<span class="sd">    i : str or list-like</span>
+<span class="sd">        Column(s) to use as id variable(s).</span>
+<span class="sd">    j : str</span>
+<span class="sd">        The name of the sub-observation variable. What you wish to name your</span>
+<span class="sd">        suffix in the long format.</span>
+<span class="sd">    sep : str, default &quot;&quot;</span>
+<span class="sd">        A character indicating the separation of the variable names</span>
+<span class="sd">        in the wide format, to be stripped from the names in the long format.</span>
+<span class="sd">        For example, if your column names are A-suffix1, A-suffix2, you</span>
+<span class="sd">        can strip the hyphen by specifying `sep=&#39;-&#39;`.</span>
+<span class="sd">    suffix : str, default &#39;\\d+&#39;</span>
+<span class="sd">        A regular expression capturing the wanted suffixes. &#39;\\d+&#39; captures</span>
+<span class="sd">        numeric suffixes. Suffixes with no numbers could be specified with the</span>
+<span class="sd">        negated character class &#39;\\D+&#39;. You can also further disambiguate</span>
+<span class="sd">        suffixes, for example, if your wide variables are of the form A-one,</span>
+<span class="sd">        B-two,.., and you have an unrelated column A-rating, you can ignore the</span>
+<span class="sd">        last one by specifying `suffix=&#39;(!?one|two)&#39;`. When all suffixes are</span>
+<span class="sd">        numeric, they are cast to int64/float64.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    DataFrame</span>
+<span class="sd">        A DataFrame that contains each stub name as a variable, with new index</span>
+<span class="sd">        (i, j).</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    melt : Unpivot a DataFrame from wide to long format, optionally leaving</span>
+<span class="sd">        identifiers set.</span>
+<span class="sd">    pivot : Create a spreadsheet-style pivot table as a DataFrame.</span>
+<span class="sd">    DataFrame.pivot : Pivot without aggregation that can handle</span>
+<span class="sd">        non-numeric data.</span>
+<span class="sd">    DataFrame.pivot_table : Generalization of pivot that can handle</span>
+<span class="sd">        duplicate values for one index/column pair.</span>
+<span class="sd">    DataFrame.unstack : Pivot based on the index values instead of a</span>
+<span class="sd">        column.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    All extra variables are left untouched. This simply uses</span>
+<span class="sd">    `pandas.melt` under the hood, but is hard-coded to &quot;do the right thing&quot;</span>
+<span class="sd">    in a typical case.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(123)</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&quot;A1970&quot; : {0 : &quot;a&quot;, 1 : &quot;b&quot;, 2 : &quot;c&quot;},</span>
+<span class="sd">    ...                    &quot;A1980&quot; : {0 : &quot;d&quot;, 1 : &quot;e&quot;, 2 : &quot;f&quot;},</span>
+<span class="sd">    ...                    &quot;B1970&quot; : {0 : 2.5, 1 : 1.2, 2 : .7},</span>
+<span class="sd">    ...                    &quot;B1980&quot; : {0 : 3.2, 1 : 1.3, 2 : .1},</span>
+<span class="sd">    ...                    &quot;X&quot;     : dict(zip(range(3), np.random.randn(3)))</span>
+<span class="sd">    ...                   })</span>
+<span class="sd">    &gt;&gt;&gt; df[&quot;id&quot;] = df.index</span>
+<span class="sd">    &gt;&gt;&gt; df</span>
+<span class="sd">      A1970 A1980  B1970  B1980         X  id</span>
+<span class="sd">    0     a     d    2.5    3.2 -1.085631   0</span>
+<span class="sd">    1     b     e    1.2    1.3  0.997345   1</span>
+<span class="sd">    2     c     f    0.7    0.1  0.282978   2</span>
+<span class="sd">    &gt;&gt;&gt; pd.wide_to_long(df, [&quot;A&quot;, &quot;B&quot;], i=&quot;id&quot;, j=&quot;year&quot;)</span>
+<span class="sd">    ... # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">                    X  A    B</span>
+<span class="sd">    id year</span>
+<span class="sd">    0  1970 -1.085631  a  2.5</span>
+<span class="sd">    1  1970  0.997345  b  1.2</span>
+<span class="sd">    2  1970  0.282978  c  0.7</span>
+<span class="sd">    0  1980 -1.085631  d  3.2</span>
+<span class="sd">    1  1980  0.997345  e  1.3</span>
+<span class="sd">    2  1980  0.282978  f  0.1</span>
+
+<span class="sd">    With multiple id columns</span>
+
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({</span>
+<span class="sd">    ...     &#39;famid&#39;: [1, 1, 1, 2, 2, 2, 3, 3, 3],</span>
+<span class="sd">    ...     &#39;birth&#39;: [1, 2, 3, 1, 2, 3, 1, 2, 3],</span>
+<span class="sd">    ...     &#39;ht1&#39;: [2.8, 2.9, 2.2, 2, 1.8, 1.9, 2.2, 2.3, 2.1],</span>
+<span class="sd">    ...     &#39;ht2&#39;: [3.4, 3.8, 2.9, 3.2, 2.8, 2.4, 3.3, 3.4, 2.9]</span>
+<span class="sd">    ... })</span>
+<span class="sd">    &gt;&gt;&gt; df</span>
+<span class="sd">       famid  birth  ht1  ht2</span>
+<span class="sd">    0      1      1  2.8  3.4</span>
+<span class="sd">    1      1      2  2.9  3.8</span>
+<span class="sd">    2      1      3  2.2  2.9</span>
+<span class="sd">    3      2      1  2.0  3.2</span>
+<span class="sd">    4      2      2  1.8  2.8</span>
+<span class="sd">    5      2      3  1.9  2.4</span>
+<span class="sd">    6      3      1  2.2  3.3</span>
+<span class="sd">    7      3      2  2.3  3.4</span>
+<span class="sd">    8      3      3  2.1  2.9</span>
+<span class="sd">    &gt;&gt;&gt; l = pd.wide_to_long(df, stubnames=&#39;ht&#39;, i=[&#39;famid&#39;, &#39;birth&#39;], j=&#39;age&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; l</span>
+<span class="sd">    ... # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">                      ht</span>
+<span class="sd">    famid birth age</span>
+<span class="sd">    1     1     1    2.8</span>
+<span class="sd">                2    3.4</span>
+<span class="sd">          2     1    2.9</span>
+<span class="sd">                2    3.8</span>
+<span class="sd">          3     1    2.2</span>
+<span class="sd">                2    2.9</span>
+<span class="sd">    2     1     1    2.0</span>
+<span class="sd">                2    3.2</span>
+<span class="sd">          2     1    1.8</span>
+<span class="sd">                2    2.8</span>
+<span class="sd">          3     1    1.9</span>
+<span class="sd">                2    2.4</span>
+<span class="sd">    3     1     1    2.2</span>
+<span class="sd">                2    3.3</span>
+<span class="sd">          2     1    2.3</span>
+<span class="sd">                2    3.4</span>
+<span class="sd">          3     1    2.1</span>
+<span class="sd">                2    2.9</span>
+
+<span class="sd">    Going from long back to wide just takes some creative use of `unstack`</span>
+
+<span class="sd">    &gt;&gt;&gt; w = l.unstack()</span>
+<span class="sd">    &gt;&gt;&gt; w.columns = w.columns.map(&#39;{0[0]}{0[1]}&#39;.format)</span>
+<span class="sd">    &gt;&gt;&gt; w.reset_index()</span>
+<span class="sd">       famid  birth  ht1  ht2</span>
+<span class="sd">    0      1      1  2.8  3.4</span>
+<span class="sd">    1      1      2  2.9  3.8</span>
+<span class="sd">    2      1      3  2.2  2.9</span>
+<span class="sd">    3      2      1  2.0  3.2</span>
+<span class="sd">    4      2      2  1.8  2.8</span>
+<span class="sd">    5      2      3  1.9  2.4</span>
+<span class="sd">    6      3      1  2.2  3.3</span>
+<span class="sd">    7      3      2  2.3  3.4</span>
+<span class="sd">    8      3      3  2.1  2.9</span>
+
+<span class="sd">    Less wieldy column names are also handled</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;A(weekly)-2010&#39;: np.random.rand(3),</span>
+<span class="sd">    ...                    &#39;A(weekly)-2011&#39;: np.random.rand(3),</span>
+<span class="sd">    ...                    &#39;B(weekly)-2010&#39;: np.random.rand(3),</span>
+<span class="sd">    ...                    &#39;B(weekly)-2011&#39;: np.random.rand(3),</span>
+<span class="sd">    ...                    &#39;X&#39; : np.random.randint(3, size=3)})</span>
+<span class="sd">    &gt;&gt;&gt; df[&#39;id&#39;] = df.index</span>
+<span class="sd">    &gt;&gt;&gt; df # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS</span>
+<span class="sd">       A(weekly)-2010  A(weekly)-2011  B(weekly)-2010  B(weekly)-2011  X  id</span>
+<span class="sd">    0        0.548814        0.544883        0.437587        0.383442  0   0</span>
+<span class="sd">    1        0.715189        0.423655        0.891773        0.791725  1   1</span>
+<span class="sd">    2        0.602763        0.645894        0.963663        0.528895  1   2</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.wide_to_long(df, [&#39;A(weekly)&#39;, &#39;B(weekly)&#39;], i=&#39;id&#39;,</span>
+<span class="sd">    ...                 j=&#39;year&#39;, sep=&#39;-&#39;)</span>
+<span class="sd">    ... # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">             X  A(weekly)  B(weekly)</span>
+<span class="sd">    id year</span>
+<span class="sd">    0  2010  0   0.548814   0.437587</span>
+<span class="sd">    1  2010  1   0.715189   0.891773</span>
+<span class="sd">    2  2010  1   0.602763   0.963663</span>
+<span class="sd">    0  2011  0   0.544883   0.383442</span>
+<span class="sd">    1  2011  1   0.423655   0.791725</span>
+<span class="sd">    2  2011  1   0.645894   0.528895</span>
+
+<span class="sd">    If we have many columns, we could also use a regex to find our</span>
+<span class="sd">    stubnames and pass that list on to wide_to_long</span>
+
+<span class="sd">    &gt;&gt;&gt; stubnames = sorted(</span>
+<span class="sd">    ...     set([match[0] for match in df.columns.str.findall(</span>
+<span class="sd">    ...         r&#39;[A-B]\(.*\)&#39;).values if match != []])</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; list(stubnames)</span>
+<span class="sd">    [&#39;A(weekly)&#39;, &#39;B(weekly)&#39;]</span>
+
+<span class="sd">    All of the above examples have integers as suffixes. It is possible to</span>
+<span class="sd">    have non-integers as suffixes.</span>
+
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({</span>
+<span class="sd">    ...     &#39;famid&#39;: [1, 1, 1, 2, 2, 2, 3, 3, 3],</span>
+<span class="sd">    ...     &#39;birth&#39;: [1, 2, 3, 1, 2, 3, 1, 2, 3],</span>
+<span class="sd">    ...     &#39;ht_one&#39;: [2.8, 2.9, 2.2, 2, 1.8, 1.9, 2.2, 2.3, 2.1],</span>
+<span class="sd">    ...     &#39;ht_two&#39;: [3.4, 3.8, 2.9, 3.2, 2.8, 2.4, 3.3, 3.4, 2.9]</span>
+<span class="sd">    ... })</span>
+<span class="sd">    &gt;&gt;&gt; df</span>
+<span class="sd">       famid  birth  ht_one  ht_two</span>
+<span class="sd">    0      1      1     2.8     3.4</span>
+<span class="sd">    1      1      2     2.9     3.8</span>
+<span class="sd">    2      1      3     2.2     2.9</span>
+<span class="sd">    3      2      1     2.0     3.2</span>
+<span class="sd">    4      2      2     1.8     2.8</span>
+<span class="sd">    5      2      3     1.9     2.4</span>
+<span class="sd">    6      3      1     2.2     3.3</span>
+<span class="sd">    7      3      2     2.3     3.4</span>
+<span class="sd">    8      3      3     2.1     2.9</span>
+
+<span class="sd">    &gt;&gt;&gt; l = pd.wide_to_long(df, stubnames=&#39;ht&#39;, i=[&#39;famid&#39;, &#39;birth&#39;], j=&#39;age&#39;,</span>
+<span class="sd">    ...                     sep=&#39;_&#39;, suffix=r&#39;\w+&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; l</span>
+<span class="sd">    ... # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">                      ht</span>
+<span class="sd">    famid birth age</span>
+<span class="sd">    1     1     one  2.8</span>
+<span class="sd">                two  3.4</span>
+<span class="sd">          2     one  2.9</span>
+<span class="sd">                two  3.8</span>
+<span class="sd">          3     one  2.2</span>
+<span class="sd">                two  2.9</span>
+<span class="sd">    2     1     one  2.0</span>
+<span class="sd">                two  3.2</span>
+<span class="sd">          2     one  1.8</span>
+<span class="sd">                two  2.8</span>
+<span class="sd">          3     one  1.9</span>
+<span class="sd">                two  2.4</span>
+<span class="sd">    3     1     one  2.2</span>
+<span class="sd">                two  3.3</span>
+<span class="sd">          2     one  2.3</span>
+<span class="sd">                two  3.4</span>
+<span class="sd">          3     one  2.1</span>
+<span class="sd">                two  2.9</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">get_var_names</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">stub</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sep</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="sa">rf</span><span class="s2">&quot;^</span><span class="si">{</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">stub</span><span class="p">)</span><span class="si">}{</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">$&quot;</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regex</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">col</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">melt_stub</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">stub</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">value_vars</span><span class="p">,</span> <span class="n">sep</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">newdf</span> <span class="o">=</span> <span class="n">melt</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span>
+            <span class="n">id_vars</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+            <span class="n">value_vars</span><span class="o">=</span><span class="n">value_vars</span><span class="p">,</span>
+            <span class="n">value_name</span><span class="o">=</span><span class="n">stub</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="n">sep</span><span class="p">),</span>
+            <span class="n">var_name</span><span class="o">=</span><span class="n">j</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">newdf</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">Categorical</span><span class="p">(</span><span class="n">newdf</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="n">newdf</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">newdf</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">stub</span> <span class="o">+</span> <span class="n">sep</span><span class="p">),</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># GH17627 Cast numerics suffixes to int/float</span>
+        <span class="n">newdf</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_numeric</span><span class="p">(</span><span class="n">newdf</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">newdf</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="p">[</span><span class="n">j</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">stubnames</span><span class="p">):</span>
+        <span class="n">stubnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">stubnames</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">stubnames</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">stubnames</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">col</span> <span class="ow">in</span> <span class="n">stubnames</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;stubname can&#39;t be identical to a column name&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;the id variables need to uniquely identify each row&quot;</span><span class="p">)</span>
+
+    <span class="n">value_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_var_names</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">stub</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span> <span class="k">for</span> <span class="n">stub</span> <span class="ow">in</span> <span class="n">stubnames</span><span class="p">]</span>
+
+    <span class="n">value_vars_flattened</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">value_vars</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+    <span class="n">id_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">value_vars_flattened</span><span class="p">))</span>
+
+    <span class="n">_melted</span> <span class="o">=</span> <span class="p">[</span><span class="n">melt_stub</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">stubnames</span><span class="p">,</span> <span class="n">value_vars</span><span class="p">)]</span>
+    <span class="n">melted</span> <span class="o">=</span> <span class="n">_melted</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_melted</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">id_vars</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">melted</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new</span>
+
+    <span class="n">new</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">id_vars</span><span class="p">]</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">melted</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(),</span> <span class="n">on</span><span class="o">=</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="p">[</span><span class="n">j</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">new</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,4 +1,0 @@
-auto_perspective
-================
-
-.. toctree::

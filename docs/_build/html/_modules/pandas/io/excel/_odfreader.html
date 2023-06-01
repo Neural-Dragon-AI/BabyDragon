@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.io.excel._odfreader &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">vector_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">chat</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">python_parser</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.io.excel._odfreader</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.io.excel._odfreader</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">FilePath</span><span class="p">,</span>
+    <span class="n">ReadBuffer</span><span class="p">,</span>
+    <span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">StorageOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.compat._optional</span> <span class="kn">import</span> <span class="n">import_optional_dependency</span>
+<span class="kn">from</span> <span class="nn">pandas.util._decorators</span> <span class="kn">import</span> <span class="n">doc</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pandas.core.shared_docs</span> <span class="kn">import</span> <span class="n">_shared_docs</span>
+
+<span class="kn">from</span> <span class="nn">pandas.io.excel._base</span> <span class="kn">import</span> <span class="n">BaseExcelReader</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pandas._libs.tslibs.nattype</span> <span class="kn">import</span> <span class="n">NaTType</span>
+
+
+<span class="nd">@doc</span><span class="p">(</span><span class="n">storage_options</span><span class="o">=</span><span class="n">_shared_docs</span><span class="p">[</span><span class="s2">&quot;storage_options&quot;</span><span class="p">])</span>
+<span class="k">class</span> <span class="nc">ODFReader</span><span class="p">(</span><span class="n">BaseExcelReader</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">filepath_or_buffer</span><span class="p">:</span> <span class="n">FilePath</span> <span class="o">|</span> <span class="n">ReadBuffer</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">storage_options</span><span class="p">:</span> <span class="n">StorageOptions</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read tables out of OpenDocument formatted files.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filepath_or_buffer : str, path to be parsed or</span>
+<span class="sd">            an open readable stream.</span>
+<span class="sd">        {storage_options}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">import_optional_dependency</span><span class="p">(</span><span class="s2">&quot;odf&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="n">storage_options</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_workbook_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">odf.opendocument</span> <span class="kn">import</span> <span class="n">OpenDocument</span>
+
+        <span class="k">return</span> <span class="n">OpenDocument</span>
+
+    <span class="k">def</span> <span class="nf">load_workbook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath_or_buffer</span><span class="p">:</span> <span class="n">FilePath</span> <span class="o">|</span> <span class="n">ReadBuffer</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]):</span>
+        <span class="kn">from</span> <span class="nn">odf.opendocument</span> <span class="kn">import</span> <span class="n">load</span>
+
+        <span class="k">return</span> <span class="n">load</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">empty_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Property for compat with other readers.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sheet_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of sheet names present in the document&quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">odf.table</span> <span class="kn">import</span> <span class="n">Table</span>
+
+        <span class="n">tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">book</span><span class="o">.</span><span class="n">getElementsByType</span><span class="p">(</span><span class="n">Table</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_sheet_by_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">odf.table</span> <span class="kn">import</span> <span class="n">Table</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">raise_if_bad_sheet_by_index</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">book</span><span class="o">.</span><span class="n">getElementsByType</span><span class="p">(</span><span class="n">Table</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tables</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_sheet_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">odf.table</span> <span class="kn">import</span> <span class="n">Table</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">raise_if_bad_sheet_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">book</span><span class="o">.</span><span class="n">getElementsByType</span><span class="p">(</span><span class="n">Table</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">getAttribute</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">table</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sheet </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_sheet_data</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">sheet</span><span class="p">,</span> <span class="n">file_rows_needed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Scalar</span> <span class="o">|</span> <span class="n">NaTType</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse an ODF Table into a list of lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">odf.table</span> <span class="kn">import</span> <span class="p">(</span>
+            <span class="n">CoveredTableCell</span><span class="p">,</span>
+            <span class="n">TableCell</span><span class="p">,</span>
+            <span class="n">TableRow</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">covered_cell_name</span> <span class="o">=</span> <span class="n">CoveredTableCell</span><span class="p">()</span><span class="o">.</span><span class="n">qname</span>
+        <span class="n">table_cell_name</span> <span class="o">=</span> <span class="n">TableCell</span><span class="p">()</span><span class="o">.</span><span class="n">qname</span>
+        <span class="n">cell_names</span> <span class="o">=</span> <span class="p">{</span><span class="n">covered_cell_name</span><span class="p">,</span> <span class="n">table_cell_name</span><span class="p">}</span>
+
+        <span class="n">sheet_rows</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">getElementsByType</span><span class="p">(</span><span class="n">TableRow</span><span class="p">)</span>
+        <span class="n">empty_rows</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">max_row_len</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">table</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Scalar</span> <span class="o">|</span> <span class="n">NaTType</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">sheet_row</span> <span class="ow">in</span> <span class="n">sheet_rows</span><span class="p">:</span>
+            <span class="n">sheet_cells</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sheet_row</span><span class="o">.</span><span class="n">childNodes</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;qname&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">qname</span> <span class="ow">in</span> <span class="n">cell_names</span>
+            <span class="p">]</span>
+            <span class="n">empty_cells</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">table_row</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Scalar</span> <span class="o">|</span> <span class="n">NaTType</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">sheet_cell</span> <span class="ow">in</span> <span class="n">sheet_cells</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">sheet_cell</span><span class="o">.</span><span class="n">qname</span> <span class="o">==</span> <span class="n">table_cell_name</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cell_value</span><span class="p">(</span><span class="n">sheet_cell</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span>
+
+                <span class="n">column_repeat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_column_repeat</span><span class="p">(</span><span class="n">sheet_cell</span><span class="p">)</span>
+
+                <span class="c1"># Queue up empty values, writing only if content succeeds them</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span><span class="p">:</span>
+                    <span class="n">empty_cells</span> <span class="o">+=</span> <span class="n">column_repeat</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">table_row</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span><span class="p">]</span> <span class="o">*</span> <span class="n">empty_cells</span><span class="p">)</span>
+                    <span class="n">empty_cells</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">table_row</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">value</span><span class="p">]</span> <span class="o">*</span> <span class="n">column_repeat</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">max_row_len</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">table_row</span><span class="p">):</span>
+                <span class="n">max_row_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">table_row</span><span class="p">)</span>
+
+            <span class="n">row_repeat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_row_repeat</span><span class="p">(</span><span class="n">sheet_row</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_empty_row</span><span class="p">(</span><span class="n">sheet_row</span><span class="p">):</span>
+                <span class="n">empty_rows</span> <span class="o">+=</span> <span class="n">row_repeat</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># add blank rows to our table</span>
+                <span class="n">table</span><span class="o">.</span><span class="n">extend</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span><span class="p">]]</span> <span class="o">*</span> <span class="n">empty_rows</span><span class="p">)</span>
+                <span class="n">empty_rows</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">row_repeat</span><span class="p">):</span>
+                    <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table_row</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">file_rows_needed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">file_rows_needed</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="c1"># Make our table square</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">max_row_len</span><span class="p">:</span>
+                <span class="n">row</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_row_len</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)))</span>
+
+        <span class="k">return</span> <span class="n">table</span>
+
+    <span class="k">def</span> <span class="nf">_get_row_repeat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return number of times this row was repeated</span>
+<span class="sd">        Repeating an empty row appeared to be a common way</span>
+<span class="sd">        of representing sparse rows in the table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">odf.namespaces</span> <span class="kn">import</span> <span class="n">TABLENS</span>
+
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">TABLENS</span><span class="p">,</span> <span class="s2">&quot;number-rows-repeated&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_get_column_repeat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">odf.namespaces</span> <span class="kn">import</span> <span class="n">TABLENS</span>
+
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">TABLENS</span><span class="p">,</span> <span class="s2">&quot;number-columns-repeated&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_is_empty_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper function to find empty rows</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">childNodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">childNodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_get_cell_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span> <span class="o">|</span> <span class="n">NaTType</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">odf.namespaces</span> <span class="kn">import</span> <span class="n">OFFICENS</span>
+
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;#N/A&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+        <span class="n">cell_type</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">OFFICENS</span><span class="p">,</span> <span class="s2">&quot;value-type&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">cell_type</span> <span class="o">==</span> <span class="s2">&quot;boolean&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;TRUE&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">cell_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span>
+        <span class="k">elif</span> <span class="n">cell_type</span> <span class="o">==</span> <span class="s2">&quot;float&quot;</span><span class="p">:</span>
+            <span class="c1"># GH5394</span>
+            <span class="n">cell_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">OFFICENS</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">)))</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cell_value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="n">cell_value</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">val</span>
+            <span class="k">return</span> <span class="n">cell_value</span>
+        <span class="k">elif</span> <span class="n">cell_type</span> <span class="o">==</span> <span class="s2">&quot;percentage&quot;</span><span class="p">:</span>
+            <span class="n">cell_value</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">OFFICENS</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">cell_value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cell_type</span> <span class="o">==</span> <span class="s2">&quot;string&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cell_string_value</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cell_type</span> <span class="o">==</span> <span class="s2">&quot;currency&quot;</span><span class="p">:</span>
+            <span class="n">cell_value</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">OFFICENS</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">cell_value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cell_type</span> <span class="o">==</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span>
+            <span class="n">cell_value</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">OFFICENS</span><span class="p">,</span> <span class="s2">&quot;date-value&quot;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">cell_value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cell_type</span> <span class="o">==</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span>
+            <span class="n">stamp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span>
+            <span class="c1"># cast needed here because Scalar doesn&#39;t include datetime.time</span>
+            <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">stamp</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unrecognized type </span><span class="si">{</span><span class="n">cell_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_cell_string_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find and decode OpenDocument text:s tags that represent</span>
+<span class="sd">        a run length encoded sequence of space characters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">odf.element</span> <span class="kn">import</span> <span class="n">Element</span>
+        <span class="kn">from</span> <span class="nn">odf.namespaces</span> <span class="kn">import</span> <span class="n">TEXTNS</span>
+        <span class="kn">from</span> <span class="nn">odf.text</span> <span class="kn">import</span> <span class="n">S</span>
+
+        <span class="n">text_s</span> <span class="o">=</span> <span class="n">S</span><span class="p">()</span><span class="o">.</span><span class="n">qname</span>
+
+        <span class="n">value</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">fragment</span> <span class="ow">in</span> <span class="n">cell</span><span class="o">.</span><span class="n">childNodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fragment</span><span class="p">,</span> <span class="n">Element</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">fragment</span><span class="o">.</span><span class="n">qname</span> <span class="o">==</span> <span class="n">text_s</span><span class="p">:</span>
+                    <span class="n">spaces</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fragment</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">TEXTNS</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="n">value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">spaces</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># recursive impl needed in case of nested fragments</span>
+                    <span class="c1"># with multiple spaces</span>
+                    <span class="c1"># https://github.com/pandas-dev/pandas/pull/36175#discussion_r484639704</span>
+                    <span class="n">value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_cell_string_value</span><span class="p">(</span><span class="n">fragment</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

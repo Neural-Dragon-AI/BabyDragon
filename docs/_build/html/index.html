@@ -7,6 +7,8 @@
   <title>Welcome to BabyDragon’s documentation! &mdash; BabyDragon  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,10 +18,11 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="llm_task" href="tasks/llm_task.html" /> 
+    <link rel="next" title="LLMReader" href="tasks/llm_task.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,59 +46,57 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tasks/llm_task.html">llm_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tasks/multi_kernel_task.html">multi_kernel_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tasks/base_task.html">base_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tasks/topic_tree_task.html">topic_tree_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tasks/embedding_task.html">embedding_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/llm_task.html">LLMReader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/llm_task.html#llmwriter">LLMWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/multi_kernel_task.html">MultiKernelTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/base_task.html">BaseTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/topic_tree_task.html">TopicTreeTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/embedding_task.html">EmbeddingTask</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="memory/kernels/memory_kernel.html">memory_kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel.html">multi_kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/memory_kernel.html">MemoryKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/kernel_clustering.html">ClusterPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel.html">MultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="memory/kernels/kernel_utils.html">kernel_utils</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="memory/threads/base_thread.html">base_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/threads/fifo_thread.html">fifo_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/threads/vector_thread.html">vector_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/threads/todo/python_thread.html">python_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/threads/base_thread.html">BaseThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/threads/fifo_thread.html">FifoThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/threads/vector_thread.html">VectorThread</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/python_index.html">python_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/memory_index.html">memory_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/pandas_index.html">pandas_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/youtube_index.html">youtube_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/parquet_index.html">parquet_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/wiki_index.html">wiki_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/github_index.html">github_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/multi_index.html">multi_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="chat/base_chat.html">base_chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chat/memory_chat.html">memory_chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chat/chat.html">chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chat/prompts/default_prompts.html">default_prompts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chat/base_chat.html">Prompter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chat/base_chat.html#basechat">BaseChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chat/memory_chat.html">FifoChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chat/memory_chat.html#vectorchat">VectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chat/memory_chat.html#fifovectorchat">FifoVectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chat/chat.html">Chat</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="utils/multithreading.html">multithreading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils/pandas.html">pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils/hf_datasets.html">hf_datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils/chatml.html">chatml</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="models/embedders/ada2.html">ada2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models/embedders/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models/embedders/sbert.html">sbert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/embedders/cohere.html">CohereEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
@@ -104,27 +105,26 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="processors/github_processors.html">github_processors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/os_processor.html">os_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/git_metadata.html">git_metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/visitors.html">visitors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/python_parser.html">python_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/todo/subs_parser.html">subs_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/todo/latex_parser.html">latex_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/todo/md_parser.html">md_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/todo/git_processor.html">git_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/arxiv_processor.html">arxiv_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/wiki_processor.html">wiki_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/mit_course_processor.html">mit_course_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/youtube_processor.html">youtube_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/pubmed_processor.html">pubmed_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/github_processors.html">GithubProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/os_processor.html">OsProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/git_metadata.html">IssueParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/git_metadata.html#commitparser">CommitParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/visitors.html">FunctionCallFinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/visitors.html#multiplicationcountervisitor">MultiplicationCounterVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/visitors.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/visitors.html#typingcollector">TypingCollector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/python_parser.html">PythonMinifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/python_parser.html#pythondocstringextractor">PythonDocstringExtractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/python_parser.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/python_parser.html#pythonparser">PythonParser</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html">perspective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html">SubjectPerspectiveAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html#ideation">Ideation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
 </ul>
 
         </div>
@@ -156,61 +156,208 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tasks/llm_task.html">llm_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tasks/multi_kernel_task.html">multi_kernel_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tasks/base_task.html">base_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tasks/topic_tree_task.html">topic_tree_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tasks/embedding_task.html">embedding_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/llm_task.html">LLMReader</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tasks/llm_task.html#babydragon.tasks.llm_task.LLMReader"><code class="docutils literal notranslate"><span class="pre">LLMReader</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/llm_task.html#llmwriter">LLMWriter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tasks/llm_task.html#babydragon.tasks.llm_task.LLMWriter"><code class="docutils literal notranslate"><span class="pre">LLMWriter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/multi_kernel_task.html">MultiKernelTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/base_task.html">BaseTask</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tasks/base_task.html#babydragon.tasks.base_task.BaseTask"><code class="docutils literal notranslate"><span class="pre">BaseTask</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/topic_tree_task.html">TopicTreeTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/embedding_task.html">EmbeddingTask</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tasks/embedding_task.html#babydragon.tasks.embedding_task.EmbeddingTask"><code class="docutils literal notranslate"><span class="pre">EmbeddingTask</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="memory/kernels/memory_kernel.html">memory_kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel.html">multi_kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/memory_kernel.html">MemoryKernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="memory/kernels/memory_kernel.html#babydragon.memory.kernels.memory_kernel.MemoryKernel"><code class="docutils literal notranslate"><span class="pre">MemoryKernel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/kernel_clustering.html">ClusterPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel.html">MultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="memory/kernels/kernel_utils.html">kernel_utils</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="memory/threads/base_thread.html">base_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/threads/fifo_thread.html">fifo_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/threads/vector_thread.html">vector_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/threads/todo/python_thread.html">python_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/threads/base_thread.html">BaseThread</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="memory/threads/base_thread.html#babydragon.memory.threads.base_thread.BaseThread"><code class="docutils literal notranslate"><span class="pre">BaseThread</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="memory/threads/fifo_thread.html">FifoThread</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="memory/threads/fifo_thread.html#babydragon.memory.threads.fifo_thread.FifoThread"><code class="docutils literal notranslate"><span class="pre">FifoThread</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="memory/threads/vector_thread.html">VectorThread</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="memory/threads/vector_thread.html#babydragon.memory.threads.vector_thread.VectorThread"><code class="docutils literal notranslate"><span class="pre">VectorThread</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/python_index.html">python_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/memory_index.html">memory_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/pandas_index.html">pandas_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/youtube_index.html">youtube_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/parquet_index.html">parquet_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/wiki_index.html">wiki_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/github_index.html">github_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="memory/indexes/todo/multi_index.html">multi_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="memory/indexes/memory_index.html">MemoryIndex</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="memory/indexes/memory_index.html#babydragon.memory.indexes.memory_index.MemoryIndex"><code class="docutils literal notranslate"><span class="pre">MemoryIndex</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="memory/indexes/pandas_index.html">PandasIndex</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="memory/indexes/pandas_index.html#babydragon.memory.indexes.pandas_index.PandasIndex"><code class="docutils literal notranslate"><span class="pre">PandasIndex</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="chat/base_chat.html">base_chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chat/memory_chat.html">memory_chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chat/chat.html">chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chat/prompts/default_prompts.html">default_prompts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chat/base_chat.html">Prompter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chat/base_chat.html#babydragon.chat.base_chat.Prompter"><code class="docutils literal notranslate"><span class="pre">Prompter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chat/base_chat.html#basechat">BaseChat</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chat/base_chat.html#babydragon.chat.base_chat.BaseChat"><code class="docutils literal notranslate"><span class="pre">BaseChat</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chat/memory_chat.html">FifoChat</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chat/memory_chat.html#babydragon.chat.memory_chat.FifoChat"><code class="docutils literal notranslate"><span class="pre">FifoChat</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chat/memory_chat.html#vectorchat">VectorChat</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chat/memory_chat.html#babydragon.chat.memory_chat.VectorChat"><code class="docutils literal notranslate"><span class="pre">VectorChat</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chat/memory_chat.html#fifovectorchat">FifoVectorChat</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chat/memory_chat.html#babydragon.chat.memory_chat.FifoVectorChat"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chat/chat.html">Chat</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chat/chat.html#babydragon.chat.chat.Chat"><code class="docutils literal notranslate"><span class="pre">Chat</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="utils/multithreading.html">multithreading</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils/pandas.html">pandas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas-a-powerful-data-analysis-and-manipulation-library-for-python">pandas - a powerful data analysis and manipulation library for Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.ArrowDtype"><code class="docutils literal notranslate"><span class="pre">ArrowDtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.BooleanDtype"><code class="docutils literal notranslate"><span class="pre">BooleanDtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Categorical"><code class="docutils literal notranslate"><span class="pre">Categorical</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.CategoricalDtype"><code class="docutils literal notranslate"><span class="pre">CategoricalDtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.CategoricalIndex"><code class="docutils literal notranslate"><span class="pre">CategoricalIndex</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.DataFrame"><code class="docutils literal notranslate"><span class="pre">DataFrame</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.DateOffset"><code class="docutils literal notranslate"><span class="pre">DateOffset</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.DatetimeIndex"><code class="docutils literal notranslate"><span class="pre">DatetimeIndex</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.DatetimeTZDtype"><code class="docutils literal notranslate"><span class="pre">DatetimeTZDtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.ExcelFile"><code class="docutils literal notranslate"><span class="pre">ExcelFile</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.ExcelWriter"><code class="docutils literal notranslate"><span class="pre">ExcelWriter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Flags"><code class="docutils literal notranslate"><span class="pre">Flags</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Float32Dtype"><code class="docutils literal notranslate"><span class="pre">Float32Dtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Float64Dtype"><code class="docutils literal notranslate"><span class="pre">Float64Dtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Grouper"><code class="docutils literal notranslate"><span class="pre">Grouper</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.HDFStore"><code class="docutils literal notranslate"><span class="pre">HDFStore</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Index"><code class="docutils literal notranslate"><span class="pre">Index</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Int16Dtype"><code class="docutils literal notranslate"><span class="pre">Int16Dtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Int32Dtype"><code class="docutils literal notranslate"><span class="pre">Int32Dtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Int64Dtype"><code class="docutils literal notranslate"><span class="pre">Int64Dtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Int8Dtype"><code class="docutils literal notranslate"><span class="pre">Int8Dtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Interval"><code class="docutils literal notranslate"><span class="pre">Interval</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.IntervalDtype"><code class="docutils literal notranslate"><span class="pre">IntervalDtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.IntervalIndex"><code class="docutils literal notranslate"><span class="pre">IntervalIndex</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.MultiIndex"><code class="docutils literal notranslate"><span class="pre">MultiIndex</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.NamedAgg"><code class="docutils literal notranslate"><span class="pre">NamedAgg</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Period"><code class="docutils literal notranslate"><span class="pre">Period</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.PeriodDtype"><code class="docutils literal notranslate"><span class="pre">PeriodDtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.PeriodIndex"><code class="docutils literal notranslate"><span class="pre">PeriodIndex</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.RangeIndex"><code class="docutils literal notranslate"><span class="pre">RangeIndex</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Series"><code class="docutils literal notranslate"><span class="pre">Series</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.SparseDtype"><code class="docutils literal notranslate"><span class="pre">SparseDtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.StringDtype"><code class="docutils literal notranslate"><span class="pre">StringDtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Timedelta"><code class="docutils literal notranslate"><span class="pre">Timedelta</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.TimedeltaIndex"><code class="docutils literal notranslate"><span class="pre">TimedeltaIndex</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.Timestamp"><code class="docutils literal notranslate"><span class="pre">Timestamp</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.UInt16Dtype"><code class="docutils literal notranslate"><span class="pre">UInt16Dtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.UInt32Dtype"><code class="docutils literal notranslate"><span class="pre">UInt32Dtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.UInt64Dtype"><code class="docutils literal notranslate"><span class="pre">UInt64Dtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.UInt8Dtype"><code class="docutils literal notranslate"><span class="pre">UInt8Dtype</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.array"><code class="docutils literal notranslate"><span class="pre">array()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.bdate_range"><code class="docutils literal notranslate"><span class="pre">bdate_range()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.concat"><code class="docutils literal notranslate"><span class="pre">concat()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.crosstab"><code class="docutils literal notranslate"><span class="pre">crosstab()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.cut"><code class="docutils literal notranslate"><span class="pre">cut()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.date_range"><code class="docutils literal notranslate"><span class="pre">date_range()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.eval"><code class="docutils literal notranslate"><span class="pre">eval()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.factorize"><code class="docutils literal notranslate"><span class="pre">factorize()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.get_dummies"><code class="docutils literal notranslate"><span class="pre">get_dummies()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.from_dummies"><code class="docutils literal notranslate"><span class="pre">from_dummies()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.infer_freq"><code class="docutils literal notranslate"><span class="pre">infer_freq()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.interval_range"><code class="docutils literal notranslate"><span class="pre">interval_range()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.isna"><code class="docutils literal notranslate"><span class="pre">isna()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.isnull"><code class="docutils literal notranslate"><span class="pre">isnull()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.json_normalize"><code class="docutils literal notranslate"><span class="pre">json_normalize()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.lreshape"><code class="docutils literal notranslate"><span class="pre">lreshape()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.melt"><code class="docutils literal notranslate"><span class="pre">melt()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.merge"><code class="docutils literal notranslate"><span class="pre">merge()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.merge_asof"><code class="docutils literal notranslate"><span class="pre">merge_asof()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.merge_ordered"><code class="docutils literal notranslate"><span class="pre">merge_ordered()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.notna"><code class="docutils literal notranslate"><span class="pre">notna()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.notnull"><code class="docutils literal notranslate"><span class="pre">notnull()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.option_context"><code class="docutils literal notranslate"><span class="pre">option_context</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.period_range"><code class="docutils literal notranslate"><span class="pre">period_range()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.pivot"><code class="docutils literal notranslate"><span class="pre">pivot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.pivot_table"><code class="docutils literal notranslate"><span class="pre">pivot_table()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.qcut"><code class="docutils literal notranslate"><span class="pre">qcut()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_clipboard"><code class="docutils literal notranslate"><span class="pre">read_clipboard()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_csv"><code class="docutils literal notranslate"><span class="pre">read_csv()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_excel"><code class="docutils literal notranslate"><span class="pre">read_excel()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_feather"><code class="docutils literal notranslate"><span class="pre">read_feather()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_fwf"><code class="docutils literal notranslate"><span class="pre">read_fwf()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_gbq"><code class="docutils literal notranslate"><span class="pre">read_gbq()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_hdf"><code class="docutils literal notranslate"><span class="pre">read_hdf()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_html"><code class="docutils literal notranslate"><span class="pre">read_html()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_json"><code class="docutils literal notranslate"><span class="pre">read_json()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_orc"><code class="docutils literal notranslate"><span class="pre">read_orc()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_parquet"><code class="docutils literal notranslate"><span class="pre">read_parquet()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_pickle"><code class="docutils literal notranslate"><span class="pre">read_pickle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_sas"><code class="docutils literal notranslate"><span class="pre">read_sas()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_spss"><code class="docutils literal notranslate"><span class="pre">read_spss()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_sql"><code class="docutils literal notranslate"><span class="pre">read_sql()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_sql_query"><code class="docutils literal notranslate"><span class="pre">read_sql_query()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_sql_table"><code class="docutils literal notranslate"><span class="pre">read_sql_table()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_stata"><code class="docutils literal notranslate"><span class="pre">read_stata()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_table"><code class="docutils literal notranslate"><span class="pre">read_table()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.read_xml"><code class="docutils literal notranslate"><span class="pre">read_xml()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.set_eng_float_format"><code class="docutils literal notranslate"><span class="pre">set_eng_float_format()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.show_versions"><code class="docutils literal notranslate"><span class="pre">show_versions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.test"><code class="docutils literal notranslate"><span class="pre">test()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.timedelta_range"><code class="docutils literal notranslate"><span class="pre">timedelta_range()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.to_datetime"><code class="docutils literal notranslate"><span class="pre">to_datetime()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.to_numeric"><code class="docutils literal notranslate"><span class="pre">to_numeric()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.to_pickle"><code class="docutils literal notranslate"><span class="pre">to_pickle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.to_timedelta"><code class="docutils literal notranslate"><span class="pre">to_timedelta()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.unique"><code class="docutils literal notranslate"><span class="pre">unique()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.value_counts"><code class="docutils literal notranslate"><span class="pre">value_counts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/pandas.html#pandas.wide_to_long"><code class="docutils literal notranslate"><span class="pre">wide_to_long()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="utils/hf_datasets.html">hf_datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils/chatml.html">chatml</a></li>
 </ul>
@@ -218,9 +365,18 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="models/embedders/ada2.html">ada2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models/embedders/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models/embedders/sbert.html">sbert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/embedders/ada2.html">OpenAiEmbedder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models/embedders/ada2.html#babydragon.models.embedders.ada2.OpenAiEmbedder"><code class="docutils literal notranslate"><span class="pre">OpenAiEmbedder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models/embedders/cohere.html">CohereEmbedder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models/embedders/cohere.html#babydragon.models.embedders.cohere.CohereEmbedder"><code class="docutils literal notranslate"><span class="pre">CohereEmbedder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models/embedders/sbert.html">SBERTEmbedder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models/embedders/sbert.html#babydragon.models.embedders.sbert.SBERTEmbedder"><code class="docutils literal notranslate"><span class="pre">SBERTEmbedder</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -233,29 +389,64 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="processors/github_processors.html">github_processors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/os_processor.html">os_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/git_metadata.html">git_metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/visitors.html">visitors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/python_parser.html">python_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/todo/subs_parser.html">subs_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/todo/latex_parser.html">latex_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/todo/md_parser.html">md_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/parsers/todo/git_processor.html">git_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/arxiv_processor.html">arxiv_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/wiki_processor.html">wiki_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/mit_course_processor.html">mit_course_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/youtube_processor.html">youtube_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/pubmed_processor.html">pubmed_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="processors/github_processors.html">GithubProcessor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/github_processors.html#babydragon.processors.github_processors.GithubProcessor"><code class="docutils literal notranslate"><span class="pre">GithubProcessor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processors/os_processor.html">OsProcessor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/os_processor.html#babydragon.processors.os_processor.OsProcessor"><code class="docutils literal notranslate"><span class="pre">OsProcessor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/git_metadata.html">IssueParser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/parsers/git_metadata.html#babydragon.processors.parsers.git_metadata.IssueParser"><code class="docutils literal notranslate"><span class="pre">IssueParser</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/git_metadata.html#commitparser">CommitParser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/parsers/git_metadata.html#babydragon.processors.parsers.git_metadata.CommitParser"><code class="docutils literal notranslate"><span class="pre">CommitParser</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/visitors.html">FunctionCallFinder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/parsers/visitors.html#babydragon.processors.parsers.visitors.FunctionCallFinder"><code class="docutils literal notranslate"><span class="pre">FunctionCallFinder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/visitors.html#multiplicationcountervisitor">MultiplicationCounterVisitor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/parsers/visitors.html#babydragon.processors.parsers.visitors.MultiplicationCounterVisitor"><code class="docutils literal notranslate"><span class="pre">MultiplicationCounterVisitor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/visitors.html#functionandclassvisitor">FunctionAndClassVisitor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/parsers/visitors.html#babydragon.processors.parsers.visitors.FunctionAndClassVisitor"><code class="docutils literal notranslate"><span class="pre">FunctionAndClassVisitor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/visitors.html#typingcollector">TypingCollector</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/parsers/visitors.html#babydragon.processors.parsers.visitors.TypingCollector"><code class="docutils literal notranslate"><span class="pre">TypingCollector</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/python_parser.html">PythonMinifier</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/parsers/python_parser.html#babydragon.processors.parsers.python_parser.PythonMinifier"><code class="docutils literal notranslate"><span class="pre">PythonMinifier</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/python_parser.html#pythondocstringextractor">PythonDocstringExtractor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/parsers/python_parser.html#babydragon.processors.parsers.python_parser.PythonDocstringExtractor"><code class="docutils literal notranslate"><span class="pre">PythonDocstringExtractor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/python_parser.html#functionandclassvisitor">FunctionAndClassVisitor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/parsers/python_parser.html#babydragon.processors.parsers.python_parser.FunctionAndClassVisitor"><code class="docutils literal notranslate"><span class="pre">FunctionAndClassVisitor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="processors/parsers/python_parser.html#pythonparser">PythonParser</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="processors/parsers/python_parser.html#babydragon.processors.parsers.python_parser.PythonParser"><code class="docutils literal notranslate"><span class="pre">PythonParser</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html">perspective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html">SubjectPerspectiveAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html#ideation">Ideation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
 </ul>
 </div>
 </section>
@@ -264,7 +455,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="tasks/llm_task.html" class="btn btn-neutral float-right" title="llm_task" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tasks/llm_task.html" class="btn btn-neutral float-right" title="LLMReader" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

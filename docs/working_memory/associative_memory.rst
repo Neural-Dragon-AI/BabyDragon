@@ -1,4 +1,0 @@
-associative_memory
-==================
-
-.. toctree::

@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.io.html &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.io.html</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.io.html</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:mod:`pandas.io.html` is a module containing functionality for dealing with</span>
+<span class="sd">HTML IO.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">abc</span>
+<span class="kn">import</span> <span class="nn">numbers</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">Literal</span><span class="p">,</span>
+    <span class="n">Pattern</span><span class="p">,</span>
+    <span class="n">Sequence</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas._libs</span> <span class="kn">import</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseBuffer</span><span class="p">,</span>
+    <span class="n">DtypeBackend</span><span class="p">,</span>
+    <span class="n">FilePath</span><span class="p">,</span>
+    <span class="n">ReadBuffer</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.compat._optional</span> <span class="kn">import</span> <span class="n">import_optional_dependency</span>
+<span class="kn">from</span> <span class="nn">pandas.errors</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AbstractMethodError</span><span class="p">,</span>
+    <span class="n">EmptyDataError</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.util._validators</span> <span class="kn">import</span> <span class="n">check_dtype_backend</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="n">is_list_like</span>
+
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">isna</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.base</span> <span class="kn">import</span> <span class="n">Index</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.multi</span> <span class="kn">import</span> <span class="n">MultiIndex</span>
+<span class="kn">from</span> <span class="nn">pandas.core.series</span> <span class="kn">import</span> <span class="n">Series</span>
+
+<span class="kn">from</span> <span class="nn">pandas.io.common</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">file_exists</span><span class="p">,</span>
+    <span class="n">get_handle</span><span class="p">,</span>
+    <span class="n">is_url</span><span class="p">,</span>
+    <span class="n">stringify_path</span><span class="p">,</span>
+    <span class="n">urlopen</span><span class="p">,</span>
+    <span class="n">validate_header_arg</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.io.formats.printing</span> <span class="kn">import</span> <span class="n">pprint_thing</span>
+<span class="kn">from</span> <span class="nn">pandas.io.parsers</span> <span class="kn">import</span> <span class="n">TextParser</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+<span class="n">_IMPORTS</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">_HAS_BS4</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">_HAS_LXML</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">_HAS_HTML5LIB</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<span class="k">def</span> <span class="nf">_importers</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># import things we need</span>
+    <span class="c1"># but make this done on a first use basis</span>
+
+    <span class="k">global</span> <span class="n">_IMPORTS</span>
+    <span class="k">if</span> <span class="n">_IMPORTS</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="k">global</span> <span class="n">_HAS_BS4</span><span class="p">,</span> <span class="n">_HAS_LXML</span><span class="p">,</span> <span class="n">_HAS_HTML5LIB</span>
+    <span class="n">bs4</span> <span class="o">=</span> <span class="n">import_optional_dependency</span><span class="p">(</span><span class="s2">&quot;bs4&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+    <span class="n">_HAS_BS4</span> <span class="o">=</span> <span class="n">bs4</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="n">lxml</span> <span class="o">=</span> <span class="n">import_optional_dependency</span><span class="p">(</span><span class="s2">&quot;lxml.etree&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+    <span class="n">_HAS_LXML</span> <span class="o">=</span> <span class="n">lxml</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="n">html5lib</span> <span class="o">=</span> <span class="n">import_optional_dependency</span><span class="p">(</span><span class="s2">&quot;html5lib&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+    <span class="n">_HAS_HTML5LIB</span> <span class="o">=</span> <span class="n">html5lib</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="n">_IMPORTS</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="c1">#############</span>
+<span class="c1"># READ HTML #</span>
+<span class="c1">#############</span>
+<span class="n">_RE_WHITESPACE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\r\n]+|\s{2,}&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_remove_whitespace</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">regex</span><span class="p">:</span> <span class="n">Pattern</span> <span class="o">=</span> <span class="n">_RE_WHITESPACE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Replace extra whitespace inside of a string with a single space.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s : str or unicode</span>
+<span class="sd">        The string from which to remove extra whitespace.</span>
+<span class="sd">    regex : re.Pattern</span>
+<span class="sd">        The regular expression to use to remove extra whitespace.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    subd : str or unicode</span>
+<span class="sd">        `s` with all extra whitespace replaced with a single space.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">regex</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+
+<span class="k">def</span> <span class="nf">_get_skiprows</span><span class="p">(</span><span class="n">skiprows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">slice</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get an iterator given an integer, slice or container.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    skiprows : int, slice, container</span>
+<span class="sd">        The iterator to use to skip rows; can also be a slice.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        * If `skiprows` is not a slice, integer, or Container</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    it : iterable</span>
+<span class="sd">        A proper iterator to use to skip rows of a DataFrame.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">skiprows</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="n">skiprows</span><span class="o">.</span><span class="n">start</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">skiprows</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">)</span> <span class="ow">or</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">skiprows</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="s2">&quot;int | Sequence[int]&quot;</span><span class="p">,</span> <span class="n">skiprows</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">skiprows</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">skiprows</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is not a valid type for skipping rows&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_read</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">FilePath</span> <span class="o">|</span> <span class="n">BaseBuffer</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Try to read from a url, file or string.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obj : str, unicode, path object, or file-like object</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    raw_text : str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">is_url</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;read&quot;</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">file_exists</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+    <span class="p">):</span>
+        <span class="k">with</span> <span class="n">get_handle</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">handles</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">handles</span><span class="o">.</span><span class="n">handle</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)):</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">obj</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot read object of type &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span>
+
+
+<span class="k">class</span> <span class="nc">_HtmlFrameParser</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for parsers that parse HTML into DataFrames.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    io : str or file-like</span>
+<span class="sd">        This can be either a string of raw HTML, a valid URL using the HTTP,</span>
+<span class="sd">        FTP, or FILE protocols or a file-like object.</span>
+
+<span class="sd">    match : str or regex</span>
+<span class="sd">        The text to match in the document.</span>
+
+<span class="sd">    attrs : dict</span>
+<span class="sd">        List of HTML &lt;table&gt; element attributes to match.</span>
+
+<span class="sd">    encoding : str</span>
+<span class="sd">        Encoding to be used by parser</span>
+
+<span class="sd">    displayed_only : bool</span>
+<span class="sd">        Whether or not items with &quot;display:none&quot; should be ignored</span>
+
+<span class="sd">    extract_links : {None, &quot;all&quot;, &quot;header&quot;, &quot;body&quot;, &quot;footer&quot;}</span>
+<span class="sd">        Table elements in the specified section(s) with &lt;a&gt; tags will have their</span>
+<span class="sd">        href extracted.</span>
+
+<span class="sd">        .. versionadded:: 1.5.0</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    io : str or file-like</span>
+<span class="sd">        raw HTML, URL, or file-like object</span>
+
+<span class="sd">    match : regex</span>
+<span class="sd">        The text to match in the raw HTML</span>
+
+<span class="sd">    attrs : dict-like</span>
+<span class="sd">        A dictionary of valid table attributes to use to search for table</span>
+<span class="sd">        elements.</span>
+
+<span class="sd">    encoding : str</span>
+<span class="sd">        Encoding to be used by parser</span>
+
+<span class="sd">    displayed_only : bool</span>
+<span class="sd">        Whether or not items with &quot;display:none&quot; should be ignored</span>
+
+<span class="sd">    extract_links : {None, &quot;all&quot;, &quot;header&quot;, &quot;body&quot;, &quot;footer&quot;}</span>
+<span class="sd">        Table elements in the specified section(s) with &lt;a&gt; tags will have their</span>
+<span class="sd">        href extracted.</span>
+
+<span class="sd">        .. versionadded:: 1.5.0</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    To subclass this class effectively you must override the following methods:</span>
+<span class="sd">        * :func:`_build_doc`</span>
+<span class="sd">        * :func:`_attr_getter`</span>
+<span class="sd">        * :func:`_href_getter`</span>
+<span class="sd">        * :func:`_text_getter`</span>
+<span class="sd">        * :func:`_parse_td`</span>
+<span class="sd">        * :func:`_parse_thead_tr`</span>
+<span class="sd">        * :func:`_parse_tbody_tr`</span>
+<span class="sd">        * :func:`_parse_tfoot_tr`</span>
+<span class="sd">        * :func:`_parse_tables`</span>
+<span class="sd">        * :func:`_equals_tag`</span>
+<span class="sd">    See each method&#39;s respective documentation for details on their</span>
+<span class="sd">    functionality.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">io</span><span class="p">:</span> <span class="n">FilePath</span> <span class="o">|</span> <span class="n">ReadBuffer</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">ReadBuffer</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">match</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Pattern</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">displayed_only</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">extract_links</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;footer&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">io</span> <span class="o">=</span> <span class="n">io</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">match</span> <span class="o">=</span> <span class="n">match</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">attrs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="n">encoding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">displayed_only</span> <span class="o">=</span> <span class="n">displayed_only</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extract_links</span> <span class="o">=</span> <span class="n">extract_links</span>
+
+    <span class="k">def</span> <span class="nf">parse_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse and return all tables from the DOM.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of parsed (header, body, footer) tuples from tables.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_tables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_doc</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">match</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_thead_tbody_tfoot</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_attr_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the attribute value of an individual DOM node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : node-like</span>
+<span class="sd">            A DOM node.</span>
+
+<span class="sd">        attr : str or unicode</span>
+<span class="sd">            The attribute, such as &quot;colspan&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str or unicode</span>
+<span class="sd">            The attribute value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Both lxml and BeautifulSoup have the same implementation:</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_href_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a href if the DOM node contains a child &lt;a&gt; or None.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : node-like</span>
+<span class="sd">            A DOM node.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        href : str or unicode</span>
+<span class="sd">            The href from the &lt;a&gt; child of the DOM node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AbstractMethodError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_text_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the text of an individual DOM node.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : node-like</span>
+<span class="sd">            A DOM node.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        text : str or unicode</span>
+<span class="sd">            The text from an individual DOM node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AbstractMethodError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_td</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the td elements from a row element.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : node-like</span>
+<span class="sd">            A DOM &lt;tr&gt; node.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of node-like</span>
+<span class="sd">            These are the elements of each row, i.e., the columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AbstractMethodError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_thead_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the list of thead row elements from the parsed table element.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : a table element that contains zero or more thead elements.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of node-like</span>
+<span class="sd">            These are the &lt;tr&gt; row elements of a table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AbstractMethodError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_tbody_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the list of tbody row elements from the parsed table element.</span>
+
+<span class="sd">        HTML5 table bodies consist of either 0 or more &lt;tbody&gt; elements (which</span>
+<span class="sd">        only contain &lt;tr&gt; elements) or 0 or more &lt;tr&gt; elements. This method</span>
+<span class="sd">        checks for both structures.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : a table element that contains row elements.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of node-like</span>
+<span class="sd">            These are the &lt;tr&gt; row elements of a table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AbstractMethodError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_tfoot_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the list of tfoot row elements from the parsed table element.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table : a table element that contains row elements.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of node-like</span>
+<span class="sd">            These are the &lt;tr&gt; row elements of a table.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AbstractMethodError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return all tables from the parsed DOM.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        doc : the DOM from which to parse the table element.</span>
+
+<span class="sd">        match : str or regular expression</span>
+<span class="sd">            The text to search for in the DOM tree.</span>
+
+<span class="sd">        attrs : dict</span>
+<span class="sd">            A dictionary of table attributes that can be used to disambiguate</span>
+<span class="sd">            multiple tables on a page.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError : `match` does not match any text in the document.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of node-like</span>
+<span class="sd">            HTML &lt;table&gt; elements to be parsed into raw data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AbstractMethodError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_equals_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return whether an individual DOM node matches a tag</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : node-like</span>
+<span class="sd">            A DOM node.</span>
+
+<span class="sd">        tag : str</span>
+<span class="sd">            Tag name to be checked for equality.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        boolean</span>
+<span class="sd">            Whether `obj`&#39;s tag name is `tag`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AbstractMethodError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_build_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a tree-like object that can be used to iterate over the DOM.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        node-like</span>
+<span class="sd">            The DOM from which to parse the table element.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">AbstractMethodError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_thead_tbody_tfoot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_html</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a table, return parsed header, body, and foot.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        table_html : node-like</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple of (header, body, footer), each a list of list-of-text rows.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Header and body are lists-of-lists. Top level list is a list of</span>
+<span class="sd">        rows. Each row is a list of str text.</span>
+
+<span class="sd">        Logic: Use &lt;thead&gt;, &lt;tbody&gt;, &lt;tfoot&gt; elements to identify</span>
+<span class="sd">               header, body, and footer, otherwise:</span>
+<span class="sd">               - Put all rows into body</span>
+<span class="sd">               - Move rows from top of body to header only if</span>
+<span class="sd">                 all elements inside row are &lt;th&gt;</span>
+<span class="sd">               - Move rows from bottom of body to footer only if</span>
+<span class="sd">                 all elements inside row are &lt;th&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">header_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_thead_tr</span><span class="p">(</span><span class="n">table_html</span><span class="p">)</span>
+        <span class="n">body_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_tbody_tr</span><span class="p">(</span><span class="n">table_html</span><span class="p">)</span>
+        <span class="n">footer_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_tfoot_tr</span><span class="p">(</span><span class="n">table_html</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">row_is_all_th</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_equals_tag</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s2">&quot;th&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_td</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">header_rows</span><span class="p">:</span>
+            <span class="c1"># The table has no &lt;thead&gt;. Move the top all-&lt;th&gt; rows from</span>
+            <span class="c1"># body_rows to header_rows. (This is a common case because many</span>
+            <span class="c1"># tables in the wild have no &lt;thead&gt; or &lt;tfoot&gt;</span>
+            <span class="k">while</span> <span class="n">body_rows</span> <span class="ow">and</span> <span class="n">row_is_all_th</span><span class="p">(</span><span class="n">body_rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">header_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">body_rows</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expand_colspan_rowspan</span><span class="p">(</span><span class="n">header_rows</span><span class="p">,</span> <span class="n">section</span><span class="o">=</span><span class="s2">&quot;header&quot;</span><span class="p">)</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expand_colspan_rowspan</span><span class="p">(</span><span class="n">body_rows</span><span class="p">,</span> <span class="n">section</span><span class="o">=</span><span class="s2">&quot;body&quot;</span><span class="p">)</span>
+        <span class="n">footer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_expand_colspan_rowspan</span><span class="p">(</span><span class="n">footer_rows</span><span class="p">,</span> <span class="n">section</span><span class="o">=</span><span class="s2">&quot;footer&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">header</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">footer</span>
+
+    <span class="k">def</span> <span class="nf">_expand_colspan_rowspan</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">section</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;footer&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">]</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a list of &lt;tr&gt;s, return a list of text rows.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rows : list of node-like</span>
+<span class="sd">            List of &lt;tr&gt;s</span>
+<span class="sd">        section : the section that the rows belong to (header, body or footer).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of list</span>
+<span class="sd">            Each returned row is a list of str text, or tuple (text, link)</span>
+<span class="sd">            if extract_links is not None.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Any cell with ``rowspan`` or ``colspan`` will have its contents copied</span>
+<span class="sd">        to subsequent cells.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_texts</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list of rows, each a list of str</span>
+        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span>
+        <span class="n">remainder</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
+            <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># list of (index, text, nrows)</span>
+
+        <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># the output for this row</span>
+            <span class="n">next_remainder</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">tds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_td</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">td</span> <span class="ow">in</span> <span class="n">tds</span><span class="p">:</span>
+                <span class="c1"># Append texts from previous rows with rowspan&gt;1 that come</span>
+                <span class="c1"># before this &lt;td&gt;</span>
+                <span class="k">while</span> <span class="n">remainder</span> <span class="ow">and</span> <span class="n">remainder</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">index</span><span class="p">:</span>
+                    <span class="n">prev_i</span><span class="p">,</span> <span class="n">prev_text</span><span class="p">,</span> <span class="n">prev_rowspan</span> <span class="o">=</span> <span class="n">remainder</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prev_text</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">prev_rowspan</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">next_remainder</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">prev_i</span><span class="p">,</span> <span class="n">prev_text</span><span class="p">,</span> <span class="n">prev_rowspan</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                <span class="c1"># Append the text from this &lt;td&gt;, colspan times</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">_remove_whitespace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_text_getter</span><span class="p">(</span><span class="n">td</span><span class="p">))</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_links</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">section</span><span class="p">):</span>
+                    <span class="n">href</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_href_getter</span><span class="p">(</span><span class="n">td</span><span class="p">)</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">href</span><span class="p">)</span>
+                <span class="n">rowspan</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attr_getter</span><span class="p">(</span><span class="n">td</span><span class="p">,</span> <span class="s2">&quot;rowspan&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">colspan</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attr_getter</span><span class="p">(</span><span class="n">td</span><span class="p">,</span> <span class="s2">&quot;colspan&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">colspan</span><span class="p">):</span>
+                    <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">rowspan</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">next_remainder</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">index</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">rowspan</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Append texts from previous rows at the final position</span>
+            <span class="k">for</span> <span class="n">prev_i</span><span class="p">,</span> <span class="n">prev_text</span><span class="p">,</span> <span class="n">prev_rowspan</span> <span class="ow">in</span> <span class="n">remainder</span><span class="p">:</span>
+                <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prev_text</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">prev_rowspan</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">next_remainder</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">prev_i</span><span class="p">,</span> <span class="n">prev_text</span><span class="p">,</span> <span class="n">prev_rowspan</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+            <span class="n">all_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+            <span class="n">remainder</span> <span class="o">=</span> <span class="n">next_remainder</span>
+
+        <span class="c1"># Append rows that only appear because the previous row had non-1</span>
+        <span class="c1"># rowspan</span>
+        <span class="k">while</span> <span class="n">remainder</span><span class="p">:</span>
+            <span class="n">next_remainder</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">prev_i</span><span class="p">,</span> <span class="n">prev_text</span><span class="p">,</span> <span class="n">prev_rowspan</span> <span class="ow">in</span> <span class="n">remainder</span><span class="p">:</span>
+                <span class="n">texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prev_text</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">prev_rowspan</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">next_remainder</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">prev_i</span><span class="p">,</span> <span class="n">prev_text</span><span class="p">,</span> <span class="n">prev_rowspan</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">all_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+            <span class="n">remainder</span> <span class="o">=</span> <span class="n">next_remainder</span>
+
+        <span class="k">return</span> <span class="n">all_texts</span>
+
+    <span class="k">def</span> <span class="nf">_handle_hidden_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tbl_list</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return list of tables, potentially removing hidden elements</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tbl_list : list of node-like</span>
+<span class="sd">            Type of list elements will vary depending upon parser used</span>
+<span class="sd">        attr_name : str</span>
+<span class="sd">            Name of the accessor for retrieving HTML attributes</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of node-like</span>
+<span class="sd">            Return type matches `tbl_list`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">displayed_only</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tbl_list</span>
+
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">x</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tbl_list</span>
+            <span class="k">if</span> <span class="s2">&quot;display:none&quot;</span>
+            <span class="ow">not</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;style&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">_BeautifulSoupHtml5LibFrameParser</span><span class="p">(</span><span class="n">_HtmlFrameParser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    HTML to DataFrame parser that uses BeautifulSoup under the hood.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pandas.io.html._HtmlFrameParser</span>
+<span class="sd">    pandas.io.html._LxmlFrameParser</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Documentation strings for this class are in the base class</span>
+<span class="sd">    :class:`pandas.io.html._HtmlFrameParser`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">SoupStrainer</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strainer</span> <span class="o">=</span> <span class="n">SoupStrainer</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+        <span class="n">element_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strainer</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">tables</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">element_name</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">tables</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No tables found&quot;</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">unique_tables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_hidden_tables</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="s2">&quot;attrs&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">displayed_only</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;display:\s*none&quot;</span><span class="p">)):</span>
+                    <span class="n">elem</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">table</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unique_tables</span> <span class="ow">and</span> <span class="n">table</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">match</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+            <span class="n">unique_tables</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No tables found matching pattern </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">pattern</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">_href_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">a</span> <span class="k">else</span> <span class="n">a</span><span class="p">[</span><span class="s2">&quot;href&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_text_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">text</span>
+
+    <span class="k">def</span> <span class="nf">_equals_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">tag</span>
+
+    <span class="k">def</span> <span class="nf">_parse_td</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">row</span><span class="o">.</span><span class="n">find_all</span><span class="p">((</span><span class="s2">&quot;td&quot;</span><span class="p">,</span> <span class="s2">&quot;th&quot;</span><span class="p">),</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_thead_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">table</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;thead tr&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_tbody_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="n">from_tbody</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;tbody tr&quot;</span><span class="p">)</span>
+        <span class="n">from_root</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># HTML spec: at most one of these lists has content</span>
+        <span class="k">return</span> <span class="n">from_tbody</span> <span class="o">+</span> <span class="n">from_root</span>
+
+    <span class="k">def</span> <span class="nf">_parse_tfoot_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">table</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;tfoot tr&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_setup_build_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">raw_text</span> <span class="o">=</span> <span class="n">_read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">raw_text</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No text parsed from document: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">raw_text</span>
+
+    <span class="k">def</span> <span class="nf">_build_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+        <span class="n">bdoc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setup_build_doc</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bdoc</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">udoc</span> <span class="o">=</span> <span class="n">bdoc</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span>
+            <span class="n">from_encoding</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">udoc</span> <span class="o">=</span> <span class="n">bdoc</span>
+            <span class="n">from_encoding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span>
+
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">udoc</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;html5lib&quot;</span><span class="p">,</span> <span class="n">from_encoding</span><span class="o">=</span><span class="n">from_encoding</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">&quot;br&quot;</span><span class="p">):</span>
+            <span class="n">br</span><span class="o">.</span><span class="n">replace_with</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">br</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">soup</span>
+
+
+<span class="k">def</span> <span class="nf">_build_xpath_expr</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build an xpath expression to simulate bs4&#39;s ability to pass in kwargs to</span>
+<span class="sd">    search for attributes when using the lxml parser.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    attrs : dict</span>
+<span class="sd">        A dict of HTML attributes. These are NOT checked for validity.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    expr : unicode</span>
+<span class="sd">        An XPath expression that checks for the given HTML attributes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># give class attribute as class_ because class is a python keyword</span>
+    <span class="k">if</span> <span class="s2">&quot;class_&quot;</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+        <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;class_&quot;</span><span class="p">)</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;@</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+
+<span class="n">_re_namespace</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;re&quot;</span><span class="p">:</span> <span class="s2">&quot;http://exslt.org/regular-expressions&quot;</span><span class="p">}</span>
+
+
+<span class="k">class</span> <span class="nc">_LxmlFrameParser</span><span class="p">(</span><span class="n">_HtmlFrameParser</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    HTML to DataFrame parser that uses lxml under the hood.</span>
+
+<span class="sd">    Warning</span>
+<span class="sd">    -------</span>
+<span class="sd">    This parser can only handle HTTP, FTP, and FILE urls.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    _HtmlFrameParser</span>
+<span class="sd">    _BeautifulSoupLxmlFrameParser</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Documentation strings for this class are in the base class</span>
+<span class="sd">    :class:`_HtmlFrameParser`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_href_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">href</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;.//a/@href&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">href</span> <span class="k">else</span> <span class="n">href</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_text_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">text_content</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_parse_td</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="c1"># Look for direct children only: the &quot;row&quot; element here may be a</span>
+        <span class="c1"># &lt;thead&gt; or &lt;tfoot&gt; (see _parse_thead_tr).</span>
+        <span class="k">return</span> <span class="n">row</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;./td|./th&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">pattern</span>
+
+        <span class="c1"># 1. check all descendants for the given pattern and only search tables</span>
+        <span class="c1"># GH 49929</span>
+        <span class="n">xpath_expr</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;//table[.//text()[re:test(., </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="si">}</span><span class="s2">)]]&quot;</span>
+
+        <span class="c1"># if any table attributes were given build an xpath expression to</span>
+        <span class="c1"># search for them</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">xpath_expr</span> <span class="o">+=</span> <span class="n">_build_xpath_expr</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">tables</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="n">xpath_expr</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="n">_re_namespace</span><span class="p">)</span>
+
+        <span class="n">tables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_hidden_tables</span><span class="p">(</span><span class="n">tables</span><span class="p">,</span> <span class="s2">&quot;attrib&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">displayed_only</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+                <span class="c1"># lxml utilizes XPATH 1.0 which does not have regex</span>
+                <span class="c1"># support. As a result, we find all elements with a style</span>
+                <span class="c1"># attribute and iterate them to check for display:none</span>
+                <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;.//*[@style]&quot;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="s2">&quot;display:none&quot;</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;style&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+                        <span class="n">elem</span><span class="o">.</span><span class="n">getparent</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">tables</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No tables found matching regex </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tables</span>
+
+    <span class="k">def</span> <span class="nf">_equals_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">tag</span>
+
+    <span class="k">def</span> <span class="nf">_build_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            * If a URL that lxml cannot parse is passed.</span>
+
+<span class="sd">        Exception</span>
+<span class="sd">            * Any other ``Exception`` thrown. For example, trying to parse a</span>
+<span class="sd">              URL that is syntactically correct on a machine with no internet</span>
+<span class="sd">              connection will fail.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        pandas.io.html._HtmlFrameParser._build_doc</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">lxml.etree</span> <span class="kn">import</span> <span class="n">XMLSyntaxError</span>
+        <span class="kn">from</span> <span class="nn">lxml.html</span> <span class="kn">import</span> <span class="p">(</span>
+            <span class="n">HTMLParser</span><span class="p">,</span>
+            <span class="n">fromstring</span><span class="p">,</span>
+            <span class="n">parse</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">HTMLParser</span><span class="p">(</span><span class="n">recover</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="p">):</span>
+                <span class="k">with</span> <span class="n">urlopen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">r</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># try to parse the input in the simplest way</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">UnicodeDecodeError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># if the input is a blob of html goop</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="p">):</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">fromstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">io</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s2">&quot;text_content&quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">XMLSyntaxError</span><span class="p">(</span><span class="s2">&quot;no text parsed from document&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">br</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;*//br&quot;</span><span class="p">):</span>
+            <span class="n">br</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="n">br</span><span class="o">.</span><span class="n">tail</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">r</span>
+
+    <span class="k">def</span> <span class="nf">_parse_thead_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">thead</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;.//thead&quot;</span><span class="p">):</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">thead</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;./tr&quot;</span><span class="p">))</span>
+
+            <span class="c1"># HACK: lxml does not clean up the clearly-erroneous</span>
+            <span class="c1"># &lt;thead&gt;&lt;th&gt;foo&lt;/th&gt;&lt;th&gt;bar&lt;/th&gt;&lt;/thead&gt;. (Missing &lt;tr&gt;). Add</span>
+            <span class="c1"># the &lt;thead&gt; and _pretend_ it&#39;s a &lt;tr&gt;; _parse_td() will find its</span>
+            <span class="c1"># children as though it&#39;s a &lt;tr&gt;.</span>
+            <span class="c1">#</span>
+            <span class="c1"># Better solution would be to use html5lib.</span>
+            <span class="n">elements_at_root</span> <span class="o">=</span> <span class="n">thead</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;./td|./th&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">elements_at_root</span><span class="p">:</span>
+                <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thead</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">rows</span>
+
+    <span class="k">def</span> <span class="nf">_parse_tbody_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="n">from_tbody</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;.//tbody//tr&quot;</span><span class="p">)</span>
+        <span class="n">from_root</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;./tr&quot;</span><span class="p">)</span>
+        <span class="c1"># HTML spec: at most one of these lists has content</span>
+        <span class="k">return</span> <span class="n">from_tbody</span> <span class="o">+</span> <span class="n">from_root</span>
+
+    <span class="k">def</span> <span class="nf">_parse_tfoot_tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">table</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;.//tfoot//tr&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_expand_elements</span><span class="p">(</span><span class="n">body</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">body</span><span class="p">]</span>
+    <span class="n">lens</span> <span class="o">=</span> <span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">lens_max</span> <span class="o">=</span> <span class="n">lens</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">not_max</span> <span class="o">=</span> <span class="n">lens</span><span class="p">[</span><span class="n">lens</span> <span class="o">!=</span> <span class="n">lens_max</span><span class="p">]</span>
+
+    <span class="n">empty</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">length</span> <span class="ow">in</span> <span class="n">not_max</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">body</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">+=</span> <span class="n">empty</span> <span class="o">*</span> <span class="p">(</span><span class="n">lens_max</span> <span class="o">-</span> <span class="n">length</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_data_to_frame</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">head</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">foot</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;skiprows&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_skiprows</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;skiprows&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">head</span><span class="p">:</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">head</span> <span class="o">+</span> <span class="n">body</span>
+
+        <span class="c1"># Infer header when there is a &lt;thead&gt; or top &lt;th&gt;-only rows</span>
+        <span class="k">if</span> <span class="n">header</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">head</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># ignore all-empty-text rows</span>
+                <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">head</span><span class="p">)</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">text</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">row</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">foot</span><span class="p">:</span>
+        <span class="n">body</span> <span class="o">+=</span> <span class="n">foot</span>
+
+    <span class="c1"># fill out elements of body that are &quot;ragged&quot;</span>
+    <span class="n">_expand_elements</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">TextParser</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">tp</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+
+<span class="n">_valid_parsers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;lxml&quot;</span><span class="p">:</span> <span class="n">_LxmlFrameParser</span><span class="p">,</span>
+    <span class="kc">None</span><span class="p">:</span> <span class="n">_LxmlFrameParser</span><span class="p">,</span>
+    <span class="s2">&quot;html5lib&quot;</span><span class="p">:</span> <span class="n">_BeautifulSoupHtml5LibFrameParser</span><span class="p">,</span>
+    <span class="s2">&quot;bs4&quot;</span><span class="p">:</span> <span class="n">_BeautifulSoupHtml5LibFrameParser</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_parser_dispatch</span><span class="p">(</span><span class="n">flavor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">_HtmlFrameParser</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Choose the parser based on the input flavor.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    flavor : str</span>
+<span class="sd">        The type of parser to use. This must be a valid backend.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cls : _HtmlFrameParser subclass</span>
+<span class="sd">        The parser class based on the requested input flavor.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        * If `flavor` is not a valid backend.</span>
+<span class="sd">    ImportError</span>
+<span class="sd">        * If you do not have the requested `flavor`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">valid_parsers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">_valid_parsers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">flavor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_parsers</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">flavor</span><span class="p">)</span><span class="si">}</span><span class="s2"> is not a valid flavor, valid flavors are </span><span class="si">{</span><span class="n">valid_parsers</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">flavor</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;bs4&quot;</span><span class="p">,</span> <span class="s2">&quot;html5lib&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_HAS_HTML5LIB</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;html5lib not found, please install it&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_HAS_BS4</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;BeautifulSoup4 (bs4) not found, please install it&quot;</span><span class="p">)</span>
+        <span class="c1"># Although we call this above, we want to raise here right before use.</span>
+        <span class="n">bs4</span> <span class="o">=</span> <span class="n">import_optional_dependency</span><span class="p">(</span><span class="s2">&quot;bs4&quot;</span><span class="p">)</span>  <span class="c1"># noqa:F841</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_HAS_LXML</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;lxml not found, please install it&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_valid_parsers</span><span class="p">[</span><span class="n">flavor</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_print_as_set</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">arg</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">pprint_thing</span><span class="p">(</span><span class="n">el</span><span class="p">)</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">s</span><span class="p">])</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">{{</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="se">}}</span><span class="s2">&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">_validate_flavor</span><span class="p">(</span><span class="n">flavor</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">flavor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">flavor</span> <span class="o">=</span> <span class="s2">&quot;lxml&quot;</span><span class="p">,</span> <span class="s2">&quot;bs4&quot;</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flavor</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">flavor</span> <span class="o">=</span> <span class="p">(</span><span class="n">flavor</span><span class="p">,)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flavor</span><span class="p">,</span> <span class="n">abc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">flav</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">flav</span> <span class="ow">in</span> <span class="n">flavor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Object of type </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">flavor</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;is not an iterable of strings&quot;</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">flavor</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flavor</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">flavor</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; is not a valid flavor&quot;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="n">flavor</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">flavor</span><span class="p">)</span>
+    <span class="n">valid_flavors</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_valid_parsers</span><span class="p">)</span>
+    <span class="n">flavor_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">flavor</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">flavor_set</span> <span class="o">&amp;</span> <span class="n">valid_flavors</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_print_as_set</span><span class="p">(</span><span class="n">flavor_set</span><span class="p">)</span><span class="si">}</span><span class="s2"> is not a valid set of flavors, valid &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;flavors are </span><span class="si">{</span><span class="n">_print_as_set</span><span class="p">(</span><span class="n">valid_flavors</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">flavor</span>
+
+
+<span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="n">flavor</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">displayed_only</span><span class="p">,</span> <span class="n">extract_links</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">flavor</span> <span class="o">=</span> <span class="n">_validate_flavor</span><span class="p">(</span><span class="n">flavor</span><span class="p">)</span>
+    <span class="n">compiled_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>  <span class="c1"># you can pass a compiled regex here</span>
+
+    <span class="n">retained</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">flav</span> <span class="ow">in</span> <span class="n">flavor</span><span class="p">:</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">_parser_dispatch</span><span class="p">(</span><span class="n">flav</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">parser</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">compiled_match</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">displayed_only</span><span class="p">,</span> <span class="n">extract_links</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tables</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">parse_tables</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">caught</span><span class="p">:</span>
+            <span class="c1"># if `io` is an io-like object, check if it&#39;s seekable</span>
+            <span class="c1"># and try to rewind it before trying the next parser</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="s2">&quot;seekable&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">io</span><span class="o">.</span><span class="n">seekable</span><span class="p">():</span>
+                <span class="n">io</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="s2">&quot;seekable&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">io</span><span class="o">.</span><span class="n">seekable</span><span class="p">():</span>
+                <span class="c1"># if we couldn&#39;t rewind it, let the user know</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;The flavor </span><span class="si">{</span><span class="n">flav</span><span class="si">}</span><span class="s2"> failed to parse your input. &quot;</span>
+                    <span class="s2">&quot;Since you passed a non-rewindable file &quot;</span>
+                    <span class="s2">&quot;object, we can&#39;t rewind it to try &quot;</span>
+                    <span class="s2">&quot;another parser. Try read_html() with a different flavor.&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">caught</span>
+
+            <span class="n">retained</span> <span class="o">=</span> <span class="n">caught</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">retained</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>  <span class="c1"># for mypy</span>
+        <span class="k">raise</span> <span class="n">retained</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">_data_to_frame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="c1"># Cast MultiIndex header to an Index of tuples when extracting header</span>
+            <span class="c1"># links and replace nan with None (therefore can&#39;t use mi.to_flat_index()).</span>
+            <span class="c1"># This maintains consistency of selection (e.g. df.columns.str[1])</span>
+            <span class="k">if</span> <span class="n">extract_links</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;header&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">MultiIndex</span>
+            <span class="p">):</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">Index</span><span class="p">(</span>
+                    <span class="p">((</span><span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">isna</span><span class="p">(</span><span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">else</span> <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span>
+                    <span class="n">tupleize_cols</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">EmptyDataError</span><span class="p">:</span>  <span class="c1"># empty table</span>
+            <span class="k">continue</span>
+    <span class="k">return</span> <span class="n">ret</span>
+
+
+<div class="viewcode-block" id="read_html"><a class="viewcode-back" href="../../../utils/pandas.html#pandas.read_html">[docs]</a><span class="k">def</span> <span class="nf">read_html</span><span class="p">(</span>
+    <span class="n">io</span><span class="p">:</span> <span class="n">FilePath</span> <span class="o">|</span> <span class="n">ReadBuffer</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">match</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Pattern</span> <span class="o">=</span> <span class="s2">&quot;.+&quot;</span><span class="p">,</span>
+    <span class="n">flavor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">header</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">index_col</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">skiprows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">slice</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">parse_dates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">thousands</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">decimal</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>
+    <span class="n">converters</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">na_values</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">object</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">keep_default_na</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">displayed_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">extract_links</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;footer&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">dtype_backend</span><span class="p">:</span> <span class="n">DtypeBackend</span> <span class="o">|</span> <span class="n">lib</span><span class="o">.</span><span class="n">NoDefault</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">no_default</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read HTML tables into a ``list`` of ``DataFrame`` objects.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    io : str, path object, or file-like object</span>
+<span class="sd">        String, path object (implementing ``os.PathLike[str]``), or file-like</span>
+<span class="sd">        object implementing a string ``read()`` function.</span>
+<span class="sd">        The string can represent a URL or the HTML itself. Note that</span>
+<span class="sd">        lxml only accepts the http, ftp and file url protocols. If you have a</span>
+<span class="sd">        URL that starts with ``&#39;https&#39;`` you might try removing the ``&#39;s&#39;``.</span>
+
+<span class="sd">    match : str or compiled regular expression, optional</span>
+<span class="sd">        The set of tables containing text matching this regex or string will be</span>
+<span class="sd">        returned. Unless the HTML is extremely simple you will probably need to</span>
+<span class="sd">        pass a non-empty string here. Defaults to &#39;.+&#39; (match any non-empty</span>
+<span class="sd">        string). The default value will return all tables contained on a page.</span>
+<span class="sd">        This value is converted to a regular expression so that there is</span>
+<span class="sd">        consistent behavior between Beautiful Soup and lxml.</span>
+
+<span class="sd">    flavor : str, optional</span>
+<span class="sd">        The parsing engine to use. &#39;bs4&#39; and &#39;html5lib&#39; are synonymous with</span>
+<span class="sd">        each other, they are both there for backwards compatibility. The</span>
+<span class="sd">        default of ``None`` tries to use ``lxml`` to parse and if that fails it</span>
+<span class="sd">        falls back on ``bs4`` + ``html5lib``.</span>
+
+<span class="sd">    header : int or list-like, optional</span>
+<span class="sd">        The row (or list of rows for a :class:`~pandas.MultiIndex`) to use to</span>
+<span class="sd">        make the columns headers.</span>
+
+<span class="sd">    index_col : int or list-like, optional</span>
+<span class="sd">        The column (or list of columns) to use to create the index.</span>
+
+<span class="sd">    skiprows : int, list-like or slice, optional</span>
+<span class="sd">        Number of rows to skip after parsing the column integer. 0-based. If a</span>
+<span class="sd">        sequence of integers or a slice is given, will skip the rows indexed by</span>
+<span class="sd">        that sequence.  Note that a single element sequence means &#39;skip the nth</span>
+<span class="sd">        row&#39; whereas an integer means &#39;skip n rows&#39;.</span>
+
+<span class="sd">    attrs : dict, optional</span>
+<span class="sd">        This is a dictionary of attributes that you can pass to use to identify</span>
+<span class="sd">        the table in the HTML. These are not checked for validity before being</span>
+<span class="sd">        passed to lxml or Beautiful Soup. However, these attributes must be</span>
+<span class="sd">        valid HTML table attributes to work correctly. For example, ::</span>
+
+<span class="sd">            attrs = {&#39;id&#39;: &#39;table&#39;}</span>
+
+<span class="sd">        is a valid attribute dictionary because the &#39;id&#39; HTML tag attribute is</span>
+<span class="sd">        a valid HTML attribute for *any* HTML tag as per `this document</span>
+<span class="sd">        &lt;https://html.spec.whatwg.org/multipage/dom.html#global-attributes&gt;`__. ::</span>
+
+<span class="sd">            attrs = {&#39;asdf&#39;: &#39;table&#39;}</span>
+
+<span class="sd">        is *not* a valid attribute dictionary because &#39;asdf&#39; is not a valid</span>
+<span class="sd">        HTML attribute even if it is a valid XML attribute.  Valid HTML 4.01</span>
+<span class="sd">        table attributes can be found `here</span>
+<span class="sd">        &lt;http://www.w3.org/TR/REC-html40/struct/tables.html#h-11.2&gt;`__. A</span>
+<span class="sd">        working draft of the HTML 5 spec can be found `here</span>
+<span class="sd">        &lt;https://html.spec.whatwg.org/multipage/tables.html&gt;`__. It contains the</span>
+<span class="sd">        latest information on table attributes for the modern web.</span>
+
+<span class="sd">    parse_dates : bool, optional</span>
+<span class="sd">        See :func:`~read_csv` for more details.</span>
+
+<span class="sd">    thousands : str, optional</span>
+<span class="sd">        Separator to use to parse thousands. Defaults to ``&#39;,&#39;``.</span>
+
+<span class="sd">    encoding : str, optional</span>
+<span class="sd">        The encoding used to decode the web page. Defaults to ``None``.``None``</span>
+<span class="sd">        preserves the previous encoding behavior, which depends on the</span>
+<span class="sd">        underlying parser library (e.g., the parser library will try to use</span>
+<span class="sd">        the encoding provided by the document).</span>
+
+<span class="sd">    decimal : str, default &#39;.&#39;</span>
+<span class="sd">        Character to recognize as decimal point (e.g. use &#39;,&#39; for European</span>
+<span class="sd">        data).</span>
+
+<span class="sd">    converters : dict, default None</span>
+<span class="sd">        Dict of functions for converting values in certain columns. Keys can</span>
+<span class="sd">        either be integers or column labels, values are functions that take one</span>
+<span class="sd">        input argument, the cell (not column) content, and return the</span>
+<span class="sd">        transformed content.</span>
+
+<span class="sd">    na_values : iterable, default None</span>
+<span class="sd">        Custom NA values.</span>
+
+<span class="sd">    keep_default_na : bool, default True</span>
+<span class="sd">        If na_values are specified and keep_default_na is False the default NaN</span>
+<span class="sd">        values are overridden, otherwise they&#39;re appended to.</span>
+
+<span class="sd">    displayed_only : bool, default True</span>
+<span class="sd">        Whether elements with &quot;display: none&quot; should be parsed.</span>
+
+<span class="sd">    extract_links : {None, &quot;all&quot;, &quot;header&quot;, &quot;body&quot;, &quot;footer&quot;}</span>
+<span class="sd">        Table elements in the specified section(s) with &lt;a&gt; tags will have their</span>
+<span class="sd">        href extracted.</span>
+
+<span class="sd">        .. versionadded:: 1.5.0</span>
+
+<span class="sd">    dtype_backend : {&quot;numpy_nullable&quot;, &quot;pyarrow&quot;}, defaults to NumPy backed DataFrames</span>
+<span class="sd">        Which dtype_backend to use, e.g. whether a DataFrame should have NumPy</span>
+<span class="sd">        arrays, nullable dtypes are used for all dtypes that have a nullable</span>
+<span class="sd">        implementation when &quot;numpy_nullable&quot; is set, pyarrow is used for all</span>
+<span class="sd">        dtypes if &quot;pyarrow&quot; is set.</span>
+
+<span class="sd">        The dtype_backends are still experimential.</span>
+
+<span class="sd">        .. versionadded:: 2.0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dfs</span>
+<span class="sd">        A list of DataFrames.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    read_csv : Read a comma-separated values (csv) file into DataFrame.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Before using this function you should read the :ref:`gotchas about the</span>
+<span class="sd">    HTML parsing libraries &lt;io.html.gotchas&gt;`.</span>
+
+<span class="sd">    Expect to do some cleanup after you call this function. For example, you</span>
+<span class="sd">    might need to manually assign column names if the column names are</span>
+<span class="sd">    converted to NaN when you pass the `header=0` argument. We try to assume as</span>
+<span class="sd">    little as possible about the structure of the table and push the</span>
+<span class="sd">    idiosyncrasies of the HTML contained in the table to the user.</span>
+
+<span class="sd">    This function searches for ``&lt;table&gt;`` elements and only for ``&lt;tr&gt;``</span>
+<span class="sd">    and ``&lt;th&gt;`` rows and ``&lt;td&gt;`` elements within each ``&lt;tr&gt;`` or ``&lt;th&gt;``</span>
+<span class="sd">    element in the table. ``&lt;td&gt;`` stands for &quot;table data&quot;. This function</span>
+<span class="sd">    attempts to properly handle ``colspan`` and ``rowspan`` attributes.</span>
+<span class="sd">    If the function has a ``&lt;thead&gt;`` argument, it is used to construct</span>
+<span class="sd">    the header, otherwise the function attempts to find the header within</span>
+<span class="sd">    the body (by putting rows with only ``&lt;th&gt;`` elements into the header).</span>
+
+<span class="sd">    Similar to :func:`~read_csv` the `header` argument is applied</span>
+<span class="sd">    **after** `skiprows` is applied.</span>
+
+<span class="sd">    This function will *always* return a list of :class:`DataFrame` *or*</span>
+<span class="sd">    it will fail, e.g., it will *not* return an empty list.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    See the :ref:`read_html documentation in the IO section of the docs</span>
+<span class="sd">    &lt;io.read_html&gt;` for some examples of reading in HTML tables.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_importers</span><span class="p">()</span>
+
+    <span class="c1"># Type check here. We don&#39;t want to parse only to fail because of an</span>
+    <span class="c1"># invalid value of an integer skiprows.</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">skiprows</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Integral</span><span class="p">)</span> <span class="ow">and</span> <span class="n">skiprows</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;cannot skip rows starting from the end of the &quot;</span>
+            <span class="s2">&quot;data (you passed a negative value)&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">extract_links</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;footer&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;`extract_links` must be one of &quot;</span>
+            <span class="s1">&#39;{None, &quot;header&quot;, &quot;footer&quot;, &quot;body&quot;, &quot;all&quot;}, got &#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">extract_links</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+        <span class="p">)</span>
+    <span class="n">validate_header_arg</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+    <span class="n">check_dtype_backend</span><span class="p">(</span><span class="n">dtype_backend</span><span class="p">)</span>
+
+    <span class="n">io</span> <span class="o">=</span> <span class="n">stringify_path</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_parse</span><span class="p">(</span>
+        <span class="n">flavor</span><span class="o">=</span><span class="n">flavor</span><span class="p">,</span>
+        <span class="n">io</span><span class="o">=</span><span class="n">io</span><span class="p">,</span>
+        <span class="n">match</span><span class="o">=</span><span class="n">match</span><span class="p">,</span>
+        <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
+        <span class="n">index_col</span><span class="o">=</span><span class="n">index_col</span><span class="p">,</span>
+        <span class="n">skiprows</span><span class="o">=</span><span class="n">skiprows</span><span class="p">,</span>
+        <span class="n">parse_dates</span><span class="o">=</span><span class="n">parse_dates</span><span class="p">,</span>
+        <span class="n">thousands</span><span class="o">=</span><span class="n">thousands</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">,</span>
+        <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span>
+        <span class="n">decimal</span><span class="o">=</span><span class="n">decimal</span><span class="p">,</span>
+        <span class="n">converters</span><span class="o">=</span><span class="n">converters</span><span class="p">,</span>
+        <span class="n">na_values</span><span class="o">=</span><span class="n">na_values</span><span class="p">,</span>
+        <span class="n">keep_default_na</span><span class="o">=</span><span class="n">keep_default_na</span><span class="p">,</span>
+        <span class="n">displayed_only</span><span class="o">=</span><span class="n">displayed_only</span><span class="p">,</span>
+        <span class="n">extract_links</span><span class="o">=</span><span class="n">extract_links</span><span class="p">,</span>
+        <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

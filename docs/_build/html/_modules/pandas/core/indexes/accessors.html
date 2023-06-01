@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.core.indexes.accessors &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">vector_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">chat</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">python_parser</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.core.indexes.accessors</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.core.indexes.accessors</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">datetimelike delegation</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_categorical_dtype</span><span class="p">,</span>
+    <span class="n">is_datetime64_dtype</span><span class="p">,</span>
+    <span class="n">is_datetime64tz_dtype</span><span class="p">,</span>
+    <span class="n">is_integer_dtype</span><span class="p">,</span>
+    <span class="n">is_list_like</span><span class="p">,</span>
+    <span class="n">is_period_dtype</span><span class="p">,</span>
+    <span class="n">is_timedelta64_dtype</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.generic</span> <span class="kn">import</span> <span class="n">ABCSeries</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.accessor</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PandasDelegate</span><span class="p">,</span>
+    <span class="n">delegate_names</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DatetimeArray</span><span class="p">,</span>
+    <span class="n">PeriodArray</span><span class="p">,</span>
+    <span class="n">TimedeltaArray</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.arrays.arrow.array</span> <span class="kn">import</span> <span class="n">ArrowExtensionArray</span>
+<span class="kn">from</span> <span class="nn">pandas.core.arrays.arrow.dtype</span> <span class="kn">import</span> <span class="n">ArrowDtype</span>
+<span class="kn">from</span> <span class="nn">pandas.core.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NoNewAttributesMixin</span><span class="p">,</span>
+    <span class="n">PandasObject</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.datetimes</span> <span class="kn">import</span> <span class="n">DatetimeIndex</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.timedeltas</span> <span class="kn">import</span> <span class="n">TimedeltaIndex</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">DataFrame</span><span class="p">,</span>
+        <span class="n">Series</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Properties</span><span class="p">(</span><span class="n">PandasDelegate</span><span class="p">,</span> <span class="n">PandasObject</span><span class="p">,</span> <span class="n">NoNewAttributesMixin</span><span class="p">):</span>
+    <span class="n">_hidden_attrs</span> <span class="o">=</span> <span class="n">PandasObject</span><span class="o">.</span><span class="n">_hidden_attrs</span> <span class="o">|</span> <span class="p">{</span>
+        <span class="s2">&quot;orig&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Series</span><span class="p">,</span> <span class="n">orig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ABCSeries</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;cannot convert an object of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> to a datetimelike index&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orig</span> <span class="o">=</span> <span class="n">orig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_freeze</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_get_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span>
+        <span class="k">if</span> <span class="n">is_datetime64_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">is_datetime64tz_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">is_timedelta64_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">TimedeltaIndex</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">is_period_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">PeriodArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;cannot convert an object of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> to a datetimelike index&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_delegate_property_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">Series</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_values</span><span class="p">()</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+        <span class="c1"># maybe need to upcast (ints)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">is_integer_dtype</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">orig</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">index</span>
+        <span class="c1"># return the result as a Series</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">Series</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">__finalize__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">)</span>
+
+        <span class="c1"># setting this object will show a SettingWithCopyWarning/Error</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">_is_copy</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;modifications to a property of a datetimelike &quot;</span>
+            <span class="s2">&quot;object are not supported and are discarded. &quot;</span>
+            <span class="s2">&quot;Change values on the original.&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">_delegate_property_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;modifications to a property of a datetimelike object are not supported. &quot;</span>
+            <span class="s2">&quot;Change values on the original.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_delegate_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">Series</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_values</span><span class="p">()</span>
+
+        <span class="n">method</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">Series</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">__finalize__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span>
+        <span class="p">)</span>
+
+        <span class="c1"># setting this object will show a SettingWithCopyWarning/Error</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">_is_copy</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;modifications to a method of a datetimelike &quot;</span>
+            <span class="s2">&quot;object are not supported and are discarded. &quot;</span>
+            <span class="s2">&quot;Change values on the original.&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="nd">@delegate_names</span><span class="p">(</span>
+    <span class="n">delegate</span><span class="o">=</span><span class="n">ArrowExtensionArray</span><span class="p">,</span>
+    <span class="n">accessors</span><span class="o">=</span><span class="n">DatetimeArray</span><span class="o">.</span><span class="n">_datetimelike_ops</span><span class="p">,</span>
+    <span class="n">typ</span><span class="o">=</span><span class="s2">&quot;property&quot;</span><span class="p">,</span>
+    <span class="n">accessor_mapping</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;_dt_</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">raise_on_missing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@delegate_names</span><span class="p">(</span>
+    <span class="n">delegate</span><span class="o">=</span><span class="n">ArrowExtensionArray</span><span class="p">,</span>
+    <span class="n">accessors</span><span class="o">=</span><span class="n">DatetimeArray</span><span class="o">.</span><span class="n">_datetimelike_methods</span><span class="p">,</span>
+    <span class="n">typ</span><span class="o">=</span><span class="s2">&quot;method&quot;</span><span class="p">,</span>
+    <span class="n">accessor_mapping</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;_dt_</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">raise_on_missing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">ArrowTemporalProperties</span><span class="p">(</span><span class="n">PandasDelegate</span><span class="p">,</span> <span class="n">PandasObject</span><span class="p">,</span> <span class="n">NoNewAttributesMixin</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Series</span><span class="p">,</span> <span class="n">orig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ABCSeries</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;cannot convert an object of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> to a datetimelike index&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_orig</span> <span class="o">=</span> <span class="n">orig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_freeze</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_delegate_property_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_dt_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;dt.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not supported for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_dt_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">index</span>
+        <span class="c1"># return the result as a Series, which is by definition a copy</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">)(</span>
+            <span class="n">result</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">name</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">__finalize__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">_delegate_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_dt_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;dt.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is not supported for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_dt_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">index</span>
+        <span class="c1"># return the result as a Series, which is by definition a copy</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">)(</span>
+            <span class="n">result</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">name</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">__finalize__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">to_pydatetime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">ArrowExtensionArray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">array</span><span class="p">)</span><span class="o">.</span><span class="n">_dt_to_pydatetime</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">isocalendar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">cast</span><span class="p">(</span><span class="n">ArrowExtensionArray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">_dt_isocalendar</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">combine_chunks</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">iso_calendar_df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="n">col</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">array</span><span class="p">)(</span><span class="n">result</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>  <span class="c1"># type: ignore[call-arg]</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="s2">&quot;week&quot;</span><span class="p">,</span> <span class="s2">&quot;day&quot;</span><span class="p">])</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">iso_calendar_df</span>
+
+
+<span class="nd">@delegate_names</span><span class="p">(</span>
+    <span class="n">delegate</span><span class="o">=</span><span class="n">DatetimeArray</span><span class="p">,</span>
+    <span class="n">accessors</span><span class="o">=</span><span class="n">DatetimeArray</span><span class="o">.</span><span class="n">_datetimelike_ops</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">],</span>
+    <span class="n">typ</span><span class="o">=</span><span class="s2">&quot;property&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@delegate_names</span><span class="p">(</span>
+    <span class="n">delegate</span><span class="o">=</span><span class="n">DatetimeArray</span><span class="p">,</span>
+    <span class="n">accessors</span><span class="o">=</span><span class="n">DatetimeArray</span><span class="o">.</span><span class="n">_datetimelike_methods</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;as_unit&quot;</span><span class="p">],</span>
+    <span class="n">typ</span><span class="o">=</span><span class="s2">&quot;method&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">DatetimeProperties</span><span class="p">(</span><span class="n">Properties</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accessor object for datetimelike properties of the Series values.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; seconds_series = pd.Series(pd.date_range(&quot;2000-01-01&quot;, periods=3, freq=&quot;s&quot;))</span>
+<span class="sd">    &gt;&gt;&gt; seconds_series</span>
+<span class="sd">    0   2000-01-01 00:00:00</span>
+<span class="sd">    1   2000-01-01 00:00:01</span>
+<span class="sd">    2   2000-01-01 00:00:02</span>
+<span class="sd">    dtype: datetime64[ns]</span>
+<span class="sd">    &gt;&gt;&gt; seconds_series.dt.second</span>
+<span class="sd">    0    0</span>
+<span class="sd">    1    1</span>
+<span class="sd">    2    2</span>
+<span class="sd">    dtype: int32</span>
+
+<span class="sd">    &gt;&gt;&gt; hours_series = pd.Series(pd.date_range(&quot;2000-01-01&quot;, periods=3, freq=&quot;h&quot;))</span>
+<span class="sd">    &gt;&gt;&gt; hours_series</span>
+<span class="sd">    0   2000-01-01 00:00:00</span>
+<span class="sd">    1   2000-01-01 01:00:00</span>
+<span class="sd">    2   2000-01-01 02:00:00</span>
+<span class="sd">    dtype: datetime64[ns]</span>
+<span class="sd">    &gt;&gt;&gt; hours_series.dt.hour</span>
+<span class="sd">    0    0</span>
+<span class="sd">    1    1</span>
+<span class="sd">    2    2</span>
+<span class="sd">    dtype: int32</span>
+
+<span class="sd">    &gt;&gt;&gt; quarters_series = pd.Series(pd.date_range(&quot;2000-01-01&quot;, periods=3, freq=&quot;q&quot;))</span>
+<span class="sd">    &gt;&gt;&gt; quarters_series</span>
+<span class="sd">    0   2000-03-31</span>
+<span class="sd">    1   2000-06-30</span>
+<span class="sd">    2   2000-09-30</span>
+<span class="sd">    dtype: datetime64[ns]</span>
+<span class="sd">    &gt;&gt;&gt; quarters_series.dt.quarter</span>
+<span class="sd">    0    1</span>
+<span class="sd">    1    2</span>
+<span class="sd">    2    3</span>
+<span class="sd">    dtype: int32</span>
+
+<span class="sd">    Returns a Series indexed like the original Series.</span>
+<span class="sd">    Raises TypeError if the Series does not contain datetimelike values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">to_pydatetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the data as an array of :class:`datetime.datetime` objects.</span>
+
+<span class="sd">        Timezone information is retained if present.</span>
+
+<span class="sd">        .. warning::</span>
+
+<span class="sd">           Python&#39;s datetime uses microsecond resolution, which is lower than</span>
+<span class="sd">           pandas (nanosecond). The values are truncated.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            Object dtype array containing native Python datetime objects.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        datetime.datetime : Standard library value for a datetime.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; s = pd.Series(pd.date_range(&#39;20180310&#39;, periods=2))</span>
+<span class="sd">        &gt;&gt;&gt; s</span>
+<span class="sd">        0   2018-03-10</span>
+<span class="sd">        1   2018-03-11</span>
+<span class="sd">        dtype: datetime64[ns]</span>
+
+<span class="sd">        &gt;&gt;&gt; s.dt.to_pydatetime()</span>
+<span class="sd">        array([datetime.datetime(2018, 3, 10, 0, 0),</span>
+<span class="sd">               datetime.datetime(2018, 3, 11, 0, 0)], dtype=object)</span>
+
+<span class="sd">        pandas&#39; nanosecond precision is truncated to microseconds.</span>
+
+<span class="sd">        &gt;&gt;&gt; s = pd.Series(pd.date_range(&#39;20180310&#39;, periods=2, freq=&#39;ns&#39;))</span>
+<span class="sd">        &gt;&gt;&gt; s</span>
+<span class="sd">        0   2018-03-10 00:00:00.000000000</span>
+<span class="sd">        1   2018-03-10 00:00:00.000000001</span>
+<span class="sd">        dtype: datetime64[ns]</span>
+
+<span class="sd">        &gt;&gt;&gt; s.dt.to_pydatetime()</span>
+<span class="sd">        array([datetime.datetime(2018, 3, 10, 0, 0),</span>
+<span class="sd">               datetime.datetime(2018, 3, 10, 0, 0)], dtype=object)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_values</span><span class="p">()</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">freq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_values</span><span class="p">()</span><span class="o">.</span><span class="n">inferred_freq</span>
+
+    <span class="k">def</span> <span class="nf">isocalendar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate year, week, and day according to the ISO 8601 standard.</span>
+
+<span class="sd">        .. versionadded:: 1.1.0</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            With columns year, week and day.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        Timestamp.isocalendar : Function return a 3-tuple containing ISO year,</span>
+<span class="sd">            week number, and weekday for the given Timestamp object.</span>
+<span class="sd">        datetime.date.isocalendar : Return a named tuple object with</span>
+<span class="sd">            three components: year, week and weekday.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; ser = pd.to_datetime(pd.Series([&quot;2010-01-01&quot;, pd.NaT]))</span>
+<span class="sd">        &gt;&gt;&gt; ser.dt.isocalendar()</span>
+<span class="sd">           year  week  day</span>
+<span class="sd">        0  2009    53     5</span>
+<span class="sd">        1  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span>
+<span class="sd">        &gt;&gt;&gt; ser.dt.isocalendar().week</span>
+<span class="sd">        0      53</span>
+<span class="sd">        1    &lt;NA&gt;</span>
+<span class="sd">        Name: week, dtype: UInt32</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_values</span><span class="p">()</span><span class="o">.</span><span class="n">isocalendar</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+
+<span class="nd">@delegate_names</span><span class="p">(</span>
+    <span class="n">delegate</span><span class="o">=</span><span class="n">TimedeltaArray</span><span class="p">,</span> <span class="n">accessors</span><span class="o">=</span><span class="n">TimedeltaArray</span><span class="o">.</span><span class="n">_datetimelike_ops</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="s2">&quot;property&quot;</span>
+<span class="p">)</span>
+<span class="nd">@delegate_names</span><span class="p">(</span>
+    <span class="n">delegate</span><span class="o">=</span><span class="n">TimedeltaArray</span><span class="p">,</span>
+    <span class="n">accessors</span><span class="o">=</span><span class="n">TimedeltaArray</span><span class="o">.</span><span class="n">_datetimelike_methods</span><span class="p">,</span>
+    <span class="n">typ</span><span class="o">=</span><span class="s2">&quot;method&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">TimedeltaProperties</span><span class="p">(</span><span class="n">Properties</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accessor object for datetimelike properties of the Series values.</span>
+
+<span class="sd">    Returns a Series indexed like the original Series.</span>
+<span class="sd">    Raises TypeError if the Series does not contain datetimelike values.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; seconds_series = pd.Series(</span>
+<span class="sd">    ...     pd.timedelta_range(start=&quot;1 second&quot;, periods=3, freq=&quot;S&quot;)</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; seconds_series</span>
+<span class="sd">    0   0 days 00:00:01</span>
+<span class="sd">    1   0 days 00:00:02</span>
+<span class="sd">    2   0 days 00:00:03</span>
+<span class="sd">    dtype: timedelta64[ns]</span>
+<span class="sd">    &gt;&gt;&gt; seconds_series.dt.seconds</span>
+<span class="sd">    0    1</span>
+<span class="sd">    1    2</span>
+<span class="sd">    2    3</span>
+<span class="sd">    dtype: int32</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">to_pytimedelta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return an array of native :class:`datetime.timedelta` objects.</span>
+
+<span class="sd">        Python&#39;s standard `datetime` library uses a different representation</span>
+<span class="sd">        timedelta&#39;s. This method converts a Series of pandas Timedeltas</span>
+<span class="sd">        to `datetime.timedelta` format with the same length as the original</span>
+<span class="sd">        Series.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            Array of 1D containing data with `datetime.timedelta` type.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        datetime.timedelta : A duration expressing the difference</span>
+<span class="sd">            between two date, time, or datetime.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; s = pd.Series(pd.to_timedelta(np.arange(5), unit=&quot;d&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; s</span>
+<span class="sd">        0   0 days</span>
+<span class="sd">        1   1 days</span>
+<span class="sd">        2   2 days</span>
+<span class="sd">        3   3 days</span>
+<span class="sd">        4   4 days</span>
+<span class="sd">        dtype: timedelta64[ns]</span>
+
+<span class="sd">        &gt;&gt;&gt; s.dt.to_pytimedelta()</span>
+<span class="sd">        array([datetime.timedelta(0), datetime.timedelta(days=1),</span>
+<span class="sd">        datetime.timedelta(days=2), datetime.timedelta(days=3),</span>
+<span class="sd">        datetime.timedelta(days=4)], dtype=object)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_values</span><span class="p">()</span><span class="o">.</span><span class="n">to_pytimedelta</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">components</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a Dataframe of the components of the Timedeltas.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; s = pd.Series(pd.to_timedelta(np.arange(5), unit=&#39;s&#39;))</span>
+<span class="sd">        &gt;&gt;&gt; s</span>
+<span class="sd">        0   0 days 00:00:00</span>
+<span class="sd">        1   0 days 00:00:01</span>
+<span class="sd">        2   0 days 00:00:02</span>
+<span class="sd">        3   0 days 00:00:03</span>
+<span class="sd">        4   0 days 00:00:04</span>
+<span class="sd">        dtype: timedelta64[ns]</span>
+<span class="sd">        &gt;&gt;&gt; s.dt.components</span>
+<span class="sd">           days  hours  minutes  seconds  milliseconds  microseconds  nanoseconds</span>
+<span class="sd">        0     0      0        0        0             0             0            0</span>
+<span class="sd">        1     0      0        0        1             0             0            0</span>
+<span class="sd">        2     0      0        0        2             0             0            0</span>
+<span class="sd">        3     0      0        0        3             0             0            0</span>
+<span class="sd">        4     0      0        0        4             0             0            0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_get_values</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">__finalize__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">freq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_values</span><span class="p">()</span><span class="o">.</span><span class="n">inferred_freq</span>
+
+
+<span class="nd">@delegate_names</span><span class="p">(</span>
+    <span class="n">delegate</span><span class="o">=</span><span class="n">PeriodArray</span><span class="p">,</span> <span class="n">accessors</span><span class="o">=</span><span class="n">PeriodArray</span><span class="o">.</span><span class="n">_datetimelike_ops</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="s2">&quot;property&quot;</span>
+<span class="p">)</span>
+<span class="nd">@delegate_names</span><span class="p">(</span>
+    <span class="n">delegate</span><span class="o">=</span><span class="n">PeriodArray</span><span class="p">,</span> <span class="n">accessors</span><span class="o">=</span><span class="n">PeriodArray</span><span class="o">.</span><span class="n">_datetimelike_methods</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="s2">&quot;method&quot;</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">PeriodProperties</span><span class="p">(</span><span class="n">Properties</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accessor object for datetimelike properties of the Series values.</span>
+
+<span class="sd">    Returns a Series indexed like the original Series.</span>
+<span class="sd">    Raises TypeError if the Series does not contain datetimelike values.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; seconds_series = pd.Series(</span>
+<span class="sd">    ...     pd.period_range(</span>
+<span class="sd">    ...         start=&quot;2000-01-01 00:00:00&quot;, end=&quot;2000-01-01 00:00:03&quot;, freq=&quot;s&quot;</span>
+<span class="sd">    ...     )</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; seconds_series</span>
+<span class="sd">    0    2000-01-01 00:00:00</span>
+<span class="sd">    1    2000-01-01 00:00:01</span>
+<span class="sd">    2    2000-01-01 00:00:02</span>
+<span class="sd">    3    2000-01-01 00:00:03</span>
+<span class="sd">    dtype: period[S]</span>
+<span class="sd">    &gt;&gt;&gt; seconds_series.dt.second</span>
+<span class="sd">    0    0</span>
+<span class="sd">    1    1</span>
+<span class="sd">    2    2</span>
+<span class="sd">    3    3</span>
+<span class="sd">    dtype: int64</span>
+
+<span class="sd">    &gt;&gt;&gt; hours_series = pd.Series(</span>
+<span class="sd">    ...     pd.period_range(start=&quot;2000-01-01 00:00&quot;, end=&quot;2000-01-01 03:00&quot;, freq=&quot;h&quot;)</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; hours_series</span>
+<span class="sd">    0    2000-01-01 00:00</span>
+<span class="sd">    1    2000-01-01 01:00</span>
+<span class="sd">    2    2000-01-01 02:00</span>
+<span class="sd">    3    2000-01-01 03:00</span>
+<span class="sd">    dtype: period[H]</span>
+<span class="sd">    &gt;&gt;&gt; hours_series.dt.hour</span>
+<span class="sd">    0    0</span>
+<span class="sd">    1    1</span>
+<span class="sd">    2    2</span>
+<span class="sd">    3    3</span>
+<span class="sd">    dtype: int64</span>
+
+<span class="sd">    &gt;&gt;&gt; quarters_series = pd.Series(</span>
+<span class="sd">    ...     pd.period_range(start=&quot;2000-01-01&quot;, end=&quot;2000-12-31&quot;, freq=&quot;Q-DEC&quot;)</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; quarters_series</span>
+<span class="sd">    0    2000Q1</span>
+<span class="sd">    1    2000Q2</span>
+<span class="sd">    2    2000Q3</span>
+<span class="sd">    3    2000Q4</span>
+<span class="sd">    dtype: period[Q-DEC]</span>
+<span class="sd">    &gt;&gt;&gt; quarters_series.dt.quarter</span>
+<span class="sd">    0    1</span>
+<span class="sd">    1    2</span>
+<span class="sd">    2    3</span>
+<span class="sd">    3    4</span>
+<span class="sd">    dtype: int64</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">CombinedDatetimelikeProperties</span><span class="p">(</span>
+    <span class="n">DatetimeProperties</span><span class="p">,</span> <span class="n">TimedeltaProperties</span><span class="p">,</span> <span class="n">PeriodProperties</span>
+<span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Series</span><span class="p">):</span>
+        <span class="c1"># CombinedDatetimelikeProperties isn&#39;t really instantiated. Instead</span>
+        <span class="c1"># we need to choose which parent (datetime or timedelta) is</span>
+        <span class="c1"># appropriate. Since we&#39;re checking the dtypes anyway, we&#39;ll just</span>
+        <span class="c1"># do all the validation here.</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ABCSeries</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;cannot convert an object of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> to a datetimelike index&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">orig</span> <span class="o">=</span> <span class="n">data</span> <span class="k">if</span> <span class="n">is_categorical_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">orig</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">_constructor</span><span class="p">(</span>
+                <span class="n">orig</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">orig</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">orig</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                <span class="n">index</span><span class="o">=</span><span class="n">orig</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">ArrowDtype</span><span class="p">)</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;M&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ArrowTemporalProperties</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">orig</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_datetime64_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DatetimeProperties</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">orig</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">is_datetime64tz_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">DatetimeProperties</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">orig</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">is_timedelta64_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">TimedeltaProperties</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">orig</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">is_period_dtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">PeriodProperties</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">orig</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Can only use .dt accessor with datetimelike values&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

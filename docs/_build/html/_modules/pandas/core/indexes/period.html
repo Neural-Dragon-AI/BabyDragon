@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.core.indexes.period &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.core.indexes.period</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.core.indexes.period</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">datetime</span><span class="p">,</span>
+    <span class="n">timedelta</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Hashable</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pandas._libs</span> <span class="kn">import</span> <span class="n">index</span> <span class="k">as</span> <span class="n">libindex</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.tslibs</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseOffset</span><span class="p">,</span>
+    <span class="n">NaT</span><span class="p">,</span>
+    <span class="n">Period</span><span class="p">,</span>
+    <span class="n">Resolution</span><span class="p">,</span>
+    <span class="n">Tick</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Dtype</span><span class="p">,</span>
+    <span class="n">DtypeObj</span><span class="p">,</span>
+    <span class="n">npt</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.util._decorators</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">cache_readonly</span><span class="p">,</span>
+    <span class="n">doc</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="n">is_integer</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.dtypes</span> <span class="kn">import</span> <span class="n">PeriodDtype</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.generic</span> <span class="kn">import</span> <span class="n">ABCSeries</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.missing</span> <span class="kn">import</span> <span class="n">is_valid_na_for_dtype</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.arrays.period</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PeriodArray</span><span class="p">,</span>
+    <span class="n">period_array</span><span class="p">,</span>
+    <span class="n">raise_on_incompatible</span><span class="p">,</span>
+    <span class="n">validate_dtype_freq</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pandas.core.common</span> <span class="k">as</span> <span class="nn">com</span>
+<span class="kn">import</span> <span class="nn">pandas.core.indexes.base</span> <span class="k">as</span> <span class="nn">ibase</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.base</span> <span class="kn">import</span> <span class="n">maybe_extract_name</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.datetimelike</span> <span class="kn">import</span> <span class="n">DatetimeIndexOpsMixin</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.datetimes</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DatetimeIndex</span><span class="p">,</span>
+    <span class="n">Index</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.extension</span> <span class="kn">import</span> <span class="n">inherit_names</span>
+
+<span class="n">_index_doc_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ibase</span><span class="o">.</span><span class="n">_index_doc_kwargs</span><span class="p">)</span>
+<span class="n">_index_doc_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;target_klass&quot;</span><span class="p">:</span> <span class="s2">&quot;PeriodIndex or list of Periods&quot;</span><span class="p">})</span>
+<span class="n">_shared_doc_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;klass&quot;</span><span class="p">:</span> <span class="s2">&quot;PeriodArray&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># --- Period index sketch</span>
+
+
+<span class="k">def</span> <span class="nf">_new_PeriodIndex</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">d</span><span class="p">):</span>
+    <span class="c1"># GH13277 for unpickling</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;int64&quot;</span><span class="p">:</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;freq&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">PeriodArray</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="o">**</span><span class="n">d</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="o">**</span><span class="n">d</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="PeriodIndex"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.PeriodIndex">[docs]</a><span class="nd">@inherit_names</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;strftime&quot;</span><span class="p">,</span> <span class="s2">&quot;start_time&quot;</span><span class="p">,</span> <span class="s2">&quot;end_time&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">PeriodArray</span><span class="o">.</span><span class="n">_field_ops</span><span class="p">,</span>
+    <span class="n">PeriodArray</span><span class="p">,</span>
+    <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@inherit_names</span><span class="p">([</span><span class="s2">&quot;is_leap_year&quot;</span><span class="p">,</span> <span class="s2">&quot;_format_native_types&quot;</span><span class="p">],</span> <span class="n">PeriodArray</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">PeriodIndex</span><span class="p">(</span><span class="n">DatetimeIndexOpsMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Immutable ndarray holding ordinal values indicating regular periods in time.</span>
+
+<span class="sd">    Index keys are boxed to Period objects which carries the metadata (eg,</span>
+<span class="sd">    frequency information).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : array-like (1d int np.ndarray or PeriodArray), optional</span>
+<span class="sd">        Optional period-like data to construct index with.</span>
+<span class="sd">    copy : bool</span>
+<span class="sd">        Make a copy of input ndarray.</span>
+<span class="sd">    freq : str or period object, optional</span>
+<span class="sd">        One of pandas period strings or corresponding objects.</span>
+<span class="sd">    year : int, array, or Series, default None</span>
+<span class="sd">    month : int, array, or Series, default None</span>
+<span class="sd">    quarter : int, array, or Series, default None</span>
+<span class="sd">    day : int, array, or Series, default None</span>
+<span class="sd">    hour : int, array, or Series, default None</span>
+<span class="sd">    minute : int, array, or Series, default None</span>
+<span class="sd">    second : int, array, or Series, default None</span>
+<span class="sd">    dtype : str or PeriodDtype, default None</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    day</span>
+<span class="sd">    dayofweek</span>
+<span class="sd">    day_of_week</span>
+<span class="sd">    dayofyear</span>
+<span class="sd">    day_of_year</span>
+<span class="sd">    days_in_month</span>
+<span class="sd">    daysinmonth</span>
+<span class="sd">    end_time</span>
+<span class="sd">    freq</span>
+<span class="sd">    freqstr</span>
+<span class="sd">    hour</span>
+<span class="sd">    is_leap_year</span>
+<span class="sd">    minute</span>
+<span class="sd">    month</span>
+<span class="sd">    quarter</span>
+<span class="sd">    qyear</span>
+<span class="sd">    second</span>
+<span class="sd">    start_time</span>
+<span class="sd">    week</span>
+<span class="sd">    weekday</span>
+<span class="sd">    weekofyear</span>
+<span class="sd">    year</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    asfreq</span>
+<span class="sd">    strftime</span>
+<span class="sd">    to_timestamp</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    Index : The base pandas Index type.</span>
+<span class="sd">    Period : Represents a period of time.</span>
+<span class="sd">    DatetimeIndex : Index with datetime64 data.</span>
+<span class="sd">    TimedeltaIndex : Index of timedelta64 data.</span>
+<span class="sd">    period_range : Create a fixed-frequency PeriodIndex.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; idx = pd.PeriodIndex(year=[2000, 2002], quarter=[1, 3])</span>
+<span class="sd">    &gt;&gt;&gt; idx</span>
+<span class="sd">    PeriodIndex([&#39;2000Q1&#39;, &#39;2002Q3&#39;], dtype=&#39;period[Q-DEC]&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_typ</span> <span class="o">=</span> <span class="s2">&quot;periodindex&quot;</span>
+
+    <span class="n">_data</span><span class="p">:</span> <span class="n">PeriodArray</span>
+    <span class="n">freq</span><span class="p">:</span> <span class="n">BaseOffset</span>
+    <span class="n">dtype</span><span class="p">:</span> <span class="n">PeriodDtype</span>
+
+    <span class="n">_data_cls</span> <span class="o">=</span> <span class="n">PeriodArray</span>
+    <span class="n">_supports_partial_string_indexing</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_engine_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">libindex</span><span class="o">.</span><span class="n">PeriodEngine</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">libindex</span><span class="o">.</span><span class="n">PeriodEngine</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">_resolution_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Resolution</span><span class="p">:</span>
+        <span class="c1"># for compat with DatetimeIndex</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">_resolution_obj</span>
+
+    <span class="c1"># --------------------------------------------------------------------</span>
+    <span class="c1"># methods that dispatch to array and wrap result in Index</span>
+    <span class="c1"># These are defined here instead of via inherit_names for mypy</span>
+
+<div class="viewcode-block" id="PeriodIndex.asfreq"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.PeriodIndex.asfreq">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span>
+        <span class="n">PeriodArray</span><span class="o">.</span><span class="n">asfreq</span><span class="p">,</span>
+        <span class="n">other</span><span class="o">=</span><span class="s2">&quot;pandas.arrays.PeriodArray&quot;</span><span class="p">,</span>
+        <span class="n">other_name</span><span class="o">=</span><span class="s2">&quot;PeriodArray&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">_shared_doc_kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">asfreq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">how</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;E&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PeriodIndex</span><span class="p">:</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">asfreq</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">how</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PeriodIndex.to_timestamp"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.PeriodIndex.to_timestamp">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="n">PeriodArray</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">to_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">how</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;start&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatetimeIndex</span><span class="p">:</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">how</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DatetimeIndex</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="nd">@doc</span><span class="p">(</span><span class="n">PeriodArray</span><span class="o">.</span><span class="n">hour</span><span class="o">.</span><span class="n">fget</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">hour</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Index</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@doc</span><span class="p">(</span><span class="n">PeriodArray</span><span class="o">.</span><span class="n">minute</span><span class="o">.</span><span class="n">fget</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">minute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Index</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@doc</span><span class="p">(</span><span class="n">PeriodArray</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">fget</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">second</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Index</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------------</span>
+    <span class="c1"># Index Constructors</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ordinal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="p">:</span> <span class="n">Dtype</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Hashable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">fields</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PeriodIndex</span><span class="p">:</span>
+        <span class="n">valid_field_set</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;year&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;month&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;day&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;quarter&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;hour&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;minute&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;second&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">refs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">copy</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">Index</span><span class="p">,</span> <span class="n">ABCSeries</span><span class="p">)):</span>
+            <span class="n">refs</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">_references</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">valid_field_set</span><span class="p">):</span>
+            <span class="n">argument</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">-</span> <span class="n">valid_field_set</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;__new__() got an unexpected keyword argument </span><span class="si">{</span><span class="n">argument</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">name</span> <span class="o">=</span> <span class="n">maybe_extract_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ordinal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># range-based.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">fields</span><span class="p">:</span>
+                <span class="c1"># test_pickle_compat_construction</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">_raise_scalar_data_error</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+            <span class="n">data</span><span class="p">,</span> <span class="n">freq2</span> <span class="o">=</span> <span class="n">PeriodArray</span><span class="o">.</span><span class="n">_generate_range</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
+            <span class="c1"># PeriodArray._generate range does validation that fields is</span>
+            <span class="c1"># empty when really using the range-based constructor.</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="n">freq2</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">PeriodArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="n">validate_dtype_freq</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span>
+
+            <span class="c1"># PeriodIndex allow PeriodIndex(period_index, freq=different)</span>
+            <span class="c1"># Let&#39;s not encourage that kind of behavior in PeriodArray.</span>
+
+            <span class="k">if</span> <span class="n">freq</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">freq</span> <span class="o">!=</span> <span class="n">freq</span><span class="p">:</span>
+                <span class="c1"># TODO: We can do some of these with no-copy / coercion?</span>
+                <span class="c1"># e.g. D -&gt; 2D seems to be OK</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">asfreq</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ordinal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># we strangely ignore `ordinal` if data is passed.</span>
+                <span class="n">ordinal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ordinal</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">PeriodArray</span><span class="p">(</span><span class="n">ordinal</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># don&#39;t pass copy here, since we copy later.</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">period_array</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">refs</span><span class="o">=</span><span class="n">refs</span><span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------------</span>
+    <span class="c1"># Data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_maybe_convert_timedelta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert timedelta-like input to an integer multiple of self.freq</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : timedelta, np.timedelta64, DateOffset, int, np.ndarray</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        converted : int, np.ndarray[int64]</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        IncompatibleFrequency : if the input cannot be written as a multiple</span>
+<span class="sd">            of self.freq.  Note IncompatibleFrequency subclasses ValueError.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="p">(</span><span class="n">timedelta</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">,</span> <span class="n">Tick</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">Tick</span><span class="p">):</span>
+                <span class="c1"># _check_timedeltalike_freq_compat will raise if incompatible</span>
+                <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">_check_timedeltalike_freq_compat</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">delta</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">BaseOffset</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="n">base</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">base</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="n">n</span>
+
+            <span class="k">raise</span> <span class="n">raise_on_incompatible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">is_integer</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="c1"># integer is passed to .shift via</span>
+            <span class="c1"># _add_datetimelike_methods basically</span>
+            <span class="c1"># but ufunc may pass integer to _add_delta</span>
+            <span class="k">return</span> <span class="n">other</span>
+
+        <span class="c1"># raise when input doesn&#39;t have freq</span>
+        <span class="k">raise</span> <span class="n">raise_on_incompatible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_is_comparable_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DtypeObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Can we compare values of the given dtype to our own?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">PeriodDtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># For the subset of DateOffsets that can be a dtype.freq, it</span>
+        <span class="c1">#  suffices (and is much faster) to compare the dtype_code rather than</span>
+        <span class="c1">#  the freq itself.</span>
+        <span class="c1"># See also: PeriodDtype.__eq__</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">freq</span>
+        <span class="n">own_freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">freq</span><span class="o">.</span><span class="n">_period_dtype_code</span>
+            <span class="c1"># error: &quot;BaseOffset&quot; has no attribute &quot;_period_dtype_code&quot;</span>
+            <span class="o">==</span> <span class="n">own_freq</span><span class="o">.</span><span class="n">_period_dtype_code</span>  <span class="c1"># type: ignore[attr-defined]</span>
+            <span class="ow">and</span> <span class="n">freq</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="n">own_freq</span><span class="o">.</span><span class="n">n</span>
+        <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------------</span>
+    <span class="c1"># Index Methods</span>
+
+<div class="viewcode-block" id="PeriodIndex.asof_locs"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.PeriodIndex.asof_locs">[docs]</a>    <span class="k">def</span> <span class="nf">asof_locs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where</span><span class="p">:</span> <span class="n">Index</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        where : array of timestamps</span>
+<span class="sd">        mask : np.ndarray[bool]</span>
+<span class="sd">            Array of booleans where data is not NA.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">where</span><span class="p">,</span> <span class="n">DatetimeIndex</span><span class="p">):</span>
+            <span class="n">where</span> <span class="o">=</span> <span class="n">PeriodIndex</span><span class="p">(</span><span class="n">where</span><span class="o">.</span><span class="n">_values</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">where</span><span class="p">,</span> <span class="n">PeriodIndex</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;asof_locs `where` must be DatetimeIndex or PeriodIndex&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">asof_locs</span><span class="p">(</span><span class="n">where</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_full</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if this PeriodIndex is range-like in that all Periods</span>
+<span class="sd">        between start and end are present, in order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_monotonic_increasing</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Index is not monotonic&quot;</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">asi8</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(((</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">inferred_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="c1"># b/c data is represented as ints make sure we can&#39;t have ambiguous</span>
+        <span class="c1"># indexing</span>
+        <span class="k">return</span> <span class="s2">&quot;period&quot;</span>
+
+    <span class="c1"># ------------------------------------------------------------------------</span>
+    <span class="c1"># Indexing Methods</span>
+
+    <span class="k">def</span> <span class="nf">_convert_tolerance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="c1"># Returned tolerance must be in dtype/units so that</span>
+        <span class="c1">#  `|self._get_engine_target() - target._engine_target()| &lt;= tolerance`</span>
+        <span class="c1">#  is meaningful.  Since PeriodIndex returns int64 for engine_target,</span>
+        <span class="c1">#  we may need to convert timedelta64 tolerance to int64.</span>
+        <span class="n">tolerance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_convert_tolerance</span><span class="p">(</span><span class="n">tolerance</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">target</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
+            <span class="c1"># convert tolerance to i8</span>
+            <span class="n">tolerance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_convert_timedelta</span><span class="p">(</span><span class="n">tolerance</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">tolerance</span>
+
+<div class="viewcode-block" id="PeriodIndex.get_loc"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.PeriodIndex.get_loc">[docs]</a>    <span class="k">def</span> <span class="nf">get_loc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get integer location for requested label.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        key : Period, NaT, str, or datetime</span>
+<span class="sd">            String or datetime key must be parsable as Period.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        loc : int or ndarray[int64]</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        KeyError</span>
+<span class="sd">            Key is not present in the index.</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If key is listlike or otherwise not hashable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">orig_key</span> <span class="o">=</span> <span class="n">key</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_indexing_error</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_valid_na_for_dtype</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">NaT</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">parsed</span><span class="p">,</span> <span class="n">reso</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_with_reso</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="c1"># A string with invalid format</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot interpret &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; as period&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_can_partial_date_slice</span><span class="p">(</span><span class="n">reso</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial_date_slice</span><span class="p">(</span><span class="n">reso</span><span class="p">,</span> <span class="n">parsed</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+
+            <span class="k">if</span> <span class="n">reso</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolution_obj</span><span class="p">:</span>
+                <span class="c1"># the reso &lt; self._resolution_obj case goes</span>
+                <span class="c1">#  through _get_string_slice</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_partial_indexing_scalar</span><span class="p">(</span><span class="n">parsed</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">Period</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_disallow_mismatched_indexing</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_partial_indexing_scalar</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># in particular integer, which Period constructor would cast to string</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Index</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">orig_key</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span></div>
+
+    <span class="k">def</span> <span class="nf">_disallow_mismatched_indexing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Period</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sfreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span>
+        <span class="n">kfreq</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">freq</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="n">sfreq</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="n">kfreq</span><span class="o">.</span><span class="n">n</span>
+            <span class="c1"># error: &quot;BaseOffset&quot; has no attribute &quot;_period_dtype_code&quot;</span>
+            <span class="ow">and</span> <span class="n">sfreq</span><span class="o">.</span><span class="n">_period_dtype_code</span>  <span class="c1"># type: ignore[attr-defined]</span>
+            <span class="c1"># error: &quot;BaseOffset&quot; has no attribute &quot;_period_dtype_code&quot;</span>
+            <span class="o">==</span> <span class="n">kfreq</span><span class="o">.</span><span class="n">_period_dtype_code</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="p">):</span>
+            <span class="c1"># GH#42247 For the subset of DateOffsets that can be Period freqs,</span>
+            <span class="c1">#  checking these two attributes is sufficient to check equality,</span>
+            <span class="c1">#  and much more performant than `self.freq == key.freq`</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_cast_partial_indexing_scalar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Period</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">period</span> <span class="o">=</span> <span class="n">Period</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="c1"># we cannot construct the Period</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+        <span class="k">return</span> <span class="n">period</span>
+
+    <span class="nd">@doc</span><span class="p">(</span><span class="n">DatetimeIndexOpsMixin</span><span class="o">.</span><span class="n">_maybe_cast_slice_bound</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_maybe_cast_slice_bound</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">side</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_partial_indexing_scalar</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_maybe_cast_slice_bound</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">side</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parsed_string_to_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reso</span><span class="p">:</span> <span class="n">Resolution</span><span class="p">,</span> <span class="n">parsed</span><span class="p">:</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="n">iv</span> <span class="o">=</span> <span class="n">Period</span><span class="p">(</span><span class="n">parsed</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">reso</span><span class="o">.</span><span class="n">attr_abbrev</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">iv</span><span class="o">.</span><span class="n">asfreq</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;start&quot;</span><span class="p">),</span> <span class="n">iv</span><span class="o">.</span><span class="n">asfreq</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;end&quot;</span><span class="p">))</span>
+
+<div class="viewcode-block" id="PeriodIndex.shift"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.PeriodIndex.shift">[docs]</a>    <span class="nd">@doc</span><span class="p">(</span><span class="n">DatetimeIndexOpsMixin</span><span class="o">.</span><span class="n">shift</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">periods</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;`freq` argument is not supported for </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.shift&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">+</span> <span class="n">periods</span></div></div>
+
+
+<div class="viewcode-block" id="period_range"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.period_range">[docs]</a><span class="k">def</span> <span class="nf">period_range</span><span class="p">(</span>
+    <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">periods</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PeriodIndex</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a fixed frequency PeriodIndex.</span>
+
+<span class="sd">    The day (calendar) is the default frequency.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    start : str or period-like, default None</span>
+<span class="sd">        Left bound for generating periods.</span>
+<span class="sd">    end : str or period-like, default None</span>
+<span class="sd">        Right bound for generating periods.</span>
+<span class="sd">    periods : int, default None</span>
+<span class="sd">        Number of periods to generate.</span>
+<span class="sd">    freq : str or DateOffset, optional</span>
+<span class="sd">        Frequency alias. By default the freq is taken from `start` or `end`</span>
+<span class="sd">        if those are Period objects. Otherwise, the default is ``&quot;D&quot;`` for</span>
+<span class="sd">        daily frequency.</span>
+<span class="sd">    name : str, default None</span>
+<span class="sd">        Name of the resulting PeriodIndex.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    PeriodIndex</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Of the three parameters: ``start``, ``end``, and ``periods``, exactly two</span>
+<span class="sd">    must be specified.</span>
+
+<span class="sd">    To learn more about the frequency strings, please see `this link</span>
+<span class="sd">    &lt;https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases&gt;`__.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; pd.period_range(start=&#39;2017-01-01&#39;, end=&#39;2018-01-01&#39;, freq=&#39;M&#39;)</span>
+<span class="sd">    PeriodIndex([&#39;2017-01&#39;, &#39;2017-02&#39;, &#39;2017-03&#39;, &#39;2017-04&#39;, &#39;2017-05&#39;, &#39;2017-06&#39;,</span>
+<span class="sd">             &#39;2017-07&#39;, &#39;2017-08&#39;, &#39;2017-09&#39;, &#39;2017-10&#39;, &#39;2017-11&#39;, &#39;2017-12&#39;,</span>
+<span class="sd">             &#39;2018-01&#39;],</span>
+<span class="sd">            dtype=&#39;period[M]&#39;)</span>
+
+<span class="sd">    If ``start`` or ``end`` are ``Period`` objects, they will be used as anchor</span>
+<span class="sd">    endpoints for a ``PeriodIndex`` with frequency matching that of the</span>
+<span class="sd">    ``period_range`` constructor.</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.period_range(start=pd.Period(&#39;2017Q1&#39;, freq=&#39;Q&#39;),</span>
+<span class="sd">    ...                 end=pd.Period(&#39;2017Q2&#39;, freq=&#39;Q&#39;), freq=&#39;M&#39;)</span>
+<span class="sd">    PeriodIndex([&#39;2017-03&#39;, &#39;2017-04&#39;, &#39;2017-05&#39;, &#39;2017-06&#39;],</span>
+<span class="sd">                dtype=&#39;period[M]&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">com</span><span class="o">.</span><span class="n">count_not_none</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">periods</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Of the three parameters: start, end, and periods, &quot;</span>
+            <span class="s2">&quot;exactly two must be specified&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">Period</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">Period</span><span class="p">)):</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="s2">&quot;D&quot;</span>
+
+    <span class="n">data</span><span class="p">,</span> <span class="n">freq</span> <span class="o">=</span> <span class="n">PeriodArray</span><span class="o">.</span><span class="n">_generate_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">periods</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">{})</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">PeriodArray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">PeriodIndex</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.core.indexes.category &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.core.indexes.category</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.core.indexes.category</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Hashable</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pandas._libs</span> <span class="kn">import</span> <span class="n">index</span> <span class="k">as</span> <span class="n">libindex</span>
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Dtype</span><span class="p">,</span>
+    <span class="n">DtypeObj</span><span class="p">,</span>
+    <span class="n">npt</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.util._decorators</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">cache_readonly</span><span class="p">,</span>
+    <span class="n">doc</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_categorical_dtype</span><span class="p">,</span>
+    <span class="n">is_scalar</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.missing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_valid_na_for_dtype</span><span class="p">,</span>
+    <span class="n">isna</span><span class="p">,</span>
+    <span class="n">notna</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.arrays.categorical</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Categorical</span><span class="p">,</span>
+    <span class="n">contains</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.construction</span> <span class="kn">import</span> <span class="n">extract_array</span>
+<span class="kn">import</span> <span class="nn">pandas.core.indexes.base</span> <span class="k">as</span> <span class="nn">ibase</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Index</span><span class="p">,</span>
+    <span class="n">maybe_extract_name</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.extension</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NDArrayBackedExtensionIndex</span><span class="p">,</span>
+    <span class="n">inherit_names</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas.io.formats.printing</span> <span class="kn">import</span> <span class="n">pprint_thing</span>
+
+<span class="n">_index_doc_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ibase</span><span class="o">.</span><span class="n">_index_doc_kwargs</span><span class="p">)</span>
+<span class="n">_index_doc_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;target_klass&quot;</span><span class="p">:</span> <span class="s2">&quot;CategoricalIndex&quot;</span><span class="p">})</span>
+
+
+<div class="viewcode-block" id="CategoricalIndex"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.CategoricalIndex">[docs]</a><span class="nd">@inherit_names</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;argsort&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tolist&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;codes&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;categories&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ordered&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_reverse_indexer&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;searchsorted&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;min&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;max&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">Categorical</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nd">@inherit_names</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;rename_categories&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;reorder_categories&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;add_categories&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;remove_categories&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;remove_unused_categories&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;set_categories&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;as_ordered&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;as_unordered&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">Categorical</span><span class="p">,</span>
+    <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">class</span> <span class="nc">CategoricalIndex</span><span class="p">(</span><span class="n">NDArrayBackedExtensionIndex</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Index based on an underlying :class:`Categorical`.</span>
+
+<span class="sd">    CategoricalIndex, like Categorical, can only take on a limited,</span>
+<span class="sd">    and usually fixed, number of possible values (`categories`). Also,</span>
+<span class="sd">    like Categorical, it might have an order, but numerical operations</span>
+<span class="sd">    (additions, divisions, ...) are not possible.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : array-like (1-dimensional)</span>
+<span class="sd">        The values of the categorical. If `categories` are given, values not in</span>
+<span class="sd">        `categories` will be replaced with NaN.</span>
+<span class="sd">    categories : index-like, optional</span>
+<span class="sd">        The categories for the categorical. Items need to be unique.</span>
+<span class="sd">        If the categories are not given here (and also not in `dtype`), they</span>
+<span class="sd">        will be inferred from the `data`.</span>
+<span class="sd">    ordered : bool, optional</span>
+<span class="sd">        Whether or not this categorical is treated as an ordered</span>
+<span class="sd">        categorical. If not given here or in `dtype`, the resulting</span>
+<span class="sd">        categorical will be unordered.</span>
+<span class="sd">    dtype : CategoricalDtype or &quot;category&quot;, optional</span>
+<span class="sd">        If :class:`CategoricalDtype`, cannot be used together with</span>
+<span class="sd">        `categories` or `ordered`.</span>
+<span class="sd">    copy : bool, default False</span>
+<span class="sd">        Make a copy of input ndarray.</span>
+<span class="sd">    name : object, optional</span>
+<span class="sd">        Name to be stored in the index.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    codes</span>
+<span class="sd">    categories</span>
+<span class="sd">    ordered</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    rename_categories</span>
+<span class="sd">    reorder_categories</span>
+<span class="sd">    add_categories</span>
+<span class="sd">    remove_categories</span>
+<span class="sd">    remove_unused_categories</span>
+<span class="sd">    set_categories</span>
+<span class="sd">    as_ordered</span>
+<span class="sd">    as_unordered</span>
+<span class="sd">    map</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the categories do not validate.</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        If an explicit ``ordered=True`` is given but no `categories` and the</span>
+<span class="sd">        `values` are not sortable.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    Index : The base pandas Index type.</span>
+<span class="sd">    Categorical : A categorical array.</span>
+<span class="sd">    CategoricalDtype : Type for categorical data.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    See the `user guide</span>
+<span class="sd">    &lt;https://pandas.pydata.org/pandas-docs/stable/user_guide/advanced.html#categoricalindex&gt;`__</span>
+<span class="sd">    for more.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; pd.CategoricalIndex([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;])</span>
+<span class="sd">    CategoricalIndex([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                     categories=[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], ordered=False, dtype=&#39;category&#39;)</span>
+
+<span class="sd">    ``CategoricalIndex`` can also be instantiated from a ``Categorical``:</span>
+
+<span class="sd">    &gt;&gt;&gt; c = pd.Categorical([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;])</span>
+<span class="sd">    &gt;&gt;&gt; pd.CategoricalIndex(c)</span>
+<span class="sd">    CategoricalIndex([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                     categories=[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], ordered=False, dtype=&#39;category&#39;)</span>
+
+<span class="sd">    Ordered ``CategoricalIndex`` can have a min and max value.</span>
+
+<span class="sd">    &gt;&gt;&gt; ci = pd.CategoricalIndex(</span>
+<span class="sd">    ...     [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;], ordered=True, categories=[&quot;c&quot;, &quot;b&quot;, &quot;a&quot;]</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; ci</span>
+<span class="sd">    CategoricalIndex([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                     categories=[&#39;c&#39;, &#39;b&#39;, &#39;a&#39;], ordered=True, dtype=&#39;category&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ci.min()</span>
+<span class="sd">    &#39;c&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_typ</span> <span class="o">=</span> <span class="s2">&quot;categoricalindex&quot;</span>
+    <span class="n">_data_cls</span> <span class="o">=</span> <span class="n">Categorical</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_can_hold_strings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">_can_hold_strings</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">_should_fallback_to_positional</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">_should_fallback_to_positional</span>
+
+    <span class="n">codes</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">categories</span><span class="p">:</span> <span class="n">Index</span>
+    <span class="n">ordered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">_data</span><span class="p">:</span> <span class="n">Categorical</span>
+    <span class="n">_values</span><span class="p">:</span> <span class="n">Categorical</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_engine_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">libindex</span><span class="o">.</span><span class="n">IndexEngine</span><span class="p">]:</span>
+        <span class="c1"># self.codes can have dtype int8, int16, int32 or int64, so we need</span>
+        <span class="c1"># to return the corresponding engine type (libindex.Int8Engine, etc.).</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">:</span> <span class="n">libindex</span><span class="o">.</span><span class="n">Int8Engine</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">:</span> <span class="n">libindex</span><span class="o">.</span><span class="n">Int16Engine</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">:</span> <span class="n">libindex</span><span class="o">.</span><span class="n">Int32Engine</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">:</span> <span class="n">libindex</span><span class="o">.</span><span class="n">Int64Engine</span><span class="p">,</span>
+        <span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">]</span>
+
+    <span class="c1"># --------------------------------------------------------------------</span>
+    <span class="c1"># Constructors</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">categories</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ordered</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="p">:</span> <span class="n">Dtype</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Hashable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CategoricalIndex</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">maybe_extract_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_scalar</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+            <span class="c1"># GH#38944 include None here, which pre-2.0 subbed in []</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_raise_scalar_data_error</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">Categorical</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="n">ordered</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="c1"># --------------------------------------------------------------------</span>
+
+    <span class="k">def</span> <span class="nf">_is_dtype_compat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Categorical</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        *this is an internal non-public method*</span>
+
+<span class="sd">        provide a comparison between the dtype of self and other (coercing if</span>
+<span class="sd">        needed)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Index</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Categorical</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError if the dtypes are not compatible</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">is_categorical_dtype</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">extract_array</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">other</span><span class="o">.</span><span class="n">_categories_match_up_to_permutation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;categories must match existing categories when appending&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">_is_multi</span><span class="p">:</span>
+            <span class="c1"># preempt raising NotImplementedError in isna call</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;MultiIndex is not dtype-compatible with CategoricalIndex&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">other</span>
+
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">Categorical</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">CategoricalIndex</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">other</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;cannot append a non-category item to a CategoricalIndex&quot;</span>
+                <span class="p">)</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_values</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="n">other</span> <span class="o">==</span> <span class="n">values</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">isna</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">isna</span><span class="p">(</span><span class="n">values</span><span class="p">)))</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="c1"># GH#37667 see test_equals_non_category</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;categories must match existing categories when appending&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">other</span>
+
+<div class="viewcode-block" id="CategoricalIndex.equals"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.CategoricalIndex.equals">[docs]</a>    <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine if two CategoricalIndex objects contain the same elements.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            If two CategoricalIndex objects have equal elements True,</span>
+<span class="sd">            otherwise False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Index</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_dtype_compat</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
+
+    <span class="c1"># --------------------------------------------------------------------</span>
+    <span class="c1"># Rendering Methods</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_formatter_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">_formatter_func</span>
+
+    <span class="k">def</span> <span class="nf">_format_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a list of tuples of the (attr,formatted_value)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">attrs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]</span>
+
+        <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;categories&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">_repr_categories</span><span class="p">())</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;ordered&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ordered</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_format_attrs</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">attrs</span> <span class="o">+</span> <span class="n">extra</span>
+
+    <span class="k">def</span> <span class="nf">_format_with_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">na_rep</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">pprint_thing</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">escape_chars</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span> <span class="k">if</span> <span class="n">notna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">na_rep</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">header</span> <span class="o">+</span> <span class="n">result</span>
+
+    <span class="c1"># --------------------------------------------------------------------</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">inferred_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;categorical&quot;</span>
+
+    <span class="nd">@doc</span><span class="p">(</span><span class="n">Index</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="c1"># if key is a NaN, check if any NaN is in self.</span>
+        <span class="k">if</span> <span class="n">is_valid_na_for_dtype</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hasnans</span>
+
+        <span class="k">return</span> <span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">container</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CategoricalIndex.reindex"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.CategoricalIndex.reindex">[docs]</a>    <span class="k">def</span> <span class="nf">reindex</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Index</span><span class="p">,</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">intp</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create index with target&#39;s values (move/add/delete values as necessary)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        new_index : pd.Index</span>
+<span class="sd">            Resulting index</span>
+<span class="sd">        indexer : np.ndarray[np.intp] or None</span>
+<span class="sd">            Indices of output values in original index</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;argument method is not implemented for CategoricalIndex.reindex&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;argument level is not implemented for CategoricalIndex.reindex&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;argument limit is not implemented for CategoricalIndex.reindex&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">target</span><span class="p">)</span></div>
+
+    <span class="c1"># --------------------------------------------------------------------</span>
+    <span class="c1"># Indexing Methods</span>
+
+    <span class="k">def</span> <span class="nf">_maybe_cast_indexer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="c1"># GH#41933: we have to do this instead of self._data._validate_scalar</span>
+        <span class="c1">#  because this will correctly get partial-indexing on Interval categories</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">_unbox_scalar</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_valid_na_for_dtype</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">raise</span>
+
+    <span class="k">def</span> <span class="nf">_maybe_cast_listlike_indexer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CategoricalIndex</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">CategoricalIndex</span><span class="p">):</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">_data</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">Categorical</span><span class="p">):</span>
+            <span class="c1"># Indexing on codes is more efficient if categories are the same,</span>
+            <span class="c1">#  so we can apply some optimizations based on the degree of</span>
+            <span class="c1">#  dtype-matching.</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">_encode_with_my_categories</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">_codes</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">get_indexer</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="n">codes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">_from_backing_data</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+
+    <span class="c1"># --------------------------------------------------------------------</span>
+
+    <span class="k">def</span> <span class="nf">_is_comparable_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DtypeObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">_is_comparable_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CategoricalIndex.map"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.CategoricalIndex.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapper</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Map values using input an input mapping or function.</span>
+
+<span class="sd">        Maps the values (their categories, not the codes) of the index to new</span>
+<span class="sd">        categories. If the mapping correspondence is one-to-one the result is a</span>
+<span class="sd">        :class:`~pandas.CategoricalIndex` which has the same order property as</span>
+<span class="sd">        the original, otherwise an :class:`~pandas.Index` is returned.</span>
+
+<span class="sd">        If a `dict` or :class:`~pandas.Series` is used any unmapped category is</span>
+<span class="sd">        mapped to `NaN`. Note that if this happens an :class:`~pandas.Index`</span>
+<span class="sd">        will be returned.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mapper : function, dict, or Series</span>
+<span class="sd">            Mapping correspondence.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.CategoricalIndex or pandas.Index</span>
+<span class="sd">            Mapped index.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        Index.map : Apply a mapping correspondence on an</span>
+<span class="sd">            :class:`~pandas.Index`.</span>
+<span class="sd">        Series.map : Apply a mapping correspondence on a</span>
+<span class="sd">            :class:`~pandas.Series`.</span>
+<span class="sd">        Series.apply : Apply more complex functions on a</span>
+<span class="sd">            :class:`~pandas.Series`.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; idx = pd.CategoricalIndex([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; idx</span>
+<span class="sd">        CategoricalIndex([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], categories=[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                          ordered=False, dtype=&#39;category&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; idx.map(lambda x: x.upper())</span>
+<span class="sd">        CategoricalIndex([&#39;A&#39;, &#39;B&#39;, &#39;C&#39;], categories=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;],</span>
+<span class="sd">                         ordered=False, dtype=&#39;category&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; idx.map({&#39;a&#39;: &#39;first&#39;, &#39;b&#39;: &#39;second&#39;, &#39;c&#39;: &#39;third&#39;})</span>
+<span class="sd">        CategoricalIndex([&#39;first&#39;, &#39;second&#39;, &#39;third&#39;], categories=[&#39;first&#39;,</span>
+<span class="sd">                         &#39;second&#39;, &#39;third&#39;], ordered=False, dtype=&#39;category&#39;)</span>
+
+<span class="sd">        If the mapping is one-to-one the ordering of the categories is</span>
+<span class="sd">        preserved:</span>
+
+<span class="sd">        &gt;&gt;&gt; idx = pd.CategoricalIndex([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], ordered=True)</span>
+<span class="sd">        &gt;&gt;&gt; idx</span>
+<span class="sd">        CategoricalIndex([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], categories=[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],</span>
+<span class="sd">                         ordered=True, dtype=&#39;category&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; idx.map({&#39;a&#39;: 3, &#39;b&#39;: 2, &#39;c&#39;: 1})</span>
+<span class="sd">        CategoricalIndex([3, 2, 1], categories=[3, 2, 1], ordered=True,</span>
+<span class="sd">                         dtype=&#39;category&#39;)</span>
+
+<span class="sd">        If the mapping is not one-to-one an :class:`~pandas.Index` is returned:</span>
+
+<span class="sd">        &gt;&gt;&gt; idx.map({&#39;a&#39;: &#39;first&#39;, &#39;b&#39;: &#39;second&#39;, &#39;c&#39;: &#39;first&#39;})</span>
+<span class="sd">        Index([&#39;first&#39;, &#39;second&#39;, &#39;first&#39;], dtype=&#39;object&#39;)</span>
+
+<span class="sd">        If a `dict` is used, all unmapped categories are mapped to `NaN` and</span>
+<span class="sd">        the result is an :class:`~pandas.Index`:</span>
+
+<span class="sd">        &gt;&gt;&gt; idx.map({&#39;a&#39;: &#39;first&#39;, &#39;b&#39;: &#39;second&#39;})</span>
+<span class="sd">        Index([&#39;first&#39;, &#39;second&#39;, nan], dtype=&#39;object&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mapped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">mapper</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Index</span><span class="p">(</span><span class="n">mapped</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_concat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_concat</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Index</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="n">Hashable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Index</span><span class="p">:</span>
+        <span class="c1"># if calling index is category, don&#39;t check dtype of others</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">Categorical</span><span class="o">.</span><span class="n">_concat_same_type</span><span class="p">(</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_dtype_compat</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">to_concat</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="c1"># not all to_concat elements are among our categories (or NA)</span>
+            <span class="kn">from</span> <span class="nn">pandas.core.dtypes.concat</span> <span class="kn">import</span> <span class="n">concat_compat</span>
+
+            <span class="n">res</span> <span class="o">=</span> <span class="n">concat_compat</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">_values</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">to_concat</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">Index</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_simple_new</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

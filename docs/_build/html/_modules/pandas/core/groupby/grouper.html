@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.core.groupby.grouper &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.core.groupby.grouper</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.core.groupby.grouper</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Provide user facing operators for doing the split part of the</span>
+<span class="sd">split-apply-combine paradigm.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Hashable</span><span class="p">,</span>
+    <span class="n">Iterator</span><span class="p">,</span>
+    <span class="n">final</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pandas._config</span> <span class="kn">import</span> <span class="n">using_copy_on_write</span>
+
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ArrayLike</span><span class="p">,</span>
+    <span class="n">Axis</span><span class="p">,</span>
+    <span class="n">NDFrameT</span><span class="p">,</span>
+    <span class="n">npt</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.errors</span> <span class="kn">import</span> <span class="n">InvalidIndexError</span>
+<span class="kn">from</span> <span class="nn">pandas.util._decorators</span> <span class="kn">import</span> <span class="n">cache_readonly</span>
+<span class="kn">from</span> <span class="nn">pandas.util._exceptions</span> <span class="kn">import</span> <span class="n">find_stack_level</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_categorical_dtype</span><span class="p">,</span>
+    <span class="n">is_list_like</span><span class="p">,</span>
+    <span class="n">is_scalar</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core</span> <span class="kn">import</span> <span class="n">algorithms</span>
+<span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Categorical</span><span class="p">,</span>
+    <span class="n">ExtensionArray</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pandas.core.common</span> <span class="k">as</span> <span class="nn">com</span>
+<span class="kn">from</span> <span class="nn">pandas.core.frame</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">from</span> <span class="nn">pandas.core.groupby</span> <span class="kn">import</span> <span class="n">ops</span>
+<span class="kn">from</span> <span class="nn">pandas.core.groupby.categorical</span> <span class="kn">import</span> <span class="n">recode_for_groupby</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.api</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CategoricalIndex</span><span class="p">,</span>
+    <span class="n">Index</span><span class="p">,</span>
+    <span class="n">MultiIndex</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.series</span> <span class="kn">import</span> <span class="n">Series</span>
+
+<span class="kn">from</span> <span class="nn">pandas.io.formats.printing</span> <span class="kn">import</span> <span class="n">pprint_thing</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pandas.core.generic</span> <span class="kn">import</span> <span class="n">NDFrame</span>
+
+
+<div class="viewcode-block" id="Grouper"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.Grouper">[docs]</a><span class="k">class</span> <span class="nc">Grouper</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Grouper allows the user to specify a groupby instruction for an object.</span>
+
+<span class="sd">    This specification will select a column via the key parameter, or if the</span>
+<span class="sd">    level and/or axis parameters are given, a level of the index of the target</span>
+<span class="sd">    object.</span>
+
+<span class="sd">    If `axis` and/or `level` are passed as keywords to both `Grouper` and</span>
+<span class="sd">    `groupby`, the values passed to `Grouper` take precedence.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    key : str, defaults to None</span>
+<span class="sd">        Groupby key, which selects the grouping column of the target.</span>
+<span class="sd">    level : name/number, defaults to None</span>
+<span class="sd">        The level for the target index.</span>
+<span class="sd">    freq : str / frequency object, defaults to None</span>
+<span class="sd">        This will groupby the specified frequency if the target selection</span>
+<span class="sd">        (via key or level) is a datetime-like object. For full specification</span>
+<span class="sd">        of available frequencies, please see `here</span>
+<span class="sd">        &lt;https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#offset-aliases&gt;`_.</span>
+<span class="sd">    axis : str, int, defaults to 0</span>
+<span class="sd">        Number/name of the axis.</span>
+<span class="sd">    sort : bool, default to False</span>
+<span class="sd">        Whether to sort the resulting labels.</span>
+<span class="sd">    closed : {&#39;left&#39; or &#39;right&#39;}</span>
+<span class="sd">        Closed end of interval. Only when `freq` parameter is passed.</span>
+<span class="sd">    label : {&#39;left&#39; or &#39;right&#39;}</span>
+<span class="sd">        Interval boundary to use for labeling.</span>
+<span class="sd">        Only when `freq` parameter is passed.</span>
+<span class="sd">    convention : {&#39;start&#39;, &#39;end&#39;, &#39;e&#39;, &#39;s&#39;}</span>
+<span class="sd">        If grouper is PeriodIndex and `freq` parameter is passed.</span>
+
+<span class="sd">    origin : Timestamp or str, default &#39;start_day&#39;</span>
+<span class="sd">        The timestamp on which to adjust the grouping. The timezone of origin must</span>
+<span class="sd">        match the timezone of the index.</span>
+<span class="sd">        If string, must be one of the following:</span>
+
+<span class="sd">        - &#39;epoch&#39;: `origin` is 1970-01-01</span>
+<span class="sd">        - &#39;start&#39;: `origin` is the first value of the timeseries</span>
+<span class="sd">        - &#39;start_day&#39;: `origin` is the first day at midnight of the timeseries</span>
+
+<span class="sd">        .. versionadded:: 1.1.0</span>
+
+<span class="sd">        - &#39;end&#39;: `origin` is the last value of the timeseries</span>
+<span class="sd">        - &#39;end_day&#39;: `origin` is the ceiling midnight of the last day</span>
+
+<span class="sd">        .. versionadded:: 1.3.0</span>
+
+<span class="sd">    offset : Timedelta or str, default is None</span>
+<span class="sd">        An offset timedelta added to the origin.</span>
+
+<span class="sd">        .. versionadded:: 1.1.0</span>
+
+<span class="sd">    dropna : bool, default True</span>
+<span class="sd">        If True, and if group keys contain NA values, NA values together with</span>
+<span class="sd">        row/column will be dropped. If False, NA values will also be treated as</span>
+<span class="sd">        the key in groups.</span>
+
+<span class="sd">        .. versionadded:: 1.2.0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A specification for a groupby instruction</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Syntactic sugar for ``df.groupby(&#39;A&#39;)``</span>
+
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame(</span>
+<span class="sd">    ...     {</span>
+<span class="sd">    ...         &quot;Animal&quot;: [&quot;Falcon&quot;, &quot;Parrot&quot;, &quot;Falcon&quot;, &quot;Falcon&quot;, &quot;Parrot&quot;],</span>
+<span class="sd">    ...         &quot;Speed&quot;: [100, 5, 200, 300, 15],</span>
+<span class="sd">    ...     }</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; df</span>
+<span class="sd">       Animal  Speed</span>
+<span class="sd">    0  Falcon    100</span>
+<span class="sd">    1  Parrot      5</span>
+<span class="sd">    2  Falcon    200</span>
+<span class="sd">    3  Falcon    300</span>
+<span class="sd">    4  Parrot     15</span>
+<span class="sd">    &gt;&gt;&gt; df.groupby(pd.Grouper(key=&quot;Animal&quot;)).mean()</span>
+<span class="sd">            Speed</span>
+<span class="sd">    Animal</span>
+<span class="sd">    Falcon  200.0</span>
+<span class="sd">    Parrot   10.0</span>
+
+<span class="sd">    Specify a resample operation on the column &#39;Publish date&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame(</span>
+<span class="sd">    ...    {</span>
+<span class="sd">    ...        &quot;Publish date&quot;: [</span>
+<span class="sd">    ...             pd.Timestamp(&quot;2000-01-02&quot;),</span>
+<span class="sd">    ...             pd.Timestamp(&quot;2000-01-02&quot;),</span>
+<span class="sd">    ...             pd.Timestamp(&quot;2000-01-09&quot;),</span>
+<span class="sd">    ...             pd.Timestamp(&quot;2000-01-16&quot;)</span>
+<span class="sd">    ...         ],</span>
+<span class="sd">    ...         &quot;ID&quot;: [0, 1, 2, 3],</span>
+<span class="sd">    ...         &quot;Price&quot;: [10, 20, 30, 40]</span>
+<span class="sd">    ...     }</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; df</span>
+<span class="sd">      Publish date  ID  Price</span>
+<span class="sd">    0   2000-01-02   0     10</span>
+<span class="sd">    1   2000-01-02   1     20</span>
+<span class="sd">    2   2000-01-09   2     30</span>
+<span class="sd">    3   2000-01-16   3     40</span>
+<span class="sd">    &gt;&gt;&gt; df.groupby(pd.Grouper(key=&quot;Publish date&quot;, freq=&quot;1W&quot;)).mean()</span>
+<span class="sd">                   ID  Price</span>
+<span class="sd">    Publish date</span>
+<span class="sd">    2000-01-02    0.5   15.0</span>
+<span class="sd">    2000-01-09    2.0   30.0</span>
+<span class="sd">    2000-01-16    3.0   40.0</span>
+
+<span class="sd">    If you want to adjust the start of the bins based on a fixed timestamp:</span>
+
+<span class="sd">    &gt;&gt;&gt; start, end = &#39;2000-10-01 23:30:00&#39;, &#39;2000-10-02 00:30:00&#39;</span>
+<span class="sd">    &gt;&gt;&gt; rng = pd.date_range(start, end, freq=&#39;7min&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ts = pd.Series(np.arange(len(rng)) * 3, index=rng)</span>
+<span class="sd">    &gt;&gt;&gt; ts</span>
+<span class="sd">    2000-10-01 23:30:00     0</span>
+<span class="sd">    2000-10-01 23:37:00     3</span>
+<span class="sd">    2000-10-01 23:44:00     6</span>
+<span class="sd">    2000-10-01 23:51:00     9</span>
+<span class="sd">    2000-10-01 23:58:00    12</span>
+<span class="sd">    2000-10-02 00:05:00    15</span>
+<span class="sd">    2000-10-02 00:12:00    18</span>
+<span class="sd">    2000-10-02 00:19:00    21</span>
+<span class="sd">    2000-10-02 00:26:00    24</span>
+<span class="sd">    Freq: 7T, dtype: int64</span>
+
+<span class="sd">    &gt;&gt;&gt; ts.groupby(pd.Grouper(freq=&#39;17min&#39;)).sum()</span>
+<span class="sd">    2000-10-01 23:14:00     0</span>
+<span class="sd">    2000-10-01 23:31:00     9</span>
+<span class="sd">    2000-10-01 23:48:00    21</span>
+<span class="sd">    2000-10-02 00:05:00    54</span>
+<span class="sd">    2000-10-02 00:22:00    24</span>
+<span class="sd">    Freq: 17T, dtype: int64</span>
+
+<span class="sd">    &gt;&gt;&gt; ts.groupby(pd.Grouper(freq=&#39;17min&#39;, origin=&#39;epoch&#39;)).sum()</span>
+<span class="sd">    2000-10-01 23:18:00     0</span>
+<span class="sd">    2000-10-01 23:35:00    18</span>
+<span class="sd">    2000-10-01 23:52:00    27</span>
+<span class="sd">    2000-10-02 00:09:00    39</span>
+<span class="sd">    2000-10-02 00:26:00    24</span>
+<span class="sd">    Freq: 17T, dtype: int64</span>
+
+<span class="sd">    &gt;&gt;&gt; ts.groupby(pd.Grouper(freq=&#39;17min&#39;, origin=&#39;2000-01-01&#39;)).sum()</span>
+<span class="sd">    2000-10-01 23:24:00     3</span>
+<span class="sd">    2000-10-01 23:41:00    15</span>
+<span class="sd">    2000-10-01 23:58:00    45</span>
+<span class="sd">    2000-10-02 00:15:00    45</span>
+<span class="sd">    Freq: 17T, dtype: int64</span>
+
+<span class="sd">    If you want to adjust the start of the bins with an `offset` Timedelta, the two</span>
+<span class="sd">    following lines are equivalent:</span>
+
+<span class="sd">    &gt;&gt;&gt; ts.groupby(pd.Grouper(freq=&#39;17min&#39;, origin=&#39;start&#39;)).sum()</span>
+<span class="sd">    2000-10-01 23:30:00     9</span>
+<span class="sd">    2000-10-01 23:47:00    21</span>
+<span class="sd">    2000-10-02 00:04:00    54</span>
+<span class="sd">    2000-10-02 00:21:00    24</span>
+<span class="sd">    Freq: 17T, dtype: int64</span>
+
+<span class="sd">    &gt;&gt;&gt; ts.groupby(pd.Grouper(freq=&#39;17min&#39;, offset=&#39;23h30min&#39;)).sum()</span>
+<span class="sd">    2000-10-01 23:30:00     9</span>
+<span class="sd">    2000-10-01 23:47:00    21</span>
+<span class="sd">    2000-10-02 00:04:00    54</span>
+<span class="sd">    2000-10-02 00:21:00    24</span>
+<span class="sd">    Freq: 17T, dtype: int64</span>
+
+<span class="sd">    To replace the use of the deprecated `base` argument, you can now use `offset`,</span>
+<span class="sd">    in this example it is equivalent to have `base=2`:</span>
+
+<span class="sd">    &gt;&gt;&gt; ts.groupby(pd.Grouper(freq=&#39;17min&#39;, offset=&#39;2min&#39;)).sum()</span>
+<span class="sd">    2000-10-01 23:16:00     0</span>
+<span class="sd">    2000-10-01 23:33:00     9</span>
+<span class="sd">    2000-10-01 23:50:00    36</span>
+<span class="sd">    2000-10-02 00:07:00    39</span>
+<span class="sd">    2000-10-02 00:24:00    24</span>
+<span class="sd">    Freq: 17T, dtype: int64</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">sort</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">dropna</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">_gpr_index</span><span class="p">:</span> <span class="n">Index</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">_grouper</span><span class="p">:</span> <span class="n">Index</span> <span class="o">|</span> <span class="kc">None</span>
+
+    <span class="n">_attributes</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="s2">&quot;level&quot;</span><span class="p">,</span> <span class="s2">&quot;freq&quot;</span><span class="p">,</span> <span class="s2">&quot;axis&quot;</span><span class="p">,</span> <span class="s2">&quot;sort&quot;</span><span class="p">,</span> <span class="s2">&quot;dropna&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;freq&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">pandas.core.resample</span> <span class="kn">import</span> <span class="n">TimeGrouper</span>
+
+            <span class="bp">cls</span> <span class="o">=</span> <span class="n">TimeGrouper</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">axis</span><span class="p">:</span> <span class="n">Axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">dropna</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">freq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="n">axis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sort</span> <span class="o">=</span> <span class="n">sort</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropna</span> <span class="o">=</span> <span class="n">dropna</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_grouper_deprecated</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_indexer_deprecated</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obj_deprecated</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gpr_index</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">binner</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_grouper</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_indexer</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_get_grouper</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">NDFrameT</span><span class="p">,</span> <span class="n">validate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ops</span><span class="o">.</span><span class="n">BaseGrouper</span><span class="p">,</span> <span class="n">NDFrameT</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : Series or DataFrame</span>
+<span class="sd">        validate : bool, default True</span>
+<span class="sd">            if True, validate the grouper</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        a tuple of grouper, obj (possibly sorted)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_grouper</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">grouper</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">get_grouper</span><span class="p">(</span>
+            <span class="n">obj</span><span class="p">,</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">],</span>
+            <span class="n">axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span>
+            <span class="n">level</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">,</span>
+            <span class="n">sort</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">,</span>
+            <span class="n">validate</span><span class="o">=</span><span class="n">validate</span><span class="p">,</span>
+            <span class="n">dropna</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dropna</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># Without setting this, subsequent lookups to .groups raise</span>
+        <span class="c1"># error: Incompatible types in assignment (expression has type &quot;BaseGrouper&quot;,</span>
+        <span class="c1"># variable has type &quot;None&quot;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_grouper_deprecated</span> <span class="o">=</span> <span class="n">grouper</span>  <span class="c1"># type: ignore[assignment]</span>
+
+        <span class="k">return</span> <span class="n">grouper</span><span class="p">,</span> <span class="n">obj</span>
+
+    <span class="nd">@final</span>
+    <span class="k">def</span> <span class="nf">_set_grouper</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">NDFrame</span><span class="p">,</span> <span class="n">sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">gpr_index</span><span class="p">:</span> <span class="n">Index</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        given an object and the specifications, setup the internal grouper</span>
+<span class="sd">        for this particular specification</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : Series or DataFrame</span>
+<span class="sd">        sort : bool, default False</span>
+<span class="sd">            whether the resulting grouper should be sorted</span>
+<span class="sd">        gpr_index : Index or None, default None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        NDFrame</span>
+<span class="sd">        Index</span>
+<span class="sd">        np.ndarray[np.intp] | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="n">indexer</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The Grouper cannot specify both a key and a level!&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Keep self._grouper value before overriding</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grouper</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># TODO: What are we assuming about subsequent calls?</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_grouper</span> <span class="o">=</span> <span class="n">gpr_index</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_indexer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indexer_deprecated</span>
+
+        <span class="c1"># the key must be a valid info item</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span>
+            <span class="c1"># The &#39;on&#39; is already defined</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">gpr_index</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">key</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Series</span><span class="p">):</span>
+                <span class="c1"># Sometimes self._grouper will have been resorted while</span>
+                <span class="c1"># obj has not. In this case there is a mismatch when we</span>
+                <span class="c1"># call self._grouper.take(obj.index) so we need to undo the sorting</span>
+                <span class="c1"># before we call _grouper.take.</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grouper</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indexer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">reverse_indexer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indexer</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+                    <span class="n">unsorted_ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grouper</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">reverse_indexer</span><span class="p">)</span>
+                    <span class="n">ax</span> <span class="o">=</span> <span class="n">unsorted_ax</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grouper</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">_info_axis</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The grouper name </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> is not found&quot;</span><span class="p">)</span>
+                <span class="n">ax</span> <span class="o">=</span> <span class="n">Index</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_get_axis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
+
+                <span class="c1"># if a level is given it must be a mi level or</span>
+                <span class="c1"># equivalent to the axis name</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">MultiIndex</span><span class="p">):</span>
+                    <span class="n">level</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">_get_level_number</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+                    <span class="n">ax</span> <span class="o">=</span> <span class="n">Index</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">_get_level_values</span><span class="p">(</span><span class="n">level</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">level</span><span class="p">])</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">level</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The level </span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> is not valid&quot;</span><span class="p">)</span>
+
+        <span class="c1"># possibly sort</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sort</span> <span class="ow">or</span> <span class="n">sort</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ax</span><span class="o">.</span><span class="n">is_monotonic_increasing</span><span class="p">:</span>
+            <span class="c1"># use stable sort to support first, last, nth</span>
+            <span class="c1"># TODO: why does putting na_position=&quot;first&quot; fix datetimelike cases?</span>
+            <span class="n">indexer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indexer_deprecated</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span>
+                <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;mergesort&quot;</span><span class="p">,</span> <span class="n">na_position</span><span class="o">=</span><span class="s2">&quot;first&quot;</span>
+            <span class="p">)</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indexer</span><span class="p">)</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">indexer</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
+
+        <span class="c1"># error: Incompatible types in assignment (expression has type</span>
+        <span class="c1"># &quot;NDFrameT&quot;, variable has type &quot;None&quot;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obj_deprecated</span> <span class="o">=</span> <span class="n">obj</span>  <span class="c1"># type: ignore[assignment]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gpr_index</span> <span class="o">=</span> <span class="n">ax</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">indexer</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ax</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Index</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.ax is deprecated and will be removed in a &quot;</span>
+            <span class="s2">&quot;future version. Use Resampler.ax instead&quot;</span><span class="p">,</span>
+            <span class="ne">FutureWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gpr_index</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;_set_grouper must be called before ax is accessed&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">index</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">indexer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.indexer is deprecated and will be removed &quot;</span>
+            <span class="s2">&quot;in a future version. Use Resampler.indexer instead.&quot;</span><span class="p">,</span>
+            <span class="ne">FutureWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indexer_deprecated</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.obj is deprecated and will be removed &quot;</span>
+            <span class="s2">&quot;in a future version. Use GroupBy.indexer instead.&quot;</span><span class="p">,</span>
+            <span class="ne">FutureWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obj_deprecated</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">grouper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.grouper is deprecated and will be removed &quot;</span>
+            <span class="s2">&quot;in a future version. Use GroupBy.grouper instead.&quot;</span><span class="p">,</span>
+            <span class="ne">FutureWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grouper_deprecated</span>
+
+    <span class="nd">@final</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">groups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.groups is deprecated and will be removed &quot;</span>
+            <span class="s2">&quot;in a future version. Use GroupBy.groups instead.&quot;</span><span class="p">,</span>
+            <span class="ne">FutureWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="c1"># error: &quot;None&quot; has no attribute &quot;groups&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grouper_deprecated</span><span class="o">.</span><span class="n">groups</span>  <span class="c1"># type: ignore[attr-defined]</span>
+
+    <span class="nd">@final</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">attrs_list</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">attr_name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">attr_name</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">)</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">attrs_list</span><span class="p">)</span>
+        <span class="n">cls_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cls_name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">attrs</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
+
+<span class="nd">@final</span>
+<span class="k">class</span> <span class="nc">Grouping</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Holds the grouping information for a single key</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    index : Index</span>
+<span class="sd">    grouper :</span>
+<span class="sd">    obj : DataFrame or Series</span>
+<span class="sd">    name : Label</span>
+<span class="sd">    level :</span>
+<span class="sd">    observed : bool, default False</span>
+<span class="sd">        If we are a Categorical, use the observed values</span>
+<span class="sd">    in_axis : if the Grouping is a column in self.obj and hence among</span>
+<span class="sd">        Groupby.exclusions list</span>
+<span class="sd">    dropna : bool, default True</span>
+<span class="sd">        Whether to drop NA groups.</span>
+<span class="sd">    uniques : Array-like, optional</span>
+<span class="sd">        When specified, will be used for unique values. Enables including empty groups</span>
+<span class="sd">        in the result for a BinGrouper. Must not contain duplicates.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -------</span>
+<span class="sd">    indices : dict</span>
+<span class="sd">        Mapping of {group -&gt; index_list}</span>
+<span class="sd">    codes : ndarray</span>
+<span class="sd">        Group codes</span>
+<span class="sd">    group_index : Index or None</span>
+<span class="sd">        unique groups</span>
+<span class="sd">    groups : dict</span>
+<span class="sd">        Mapping of {group -&gt; label_list}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_codes</span><span class="p">:</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">signedinteger</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_group_index</span><span class="p">:</span> <span class="n">Index</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_all_grouper</span><span class="p">:</span> <span class="n">Categorical</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">_orig_cats</span><span class="p">:</span> <span class="n">Index</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">_index</span><span class="p">:</span> <span class="n">Index</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">index</span><span class="p">:</span> <span class="n">Index</span><span class="p">,</span>
+        <span class="n">grouper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">NDFrame</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">observed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">in_axis</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">dropna</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">uniques</span><span class="p">:</span> <span class="n">ArrayLike</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_orig_grouper</span> <span class="o">=</span> <span class="n">grouper</span>
+        <span class="n">grouping_vector</span> <span class="o">=</span> <span class="n">_convert_grouper</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">grouper</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_all_grouper</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_orig_cats</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sort</span> <span class="o">=</span> <span class="n">sort</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_observed</span> <span class="o">=</span> <span class="n">observed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_axis</span> <span class="o">=</span> <span class="n">in_axis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dropna</span> <span class="o">=</span> <span class="n">dropna</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_uniques</span> <span class="o">=</span> <span class="n">uniques</span>
+
+        <span class="c1"># we have a single grouper which may be a myriad of things,</span>
+        <span class="c1"># some of which are dependent on the passing in level</span>
+
+        <span class="n">ilevel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ilevel</span>
+        <span class="k">if</span> <span class="n">ilevel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># In extant tests, the new self.grouping_vector matches</span>
+            <span class="c1">#  `index.get_level_values(ilevel)` whenever</span>
+            <span class="c1">#  mapper is None and isinstance(index, MultiIndex)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">MultiIndex</span><span class="p">):</span>
+                <span class="n">index_level</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">ilevel</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">index_level</span> <span class="o">=</span> <span class="n">index</span>
+
+            <span class="k">if</span> <span class="n">grouping_vector</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">grouping_vector</span> <span class="o">=</span> <span class="n">index_level</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mapper</span> <span class="o">=</span> <span class="n">grouping_vector</span>
+                <span class="n">grouping_vector</span> <span class="o">=</span> <span class="n">index_level</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">mapper</span><span class="p">)</span>
+
+        <span class="c1"># a passed Grouper like, directly get the grouper in the same way</span>
+        <span class="c1"># as single grouper groupby, use the group_info to get codes</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grouping_vector</span><span class="p">,</span> <span class="n">Grouper</span><span class="p">):</span>
+            <span class="c1"># get the new grouper; we already have disambiguated</span>
+            <span class="c1"># what key/level refer to exactly, don&#39;t need to</span>
+            <span class="c1"># check again as we have by this point converted these</span>
+            <span class="c1"># to an actual value (rather than a pd.Grouper)</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>  <span class="c1"># for mypy</span>
+            <span class="n">newgrouper</span><span class="p">,</span> <span class="n">newobj</span> <span class="o">=</span> <span class="n">grouping_vector</span><span class="o">.</span><span class="n">_get_grouper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">newobj</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">newgrouper</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">BinGrouper</span><span class="p">):</span>
+                <span class="c1"># TODO: can we unwrap this and get a tighter typing</span>
+                <span class="c1">#  for self.grouping_vector?</span>
+                <span class="n">grouping_vector</span> <span class="o">=</span> <span class="n">newgrouper</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># ops.BaseGrouper</span>
+                <span class="c1"># TODO: 2023-02-03 no test cases with len(newgrouper.groupings) &gt; 1.</span>
+                <span class="c1">#  If that were to occur, would we be throwing out information?</span>
+                <span class="c1"># error: Cannot determine type of &quot;grouping_vector&quot;  [has-type]</span>
+                <span class="n">ng</span> <span class="o">=</span> <span class="n">newgrouper</span><span class="o">.</span><span class="n">groupings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grouping_vector</span>  <span class="c1"># type: ignore[has-type]</span>
+                <span class="c1"># use Index instead of ndarray so we can recover the name</span>
+                <span class="n">grouping_vector</span> <span class="o">=</span> <span class="n">Index</span><span class="p">(</span><span class="n">ng</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">newgrouper</span><span class="o">.</span><span class="n">result_index</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">grouping_vector</span><span class="p">,</span> <span class="p">(</span><span class="n">Series</span><span class="p">,</span> <span class="n">Index</span><span class="p">,</span> <span class="n">ExtensionArray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="c1"># no level passed</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">grouping_vector</span><span class="p">,</span> <span class="s2">&quot;ndim&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">grouping_vector</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Grouper for &#39;</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&#39; not 1-dimensional&quot;</span><span class="p">)</span>
+
+            <span class="n">grouping_vector</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">grouping_vector</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+                <span class="nb">hasattr</span><span class="p">(</span><span class="n">grouping_vector</span><span class="p">,</span> <span class="s2">&quot;__len__&quot;</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">grouping_vector</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+            <span class="p">):</span>
+                <span class="n">grper</span> <span class="o">=</span> <span class="n">pprint_thing</span><span class="p">(</span><span class="n">grouping_vector</span><span class="p">)</span>
+                <span class="n">errmsg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Grouper result violates len(labels) == &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;len(data)</span><span class="se">\n</span><span class="s2">result: </span><span class="si">{</span><span class="n">grper</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grouping_vector</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">grouping_vector</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">]:</span>
+                <span class="c1"># if we have a date/time-like grouper, make sure that we have</span>
+                <span class="c1"># Timestamps like</span>
+                <span class="c1"># TODO 2022-10-08 we only have one test that gets here and</span>
+                <span class="c1">#  values are already in nanoseconds in that case.</span>
+                <span class="n">grouping_vector</span> <span class="o">=</span> <span class="n">Series</span><span class="p">(</span><span class="n">grouping_vector</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">is_categorical_dtype</span><span class="p">(</span><span class="n">grouping_vector</span><span class="p">):</span>
+            <span class="c1"># a passed Categorical</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_orig_cats</span> <span class="o">=</span> <span class="n">grouping_vector</span><span class="o">.</span><span class="n">categories</span>
+            <span class="n">grouping_vector</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_grouper</span> <span class="o">=</span> <span class="n">recode_for_groupby</span><span class="p">(</span>
+                <span class="n">grouping_vector</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="n">observed</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span> <span class="o">=</span> <span class="n">grouping_vector</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Grouping(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">)</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">_passed_categorical</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">is_categorical_dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="p">)</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hashable</span><span class="p">:</span>
+        <span class="n">ilevel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ilevel</span>
+        <span class="k">if</span> <span class="n">ilevel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="n">ilevel</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_orig_grouper</span><span class="p">,</span> <span class="p">(</span><span class="n">Index</span><span class="p">,</span> <span class="n">Series</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig_grouper</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">BaseGrouper</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="o">.</span><span class="n">result_index</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="p">,</span> <span class="n">Index</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="c1"># otherwise we have ndarray or ExtensionArray -&gt; no name</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">_ilevel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If necessary, converted index level name to index level position.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span>
+            <span class="k">if</span> <span class="n">level</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Level </span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> not in index&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">level</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ngroups</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">group_index</span><span class="p">)</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">indices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Hashable</span><span class="p">,</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">intp</span><span class="p">]]:</span>
+        <span class="c1"># we have a list of groupers</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">BaseGrouper</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="o">.</span><span class="n">indices</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="n">Categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">values</span><span class="o">.</span><span class="n">_reverse_indexer</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">codes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">signedinteger</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codes_and_uniques</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">group_arraylike</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArrayLike</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analogous to result_index, but holding an ArrayLike to ensure</span>
+<span class="sd">        we can retain ExtensionDtypes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_grouper</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># retain dtype for categories, including unobserved ones</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result_index</span><span class="o">.</span><span class="n">_values</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_passed_categorical</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_index</span><span class="o">.</span><span class="n">_values</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codes_and_uniques</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">result_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Index</span><span class="p">:</span>
+        <span class="c1"># result_index retains dtype for categories, including unobserved ones,</span>
+        <span class="c1">#  which group_index does not</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_grouper</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">group_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_index</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group_idx</span><span class="p">,</span> <span class="n">CategoricalIndex</span><span class="p">)</span>
+            <span class="n">cats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig_cats</span>
+            <span class="c1"># set_categories is dynamically added</span>
+            <span class="k">return</span> <span class="n">group_idx</span><span class="o">.</span><span class="n">set_categories</span><span class="p">(</span><span class="n">cats</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_index</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">group_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Index</span><span class="p">:</span>
+        <span class="n">codes</span><span class="p">,</span> <span class="n">uniques</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codes_and_uniques</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dropna</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_passed_categorical</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">uniques</span><span class="p">,</span> <span class="n">Categorical</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sort</span> <span class="ow">and</span> <span class="p">(</span><span class="n">codes</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">uniques</span><span class="p">))</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                <span class="c1"># Add NA value on the end when sorting</span>
+                <span class="n">uniques</span> <span class="o">=</span> <span class="n">Categorical</span><span class="o">.</span><span class="n">from_codes</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uniques</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">uniques</span><span class="o">.</span><span class="n">categories</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">codes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># Need to determine proper placement of NA value when not sorting</span>
+                <span class="n">cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span>
+                <span class="n">na_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">cat</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="n">na_idx</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># count number of unique codes that comes before the nan value</span>
+                    <span class="n">na_unique_idx</span> <span class="o">=</span> <span class="n">algorithms</span><span class="o">.</span><span class="n">nunique_ints</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span><span class="p">[:</span><span class="n">na_idx</span><span class="p">])</span>
+                    <span class="n">uniques</span> <span class="o">=</span> <span class="n">Categorical</span><span class="o">.</span><span class="n">from_codes</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">uniques</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span> <span class="n">na_unique_idx</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">uniques</span><span class="o">.</span><span class="n">categories</span>
+                    <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Index</span><span class="o">.</span><span class="n">_with_infer</span><span class="p">(</span><span class="n">uniques</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">_codes_and_uniques</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">signedinteger</span><span class="p">],</span> <span class="n">ArrayLike</span><span class="p">]:</span>
+        <span class="n">uniques</span><span class="p">:</span> <span class="n">ArrayLike</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_passed_categorical</span><span class="p">:</span>
+            <span class="c1"># we make a CategoricalIndex out of the cat grouper</span>
+            <span class="c1"># preserving the categories / ordered attributes;</span>
+            <span class="c1"># doesn&#39;t (yet - GH#46909) handle dropna=False</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span>
+            <span class="n">categories</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">categories</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observed</span><span class="p">:</span>
+                <span class="n">ucodes</span> <span class="o">=</span> <span class="n">algorithms</span><span class="o">.</span><span class="n">unique1d</span><span class="p">(</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span><span class="p">)</span>
+                <span class="n">ucodes</span> <span class="o">=</span> <span class="n">ucodes</span><span class="p">[</span><span class="n">ucodes</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sort</span><span class="p">:</span>
+                    <span class="n">ucodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">ucodes</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ucodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">))</span>
+
+            <span class="n">uniques</span> <span class="o">=</span> <span class="n">Categorical</span><span class="o">.</span><span class="n">from_codes</span><span class="p">(</span>
+                <span class="n">codes</span><span class="o">=</span><span class="n">ucodes</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="n">cat</span><span class="o">.</span><span class="n">ordered</span>
+            <span class="p">)</span>
+
+            <span class="n">codes</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dropna</span><span class="p">:</span>
+                <span class="n">na_mask</span> <span class="o">=</span> <span class="n">codes</span> <span class="o">&lt;</span> <span class="mi">0</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">na_mask</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sort</span><span class="p">:</span>
+                        <span class="c1"># Replace NA codes with `largest code + 1`</span>
+                        <span class="n">na_code</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
+                        <span class="n">codes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">na_mask</span><span class="p">,</span> <span class="n">na_code</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># Insert NA code into the codes based on first appearance</span>
+                        <span class="c1"># A negative code must exist, no need to check codes[na_idx] &lt; 0</span>
+                        <span class="n">na_idx</span> <span class="o">=</span> <span class="n">na_mask</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+                        <span class="c1"># count number of unique codes that comes before the nan value</span>
+                        <span class="n">na_code</span> <span class="o">=</span> <span class="n">algorithms</span><span class="o">.</span><span class="n">nunique_ints</span><span class="p">(</span><span class="n">codes</span><span class="p">[:</span><span class="n">na_idx</span><span class="p">])</span>
+                        <span class="n">codes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">codes</span> <span class="o">&gt;=</span> <span class="n">na_code</span><span class="p">,</span> <span class="n">codes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+                        <span class="n">codes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">na_mask</span><span class="p">,</span> <span class="n">na_code</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observed</span><span class="p">:</span>
+                <span class="n">uniques</span> <span class="o">=</span> <span class="n">uniques</span><span class="o">.</span><span class="n">reorder_categories</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_orig_cats</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">codes</span><span class="p">,</span> <span class="n">uniques</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">BaseGrouper</span><span class="p">):</span>
+            <span class="c1"># we have a list of groupers</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="o">.</span><span class="n">codes_info</span>
+            <span class="n">uniques</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="o">.</span><span class="n">result_index</span><span class="o">.</span><span class="n">_values</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uniques</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># GH#50486 Code grouping_vector using _uniques; allows</span>
+            <span class="c1"># including uniques that are not present in grouping_vector.</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="n">Categorical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_uniques</span><span class="p">)</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+            <span class="n">uniques</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uniques</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># GH35667, replace dropna=False with use_na_sentinel=False</span>
+            <span class="c1"># error: Incompatible types in assignment (expression has type &quot;Union[</span>
+            <span class="c1"># ndarray[Any, Any], Index]&quot;, variable has type &quot;Categorical&quot;)</span>
+            <span class="n">codes</span><span class="p">,</span> <span class="n">uniques</span> <span class="o">=</span> <span class="n">algorithms</span><span class="o">.</span><span class="n">factorize</span><span class="p">(</span>  <span class="c1"># type: ignore[assignment]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">grouping_vector</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_sort</span><span class="p">,</span> <span class="n">use_na_sentinel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_dropna</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">codes</span><span class="p">,</span> <span class="n">uniques</span>
+
+    <span class="nd">@cache_readonly</span>
+    <span class="k">def</span> <span class="nf">groups</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Hashable</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">Categorical</span><span class="o">.</span><span class="n">from_codes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_index</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">get_grouper</span><span class="p">(</span>
+    <span class="n">obj</span><span class="p">:</span> <span class="n">NDFrameT</span><span class="p">,</span>
+    <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="n">Axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">observed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">validate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">dropna</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ops</span><span class="o">.</span><span class="n">BaseGrouper</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">[</span><span class="n">Hashable</span><span class="p">],</span> <span class="n">NDFrameT</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create and return a BaseGrouper, which is an internal</span>
+<span class="sd">    mapping of how to create the grouper indexers.</span>
+<span class="sd">    This may be composed of multiple Grouping objects, indicating</span>
+<span class="sd">    multiple groupers</span>
+
+<span class="sd">    Groupers are ultimately index mappings. They can originate as:</span>
+<span class="sd">    index mappings, keys to columns, functions, or Groupers</span>
+
+<span class="sd">    Groupers enable local references to axis,level,sort, while</span>
+<span class="sd">    the passed in axis, level, and sort are &#39;global&#39;.</span>
+
+<span class="sd">    This routine tries to figure out what the passing in references</span>
+<span class="sd">    are and then creates a Grouping for each one, combined into</span>
+<span class="sd">    a BaseGrouper.</span>
+
+<span class="sd">    If observed &amp; we have a categorical grouper, only show the observed</span>
+<span class="sd">    values.</span>
+
+<span class="sd">    If validate, then check for key/level overlaps.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">group_axis</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_get_axis</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+
+    <span class="c1"># validate that the passed single level is compatible with the passed</span>
+    <span class="c1"># axis of the object</span>
+    <span class="k">if</span> <span class="n">level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># TODO: These if-block and else-block are almost same.</span>
+        <span class="c1"># MultiIndex instance check is removable, but it seems that there are</span>
+        <span class="c1"># some processes only for non-MultiIndex in else-block,</span>
+        <span class="c1"># eg. `obj.index.name != level`. We have to consider carefully whether</span>
+        <span class="c1"># these are applicable for MultiIndex. Even if these are applicable,</span>
+        <span class="c1"># we need to check if it makes no side effect to subsequent processes</span>
+        <span class="c1"># on the outside of this condition.</span>
+        <span class="c1"># (GH 17621)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group_axis</span><span class="p">,</span> <span class="n">MultiIndex</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">level</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">level</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">level</span> <span class="o">=</span> <span class="n">level</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">is_scalar</span><span class="p">(</span><span class="n">level</span><span class="p">):</span>
+                <span class="c1"># Get the level values from group_axis</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">group_axis</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+                <span class="n">level</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># allow level to be a length-one list-like object</span>
+            <span class="c1"># (e.g., level=[0])</span>
+            <span class="c1"># GH 13901</span>
+            <span class="k">if</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">level</span><span class="p">):</span>
+                <span class="n">nlevels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">nlevels</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">level</span> <span class="o">=</span> <span class="n">level</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">nlevels</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No group keys passed!&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;multiple levels only valid with MultiIndex&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">_get_axis</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">level</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;level name </span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> is not the name &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;of the </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">_get_axis_name</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">level</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;level &gt; 0 or level &lt; -1 only valid with MultiIndex&quot;</span><span class="p">)</span>
+
+            <span class="c1"># NOTE: `group_axis` and `group_axis.get_level_values(level)`</span>
+            <span class="c1"># are same in this section.</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">group_axis</span>
+
+    <span class="c1"># a passed-in Grouper, directly convert</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">Grouper</span><span class="p">):</span>
+        <span class="n">grouper</span><span class="p">,</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">_get_grouper</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">grouper</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">(),</span> <span class="n">obj</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">grouper</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">({</span><span class="n">key</span><span class="o">.</span><span class="n">key</span><span class="p">}),</span> <span class="n">obj</span>
+
+    <span class="c1"># already have a BaseGrouper, just return it</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">BaseGrouper</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">key</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">(),</span> <span class="n">obj</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="n">match_axis_length</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="n">match_axis_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">group_axis</span><span class="p">)</span>
+
+    <span class="c1"># what are we after, exactly?</span>
+    <span class="n">any_callable</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="nb">callable</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">)</span>
+    <span class="n">any_groupers</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="p">(</span><span class="n">Grouper</span><span class="p">,</span> <span class="n">Grouping</span><span class="p">))</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">)</span>
+    <span class="n">any_arraylike</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">Series</span><span class="p">,</span> <span class="n">Index</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">keys</span>
+    <span class="p">)</span>
+
+    <span class="c1"># is this an index replacement?</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="ow">not</span> <span class="n">any_callable</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">any_arraylike</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">any_groupers</span>
+        <span class="ow">and</span> <span class="n">match_axis_length</span>
+        <span class="ow">and</span> <span class="n">level</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">all_in_columns_index</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span>
+                <span class="n">g</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">columns</span> <span class="ow">or</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">keys</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Series</span><span class="p">)</span>
+            <span class="n">all_in_columns_index</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">g</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">all_in_columns_index</span><span class="p">:</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">com</span><span class="o">.</span><span class="n">asarray_tuplesafe</span><span class="p">(</span><span class="n">keys</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="n">level</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="p">[</span><span class="n">level</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+
+    <span class="n">groupings</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Grouping</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">exclusions</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">Hashable</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="c1"># if the actual grouper should be obj[key]</span>
+    <span class="k">def</span> <span class="nf">is_in_axis</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_label_like</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="c1"># items -&gt; .columns for DataFrame, .index for Series</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">items</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="n">InvalidIndexError</span><span class="p">):</span>
+                <span class="c1"># TypeError shows up here if we pass e.g. an Index</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># if the grouper is obj[name]</span>
+    <span class="k">def</span> <span class="nf">is_in_obj</span><span class="p">(</span><span class="n">gpr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">gpr</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">using_copy_on_write</span><span class="p">():</span>
+            <span class="c1"># For the CoW case, we check the references to determine if the</span>
+            <span class="c1"># series is part of the object</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">obj_gpr_column</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="n">gpr</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="n">InvalidIndexError</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gpr</span><span class="p">,</span> <span class="n">Series</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj_gpr_column</span><span class="p">,</span> <span class="n">Series</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">gpr</span><span class="o">.</span><span class="n">_mgr</span><span class="o">.</span><span class="n">references_same_values</span><span class="p">(</span>  <span class="c1"># type: ignore[union-attr]</span>
+                    <span class="n">obj_gpr_column</span><span class="o">.</span><span class="n">_mgr</span><span class="p">,</span> <span class="mi">0</span>  <span class="c1"># type: ignore[arg-type]</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gpr</span> <span class="ow">is</span> <span class="n">obj</span><span class="p">[</span><span class="n">gpr</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="n">InvalidIndexError</span><span class="p">):</span>
+            <span class="c1"># IndexError reached in e.g. test_skip_group_keys when we pass</span>
+            <span class="c1">#  lambda here</span>
+            <span class="c1"># InvalidIndexError raised on key-types inappropriate for index,</span>
+            <span class="c1">#  e.g. DatetimeIndex.get_loc(tuple())</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">for</span> <span class="n">gpr</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">is_in_obj</span><span class="p">(</span><span class="n">gpr</span><span class="p">):</span>  <span class="c1"># df.groupby(df[&#39;name&#39;])</span>
+            <span class="n">in_axis</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">exclusions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gpr</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">is_in_axis</span><span class="p">(</span><span class="n">gpr</span><span class="p">):</span>  <span class="c1"># df.groupby(&#39;name&#39;)</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">gpr</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">validate</span><span class="p">:</span>
+                    <span class="n">obj</span><span class="o">.</span><span class="n">_check_label_or_level_ambiguity</span><span class="p">(</span><span class="n">gpr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+                <span class="n">in_axis</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">gpr</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">gpr</span><span class="p">,</span> <span class="n">obj</span><span class="p">[</span><span class="n">gpr</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">gpr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="c1"># non-unique columns; raise here to get the name in the</span>
+                    <span class="c1"># exception message</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Grouper for &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; not 1-dimensional&quot;</span><span class="p">)</span>
+                <span class="n">exclusions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">obj</span><span class="o">.</span><span class="n">_is_level_reference</span><span class="p">(</span><span class="n">gpr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">):</span>
+                <span class="n">in_axis</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">gpr</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">gpr</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">gpr</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gpr</span><span class="p">,</span> <span class="n">Grouper</span><span class="p">)</span> <span class="ow">and</span> <span class="n">gpr</span><span class="o">.</span><span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Add key to exclusions</span>
+            <span class="n">exclusions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gpr</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">in_axis</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">in_axis</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># create the Grouping</span>
+        <span class="c1"># allow us to passing the actual Grouping as the gpr</span>
+        <span class="n">ping</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Grouping</span><span class="p">(</span>
+                <span class="n">group_axis</span><span class="p">,</span>
+                <span class="n">gpr</span><span class="p">,</span>
+                <span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span>
+                <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span>
+                <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">,</span>
+                <span class="n">observed</span><span class="o">=</span><span class="n">observed</span><span class="p">,</span>
+                <span class="n">in_axis</span><span class="o">=</span><span class="n">in_axis</span><span class="p">,</span>
+                <span class="n">dropna</span><span class="o">=</span><span class="n">dropna</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gpr</span><span class="p">,</span> <span class="n">Grouping</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">gpr</span>
+        <span class="p">)</span>
+
+        <span class="n">groupings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ping</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">groupings</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No group keys passed!&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">groupings</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">groupings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Grouping</span><span class="p">(</span><span class="n">Index</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">intp</span><span class="p">)))</span>
+
+    <span class="c1"># create the internals grouper</span>
+    <span class="n">grouper</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">BaseGrouper</span><span class="p">(</span><span class="n">group_axis</span><span class="p">,</span> <span class="n">groupings</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="n">dropna</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">grouper</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">exclusions</span><span class="p">),</span> <span class="n">obj</span>
+
+
+<span class="k">def</span> <span class="nf">_is_label_like</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">is_scalar</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_convert_grouper</span><span class="p">(</span><span class="n">axis</span><span class="p">:</span> <span class="n">Index</span><span class="p">,</span> <span class="n">grouper</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grouper</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">grouper</span><span class="o">.</span><span class="n">get</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grouper</span><span class="p">,</span> <span class="n">Series</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">grouper</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">axis</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">grouper</span><span class="o">.</span><span class="n">_values</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">grouper</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span><span class="o">.</span><span class="n">_values</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grouper</span><span class="p">,</span> <span class="n">MultiIndex</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">grouper</span><span class="o">.</span><span class="n">_values</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grouper</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">Index</span><span class="p">,</span> <span class="n">Categorical</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">grouper</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">axis</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Grouper and axis must be same length&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grouper</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">grouper</span> <span class="o">=</span> <span class="n">com</span><span class="o">.</span><span class="n">asarray_tuplesafe</span><span class="p">(</span><span class="n">grouper</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">grouper</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">grouper</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

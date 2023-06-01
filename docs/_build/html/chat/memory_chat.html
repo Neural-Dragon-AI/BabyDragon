@@ -4,9 +4,11 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>memory_chat &mdash; BabyDragon  documentation</title>
+  <title>FifoChat &mdash; BabyDragon  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,11 +18,12 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="chat" href="chat.html" />
-    <link rel="prev" title="base_chat" href="base_chat.html" /> 
+    <link rel="next" title="Chat" href="chat.html" />
+    <link rel="prev" title="Prompter" href="base_chat.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,59 +47,80 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tasks/llm_task.html">llm_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tasks/base_task.html">base_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tasks/topic_tree_task.html">topic_tree_task</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html">embedding_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/llm_task.html">LLMReader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/llm_task.html#llmwriter">LLMWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/multi_kernel_task.html">MultiKernelTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/base_task.html">BaseTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/topic_tree_task.html">TopicTreeTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/embedding_task.html">EmbeddingTask</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/memory_kernel.html">memory_kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html">multi_kernel</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/memory_kernel.html">MemoryKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_clustering.html">ClusterPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html">MultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../memory/kernels/kernel_utils.html">kernel_utils</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../memory/threads/base_thread.html">base_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/threads/fifo_thread.html">fifo_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/threads/vector_thread.html">vector_thread</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/threads/todo/python_thread.html">python_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/base_thread.html">BaseThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/fifo_thread.html">FifoThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/threads/vector_thread.html">VectorThread</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/python_index.html">python_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html">memory_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/pandas_index.html">pandas_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/github_index.html">github_index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/todo/multi_index.html">multi_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../memory/indexes/pandas_index.html">PandasIndex</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="base_chat.html">base_chat</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">memory_chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="chat.html">chat</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prompts/perspective_prompt.html">perspective_prompt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prompts/default_prompts.html">default_prompts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base_chat.html">Prompter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base_chat.html#basechat">BaseChat</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FifoChat</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoChat"><code class="docutils literal notranslate"><span class="pre">FifoChat</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoChat.fifo_memory_prompt"><code class="docutils literal notranslate"><span class="pre">FifoChat.fifo_memory_prompt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoChat.query"><code class="docutils literal notranslate"><span class="pre">FifoChat.query()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#vectorchat">VectorChat</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.chat.memory_chat.VectorChat"><code class="docutils literal notranslate"><span class="pre">VectorChat</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.VectorChat.vector_memory_prompt"><code class="docutils literal notranslate"><span class="pre">VectorChat.vector_memory_prompt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.VectorChat.weighted_memory_prompt"><code class="docutils literal notranslate"><span class="pre">VectorChat.weighted_memory_prompt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.VectorChat.query"><code class="docutils literal notranslate"><span class="pre">VectorChat.query()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#fifovectorchat">FifoVectorChat</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoVectorChat"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoVectorChat.setup_longterm_memory"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat.setup_longterm_memory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoVectorChat.fifovector_memory_prompt"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat.fifovector_memory_prompt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#babydragon.chat.memory_chat.FifoVectorChat.query"><code class="docutils literal notranslate"><span class="pre">FifoVectorChat.query()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chat.html">Chat</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../utils/multithreading.html">multithreading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils/pandas.html">pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils/hf_datasets.html">hf_datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utils/chatml.html">chatml</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html">ada2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../models/embedders/cohere.html">cohere</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../models/embedders/sbert.html">sbert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/cohere.html">CohereEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/embedders/sbert.html">SBERTEmbedder</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
 <ul>
@@ -105,27 +129,26 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../processors/github_processors.html">github_processors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/os_processor.html">os_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/git_metadata.html">git_metadata</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/visitors.html">visitors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/python_parser.html">python_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/md_parser.html">md_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/todo/git_processor.html">git_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/todo/wiki_processor.html">wiki_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/todo/youtube_processor.html">youtube_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/github_processors.html">GithubProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/os_processor.html">OsProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/git_metadata.html">IssueParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/git_metadata.html#commitparser">CommitParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/visitors.html">FunctionCallFinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/visitors.html#multiplicationcountervisitor">MultiplicationCounterVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/visitors.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/visitors.html#typingcollector">TypingCollector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/python_parser.html">PythonMinifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/python_parser.html#pythondocstringextractor">PythonDocstringExtractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/python_parser.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../processors/parsers/python_parser.html#pythonparser">PythonParser</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html">perspective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html">SubjectPerspectiveAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#ideation">Ideation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
 </ul>
 
         </div>
@@ -142,7 +165,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">memory_chat</li>
+      <li class="breadcrumb-item active">FifoChat</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/chat/memory_chat.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -152,299 +175,180 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="memory-chat">
-<h1>memory_chat<a class="headerlink" href="#memory-chat" title="Permalink to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FifoChat</span><span class="p">(</span><span class="n">FifoThread</span><span class="p">,</span> <span class="n">Chat</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A chatbot class that combines FIFO Memory Thread, BaseChat, and Prompter. The oldest messages are removed first</span>
-<span class="sd">    when reaching the max_memory limit. The memory is defined in terms of tokens, and outs are passed to the</span>
-<span class="sd">    longterm_memory. The lucid_memory is a redundant memory that stores all the messages.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+  <section id="fifochat">
+<h1>FifoChat<a class="headerlink" href="#fifochat" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoChat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.chat.memory_chat.</span></span><span class="sig-name descname"><span class="pre">FifoChat</span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoChat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoChat" title="Permalink to this definition"></a></dt>
+<dd><p>A chatbot class that combines FIFO Memory Thread, BaseChat, and Prompter. The oldest messages are removed first
+when reaching the max_memory limit. The memory is defined in terms of tokens, and outs are passed to the
+longterm_memory. The lucid_memory is a redundant memory that stores all the messages.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoChat.fifo_memory_prompt">
+<span class="sig-name descname"><span class="pre">fifo_memory_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoChat.fifo_memory_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoChat.fifo_memory_prompt" title="Permalink to this definition"></a></dt>
+<dd><p>Compose the prompt for the chat-gpt API, including the system prompt and memory thread.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> – A string representing the user message.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing a list of strings as the prompt and the marked question.</p>
+</dd>
+</dl>
+</dd></dl>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">index_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">PandasIndex</span><span class="p">,</span> <span class="n">MemoryIndex</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">system_prompt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">user_prompt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;fifo_memory&quot;</span><span class="p">,</span>
-        <span class="n">max_index_memory</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
-        <span class="n">max_fifo_memory</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2048</span><span class="p">,</span>
-        <span class="n">max_output_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-        <span class="n">longterm_thread</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseThread</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoChat.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">question</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoChat.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoChat.query" title="Permalink to this definition"></a></dt>
+<dd><p>Query the chatbot with a given question. The question is added to the memory, and the answer is returned
+and added to the memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>question</strong> – A string representing the user question.</p></li>
+<li><p><strong>verbose</strong> – A boolean indicating whether to display input and output messages as Markdown.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string representing the chatbot’s response.</p>
+</dd>
+</dl>
+</dd></dl>
 
-        <span class="n">FifoThread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">max_memory</span><span class="o">=</span><span class="n">max_fifo_memory</span><span class="p">,</span> <span class="n">longterm_thread</span><span class="o">=</span><span class="n">longterm_thread</span>
-        <span class="p">)</span>
-        <span class="n">Chat</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-            <span class="n">index_dict</span><span class="o">=</span><span class="n">index_dict</span><span class="p">,</span>
-            <span class="n">max_output_tokens</span><span class="o">=</span><span class="n">max_output_tokens</span><span class="p">,</span>
-            <span class="n">max_index_memory</span><span class="o">=</span><span class="n">max_index_memory</span><span class="p">,</span>
-            <span class="n">system_prompt</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">,</span>
-            <span class="n">user_prompt</span><span class="o">=</span><span class="n">user_prompt</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-        <span class="p">)</span>
+</dd></dl>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">prompt_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fifo_memory_prompt</span>
+</section>
+<section id="vectorchat">
+<h1>VectorChat<a class="headerlink" href="#vectorchat" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.VectorChat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.chat.memory_chat.</span></span><span class="sig-name descname"><span class="pre">VectorChat</span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#VectorChat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.VectorChat" title="Permalink to this definition"></a></dt>
+<dd><p>A chatbot class that combines Vector Memory Thread, BaseChat, and Prompter. Memory prompt is constructed by
+filling the memory with the k most similar messages to the question until the max prompt memory tokens are reached.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.VectorChat.vector_memory_prompt">
+<span class="sig-name descname"><span class="pre">vector_memory_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#VectorChat.vector_memory_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.VectorChat.vector_memory_prompt" title="Permalink to this definition"></a></dt>
+<dd><p>Combine system prompt, k most similar messages to the question, and the user prompt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>question</strong> – A string representing the user question.</p></li>
+<li><p><strong>k</strong> – The number of most similar messages to include in the prompt.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing a list of strings as the prompt and the marked question.</p>
+</dd>
+</dl>
+</dd></dl>
 
-    <span class="k">def</span> <span class="nf">fifo_memory_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compose the prompt for the chat-gpt API, including the system prompt and memory thread.</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.VectorChat.weighted_memory_prompt">
+<span class="sig-name descname"><span class="pre">weighted_memory_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temporal_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#VectorChat.weighted_memory_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.VectorChat.weighted_memory_prompt" title="Permalink to this definition"></a></dt>
+<dd><p>Combine system prompt, weighted k most similar messages to the question, and the user prompt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>question</strong> – A string representing the user question.</p></li>
+<li><p><strong>k</strong> – The number of most similar messages to include in the prompt.</p></li>
+<li><p><strong>decay_factor</strong> – A float representing the decay factor for weighting.</p></li>
+<li><p><strong>temporal_weight</strong> – A float representing the weight of the temporal aspect.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing a list of strings as the prompt and the marked question.</p>
+</dd>
+</dl>
+</dd></dl>
 
-<span class="sd">        :param message: A string representing the user message.</span>
-<span class="sd">        :return: A tuple containing a list of strings as the prompt and the marked question.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">marked_question</span> <span class="o">=</span> <span class="n">mark_question</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_prompt</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
-        <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">[</span><span class="n">mark_system</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system_prompt</span><span class="p">)]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_thread</span> <span class="o">+</span> <span class="p">[</span><span class="n">marked_question</span><span class="p">]</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">marked_question</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.VectorChat.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">question</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#VectorChat.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.VectorChat.query" title="Permalink to this definition"></a></dt>
+<dd><p>Query the chatbot with a given question. The question is added to the memory, and the answer is returned
+and added to the memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>question</strong> – A string representing the user question.</p></li>
+<li><p><strong>verbose</strong> – A boolean indicating whether to display input and output messages as Markdown.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string representing the chatbot’s response.</p>
+</dd>
+</dl>
+</dd></dl>
 
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Query the chatbot with a given question. The question is added to the memory, and the answer is returned</span>
-<span class="sd">        and added to the memory.</span>
+</dd></dl>
 
-<span class="sd">        :param question: A string representing the user question.</span>
-<span class="sd">        :param verbose: A boolean indicating whether to display input and output messages as Markdown.</span>
-<span class="sd">        :return: A string representing the chatbot&#39;s response.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># First call the base class&#39;s query method</span>
-        <span class="n">answer</span> <span class="o">=</span> <span class="n">BaseChat</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">question</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
-        <span class="n">marked_question</span> <span class="o">=</span> <span class="n">mark_question</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
-        <span class="c1"># Add the marked question and answer to the memory</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">marked_question</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span>
+</section>
+<section id="fifovectorchat">
+<h1>FifoVectorChat<a class="headerlink" href="#fifovectorchat" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoVectorChat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">babydragon.chat.memory_chat.</span></span><span class="sig-name descname"><span class="pre">FifoVectorChat</span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoVectorChat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoVectorChat" title="Permalink to this definition"></a></dt>
+<dd><p>A chatbot class that combines FIFO Memory Thread, Vector Memory Thread, BaseChat, and Prompter.
+The memory prompt is constructed by including both FIFO memory and Vector memory.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoVectorChat.setup_longterm_memory">
+<span class="sig-name descname"><span class="pre">setup_longterm_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">longterm_thread</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../memory/threads/vector_thread.html#babydragon.memory.threads.vector_thread.VectorThread" title="babydragon.memory.threads.vector_thread.VectorThread"><span class="pre">VectorThread</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../utils/pandas.html#pandas.ArrowDtype.None" title="pandas.ArrowDtype.None"><span class="pre">None</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_memory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">longterm_frac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoVectorChat.setup_longterm_memory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoVectorChat.setup_longterm_memory" title="Permalink to this definition"></a></dt>
+<dd><p>Set up long-term memory by allocating memory for the FIFO and Vector memory components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>longterm_thread</strong> – An optional VectorThread for long-term memory.</p></li>
+<li><p><strong>max_memory</strong> – The maximum amount of memory for the chatbot.</p></li>
+<li><p><strong>longterm_frac</strong> – The fraction of memory dedicated to long-term memory.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
-        <span class="k">return</span> <span class="n">answer</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VectorChat</span><span class="p">(</span><span class="n">VectorThread</span><span class="p">,</span> <span class="n">Chat</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A chatbot class that combines Vector Memory Thread, BaseChat, and Prompter. Memory prompt is constructed by</span>
-<span class="sd">    filling the memory with the k most similar messages to the question until the max prompt memory tokens are reached.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoVectorChat.fifovector_memory_prompt">
+<span class="sig-name descname"><span class="pre">fifovector_memory_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoVectorChat.fifovector_memory_prompt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoVectorChat.fifovector_memory_prompt" title="Permalink to this definition"></a></dt>
+<dd><p>Combine the system prompt, long-term memory (vector memory), short-term memory (FIFO memory), and the user prompt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>question</strong> – A string representing the user question.</p></li>
+<li><p><strong>k</strong> – The number of most similar messages to include from the long-term memory.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing a list of strings as the prompt and the marked question.</p>
+</dd>
+</dl>
+</dd></dl>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">model</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">index_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">PandasIndex</span><span class="p">,</span> <span class="n">MemoryIndex</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;vector_memory&quot;</span><span class="p">,</span>
-        <span class="n">max_index_memory</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
-        <span class="n">max_vector_memory</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2048</span><span class="p">,</span>
-        <span class="n">max_output_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-        <span class="n">system_prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">user_prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<dl class="py method">
+<dt class="sig sig-object py" id="babydragon.chat.memory_chat.FifoVectorChat.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">question</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/babydragon/chat/memory_chat.html#FifoVectorChat.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#babydragon.chat.memory_chat.FifoVectorChat.query" title="Permalink to this definition"></a></dt>
+<dd><p>Query the chatbot with a given question. The question is added to the memory, and the answer is returned
+and added to the memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>question</strong> – A string representing the user question.</p></li>
+<li><p><strong>verbose</strong> – A boolean indicating whether to display input and output messages as Markdown.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string representing the chatbot’s response.</p>
+</dd>
+</dl>
+</dd></dl>
 
-    <span class="p">):</span>
-        <span class="n">VectorThread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">max_context</span><span class="o">=</span><span class="n">max_vector_memory</span><span class="p">)</span>
-        <span class="n">Chat</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-            <span class="n">index_dict</span><span class="o">=</span><span class="n">index_dict</span><span class="p">,</span>
-            <span class="n">max_output_tokens</span><span class="o">=</span><span class="n">max_output_tokens</span><span class="p">,</span>
-            <span class="n">max_index_memory</span><span class="o">=</span><span class="n">max_index_memory</span><span class="p">,</span>
-            <span class="n">system_prompt</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">,</span>
-            <span class="n">user_prompt</span><span class="o">=</span><span class="n">user_prompt</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_vector_memory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_context</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prompt_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_memory_prompt</span>
+</dd></dl>
 
-    <span class="k">def</span> <span class="nf">vector_memory_prompt</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Combine system prompt, k most similar messages to the question, and the user prompt.</span>
-
-<span class="sd">        :param question: A string representing the user question.</span>
-<span class="sd">        :param k: The number of most similar messages to include in the prompt.</span>
-<span class="sd">        :return: A tuple containing a list of strings as the prompt and the marked question.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">sorted_messages</span><span class="p">,</span> <span class="n">sorted_scores</span><span class="p">,</span> <span class="n">sorted_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sorted_query</span><span class="p">(</span>
-            <span class="n">message</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_vector_memory</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span>
-        <span class="n">marked_question</span> <span class="o">=</span> <span class="n">mark_question</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_prompt</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
-        <span class="n">prompt</span> <span class="o">=</span> <span class="p">[</span><span class="n">mark_system</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system_prompt</span><span class="p">)]</span> <span class="o">+</span> <span class="n">sorted_messages</span> <span class="o">+</span> <span class="p">[</span><span class="n">marked_question</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">marked_question</span>
-
-    <span class="k">def</span> <span class="nf">weighted_memory_prompt</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="n">decay_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
-        <span class="n">temporal_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Combine system prompt, weighted k most similar messages to the question, and the user prompt.</span>
-
-<span class="sd">        :param question: A string representing the user question.</span>
-<span class="sd">        :param k: The number of most similar messages to include in the prompt.</span>
-<span class="sd">        :param decay_factor: A float representing the decay factor for weighting.</span>
-<span class="sd">        :param temporal_weight: A float representing the weight of the temporal aspect.</span>
-<span class="sd">        :return: A tuple containing a list of strings as the prompt and the marked question.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">weighted_messages</span><span class="p">,</span> <span class="n">weighted_scores</span><span class="p">,</span> <span class="n">weighted_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted_query</span><span class="p">(</span>
-            <span class="n">message</span><span class="p">,</span>
-            <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
-            <span class="n">max_tokens</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_vector_memory</span><span class="p">,</span>
-            <span class="n">decay_factor</span><span class="o">=</span><span class="n">decay_factor</span><span class="p">,</span>
-            <span class="n">temporal_weight</span><span class="o">=</span><span class="n">temporal_weight</span><span class="p">,</span>
-            <span class="n">order_by</span><span class="o">=</span><span class="s2">&quot;chronological&quot;</span><span class="p">,</span>
-            <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">marked_question</span> <span class="o">=</span> <span class="n">mark_question</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_prompt</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
-        <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">[</span><span class="n">mark_system</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system_prompt</span><span class="p">)]</span> <span class="o">+</span> <span class="n">weighted_messages</span> <span class="o">+</span> <span class="p">[</span><span class="n">marked_question</span><span class="p">]</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">marked_question</span>
-
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Query the chatbot with a given question. The question is added to the memory, and the answer is returned</span>
-<span class="sd">        and added to the memory.</span>
-
-<span class="sd">        :param question: A string representing the user question.</span>
-<span class="sd">        :param verbose: A boolean indicating whether to display input and output messages as Markdown.</span>
-<span class="sd">        :return: A string representing the chatbot&#39;s response.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># First call the base class&#39;s query method</span>
-        <span class="n">answer</span> <span class="o">=</span> <span class="n">BaseChat</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">question</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
-        <span class="n">marked_question</span> <span class="o">=</span> <span class="n">mark_question</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
-        <span class="c1"># Add the marked question and answer to the memory</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">marked_question</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">answer</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FifoVectorChat</span><span class="p">(</span><span class="n">FifoThread</span><span class="p">,</span> <span class="n">Chat</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A chatbot class that combines FIFO Memory Thread, Vector Memory Thread, BaseChat, and Prompter.</span>
-<span class="sd">    The memory prompt is constructed by including both FIFO memory and Vector memory.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">index_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">PandasIndex</span><span class="p">,</span> <span class="n">MemoryIndex</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">system_prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">user_prompt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;fifo_vector_memory&quot;</span><span class="p">,</span>
-        <span class="n">max_memory</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2048</span><span class="p">,</span>
-        <span class="n">max_index_memory</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
-        <span class="n">max_output_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-        <span class="n">longterm_thread</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">VectorThread</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">longterm_frac</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">total_max_memory</span> <span class="o">=</span> <span class="n">max_memory</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">setup_longterm_memory</span><span class="p">(</span><span class="n">longterm_thread</span><span class="p">,</span> <span class="n">max_memory</span><span class="p">,</span> <span class="n">longterm_frac</span><span class="p">)</span>
-        <span class="n">FifoThread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-            <span class="n">max_memory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_fifo_memory</span><span class="p">,</span>
-            <span class="n">longterm_thread</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">longterm_thread</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">Chat</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-            <span class="n">index_dict</span><span class="o">=</span><span class="n">index_dict</span><span class="p">,</span>
-            <span class="n">max_output_tokens</span><span class="o">=</span><span class="n">max_output_tokens</span><span class="p">,</span>
-            <span class="n">max_index_memory</span><span class="o">=</span><span class="n">max_index_memory</span><span class="p">,</span>
-            <span class="n">system_prompt</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">,</span>
-            <span class="n">user_prompt</span><span class="o">=</span><span class="n">user_prompt</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prompt_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fifovector_memory_prompt</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prompt_list</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">def</span> <span class="nf">setup_longterm_memory</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">longterm_thread</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">VectorThread</span><span class="p">],</span>
-        <span class="n">max_memory</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">longterm_frac</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set up long-term memory by allocating memory for the FIFO and Vector memory components.</span>
-
-<span class="sd">        :param longterm_thread: An optional VectorThread for long-term memory.</span>
-<span class="sd">        :param max_memory: The maximum amount of memory for the chatbot.</span>
-<span class="sd">        :param longterm_frac: The fraction of memory dedicated to long-term memory.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">longterm_thread</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">longterm_frac</span> <span class="o">=</span> <span class="n">longterm_frac</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">max_fifo_memory</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_memory</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">longterm_frac</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">max_vector_memory</span> <span class="o">=</span> <span class="n">max_memory</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fifo_memory</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">longterm_thread</span> <span class="o">=</span> <span class="n">VectorThread</span><span class="p">(</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;longterm_memory&quot;</span><span class="p">,</span> <span class="n">max_context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_vector_memory</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">longterm_thread</span> <span class="o">=</span> <span class="n">longterm_thread</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">max_vector_memory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">longterm_thread</span><span class="o">.</span><span class="n">max_context</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">max_fifo_memory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_max_memory</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_vector_memory</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">longterm_frac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_vector_memory</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_max_memory</span>
-
-    <span class="k">def</span> <span class="nf">fifovector_memory_prompt</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Combine the system prompt, long-term memory (vector memory), short-term memory (FIFO memory), and the user prompt.</span>
-
-<span class="sd">        :param question: A string representing the user question.</span>
-<span class="sd">        :param k: The number of most similar messages to include from the long-term memory.</span>
-<span class="sd">        :return: A tuple containing a list of strings as the prompt and the marked question.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">prompt</span> <span class="o">=</span> <span class="p">[</span><span class="n">mark_system</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system_prompt</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">longterm_thread</span><span class="o">.</span><span class="n">memory_thread</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
-            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">longterm_thread</span><span class="o">.</span><span class="n">total_tokens</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_vector_memory</span>
-        <span class="p">):</span>
-            <span class="n">prompt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">longterm_thread</span><span class="o">.</span><span class="n">memory_thread</span>
-        <span class="k">elif</span> <span class="p">(</span>
-            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">longterm_thread</span><span class="o">.</span><span class="n">memory_thread</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
-            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">longterm_thread</span><span class="o">.</span><span class="n">total_tokens</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_vector_memory</span>
-        <span class="p">):</span>
-            <span class="p">(</span>
-                <span class="n">sorted_messages</span><span class="p">,</span>
-                <span class="n">sorted_scores</span><span class="p">,</span>
-                <span class="n">sorted_indices</span><span class="p">,</span>
-            <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">longterm_thread</span><span class="o">.</span><span class="n">sorted_query</span><span class="p">(</span>
-                <span class="n">message</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_vector_memory</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span>
-            <span class="n">prompt</span> <span class="o">+=</span> <span class="n">sorted_messages</span>
-
-        <span class="n">prompt</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_thread</span>
-        <span class="n">marked_question</span> <span class="o">=</span> <span class="n">mark_question</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_prompt</span><span class="p">(</span><span class="n">message</span><span class="p">))</span>
-        <span class="n">prompt</span> <span class="o">+=</span> <span class="p">[</span><span class="n">marked_question</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">marked_question</span>
-
-    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Query the chatbot with a given question. The question is added to the memory, and the answer is returned</span>
-<span class="sd">        and added to the memory.</span>
-
-<span class="sd">        :param question: A string representing the user question.</span>
-<span class="sd">        :param verbose: A boolean indicating whether to display input and output messages as Markdown.</span>
-<span class="sd">        :return: A string representing the chatbot&#39;s response.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">answer</span> <span class="o">=</span> <span class="n">BaseChat</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">question</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
-        <span class="n">marked_question</span> <span class="o">=</span> <span class="n">mark_question</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">marked_question</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">answer</span>
-</pre></div>
-</div>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="base_chat.html" class="btn btn-neutral float-left" title="base_chat" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="chat.html" class="btn btn-neutral float-right" title="chat" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="base_chat.html" class="btn btn-neutral float-left" title="Prompter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="chat.html" class="btn btn-neutral float-right" title="Chat" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

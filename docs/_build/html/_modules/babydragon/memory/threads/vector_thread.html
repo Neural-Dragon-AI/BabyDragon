@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>babydragon.memory.threads.vector_thread &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">LLMReader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html#llmwriter">LLMWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">MultiKernelTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">BaseTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">TopicTreeTask</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">EmbeddingTask</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">MemoryKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">ClusterPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#hdbscanpaths">HDBSCANPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html#spectralclusteringpaths">SpectralClusteringPaths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">MultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#hdbscanmultikernel">HDBSCANMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html#spectralclusteringmultikernel">SpectralClusteringMultiKernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">MultiKernelVisualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html#multikernelstabilityanalysis">MultiKernelStabilityAnalysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">BaseThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">FifoThread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">VectorThread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">MemoryIndex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">PandasIndex</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">Prompter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html#basechat">BaseChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">FifoChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#vectorchat">VectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html#fifovectorchat">FifoVectorChat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">Chat</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">OpenAiEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">CohereEmbedder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">SBERTEmbedder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">GithubProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">OsProcessor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">IssueParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html#commitparser">CommitParser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">FunctionCallFinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#multiplicationcountervisitor">MultiplicationCounterVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html#typingcollector">TypingCollector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">PythonMinifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythondocstringextractor">PythonDocstringExtractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#functionandclassvisitor">FunctionAndClassVisitor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html#pythonparser">PythonParser</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">SubjectPerspectiveAnalyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideation">Ideation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#ideacluster">IdeaCluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#summarizer">Summarizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html#perspectivepromptgenerator">PerspectivePromptGenerator</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">babydragon.memory.threads.vector_thread</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for babydragon.memory.threads.vector_thread</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">faiss</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">babydragon.memory.indexes.memory_index</span> <span class="kn">import</span> <span class="n">MemoryIndex</span>
+<span class="kn">from</span> <span class="nn">babydragon.memory.threads.base_thread</span> <span class="kn">import</span> <span class="n">BaseThread</span>
+<span class="kn">from</span> <span class="nn">babydragon.utils.chatml</span> <span class="kn">import</span> <span class="n">check_dict</span><span class="p">,</span> <span class="n">mark_question</span>
+
+
+<div class="viewcode-block" id="VectorThread"><a class="viewcode-back" href="../../../../memory/threads/vector_thread.html#babydragon.memory.threads.vector_thread.VectorThread">[docs]</a><span class="k">class</span> <span class="nc">VectorThread</span><span class="p">(</span><span class="n">BaseThread</span><span class="p">,</span> <span class="n">MemoryIndex</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;vector BaseThread, creates a faiss index with the messages and allows to search for similar messages, memory BaseThread can return messages in either similarity or chronological order</span>
+<span class="sd">    add a parameter to choose the order of the messages</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;vector_memory&quot;</span><span class="p">,</span> <span class="n">max_context</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">use_mark</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">BaseThread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">max_memory</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">MemoryIndex</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_context</span> <span class="o">=</span> <span class="n">max_context</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_mark</span> <span class="o">=</span> <span class="n">use_mark</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">local_index</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatIP</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">embedder</span><span class="o">.</span><span class="n">get_embedding_size</span><span class="p">())</span>
+
+<div class="viewcode-block" id="VectorThread.index_message"><a class="viewcode-back" href="../../../../memory/threads/vector_thread.html#babydragon.memory.threads.vector_thread.VectorThread.index_message">[docs]</a>    <span class="k">def</span> <span class="nf">index_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;index a message in the faiss index, the message is embedded and added to the index</span>
+<span class="sd">        self.values and self.embeddings and self.index are updated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_index</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VectorThread.add_message"><a class="viewcode-back" href="../../../../memory/threads/vector_thread.html#babydragon.memory.threads.vector_thread.VectorThread.add_message">[docs]</a>    <span class="k">def</span> <span class="nf">add_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;add a message to the memory thread, the message is embedded and added to the index</span>
+<span class="sd">        self.values and self.embeddings and self.index are updated. If use_mark is False only the content of the messages is embedded</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># print(&quot;checking the dict&quot;)</span>
+        <span class="n">message_dict</span> <span class="o">=</span> <span class="n">check_dict</span><span class="p">(</span><span class="n">message_dict</span><span class="p">)</span>
+        <span class="c1"># print(&quot;trying to add the message&quot;)</span>
+        <span class="n">BaseThread</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message_dict</span><span class="p">)</span>
+        <span class="c1"># print(message_dict)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">message_dict</span><span class="p">[</span><span class="s2">&quot;content&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index_message</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="VectorThread.token_bound_query"><a class="viewcode-back" href="../../../../memory/threads/vector_thread.html#babydragon.memory.threads.vector_thread.VectorThread.token_bound_query">[docs]</a>    <span class="k">def</span> <span class="nf">token_bound_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">max_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;returns the k most similar messages to the query, sorted in similarity order&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_mark</span><span class="p">:</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">mark_question</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">MemoryIndex</span><span class="o">.</span><span class="n">token_bound_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">max_tokens</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VectorThread.sorted_query"><a class="viewcode-back" href="../../../../memory/threads/vector_thread.html#babydragon.memory.threads.vector_thread.VectorThread.sorted_query">[docs]</a>    <span class="k">def</span> <span class="nf">sorted_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">max_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">,</span>
+        <span class="n">reverse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">return_from_thread</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;returns the k most similar messages to the query, sorted in chronological order with the most recent message first</span>
+<span class="sd">        if return_from_thread is True the messages are returned from the memory thread, otherwise they are returned from the index</span>
+<span class="sd">        if reverse is True the messages are returned in reverse chronological order, with the oldest message first</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">unsorted_messages</span><span class="p">,</span> <span class="n">unsorted_scores</span><span class="p">,</span> <span class="n">unsorted_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_bound_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="n">max_tokens</span><span class="p">)</span>
+
+        <span class="n">num_results</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">unsorted_messages</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">unsorted_scores</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">unsorted_indices</span><span class="p">))</span>
+        <span class="c1"># unsorted_indices = [int(i) for i in unsorted_indices]  # convert numpy arrays to integers</span>
+        <span class="n">unsorted_indices</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">unsorted_indices</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
+
+        <span class="c1"># Sort the indices</span>
+        <span class="n">sorted_indices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_results</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">unsorted_indices</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="n">sorted_indices</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">sorted_indices</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+            <span class="n">sorted_indices</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+        <span class="c1"># Fetch the sorted messages, scores, and indices based on sorted_indices</span>
+        <span class="n">sorted_messages</span> <span class="o">=</span> <span class="p">[</span><span class="n">unsorted_messages</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sorted_indices</span><span class="p">]</span>
+        <span class="n">sorted_scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">unsorted_scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sorted_indices</span><span class="p">]</span>
+        <span class="n">sorted_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">unsorted_indices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sorted_indices</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">return_from_thread</span><span class="p">:</span>
+            <span class="n">sorted_messages</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">memory_thread</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sorted_indices</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">sorted_messages</span><span class="p">,</span> <span class="n">sorted_scores</span><span class="p">,</span> <span class="n">sorted_indices</span></div>
+<div class="viewcode-block" id="VectorThread.weighted_query"><a class="viewcode-back" href="../../../../memory/threads/vector_thread.html#babydragon.memory.threads.vector_thread.VectorThread.weighted_query">[docs]</a>    <span class="k">def</span> <span class="nf">weighted_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">query</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">max_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">,</span>
+        <span class="n">decay_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">temporal_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">order_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;chronological&quot;</span><span class="p">,</span>
+        <span class="n">reverse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the k most similar messages to the query, sorted in either similarity or chronological order. The results are weighted by a combination of similarity scores and temporal weights.</span>
+<span class="sd">        The temporal weights are computed using an exponential decay function with the decay factor as the decay rate. The temporal weight of the most recent message is 1 and the temporal weight of the oldest message is 0.</span>
+<span class="sd">        The temporal weight of a message is multiplied by the temporal_weight parameter to control the relative importance of the temporal weights. The default value of 0.5 means that the temporal weights are equally important as the similarity scores.</span>
+<span class="sd">        The order_by parameter controls the order of the results. If it is set to &#39;similarity&#39;, the results are sorted in similarity order. If it is set to &#39;chronological&#39;, the results are sorted in chronological order with the most recent message first.</span>
+<span class="sd">        If reverse is True, the results are sorted in reverse chronological order with the oldest message first.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Validate order_by parameter</span>
+        <span class="k">if</span> <span class="n">order_by</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;similarity&quot;</span><span class="p">,</span> <span class="s2">&quot;chronological&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid value for order_by parameter. It should be either &#39;similarity&#39; or &#39;chronological&#39;.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Get similarity-based results</span>
+        <span class="n">sim_messages</span><span class="p">,</span> <span class="n">sim_scores</span><span class="p">,</span> <span class="n">sim_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sorted_query</span><span class="p">(</span>
+            <span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="n">max_tokens</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Get token-bound history</span>
+        <span class="n">hist_messages</span><span class="p">,</span> <span class="n">hist_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_bound_history</span><span class="p">(</span><span class="n">max_tokens</span><span class="o">=</span><span class="n">max_tokens</span><span class="p">)</span>
+
+        <span class="c1"># Combine messages and indices</span>
+        <span class="n">combined_messages</span> <span class="o">=</span> <span class="n">sim_messages</span> <span class="o">+</span> <span class="n">hist_messages</span>
+        <span class="n">combined_indices</span> <span class="o">=</span> <span class="n">sim_indices</span> <span class="o">+</span> <span class="n">hist_indices</span>
+
+        <span class="c1"># Create the local_index and populate it</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">local_index</span> <span class="o">=</span> <span class="n">MemoryIndex</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;local_index&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">combined_messages</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">local_index</span><span class="o">.</span><span class="n">add_to_index</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Perform a new query on the combined index</span>
+        <span class="p">(</span>
+            <span class="n">new_query_results</span><span class="p">,</span>
+            <span class="n">new_query_scores</span><span class="p">,</span>
+            <span class="n">new_query_indices</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_index</span><span class="o">.</span><span class="n">token_bound_query</span><span class="p">(</span>
+            <span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">combined_messages</span><span class="p">),</span> <span class="n">max_tokens</span><span class="o">=</span><span class="n">max_tokens</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Compute temporal weights</span>
+        <span class="n">temporal_weights</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">decay_factor</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">combined_messages</span><span class="p">))</span>
+        <span class="p">]</span>
+        <span class="n">temporal_weights</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">w</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">temporal_weights</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">temporal_weights</span>
+        <span class="p">]</span>  <span class="c1"># Normalize the temporal weights</span>
+
+        <span class="c1"># Combine similarity scores and temporal weights</span>
+        <span class="n">weighted_scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_query_scores</span><span class="p">)):</span>
+            <span class="n">sim_score</span> <span class="o">=</span> <span class="n">new_query_scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">temp_weight</span> <span class="o">=</span> <span class="n">temporal_weights</span><span class="p">[</span><span class="n">combined_indices</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">new_query_indices</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span>
+            <span class="n">weighted_score</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="mi">1</span> <span class="o">-</span> <span class="n">temporal_weight</span>
+            <span class="p">)</span> <span class="o">*</span> <span class="n">sim_score</span> <span class="o">+</span> <span class="n">temporal_weight</span> <span class="o">*</span> <span class="n">temp_weight</span>
+            <span class="n">weighted_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">weighted_score</span><span class="p">)</span>
+
+        <span class="c1"># Sort the results based on the order_by parameter</span>
+        <span class="k">if</span> <span class="n">order_by</span> <span class="o">==</span> <span class="s2">&quot;similarity&quot;</span><span class="p">:</span>
+            <span class="n">sorting_key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">weighted_scores</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">order_by</span> <span class="o">==</span> <span class="s2">&quot;chronological&quot;</span><span class="p">:</span>  <span class="c1"># order_by == &#39;chronological&#39;</span>
+            <span class="n">sorting_key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">new_query_indices</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid value for order_by parameter. It should be either &#39;similarity&#39; or &#39;chronological&#39;.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">sorted_indices</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">new_query_indices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
+                <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_query_indices</span><span class="p">)),</span> <span class="n">key</span><span class="o">=</span><span class="n">sorting_key</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="ow">not</span> <span class="n">reverse</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">sorted_results</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">new_query_results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
+                <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_query_results</span><span class="p">)),</span> <span class="n">key</span><span class="o">=</span><span class="n">sorting_key</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="ow">not</span> <span class="n">reverse</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">sorted_scores</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">weighted_scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
+                <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weighted_scores</span><span class="p">)),</span> <span class="n">key</span><span class="o">=</span><span class="n">sorting_key</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="ow">not</span> <span class="n">reverse</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Return only the top k results without exceeding max_tokens</span>
+        <span class="n">final_results</span><span class="p">,</span> <span class="n">final_scores</span><span class="p">,</span> <span class="n">final_indices</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="n">current_tokens</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_results</span><span class="p">))):</span>
+            <span class="n">message_tokens</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_message_tokens</span><span class="p">(</span><span class="n">sorted_results</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">current_tokens</span> <span class="o">+</span> <span class="n">message_tokens</span> <span class="o">&lt;=</span> <span class="n">max_tokens</span><span class="p">:</span>
+                <span class="n">final_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sorted_results</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">final_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sorted_scores</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">final_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sorted_indices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">current_tokens</span> <span class="o">+=</span> <span class="n">message_tokens</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">final_results</span><span class="p">,</span> <span class="n">final_scores</span><span class="p">,</span> <span class="n">final_indices</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

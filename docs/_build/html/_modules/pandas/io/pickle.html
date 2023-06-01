@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.io.pickle &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.io.pickle</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.io.pickle</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; pickle compat &quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CompressionOptions</span><span class="p">,</span>
+    <span class="n">FilePath</span><span class="p">,</span>
+    <span class="n">ReadPickleBuffer</span><span class="p">,</span>
+    <span class="n">StorageOptions</span><span class="p">,</span>
+    <span class="n">WriteBuffer</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.compat</span> <span class="kn">import</span> <span class="n">pickle_compat</span> <span class="k">as</span> <span class="n">pc</span>
+<span class="kn">from</span> <span class="nn">pandas.util._decorators</span> <span class="kn">import</span> <span class="n">doc</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.shared_docs</span> <span class="kn">import</span> <span class="n">_shared_docs</span>
+
+<span class="kn">from</span> <span class="nn">pandas.io.common</span> <span class="kn">import</span> <span class="n">get_handle</span>
+
+
+<div class="viewcode-block" id="to_pickle"><a class="viewcode-back" href="../../../utils/pandas.html#pandas.to_pickle">[docs]</a><span class="nd">@doc</span><span class="p">(</span>
+    <span class="n">storage_options</span><span class="o">=</span><span class="n">_shared_docs</span><span class="p">[</span><span class="s2">&quot;storage_options&quot;</span><span class="p">],</span>
+    <span class="n">compression_options</span><span class="o">=</span><span class="n">_shared_docs</span><span class="p">[</span><span class="s2">&quot;compression_options&quot;</span><span class="p">]</span> <span class="o">%</span> <span class="s2">&quot;filepath_or_buffer&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">to_pickle</span><span class="p">(</span>
+    <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="n">filepath_or_buffer</span><span class="p">:</span> <span class="n">FilePath</span> <span class="o">|</span> <span class="n">WriteBuffer</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+    <span class="n">compression</span><span class="p">:</span> <span class="n">CompressionOptions</span> <span class="o">=</span> <span class="s2">&quot;infer&quot;</span><span class="p">,</span>
+    <span class="n">protocol</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">,</span>
+    <span class="n">storage_options</span><span class="p">:</span> <span class="n">StorageOptions</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pickle (serialize) object to file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obj : any object</span>
+<span class="sd">        Any python object.</span>
+<span class="sd">    filepath_or_buffer : str, path object, or file-like object</span>
+<span class="sd">        String, path object (implementing ``os.PathLike[str]``), or file-like</span>
+<span class="sd">        object implementing a binary ``write()`` function.</span>
+<span class="sd">        Also accepts URL. URL has to be of S3 or GCS.</span>
+<span class="sd">    {compression_options}</span>
+
+<span class="sd">        .. versionchanged:: 1.4.0 Zstandard support.</span>
+
+<span class="sd">    protocol : int</span>
+<span class="sd">        Int which indicates which protocol should be used by the pickler,</span>
+<span class="sd">        default HIGHEST_PROTOCOL (see [1], paragraph 12.1.2). The possible</span>
+<span class="sd">        values for this parameter depend on the version of Python. For Python</span>
+<span class="sd">        2.x, possible values are 0, 1, 2. For Python&gt;=3.0, 3 is a valid value.</span>
+<span class="sd">        For Python &gt;= 3.4, 4 is a valid value. A negative value for the</span>
+<span class="sd">        protocol parameter is equivalent to setting its value to</span>
+<span class="sd">        HIGHEST_PROTOCOL.</span>
+
+<span class="sd">    {storage_options}</span>
+
+<span class="sd">        .. versionadded:: 1.2.0</span>
+
+<span class="sd">        .. [1] https://docs.python.org/3/library/pickle.html</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    read_pickle : Load pickled pandas object (or any object) from file.</span>
+<span class="sd">    DataFrame.to_hdf : Write DataFrame to an HDF5 file.</span>
+<span class="sd">    DataFrame.to_sql : Write DataFrame to a SQL database.</span>
+<span class="sd">    DataFrame.to_parquet : Write a DataFrame to the binary parquet format.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; original_df = pd.DataFrame({{&quot;foo&quot;: range(5), &quot;bar&quot;: range(5, 10)}})  # doctest: +SKIP</span>
+<span class="sd">    &gt;&gt;&gt; original_df  # doctest: +SKIP</span>
+<span class="sd">       foo  bar</span>
+<span class="sd">    0    0    5</span>
+<span class="sd">    1    1    6</span>
+<span class="sd">    2    2    7</span>
+<span class="sd">    3    3    8</span>
+<span class="sd">    4    4    9</span>
+<span class="sd">    &gt;&gt;&gt; pd.to_pickle(original_df, &quot;./dummy.pkl&quot;)  # doctest: +SKIP</span>
+
+<span class="sd">    &gt;&gt;&gt; unpickled_df = pd.read_pickle(&quot;./dummy.pkl&quot;)  # doctest: +SKIP</span>
+<span class="sd">    &gt;&gt;&gt; unpickled_df  # doctest: +SKIP</span>
+<span class="sd">       foo  bar</span>
+<span class="sd">    0    0    5</span>
+<span class="sd">    1    1    6</span>
+<span class="sd">    2    2    7</span>
+<span class="sd">    3    3    8</span>
+<span class="sd">    4    4    9</span>
+<span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+    <span class="k">if</span> <span class="n">protocol</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">protocol</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span>
+
+    <span class="k">with</span> <span class="n">get_handle</span><span class="p">(</span>
+        <span class="n">filepath_or_buffer</span><span class="p">,</span>
+        <span class="s2">&quot;wb&quot;</span><span class="p">,</span>
+        <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">,</span>
+        <span class="n">is_text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">storage_options</span><span class="o">=</span><span class="n">storage_options</span><span class="p">,</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">handles</span><span class="p">:</span>
+        <span class="c1"># letting pickle write directly to the buffer is more memory-efficient</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">handles</span><span class="o">.</span><span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">protocol</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_pickle"><a class="viewcode-back" href="../../../utils/pandas.html#pandas.read_pickle">[docs]</a><span class="nd">@doc</span><span class="p">(</span>
+    <span class="n">storage_options</span><span class="o">=</span><span class="n">_shared_docs</span><span class="p">[</span><span class="s2">&quot;storage_options&quot;</span><span class="p">],</span>
+    <span class="n">decompression_options</span><span class="o">=</span><span class="n">_shared_docs</span><span class="p">[</span><span class="s2">&quot;decompression_options&quot;</span><span class="p">]</span> <span class="o">%</span> <span class="s2">&quot;filepath_or_buffer&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">read_pickle</span><span class="p">(</span>
+    <span class="n">filepath_or_buffer</span><span class="p">:</span> <span class="n">FilePath</span> <span class="o">|</span> <span class="n">ReadPickleBuffer</span><span class="p">,</span>
+    <span class="n">compression</span><span class="p">:</span> <span class="n">CompressionOptions</span> <span class="o">=</span> <span class="s2">&quot;infer&quot;</span><span class="p">,</span>
+    <span class="n">storage_options</span><span class="p">:</span> <span class="n">StorageOptions</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load pickled pandas object (or any object) from file.</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">       Loading pickled data received from untrusted sources can be</span>
+<span class="sd">       unsafe. See `here &lt;https://docs.python.org/3/library/pickle.html&gt;`__.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath_or_buffer : str, path object, or file-like object</span>
+<span class="sd">        String, path object (implementing ``os.PathLike[str]``), or file-like</span>
+<span class="sd">        object implementing a binary ``readlines()`` function.</span>
+<span class="sd">        Also accepts URL. URL is not limited to S3 and GCS.</span>
+
+<span class="sd">    {decompression_options}</span>
+
+<span class="sd">        .. versionchanged:: 1.4.0 Zstandard support.</span>
+
+<span class="sd">    {storage_options}</span>
+
+<span class="sd">        .. versionadded:: 1.2.0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    same type as object stored in file</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    DataFrame.to_pickle : Pickle (serialize) DataFrame object to file.</span>
+<span class="sd">    Series.to_pickle : Pickle (serialize) Series object to file.</span>
+<span class="sd">    read_hdf : Read HDF5 file into a DataFrame.</span>
+<span class="sd">    read_sql : Read SQL query or database table into a DataFrame.</span>
+<span class="sd">    read_parquet : Load a parquet object, returning a DataFrame.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    read_pickle is only guaranteed to be backwards compatible to pandas 0.20.3</span>
+<span class="sd">    provided the object was serialized with to_pickle.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; original_df = pd.DataFrame(</span>
+<span class="sd">    ...     {{&quot;foo&quot;: range(5), &quot;bar&quot;: range(5, 10)}}</span>
+<span class="sd">    ...    )  # doctest: +SKIP</span>
+<span class="sd">    &gt;&gt;&gt; original_df  # doctest: +SKIP</span>
+<span class="sd">       foo  bar</span>
+<span class="sd">    0    0    5</span>
+<span class="sd">    1    1    6</span>
+<span class="sd">    2    2    7</span>
+<span class="sd">    3    3    8</span>
+<span class="sd">    4    4    9</span>
+<span class="sd">    &gt;&gt;&gt; pd.to_pickle(original_df, &quot;./dummy.pkl&quot;)  # doctest: +SKIP</span>
+
+<span class="sd">    &gt;&gt;&gt; unpickled_df = pd.read_pickle(&quot;./dummy.pkl&quot;)  # doctest: +SKIP</span>
+<span class="sd">    &gt;&gt;&gt; unpickled_df  # doctest: +SKIP</span>
+<span class="sd">       foo  bar</span>
+<span class="sd">    0    0    5</span>
+<span class="sd">    1    1    6</span>
+<span class="sd">    2    2    7</span>
+<span class="sd">    3    3    8</span>
+<span class="sd">    4    4    9</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">excs_to_catch</span> <span class="o">=</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">get_handle</span><span class="p">(</span>
+        <span class="n">filepath_or_buffer</span><span class="p">,</span>
+        <span class="s2">&quot;rb&quot;</span><span class="p">,</span>
+        <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">,</span>
+        <span class="n">is_text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">storage_options</span><span class="o">=</span><span class="n">storage_options</span><span class="p">,</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">handles</span><span class="p">:</span>
+        <span class="c1"># 1) try standard library Pickle</span>
+        <span class="c1"># 2) try pickle_compat (older pandas version) to handle subclass changes</span>
+        <span class="c1"># 3) try pickle_compat with latin-1 encoding upon a UnicodeDecodeError</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># TypeError for Cython complaints about object.__new__ vs Tick.__new__</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                    <span class="c1"># We want to silence any warnings about, e.g. moved modules.</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="ne">Warning</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">excs_to_catch</span><span class="p">:</span>
+                <span class="c1"># e.g.</span>
+                <span class="c1">#  &quot;No module named &#39;pandas.core.sparse.series&#39;&quot;</span>
+                <span class="c1">#  &quot;Can&#39;t get attribute &#39;__nat_unpickle&#39; on &lt;module &#39;pandas._libs.tslib&quot;</span>
+                <span class="k">return</span> <span class="n">pc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">UnicodeDecodeError</span><span class="p">:</span>
+            <span class="c1"># e.g. can occur for files written in py27; see GH#28645 and GH#31988</span>
+            <span class="k">return</span> <span class="n">pc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;latin-1&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

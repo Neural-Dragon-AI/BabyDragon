@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.core.reshape.encoding &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.core.reshape.encoding</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.core.reshape.encoding</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Hashable</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pandas._libs.sparse</span> <span class="kn">import</span> <span class="n">IntIndex</span>
+<span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="n">NpDtype</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_integer_dtype</span><span class="p">,</span>
+    <span class="n">is_list_like</span><span class="p">,</span>
+    <span class="n">is_object_dtype</span><span class="p">,</span>
+    <span class="n">pandas_dtype</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.arrays</span> <span class="kn">import</span> <span class="n">SparseArray</span>
+<span class="kn">from</span> <span class="nn">pandas.core.arrays.categorical</span> <span class="kn">import</span> <span class="n">factorize_from_iterable</span>
+<span class="kn">from</span> <span class="nn">pandas.core.frame</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">from</span> <span class="nn">pandas.core.indexes.api</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Index</span><span class="p">,</span>
+    <span class="n">default_index</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas.core.series</span> <span class="kn">import</span> <span class="n">Series</span>
+
+
+<div class="viewcode-block" id="get_dummies"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.get_dummies">[docs]</a><span class="k">def</span> <span class="nf">get_dummies</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">prefix_sep</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span>
+    <span class="n">dummy_na</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">sparse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">drop_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="p">:</span> <span class="n">NpDtype</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert categorical variable into dummy/indicator variables.</span>
+
+<span class="sd">    Each variable is converted in as many 0/1 variables as there are different</span>
+<span class="sd">    values. Columns in the output are each named after a value; if the input is</span>
+<span class="sd">    a DataFrame, the name of the original variable is prepended to the value.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : array-like, Series, or DataFrame</span>
+<span class="sd">        Data of which to get dummy indicators.</span>
+<span class="sd">    prefix : str, list of str, or dict of str, default None</span>
+<span class="sd">        String to append DataFrame column names.</span>
+<span class="sd">        Pass a list with length equal to the number of columns</span>
+<span class="sd">        when calling get_dummies on a DataFrame. Alternatively, `prefix`</span>
+<span class="sd">        can be a dictionary mapping column names to prefixes.</span>
+<span class="sd">    prefix_sep : str, default &#39;_&#39;</span>
+<span class="sd">        If appending prefix, separator/delimiter to use. Or pass a</span>
+<span class="sd">        list or dictionary as with `prefix`.</span>
+<span class="sd">    dummy_na : bool, default False</span>
+<span class="sd">        Add a column to indicate NaNs, if False NaNs are ignored.</span>
+<span class="sd">    columns : list-like, default None</span>
+<span class="sd">        Column names in the DataFrame to be encoded.</span>
+<span class="sd">        If `columns` is None then all the columns with</span>
+<span class="sd">        `object`, `string`, or `category` dtype will be converted.</span>
+<span class="sd">    sparse : bool, default False</span>
+<span class="sd">        Whether the dummy-encoded columns should be backed by</span>
+<span class="sd">        a :class:`SparseArray` (True) or a regular NumPy array (False).</span>
+<span class="sd">    drop_first : bool, default False</span>
+<span class="sd">        Whether to get k-1 dummies out of k categorical levels by removing the</span>
+<span class="sd">        first level.</span>
+<span class="sd">    dtype : dtype, default bool</span>
+<span class="sd">        Data type for new columns. Only a single dtype is allowed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    DataFrame</span>
+<span class="sd">        Dummy-coded data. If `data` contains other columns than the</span>
+<span class="sd">        dummy-coded one(s), these will be prepended, unaltered, to the result.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    Series.str.get_dummies : Convert Series of strings to dummy codes.</span>
+<span class="sd">    :func:`~pandas.from_dummies` : Convert dummy codes to categorical ``DataFrame``.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Reference :ref:`the user guide &lt;reshaping.dummies&gt;` for more examples.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; s = pd.Series(list(&#39;abca&#39;))</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.get_dummies(s)</span>
+<span class="sd">           a      b      c</span>
+<span class="sd">    0   True  False  False</span>
+<span class="sd">    1  False   True  False</span>
+<span class="sd">    2  False  False   True</span>
+<span class="sd">    3   True  False  False</span>
+
+<span class="sd">    &gt;&gt;&gt; s1 = [&#39;a&#39;, &#39;b&#39;, np.nan]</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.get_dummies(s1)</span>
+<span class="sd">           a      b</span>
+<span class="sd">    0   True  False</span>
+<span class="sd">    1  False   True</span>
+<span class="sd">    2  False  False</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.get_dummies(s1, dummy_na=True)</span>
+<span class="sd">           a      b    NaN</span>
+<span class="sd">    0   True  False  False</span>
+<span class="sd">    1  False   True  False</span>
+<span class="sd">    2  False  False   True</span>
+
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&#39;A&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;a&#39;], &#39;B&#39;: [&#39;b&#39;, &#39;a&#39;, &#39;c&#39;],</span>
+<span class="sd">    ...                    &#39;C&#39;: [1, 2, 3]})</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.get_dummies(df, prefix=[&#39;col1&#39;, &#39;col2&#39;])</span>
+<span class="sd">       C  col1_a  col1_b  col2_a  col2_b  col2_c</span>
+<span class="sd">    0  1    True   False   False    True   False</span>
+<span class="sd">    1  2   False    True    True   False   False</span>
+<span class="sd">    2  3    True   False   False   False    True</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.get_dummies(pd.Series(list(&#39;abcaa&#39;)))</span>
+<span class="sd">           a      b      c</span>
+<span class="sd">    0   True  False  False</span>
+<span class="sd">    1  False   True  False</span>
+<span class="sd">    2  False  False   True</span>
+<span class="sd">    3   True  False  False</span>
+<span class="sd">    4   True  False  False</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.get_dummies(pd.Series(list(&#39;abcaa&#39;)), drop_first=True)</span>
+<span class="sd">           b      c</span>
+<span class="sd">    0  False  False</span>
+<span class="sd">    1   True  False</span>
+<span class="sd">    2  False   True</span>
+<span class="sd">    3  False  False</span>
+<span class="sd">    4  False  False</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.get_dummies(pd.Series(list(&#39;abc&#39;)), dtype=float)</span>
+<span class="sd">         a    b    c</span>
+<span class="sd">    0  1.0  0.0  0.0</span>
+<span class="sd">    1  0.0  1.0  0.0</span>
+<span class="sd">    2  0.0  0.0  1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">pandas.core.reshape.concat</span> <span class="kn">import</span> <span class="n">concat</span>
+
+    <span class="n">dtypes_to_encode</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">DataFrame</span><span class="p">):</span>
+        <span class="c1"># determine columns being encoded</span>
+        <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data_to_encode</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="n">dtypes_to_encode</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">columns</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input must be a list-like for parameter `columns`&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_to_encode</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">columns</span><span class="p">]</span>
+
+        <span class="c1"># validate prefixes and separator to avoid silently dropping cols</span>
+        <span class="k">def</span> <span class="nf">check_len</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="n">data_to_encode</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">len_msg</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Length of &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="si">}</span><span class="s2">) did not match the &quot;</span>
+                        <span class="s2">&quot;length of the columns being encoded &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">data_to_encode</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">).&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">len_msg</span><span class="p">)</span>
+
+        <span class="n">check_len</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;prefix&quot;</span><span class="p">)</span>
+        <span class="n">check_len</span><span class="p">(</span><span class="n">prefix_sep</span><span class="p">,</span> <span class="s2">&quot;prefix_sep&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">cycle</span><span class="p">([</span><span class="n">prefix</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="p">[</span><span class="n">prefix</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data_to_encode</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">data_to_encode</span><span class="o">.</span><span class="n">columns</span>
+
+        <span class="c1"># validate separators</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prefix_sep</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">prefix_sep</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">cycle</span><span class="p">([</span><span class="n">prefix_sep</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prefix_sep</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">prefix_sep</span> <span class="o">=</span> <span class="p">[</span><span class="n">prefix_sep</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data_to_encode</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+
+        <span class="n">with_dummies</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">data_to_encode</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="c1"># Encoding the entire df, do not prepend any dropped columns</span>
+            <span class="n">with_dummies</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">elif</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Encoding only cols specified in columns. Get all cols not in</span>
+            <span class="c1"># columns to prepend to result.</span>
+            <span class="n">with_dummies</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Encoding only object and category dtype columns. Get remaining</span>
+            <span class="c1"># columns to prepend to result.</span>
+            <span class="n">with_dummies</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="n">dtypes_to_encode</span><span class="p">)]</span>
+
+        <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">sep</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data_to_encode</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">prefix_sep</span><span class="p">):</span>
+            <span class="c1"># col is (column_name, column), use just column data here</span>
+            <span class="n">dummy</span> <span class="o">=</span> <span class="n">_get_dummies_1d</span><span class="p">(</span>
+                <span class="n">col</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">prefix</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
+                <span class="n">prefix_sep</span><span class="o">=</span><span class="n">sep</span><span class="p">,</span>
+                <span class="n">dummy_na</span><span class="o">=</span><span class="n">dummy_na</span><span class="p">,</span>
+                <span class="n">sparse</span><span class="o">=</span><span class="n">sparse</span><span class="p">,</span>
+                <span class="n">drop_first</span><span class="o">=</span><span class="n">drop_first</span><span class="p">,</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">with_dummies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dummy</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="n">with_dummies</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">_get_dummies_1d</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span>
+            <span class="n">prefix</span><span class="p">,</span>
+            <span class="n">prefix_sep</span><span class="p">,</span>
+            <span class="n">dummy_na</span><span class="p">,</span>
+            <span class="n">sparse</span><span class="o">=</span><span class="n">sparse</span><span class="p">,</span>
+            <span class="n">drop_first</span><span class="o">=</span><span class="n">drop_first</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_dummies_1d</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="p">,</span>
+    <span class="n">prefix_sep</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span>
+    <span class="n">dummy_na</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">sparse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">drop_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="p">:</span> <span class="n">NpDtype</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pandas.core.reshape.concat</span> <span class="kn">import</span> <span class="n">concat</span>
+
+    <span class="c1"># Series avoids inconsistent NaN handling</span>
+    <span class="n">codes</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">factorize_from_iterable</span><span class="p">(</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">_dtype</span> <span class="o">=</span> <span class="n">pandas_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">is_object_dtype</span><span class="p">(</span><span class="n">_dtype</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;dtype=object is not a valid dtype for get_dummies&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_empty_frame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+        <span class="n">index</span><span class="p">:</span> <span class="n">Index</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Series</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">default_index</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+
+    <span class="c1"># if all NaN</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dummy_na</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_empty_frame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">codes</span> <span class="o">=</span> <span class="n">codes</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">dummy_na</span><span class="p">:</span>
+        <span class="n">codes</span><span class="p">[</span><span class="n">codes</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="n">levels</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">levels</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+    <span class="c1"># if dummy_na, we just fake a nan level. drop_first will drop it again</span>
+    <span class="k">if</span> <span class="n">drop_first</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_empty_frame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">number_of_cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dummy_cols</span> <span class="o">=</span> <span class="n">levels</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dummy_cols</span> <span class="o">=</span> <span class="n">Index</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">prefix_sep</span><span class="si">}{</span><span class="n">level</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">levels</span><span class="p">])</span>
+
+    <span class="n">index</span><span class="p">:</span> <span class="n">Index</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Series</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">sparse</span><span class="p">:</span>
+        <span class="n">fill_value</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">float</span>
+        <span class="k">if</span> <span class="n">is_integer_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="n">fill_value</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="nb">bool</span><span class="p">):</span>
+            <span class="n">fill_value</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fill_value</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="n">sparse_series</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">sp_indices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dummy_cols</span><span class="p">))]</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">codes</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">codes</span> <span class="o">=</span> <span class="n">codes</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">n_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)[</span><span class="n">mask</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">ndx</span><span class="p">,</span> <span class="n">code</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">n_idx</span><span class="p">,</span> <span class="n">codes</span><span class="p">):</span>
+            <span class="n">sp_indices</span><span class="p">[</span><span class="n">code</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ndx</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">drop_first</span><span class="p">:</span>
+            <span class="c1"># remove first categorical level to avoid perfect collinearity</span>
+            <span class="c1"># GH12042</span>
+            <span class="n">sp_indices</span> <span class="o">=</span> <span class="n">sp_indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">dummy_cols</span> <span class="o">=</span> <span class="n">dummy_cols</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">ixs</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dummy_cols</span><span class="p">,</span> <span class="n">sp_indices</span><span class="p">):</span>
+            <span class="n">sarr</span> <span class="o">=</span> <span class="n">SparseArray</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ixs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">),</span>
+                <span class="n">sparse_index</span><span class="o">=</span><span class="n">IntIndex</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">ixs</span><span class="p">),</span>
+                <span class="n">fill_value</span><span class="o">=</span><span class="n">fill_value</span><span class="p">,</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">sparse_series</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">sarr</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">concat</span><span class="p">(</span><span class="n">sparse_series</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># take on axis=1 + transpose to ensure ndarray layout is column-major</span>
+        <span class="n">eye_dtype</span><span class="p">:</span> <span class="n">NpDtype</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="n">eye_dtype</span> <span class="o">=</span> <span class="n">_dtype</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">eye_dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span>
+        <span class="n">dummy_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">number_of_cols</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">eye_dtype</span><span class="p">)</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">codes</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">dummy_na</span><span class="p">:</span>
+            <span class="c1"># reset NaN GH4446</span>
+            <span class="n">dummy_mat</span><span class="p">[</span><span class="n">codes</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">drop_first</span><span class="p">:</span>
+            <span class="c1"># remove first GH12042</span>
+            <span class="n">dummy_mat</span> <span class="o">=</span> <span class="n">dummy_mat</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+            <span class="n">dummy_cols</span> <span class="o">=</span> <span class="n">dummy_cols</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">dummy_mat</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">dummy_cols</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">_dtype</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="from_dummies"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.from_dummies">[docs]</a><span class="k">def</span> <span class="nf">from_dummies</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">sep</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">default_category</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">Hashable</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Hashable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a categorical ``DataFrame`` from a ``DataFrame`` of dummy variables.</span>
+
+<span class="sd">    Inverts the operation performed by :func:`~pandas.get_dummies`.</span>
+
+<span class="sd">    .. versionadded:: 1.5.0</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : DataFrame</span>
+<span class="sd">        Data which contains dummy-coded variables in form of integer columns of</span>
+<span class="sd">        1&#39;s and 0&#39;s.</span>
+<span class="sd">    sep : str, default None</span>
+<span class="sd">        Separator used in the column names of the dummy categories they are</span>
+<span class="sd">        character indicating the separation of the categorical names from the prefixes.</span>
+<span class="sd">        For example, if your column names are &#39;prefix_A&#39; and &#39;prefix_B&#39;,</span>
+<span class="sd">        you can strip the underscore by specifying sep=&#39;_&#39;.</span>
+<span class="sd">    default_category : None, Hashable or dict of Hashables, default None</span>
+<span class="sd">        The default category is the implied category when a value has none of the</span>
+<span class="sd">        listed categories specified with a one, i.e. if all dummies in a row are</span>
+<span class="sd">        zero. Can be a single value for all variables or a dict directly mapping</span>
+<span class="sd">        the default categories to a prefix of a variable.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    DataFrame</span>
+<span class="sd">        Categorical data decoded from the dummy input-data.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        * When the input ``DataFrame`` ``data`` contains NA values.</span>
+<span class="sd">        * When the input ``DataFrame`` ``data`` contains column names with separators</span>
+<span class="sd">          that do not match the separator specified with ``sep``.</span>
+<span class="sd">        * When a ``dict`` passed to ``default_category`` does not include an implied</span>
+<span class="sd">          category for each prefix.</span>
+<span class="sd">        * When a value in ``data`` has more than one category assigned to it.</span>
+<span class="sd">        * When ``default_category=None`` and a value in ``data`` has no category</span>
+<span class="sd">          assigned to it.</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        * When the input ``data`` is not of type ``DataFrame``.</span>
+<span class="sd">        * When the input ``DataFrame`` ``data`` contains non-dummy data.</span>
+<span class="sd">        * When the passed ``sep`` is of a wrong data type.</span>
+<span class="sd">        * When the passed ``default_category`` is of a wrong data type.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`~pandas.get_dummies` : Convert ``Series`` or ``DataFrame`` to dummy codes.</span>
+<span class="sd">    :class:`~pandas.Categorical` : Represent a categorical variable in classic.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The columns of the passed dummy data should only include 1&#39;s and 0&#39;s,</span>
+<span class="sd">    or boolean values.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&quot;a&quot;: [1, 0, 0, 1], &quot;b&quot;: [0, 1, 0, 0],</span>
+<span class="sd">    ...                    &quot;c&quot;: [0, 0, 1, 0]})</span>
+
+<span class="sd">    &gt;&gt;&gt; df</span>
+<span class="sd">       a  b  c</span>
+<span class="sd">    0  1  0  0</span>
+<span class="sd">    1  0  1  0</span>
+<span class="sd">    2  0  0  1</span>
+<span class="sd">    3  1  0  0</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.from_dummies(df)</span>
+<span class="sd">    0     a</span>
+<span class="sd">    1     b</span>
+<span class="sd">    2     c</span>
+<span class="sd">    3     a</span>
+
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&quot;col1_a&quot;: [1, 0, 1], &quot;col1_b&quot;: [0, 1, 0],</span>
+<span class="sd">    ...                    &quot;col2_a&quot;: [0, 1, 0], &quot;col2_b&quot;: [1, 0, 0],</span>
+<span class="sd">    ...                    &quot;col2_c&quot;: [0, 0, 1]})</span>
+
+<span class="sd">    &gt;&gt;&gt; df</span>
+<span class="sd">          col1_a  col1_b  col2_a  col2_b  col2_c</span>
+<span class="sd">    0       1       0       0       1       0</span>
+<span class="sd">    1       0       1       1       0       0</span>
+<span class="sd">    2       1       0       0       0       1</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.from_dummies(df, sep=&quot;_&quot;)</span>
+<span class="sd">        col1    col2</span>
+<span class="sd">    0    a       b</span>
+<span class="sd">    1    b       a</span>
+<span class="sd">    2    a       c</span>
+
+<span class="sd">    &gt;&gt;&gt; df = pd.DataFrame({&quot;col1_a&quot;: [1, 0, 0], &quot;col1_b&quot;: [0, 1, 0],</span>
+<span class="sd">    ...                    &quot;col2_a&quot;: [0, 1, 0], &quot;col2_b&quot;: [1, 0, 0],</span>
+<span class="sd">    ...                    &quot;col2_c&quot;: [0, 0, 0]})</span>
+
+<span class="sd">    &gt;&gt;&gt; df</span>
+<span class="sd">          col1_a  col1_b  col2_a  col2_b  col2_c</span>
+<span class="sd">    0       1       0       0       1       0</span>
+<span class="sd">    1       0       1       1       0       0</span>
+<span class="sd">    2       0       0       0       0       0</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.from_dummies(df, sep=&quot;_&quot;, default_category={&quot;col1&quot;: &quot;d&quot;, &quot;col2&quot;: &quot;e&quot;})</span>
+<span class="sd">        col1    col2</span>
+<span class="sd">    0    a       b</span>
+<span class="sd">    1    b       a</span>
+<span class="sd">    2    d       e</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">pandas.core.reshape.concat</span> <span class="kn">import</span> <span class="n">concat</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;Expected &#39;data&#39; to be a &#39;DataFrame&#39;; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Received &#39;data&#39; of type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Dummy DataFrame contains NA value in column: &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># index data with a list of all columns that are dummies</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data_to_decode</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;boolean&quot;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Passed DataFrame contains non-dummy data&quot;</span><span class="p">)</span>
+
+    <span class="c1"># collect prefixes and get lists to slice data for each prefix</span>
+    <span class="n">variables_slice</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sep</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">variables_slice</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sep</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data_to_decode</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Separator not specified for column: </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">variables_slice</span><span class="p">[</span><span class="n">prefix</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;Expected &#39;sep&#39; to be of type &#39;str&#39; or &#39;None&#39;; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Received &#39;sep&#39; of type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">default_category</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default_category</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">default_category</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables_slice</span><span class="p">):</span>
+                <span class="n">len_msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Length of &#39;default_category&#39; (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">default_category</span><span class="p">)</span><span class="si">}</span><span class="s2">) &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;did not match the length of the columns being encoded &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">variables_slice</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">len_msg</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default_category</span><span class="p">,</span> <span class="n">Hashable</span><span class="p">):</span>
+            <span class="n">default_category</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="nb">zip</span><span class="p">(</span><span class="n">variables_slice</span><span class="p">,</span> <span class="p">[</span><span class="n">default_category</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables_slice</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Expected &#39;default_category&#39; to be of type &quot;</span>
+                <span class="s2">&quot;&#39;None&#39;, &#39;Hashable&#39;, or &#39;dict&#39;; &quot;</span>
+                <span class="s2">&quot;Received &#39;default_category&#39; of type: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">default_category</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+    <span class="n">cat_data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">prefix_slice</span> <span class="ow">in</span> <span class="n">variables_slice</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">sep</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cats</span> <span class="o">=</span> <span class="n">prefix_slice</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cats</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">sep</span><span class="p">)</span> <span class="p">:]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">prefix_slice</span><span class="p">]</span>
+        <span class="n">assigned</span> <span class="o">=</span> <span class="n">data_to_decode</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">prefix_slice</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">assigned</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Dummy DataFrame contains multi-assignment(s); &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;First instance in row: </span><span class="si">{</span><span class="n">assigned</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">assigned</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default_category</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">cats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_category</span><span class="p">[</span><span class="n">prefix</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Dummy DataFrame contains unassigned value(s); &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;First instance in row: </span><span class="si">{</span><span class="n">assigned</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="n">data_slice</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">data_to_decode</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">prefix_slice</span><span class="p">],</span> <span class="n">assigned</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_slice</span> <span class="o">=</span> <span class="n">data_to_decode</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">prefix_slice</span><span class="p">]</span>
+        <span class="n">cats_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cats</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
+        <span class="c1"># get indices of True entries along axis=1</span>
+        <span class="n">cat_data</span><span class="p">[</span><span class="n">prefix</span><span class="p">]</span> <span class="o">=</span> <span class="n">cats_array</span><span class="p">[</span><span class="n">data_slice</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">cat_data</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

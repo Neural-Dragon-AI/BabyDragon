@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pandas.core.tools.timedeltas &mdash; BabyDragon  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BabyDragon
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tasks:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/llm_task.html">llm_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/multi_kernel_task.html">multi_kernel_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/base_task.html">base_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/topic_tree_task.html">topic_tree_task</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tasks/embedding_task.html">embedding_task</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Kernels:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/memory_kernel.html">memory_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_clustering.html">kernel_clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel.html">multi_kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/multi_kernel_visualization.html">multi_kernel_visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/kernels/kernel_utils.html">kernel_utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Threads:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/base_thread.html">base_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/fifo_thread.html">fifo_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/vector_thread.html">vector_thread</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/threads/todo/python_thread.html">python_thread</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Memory/Indexes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/python_index.html">python_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/memory_index.html">memory_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/pandas_index.html">pandas_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/youtube_index.html">youtube_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/parquet_index.html">parquet_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/wiki_index.html">wiki_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/gutenberg_index.html">gutenberg_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/github_index.html">github_index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../memory/indexes/todo/multi_index.html">multi_index</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Chat:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/base_chat.html">base_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/memory_chat.html">memory_chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/chat.html">chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/perspective_prompt.html">perspective_prompt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../chat/prompts/default_prompts.html">default_prompts</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/multithreading.html">multithreading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/pandas.html">pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/hf_datasets.html">hf_datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../utils/chatml.html">chatml</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/embedders:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/ada2.html">ada2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/embedders/sbert.html">sbert</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Models/generators:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/cohere.html">cohere</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../models/generators/chatgpt.html">chatgpt</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Processors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/github_processors.html">github_processors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/os_processor.html">os_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/git_metadata.html">git_metadata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/visitors.html">visitors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/python_parser.html">python_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/subs_parser.html">subs_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/latex_parser.html">latex_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/md_parser.html">md_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/wiki_parser.html">wiki_parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/parsers/todo/git_processor.html">git_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/arxiv_processor.html">arxiv_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/wiki_processor.html">wiki_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/chatgpt_processor.html">chatgpt_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/mit_course_processor.html">mit_course_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/youtube_processor.html">youtube_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/pubmed_processor.html">pubmed_processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../processors/todo/gutenberg_processor.html">gutenberg_processor</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Apps:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../apps/auto_perspective/perspective.html">perspective</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BabyDragon</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pandas.core.tools.timedeltas</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pandas.core.tools.timedeltas</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">timedelta support tools</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">overload</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pandas._libs</span> <span class="kn">import</span> <span class="n">lib</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.tslibs</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NaT</span><span class="p">,</span>
+    <span class="n">NaTType</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pandas._libs.tslibs.timedeltas</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Timedelta</span><span class="p">,</span>
+    <span class="n">parse_timedelta_unit</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.common</span> <span class="kn">import</span> <span class="n">is_list_like</span>
+<span class="kn">from</span> <span class="nn">pandas.core.dtypes.generic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ABCIndex</span><span class="p">,</span>
+    <span class="n">ABCSeries</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pandas.core.arrays.timedeltas</span> <span class="kn">import</span> <span class="n">sequence_to_td64ns</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pandas._libs.tslibs.timedeltas</span> <span class="kn">import</span> <span class="n">UnitChoices</span>
+    <span class="kn">from</span> <span class="nn">pandas._typing</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">ArrayLike</span><span class="p">,</span>
+        <span class="n">DateTimeErrorChoices</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">Index</span><span class="p">,</span>
+        <span class="n">Series</span><span class="p">,</span>
+        <span class="n">TimedeltaIndex</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="nd">@overload</span>
+<span class="k">def</span> <span class="nf">to_timedelta</span><span class="p">(</span>
+    <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">timedelta</span><span class="p">,</span>
+    <span class="n">unit</span><span class="p">:</span> <span class="n">UnitChoices</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
+    <span class="n">errors</span><span class="p">:</span> <span class="n">DateTimeErrorChoices</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Timedelta</span><span class="p">:</span>
+    <span class="o">...</span>
+
+
+<span class="nd">@overload</span>
+<span class="k">def</span> <span class="nf">to_timedelta</span><span class="p">(</span>
+    <span class="n">arg</span><span class="p">:</span> <span class="n">Series</span><span class="p">,</span>
+    <span class="n">unit</span><span class="p">:</span> <span class="n">UnitChoices</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
+    <span class="n">errors</span><span class="p">:</span> <span class="n">DateTimeErrorChoices</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Series</span><span class="p">:</span>
+    <span class="o">...</span>
+
+
+<span class="nd">@overload</span>
+<span class="k">def</span> <span class="nf">to_timedelta</span><span class="p">(</span>
+    <span class="n">arg</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">tuple</span> <span class="o">|</span> <span class="nb">range</span> <span class="o">|</span> <span class="n">ArrayLike</span> <span class="o">|</span> <span class="n">Index</span><span class="p">,</span>
+    <span class="n">unit</span><span class="p">:</span> <span class="n">UnitChoices</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
+    <span class="n">errors</span><span class="p">:</span> <span class="n">DateTimeErrorChoices</span> <span class="o">=</span> <span class="o">...</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimedeltaIndex</span><span class="p">:</span>
+    <span class="o">...</span>
+
+
+<div class="viewcode-block" id="to_timedelta"><a class="viewcode-back" href="../../../../utils/pandas.html#pandas.to_timedelta">[docs]</a><span class="k">def</span> <span class="nf">to_timedelta</span><span class="p">(</span>
+    <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="o">|</span> <span class="nb">int</span>
+    <span class="o">|</span> <span class="nb">float</span>
+    <span class="o">|</span> <span class="n">timedelta</span>
+    <span class="o">|</span> <span class="nb">list</span>
+    <span class="o">|</span> <span class="nb">tuple</span>
+    <span class="o">|</span> <span class="nb">range</span>
+    <span class="o">|</span> <span class="n">ArrayLike</span>
+    <span class="o">|</span> <span class="n">Index</span>
+    <span class="o">|</span> <span class="n">Series</span><span class="p">,</span>
+    <span class="n">unit</span><span class="p">:</span> <span class="n">UnitChoices</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">errors</span><span class="p">:</span> <span class="n">DateTimeErrorChoices</span> <span class="o">=</span> <span class="s2">&quot;raise&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Timedelta</span> <span class="o">|</span> <span class="n">TimedeltaIndex</span> <span class="o">|</span> <span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert argument to timedelta.</span>
+
+<span class="sd">    Timedeltas are absolute differences in times, expressed in difference</span>
+<span class="sd">    units (e.g. days, hours, minutes, seconds). This method converts</span>
+<span class="sd">    an argument from a recognized timedelta format / value into</span>
+<span class="sd">    a Timedelta type.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    arg : str, timedelta, list-like or Series</span>
+<span class="sd">        The data to be converted to timedelta.</span>
+
+<span class="sd">        .. versionchanged:: 2.0</span>
+<span class="sd">            Strings with units &#39;M&#39;, &#39;Y&#39; and &#39;y&#39; do not represent</span>
+<span class="sd">            unambiguous timedelta values and will raise an exception.</span>
+
+<span class="sd">    unit : str, optional</span>
+<span class="sd">        Denotes the unit of the arg for numeric `arg`. Defaults to ``&quot;ns&quot;``.</span>
+
+<span class="sd">        Possible values:</span>
+
+<span class="sd">        * &#39;W&#39;</span>
+<span class="sd">        * &#39;D&#39; / &#39;days&#39; / &#39;day&#39;</span>
+<span class="sd">        * &#39;hours&#39; / &#39;hour&#39; / &#39;hr&#39; / &#39;h&#39;</span>
+<span class="sd">        * &#39;m&#39; / &#39;minute&#39; / &#39;min&#39; / &#39;minutes&#39; / &#39;T&#39;</span>
+<span class="sd">        * &#39;S&#39; / &#39;seconds&#39; / &#39;sec&#39; / &#39;second&#39;</span>
+<span class="sd">        * &#39;ms&#39; / &#39;milliseconds&#39; / &#39;millisecond&#39; / &#39;milli&#39; / &#39;millis&#39; / &#39;L&#39;</span>
+<span class="sd">        * &#39;us&#39; / &#39;microseconds&#39; / &#39;microsecond&#39; / &#39;micro&#39; / &#39;micros&#39; / &#39;U&#39;</span>
+<span class="sd">        * &#39;ns&#39; / &#39;nanoseconds&#39; / &#39;nano&#39; / &#39;nanos&#39; / &#39;nanosecond&#39; / &#39;N&#39;</span>
+
+<span class="sd">        .. versionchanged:: 1.1.0</span>
+
+<span class="sd">           Must not be specified when `arg` context strings and</span>
+<span class="sd">           ``errors=&quot;raise&quot;``.</span>
+
+<span class="sd">    errors : {&#39;ignore&#39;, &#39;raise&#39;, &#39;coerce&#39;}, default &#39;raise&#39;</span>
+<span class="sd">        - If &#39;raise&#39;, then invalid parsing will raise an exception.</span>
+<span class="sd">        - If &#39;coerce&#39;, then invalid parsing will be set as NaT.</span>
+<span class="sd">        - If &#39;ignore&#39;, then invalid parsing will return the input.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    timedelta</span>
+<span class="sd">        If parsing succeeded.</span>
+<span class="sd">        Return type depends on input:</span>
+
+<span class="sd">        - list-like: TimedeltaIndex of timedelta64 dtype</span>
+<span class="sd">        - Series: Series of timedelta64 dtype</span>
+<span class="sd">        - scalar: Timedelta</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    DataFrame.astype : Cast argument to a specified dtype.</span>
+<span class="sd">    to_datetime : Convert argument to datetime.</span>
+<span class="sd">    convert_dtypes : Convert dtypes.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If the precision is higher than nanoseconds, the precision of the duration is</span>
+<span class="sd">    truncated to nanoseconds for string inputs.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Parsing a single string to a Timedelta:</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.to_timedelta(&#39;1 days 06:05:01.00003&#39;)</span>
+<span class="sd">    Timedelta(&#39;1 days 06:05:01.000030&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; pd.to_timedelta(&#39;15.5us&#39;)</span>
+<span class="sd">    Timedelta(&#39;0 days 00:00:00.000015500&#39;)</span>
+
+<span class="sd">    Parsing a list or array of strings:</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.to_timedelta([&#39;1 days 06:05:01.00003&#39;, &#39;15.5us&#39;, &#39;nan&#39;])</span>
+<span class="sd">    TimedeltaIndex([&#39;1 days 06:05:01.000030&#39;, &#39;0 days 00:00:00.000015500&#39;, NaT],</span>
+<span class="sd">                   dtype=&#39;timedelta64[ns]&#39;, freq=None)</span>
+
+<span class="sd">    Converting numbers by specifying the `unit` keyword argument:</span>
+
+<span class="sd">    &gt;&gt;&gt; pd.to_timedelta(np.arange(5), unit=&#39;s&#39;)</span>
+<span class="sd">    TimedeltaIndex([&#39;0 days 00:00:00&#39;, &#39;0 days 00:00:01&#39;, &#39;0 days 00:00:02&#39;,</span>
+<span class="sd">                    &#39;0 days 00:00:03&#39;, &#39;0 days 00:00:04&#39;],</span>
+<span class="sd">                   dtype=&#39;timedelta64[ns]&#39;, freq=None)</span>
+<span class="sd">    &gt;&gt;&gt; pd.to_timedelta(np.arange(5), unit=&#39;d&#39;)</span>
+<span class="sd">    TimedeltaIndex([&#39;0 days&#39;, &#39;1 days&#39;, &#39;2 days&#39;, &#39;3 days&#39;, &#39;4 days&#39;],</span>
+<span class="sd">                   dtype=&#39;timedelta64[ns]&#39;, freq=None)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">parse_timedelta_unit</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">errors</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;raise&quot;</span><span class="p">,</span> <span class="s2">&quot;coerce&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;errors must be one of &#39;ignore&#39;, &#39;raise&#39;, or &#39;coerce&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Units &#39;M&#39;, &#39;Y&#39;, and &#39;y&#39; are no longer supported, as they do not &quot;</span>
+            <span class="s2">&quot;represent unambiguous timedelta values durations.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">arg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">arg</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">ABCSeries</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">_convert_listlike</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">_values</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">arg</span><span class="o">.</span><span class="n">_constructor</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">arg</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">arg</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">ABCIndex</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_convert_listlike</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">arg</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">arg</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># extract array scalar and process below</span>
+        <span class="c1"># error: Incompatible types in assignment (expression has type &quot;object&quot;,</span>
+        <span class="c1"># variable has type &quot;Union[str, int, float, timedelta, List[Any],</span>
+        <span class="c1"># Tuple[Any, ...], Union[Union[ExtensionArray, ndarray[Any, Any]], Index,</span>
+        <span class="c1"># Series]]&quot;)  [assignment]</span>
+        <span class="n">arg</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">item_from_zerodim</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>  <span class="c1"># type: ignore[assignment]</span>
+    <span class="k">elif</span> <span class="n">is_list_like</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s2">&quot;ndim&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_convert_listlike</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s2">&quot;ndim&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;arg must be a string, timedelta, list, tuple, 1-d array, or Series&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unit must not be specified if the input is/contains a str&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ...so it must be a scalar value. Return scalar.</span>
+    <span class="k">return</span> <span class="n">_coerce_scalar_to_timedelta_type</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_coerce_scalar_to_timedelta_type</span><span class="p">(</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">UnitChoices</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="p">:</span> <span class="n">DateTimeErrorChoices</span> <span class="o">=</span> <span class="s2">&quot;raise&quot;</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert string &#39;r&#39; to a timedelta object.&quot;&quot;&quot;</span>
+    <span class="n">result</span><span class="p">:</span> <span class="n">Timedelta</span> <span class="o">|</span> <span class="n">NaTType</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">Timedelta</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">errors</span> <span class="o">==</span> <span class="s2">&quot;raise&quot;</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">if</span> <span class="n">errors</span> <span class="o">==</span> <span class="s2">&quot;ignore&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">r</span>
+
+        <span class="c1"># coerce</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">NaT</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span> <span class="nf">_convert_listlike</span><span class="p">(</span>
+    <span class="n">arg</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="p">:</span> <span class="n">DateTimeErrorChoices</span> <span class="o">=</span> <span class="s2">&quot;raise&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a list of objects to a timedelta index object.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s2">&quot;dtype&quot;</span><span class="p">):</span>
+        <span class="c1"># This is needed only to ensure that in the case where we end up</span>
+        <span class="c1">#  returning arg (errors == &quot;ignore&quot;), and where the input is a</span>
+        <span class="c1">#  generator, we return a useful list-like instead of a</span>
+        <span class="c1">#  used-up generator</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s2">&quot;__array__&quot;</span><span class="p">):</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+        <span class="n">arg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">td64arr</span> <span class="o">=</span> <span class="n">sequence_to_td64ns</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">errors</span> <span class="o">==</span> <span class="s2">&quot;ignore&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">arg</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># This else-block accounts for the cases when errors=&#39;raise&#39;</span>
+            <span class="c1"># and errors=&#39;coerce&#39;. If errors == &#39;raise&#39;, these errors</span>
+            <span class="c1"># should be raised. If errors == &#39;coerce&#39;, we shouldn&#39;t</span>
+            <span class="c1"># expect any errors to be raised, since all parsing errors</span>
+            <span class="c1"># cause coercion to pd.NaT. However, if an error / bug is</span>
+            <span class="c1"># introduced that causes an Exception to be raised, we would</span>
+            <span class="c1"># like to surface it.</span>
+            <span class="k">raise</span>
+
+    <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">TimedeltaIndex</span>
+
+    <span class="n">value</span> <span class="o">=</span> <span class="n">TimedeltaIndex</span><span class="p">(</span><span class="n">td64arr</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Tommaso Furlanello, and Daniel Hug.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
