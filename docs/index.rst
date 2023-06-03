@@ -8,6 +8,11 @@ Welcome to BabyDragon's documentation!
 
 .. toctree::
    :maxdepth: 2
+
+   authors
+
+.. toctree::
+   :maxdepth: 2
    :caption: Tasks:
 
    tasks/llm_task

@@ -53,7 +53,7 @@ class MultiKernelVisualization:
             print(f"Kernel: {key}")
             A_k = kernel.A_k
             U, S, V = np.linalg.svd(A_k)
-            plt.plot(S)
+            plt.plot(np.log(S))
             plt.show()
 
 class MultiKernelStabilityAnalysis:

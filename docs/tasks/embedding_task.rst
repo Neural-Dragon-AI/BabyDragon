@@ -2,7 +2,6 @@ EmbeddingTask
 =============
 
 .. autoclass:: babydragon.tasks.embedding_task.EmbeddingTask
-    :members:
 
 parallel_embeddings
 ===================

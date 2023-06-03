@@ -14,7 +14,7 @@ repo_path = os.path.abspath(os.path.dirname("../"))
 print("Repo path: ", repo_path)
 sys.path.insert(0, repo_path)
 project = 'BabyDragon'
-author = 'Tommaso Furlanello, and Daniel Hug'
+author = 'Tommaso Furlanello, Daniel Hug and Gioele Miraglia'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -23,8 +23,6 @@ extensions = [
     "nbsphinx",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
-    "sphinx.ext.coverage",
-    "sphinx.ext.doctest",
     "sphinx.ext.napoleon",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
@@ -47,8 +45,10 @@ source_suffix = ".rst"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
+html_theme_options = {"logo_only": True}
 html_static_path = ['_static']
 
+html_logo = "_static/logo/dragon.png"
 master_doc = "index"
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -85,6 +85,7 @@ man_pages = [(master_doc, "libcst", "LibCST Documentation", [author], 1)]
 # -- Extension configuration -------------------------------------------------
 autodoc_member_order = "bysource"
 # Autodoc settings
+
 autodoc_default_options = {
     'members': True,
     'undoc-members': True,
