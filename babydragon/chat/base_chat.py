@@ -1,5 +1,4 @@
-from typing import Callable, Dict, List, Tuple
-
+from typing import Callable, Dict, List, Tuple, Union, Generator
 import gradio as gr
 import openai
 import tiktoken
@@ -11,6 +10,7 @@ from babydragon.chat.prompts.default_prompts import (DEFAULT_SYSTEM_PROMPT,
 from babydragon.utils.chatml import (get_mark_from_response,
                                   get_str_from_response, mark_question,
                                   mark_system)
+import logging
 
 
 class Prompter:
@@ -19,7 +19,7 @@ class Prompter:
     prompt_func, you can change the way the prompts are composed.
     """
 
-    def __init__(self, system_prompt: str = None, user_prompt: str = None):
+    def __init__(self, system_prompt: Union[str,None] = None, user_prompt: Union[str,None] = None):
         """
         Initialize the Prompter with system and user prompts.
 
@@ -88,7 +88,7 @@ class BaseChat:
     API without any additional messages. It can be overridden by subclasses to add additional messages to the prompt.
     """
 
-    def __init__(self, model: str = None, max_output_tokens: int = 200):
+    def __init__(self, model: Union[str,None] = None, max_output_tokens: int = 200):
         """
         Initialize the BaseChat with a model and max_output_tokens.
 
@@ -127,29 +127,41 @@ class BaseChat:
         """
         return [mark_question(message)], mark_question(message)
 
-    def chat_response(
-        self, prompt: List[dict], max_tokens: int = None ) -> Tuple[Dict, bool]:
+    def chat_response( self, prompt: List[dict], max_tokens: Union[int,None] = None, stream:bool = False ) -> Union[Generator,Tuple[Dict, bool]]:
         if max_tokens is None:
             max_tokens = self.max_output_tokens
         if "gpt" in self.model:
-            response, status = chatgpt_response(prompt=prompt,model=self.model, max_tokens = 1000)
+            logging.info(prompt)
+            response, status = chatgpt_response(prompt=prompt,model=self.model, max_tokens = 1000, stream=stream)
+            if status:
+                return response, True
+            else:
+                self.failed_responses.append(response)
+                return response, False
+
         elif "command" in self.model:
             response, status = cohere_response(prompt=prompt,model=self.model, max_tokens = 1000)  
-        if not status:
-            self.failed_responses.append(response)
-            return response, False
-        return response, True
+            if status:
+                return response, True
+            else:
+                self.failed_responses.append(response)
+                return response, False
+        else:
+            return {}, False 
 
-    def reply(self, message: str, verbose: bool = True) -> str:
+    def reply(self, message: str, verbose: bool = True, stream: bool = False) -> Union[Generator, str]:
         """
         Reply to a given message using the chatbot.
 
         :param message: A string representing the user message.
         :return: A string representing the chatbot's response.
         """
-        return self.query(message, verbose)["content"]
+        if stream:
+            return self.query(message, verbose, stream)
+        else:
+            return self.query(message, verbose)["content"]
 
-    def query(self, message: str, verbose: bool = True) -> str:
+    def query(self, message: str, verbose: bool = True, stream: bool = False) -> Union[Generator, str]:
         """
         Query the chatbot with a given message, optionally showing the input and output messages as Markdown.
 
@@ -159,6 +171,10 @@ class BaseChat:
         """
 
         prompt, _ = self.prompt_func(message)
+
+        if stream:
+            return self.chat_response(prompt=prompt, stream=stream)
+
         response, success = self.chat_response(prompt)
         if verbose:
             display(Markdown("#### Question: \n {question}".format(question=message)))

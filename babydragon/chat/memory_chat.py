@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union, Generator
 
 from babydragon.chat.chat import BaseChat, Chat, Prompter
 from babydragon.memory.indexes.memory_index import MemoryIndex
@@ -58,7 +58,7 @@ class FifoChat(FifoThread, Chat):
         )
         return prompt, marked_question
 
-    def query(self, question: str, verbose: bool = True) -> str:
+    def query(self, question: str, verbose: bool = True, stream: bool = False) -> Union[Generator,str]:
         """
         Query the chatbot with a given question. The question is added to the memory, and the answer is returned
         and added to the memory.
@@ -67,14 +67,14 @@ class FifoChat(FifoThread, Chat):
         :param verbose: A boolean indicating whether to display input and output messages as Markdown.
         :return: A string representing the chatbot's response.
         """
-        # First call the base class's query method
-        answer = BaseChat.query(self, message=question, verbose=verbose)
         marked_question = mark_question(question)
-        # Add the marked question and answer to the memory
         self.add_message(marked_question)
-        self.add_message(answer)
-
-        return answer
+        answer = BaseChat.query(self, message=question, verbose=verbose, stream=stream)
+        if stream:
+            return answer
+        else:
+            self.add_message(answer)
+            return answer
 
 
 class VectorChat(VectorThread, Chat):
@@ -157,7 +157,7 @@ class VectorChat(VectorThread, Chat):
         )
         return prompt, marked_question
 
-    def query(self, question: str, verbose: bool = False) -> str:
+    def query(self, question: str, verbose: bool = False, stream:bool = False) -> Union[Generator,str]:
         """
         Query the chatbot with a given question. The question is added to the memory, and the answer is returned
         and added to the memory.
@@ -166,13 +166,15 @@ class VectorChat(VectorThread, Chat):
         :param verbose: A boolean indicating whether to display input and output messages as Markdown.
         :return: A string representing the chatbot's response.
         """
-        # First call the base class's query method
-        answer = BaseChat.query(self, message=question, verbose=verbose)
+                
         marked_question = mark_question(question)
-        # Add the marked question and answer to the memory
         self.add_message(marked_question)
-        self.add_message(answer)
-        return answer
+        answer = BaseChat.query(self, message=question, verbose=verbose, stream=stream)
+        if stream:
+            return answer
+        else:
+            self.add_message(answer)
+            return answer
 
 
 class FifoVectorChat(FifoThread, Chat):
@@ -276,7 +278,7 @@ class FifoVectorChat(FifoThread, Chat):
         prompt += [marked_question]
         return prompt, marked_question
 
-    def query(self, question: str, verbose: bool = False) -> str:
+    def query(self, question: str, verbose: bool = False, stream:bool = False) -> Union[Generator,str]:
         """
         Query the chatbot with a given question. The question is added to the memory, and the answer is returned
         and added to the memory.
@@ -285,8 +287,12 @@ class FifoVectorChat(FifoThread, Chat):
         :param verbose: A boolean indicating whether to display input and output messages as Markdown.
         :return: A string representing the chatbot's response.
         """
-        answer = BaseChat.query(self, message=question, verbose=verbose)
         marked_question = mark_question(question)
         self.add_message(marked_question)
-        self.add_message(answer)
-        return answer
+        answer = BaseChat.query(self, message=question, verbose=verbose, stream=stream)
+        if stream:
+            return answer
+        else:
+            self.add_message(answer)
+            return answer
+

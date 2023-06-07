@@ -1,26 +1,28 @@
 import openai
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Union, Generator
+import logging
+logging.basicConfig(level=logging.INFO)
 
-def chatgpt_response(prompt: List[dict],model: str = "gpt-3.5-turbo", max_tokens: int = 1000
-    ) -> Tuple[Dict, bool]:
-        """
-        Call the OpenAI API with the given prompt and maximum number of output tokens.
+def chatgpt_response(
+     
+    prompt: List[Dict[str, Union[str, Dict[str, str]]]], 
+    model: str = "gpt-3.5-turbo", 
+    max_tokens: int = 1000, 
+    stream: bool = False
+) -> Union[Generator,Tuple]:
 
-        :param prompt: A list of strings representing the prompt to send to the API.
-        :param max_output_tokens: An integer representing the maximum number of output tokens.
-        :return: A tuple containing the API response as a dictionary and a boolean indicating success.
-        """             
         try:
             print("Trying to call OpenAI API...")
             response = openai.ChatCompletion.create(
                 model=model,
                 messages=prompt,
                 max_tokens=max_tokens,
+                stream=stream
             )
             return response, True
 
-        except openai.error.APIError as e:
-            print(e)
+        except openai.APIError as e:
+            logging.error(f"Unexpected error in openai call: {e}") 
             fail_response = {
                 "choices": [
                     {
