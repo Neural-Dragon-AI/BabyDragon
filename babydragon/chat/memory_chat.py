@@ -377,59 +377,6 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
             self.max_fifo_memory = self.total_max_memory - self.max_vector_memory
             self.longterm_frac = self.max_vector_memory / self.total_max_memory
 
-    
-    def heat_trajectory(self, message, k=3, gamma=0.7):
-        """
-        This function computes the sum of connections between the embedded message and all other embeddings.
-        It returns the heat trajectory.
-        """
-        embeddings = []
-        boundaries = [0]  # Start boundary
-        # Gather embeddings from each index
-        logging.info("Computing Heat Trajectory for current state of memory.")
-        for _, index in self.index_dict.items():
-            _, _, indicies = index.token_bound_query(message, k=k, max_tokens=3000)
-            embs = [index.embeddings[i] for i in indicies]
-            embeddings.extend(embs)
-            boundaries.append(boundaries[-1] + len(embs))
-        # Gather embeddings from longterm index
-        logging.info(f"Number of values in Longterm Index: {len(self.longterm_thread.values)}")
-        logging.info(f"Number of embeddings in Longterm Index: {len(self.longterm_thread.embeddings)}")
-        if len(self.longterm_thread.values) != len(self.longterm_thread.embeddings):
-            random_embeddings = self.longterm_thread.compute_embeddings()
-            embeddings.extend(random_embeddings)
-            boundaries.append(boundaries[-1] + len(random_embeddings))
-        else:
-            lk = len(self.longterm_thread.values)
-            _, _, indices = self.longterm_thread.token_bound_query(message, k=lk, max_tokens=3000)
-            random_indices = random.sample(indices, lk)
-            random_embeddings = [self.longterm_thread.embeddings[i] for i in random_indices]
-            embeddings.extend(random_embeddings)
-            boundaries.append(boundaries[-1] + lk)
-
-        # Convert list of embeddings into a numpy matrix
-        embeddings_matrix = np.vstack(embeddings)
-
-        # Embed the message
-        message_embedding = EMBEDDER.embed(data=message)  # Replace with your message embedding method
-        # Add the message embedding to the embeddings matrix
-        embeddings_matrix = np.vstack([embeddings_matrix, message_embedding])
-
-        # Compute the adjacency matrix using cosine similarity
-        adjacency_matrix = cosine_similarity(embeddings_matrix)
-        logging.info(f"Adjacency Matrix Shape: {adjacency_matrix}")
-        # Compute the heat trajectory by summing up the connections in each index section
-        # get last row of adjacency matrix
-        last_row = adjacency_matrix[-1, :-1]
-        logging.info(f"Last Row of Adjacency Matrix: {last_row}")
-        boundary_heat = np.zeros(len(boundaries) - 1)
-        for i in range(len(boundaries) - 1):
-            boundary_heat[i] = np.sum(last_row[boundaries[i] : boundaries[i + 1]])
-        logging.info(f"Boundary Heat: {boundary_heat}")
-        # Return dictionary of connections mapped to index names
-        heat_dict = dict(zip(list(self.index_dict.keys()) + ['longterm_thread'], boundary_heat))
-        return heat_dict
-
     def heat_trajectory(self, message, k=10):
         """
         This function gets the top k embeddings from all indexes including longterm, merges into numpy matrix,
