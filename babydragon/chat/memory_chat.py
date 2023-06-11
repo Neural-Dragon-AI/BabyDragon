@@ -408,7 +408,7 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
             top_k_hints['longterm_thread'] =top_k
         # Convert list of embeddings into a numpy matrix
         embeddings_matrix = np.vstack(embeddings)
-
+        adjacency_matrix = cosine_similarity(embeddings_matrix)
         # Add the message embedding to the top-k embeddings and normalize
         message_embedding = EMBEDDER.embed(data=message)  # Replace with your message embedding method
         top_k_embeddings_with_message = embeddings_matrix.copy()
@@ -418,7 +418,9 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         
         # Compute the adjacency matrix using cosine similarity on the normalized embeddings
         adjacency_matrix_with_message = cosine_similarity(normalized_embeddings)
-        adjacency_matrix_with_message =  adjacency_matrix_with_message**3
+        #subtract the adjacency matrix from the adjacency matrix with message
+        adjacency_matrix_with_message = adjacency_matrix_with_message - adjacency_matrix
+        adjacency_matrix_with_message =  adjacency_matrix_with_message**2
         # Compute the stability of connections within each boundary
         boundary_stability = np.zeros(len(boundaries) - 1)
         for i in range(len(boundaries) - 1):
@@ -449,7 +451,7 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         hdict, top_k_hint_dict = self.heat_trajectory(message)
         logging.info(f"Heat Dictionary: {hdict}")
         #get index with max heat
-        max_heat_index = max(hdict, key=hdict.get)
+        max_heat_index = min(hdict, key=hdict.get)
         logging.info(f"Max Heat Index: {max_heat_index}")
         if max_heat_index == 'longterm_thread':
             logging.info(f"Chosen Index: {max_heat_index} - Retrieving prompt from long-term memory.")
