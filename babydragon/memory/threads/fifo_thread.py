@@ -38,6 +38,8 @@ class FifoThread(BaseThread):
                 )
             )
         )
+        # this should not remove everything
+        # there should be a check to make sure the thread isnt left empty
         message = copy.deepcopy(self.memory_thread[idx])
         # print("preso il messagio e provo a ad aggiungerlo al longterm", message)
         self.longterm_thread.add_message(message)
@@ -56,6 +58,9 @@ class FifoThread(BaseThread):
             while self.total_tokens + message_tokens > self.max_memory:
                 if len(self.memory_thread) > 0:
                     self.to_longterm(idx=0)
+                    message_tokens = self.get_message_tokens(message_dict)  # Update message_tokens
+                    self.total_tokens -= message_tokens  # Update self.total_tokens
+
             super().add_message(message_dict)
 
         else:
