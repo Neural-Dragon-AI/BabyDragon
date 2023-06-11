@@ -6,9 +6,18 @@ from babydragon.memory.indexes.pandas_index import PandasIndex
 from babydragon.memory.threads.base_thread import BaseThread
 from babydragon.memory.threads.fifo_thread import FifoThread
 from babydragon.memory.threads.vector_thread import VectorThread
-from babydragon.utils.chatml import mark_answer, mark_question, mark_system
+from babydragon.chat.context_manager import ContextManager
+from babydragon.utils.chatml import mark_answer, mark_question, mark_system, apply_threshold
+import logging
+import numpy as np
+from sklearn.metrics.pairwise import  cosine_similarity
+import random
+from babydragon.models.embedders.ada2 import OpenAiEmbedder
 
 
+# Add this line at the beginning of your code to configure logging
+logging.basicConfig(level=logging.INFO)
+EMBEDDER = OpenAiEmbedder()
 class FifoChat(FifoThread, Chat):
     """
     A chatbot class that combines FIFO Memory Thread, BaseChat, and Prompter. The oldest messages are removed first
@@ -215,6 +224,7 @@ class FifoVectorChat(FifoThread, Chat):
             user_prompt=user_prompt,
             name=name,
         )
+        
         self.prompt_func = self.fifovector_memory_prompt
         self.prompt_list = []
 
@@ -287,12 +297,247 @@ class FifoVectorChat(FifoThread, Chat):
         :param verbose: A boolean indicating whether to display input and output messages as Markdown.
         :return: A string representing the chatbot's response.
         """
-        marked_question = mark_question(question)
+        #marked_question = mark_question(question)
+        original_question = {'role': 'user', 'content': question}
+        prompt, marked_question = self.fifovector_memory_prompt(question)
+        self.add_message(original_question)
+        self.longterm_thread.add_message(original_question)
         self.add_message(marked_question)
+
         answer = BaseChat.query(self, message=question, verbose=verbose, stream=stream)
         if stream:
             return answer
         else:
             self.add_message(answer)
+            self.longterm_thread.add_message(answer)
             return answer
 
+
+class ContextManagedFifoVectorChat(FifoThread, Chat):
+    def __init__(
+        self,
+        model: str = None,
+        index_dict: Optional[Dict[str, Union[PandasIndex, MemoryIndex]]] = None,
+        system_prompt: str = None,
+        user_prompt: str = None,
+        name: str = "fifo_vector_memory",
+        max_memory: int = 2048,
+        max_index_memory: int = 400,
+        max_output_tokens: int = 1000,
+        longterm_thread: Optional[VectorThread] = None,
+        longterm_frac: float = 0.5,
+    ):
+        self.total_max_memory = max_memory
+
+        self.setup_longterm_memory(longterm_thread, max_memory, longterm_frac)
+        FifoThread.__init__(
+            self,
+            name=name,
+            max_memory=self.max_fifo_memory,
+            longterm_thread=self.longterm_thread,
+        )
+        Chat.__init__(
+            self,
+            model=model,
+            index_dict=index_dict,
+            max_output_tokens=max_output_tokens,
+            max_index_memory=max_index_memory,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            name=name,
+        )
+        self.context_manager = ContextManager(index_dict)
+        #self.prompt_func = self.fifovector_memory_prompt
+        self.prompt_list = []
+    
+    def setup_longterm_memory(
+        self,
+        longterm_thread: Optional[VectorThread],
+        max_memory: int,
+        longterm_frac: float,
+    ):
+        """
+        Set up long-term memory by allocating memory for the FIFO and Vector memory components.
+
+        :param longterm_thread: An optional VectorThread for long-term memory.
+        :param max_memory: The maximum amount of memory for the chatbot.
+        :param longterm_frac: The fraction of memory dedicated to long-term memory.
+        """
+        #TODO preload longterm memory with index summaries
+        if longterm_thread is None:
+            self.longterm_frac = longterm_frac
+            self.max_fifo_memory = int(max_memory * (1 - self.longterm_frac))
+            self.max_vector_memory = max_memory - self.max_fifo_memory
+            self.longterm_thread = VectorThread(
+                name="longterm_memory", max_context=self.max_vector_memory
+            )
+        else:
+            self.longterm_thread = longterm_thread
+            self.max_vector_memory = self.longterm_thread.max_context
+            self.max_fifo_memory = self.total_max_memory - self.max_vector_memory
+            self.longterm_frac = self.max_vector_memory / self.total_max_memory
+
+    
+    def heat_trajectory(self, message, k=3, gamma=0.7):
+        """
+        This function computes the sum of connections between the embedded message and all other embeddings.
+        It returns the heat trajectory.
+        """
+        embeddings = []
+        boundaries = [0]  # Start boundary
+        # Gather embeddings from each index
+        logging.info("Computing Heat Trajectory for current state of memory.")
+        for _, index in self.index_dict.items():
+            _, _, indicies = index.token_bound_query(message, k=k, max_tokens=3000)
+            embs = [index.embeddings[i] for i in indicies]
+            embeddings.extend(embs)
+            boundaries.append(boundaries[-1] + len(embs))
+        # Gather embeddings from longterm index
+        logging.info(f"Number of values in Longterm Index: {len(self.longterm_thread.values)}")
+        logging.info(f"Number of embeddings in Longterm Index: {len(self.longterm_thread.embeddings)}")
+        if len(self.longterm_thread.values) != len(self.longterm_thread.embeddings):
+            random_embeddings = self.longterm_thread.compute_embeddings()
+            embeddings.extend(random_embeddings)
+            boundaries.append(boundaries[-1] + len(random_embeddings))
+        else:
+            lk = len(self.longterm_thread.values)
+            _, _, indices = self.longterm_thread.token_bound_query(message, k=lk, max_tokens=3000)
+            random_indices = random.sample(indices, lk)
+            random_embeddings = [self.longterm_thread.embeddings[i] for i in random_indices]
+            embeddings.extend(random_embeddings)
+            boundaries.append(boundaries[-1] + lk)
+
+        # Convert list of embeddings into a numpy matrix
+        embeddings_matrix = np.vstack(embeddings)
+
+        # Embed the message
+        message_embedding = EMBEDDER.embed(data=message)  # Replace with your message embedding method
+        # Add the message embedding to the embeddings matrix
+        embeddings_matrix = np.vstack([embeddings_matrix, message_embedding])
+
+        # Compute the adjacency matrix using cosine similarity
+        adjacency_matrix = cosine_similarity(embeddings_matrix)
+        logging.info(f"Adjacency Matrix Shape: {adjacency_matrix}")
+        # Compute the heat trajectory by summing up the connections in each index section
+        # get last row of adjacency matrix
+        last_row = adjacency_matrix[-1, :-1]
+        logging.info(f"Last Row of Adjacency Matrix: {last_row}")
+        boundary_heat = np.zeros(len(boundaries) - 1)
+        for i in range(len(boundaries) - 1):
+            boundary_heat[i] = np.sum(last_row[boundaries[i] : boundaries[i + 1]])
+        logging.info(f"Boundary Heat: {boundary_heat}")
+        # Return dictionary of connections mapped to index names
+        heat_dict = dict(zip(list(self.index_dict.keys()) + ['longterm_thread'], boundary_heat))
+        return heat_dict
+
+    def heat_trajectory(self, message, k=10):
+        """
+        This function gets the top k embeddings from all indexes including longterm, merges into numpy matrix,
+        record boundaries, computes kernel adj matrix, and sums all connections in each index section.
+        It returns the heat trajectory.
+        """
+        embeddings = []
+        boundaries = [0]  # Start boundary
+        
+        # Gather top k embeddings from each index
+        logging.info("Computing Heat Trajectory for the current state of memory.")
+        for _, index in self.index_dict.items():
+            _, _, indices = index.token_bound_query(message, k=k, max_tokens=5000)
+            top_k_embeddings = [index.embeddings[i] for i in indices]
+            embeddings.extend(top_k_embeddings)
+            boundaries.append(boundaries[-1] + k)
+        
+        # Gather top k embeddings from longterm index
+        logging.info(f"Number of values in Longterm Index: {len(self.longterm_thread.values)}")
+        logging.info(f"Number of embeddings in Longterm Index: {len(self.longterm_thread.embeddings)}")
+
+        if len(self.longterm_thread.values) > 1:
+            if len(self.longterm_thread.values) != len(self.longterm_thread.embeddings):
+                top_k_embeddings = self.longterm_thread.compute_embeddings()
+                embeddings.extend(top_k_embeddings)
+                boundaries.append(boundaries[-1] + len(top_k_embeddings))
+            else:
+                lk = len(self.longterm_thread.values)
+                _, _, indices = self.longterm_thread.token_bound_query(message, k=lk, max_tokens=3000)
+                top_k_embeddings = [self.longterm_thread.embeddings[i] for i in indices]
+                embeddings.extend(top_k_embeddings)
+                boundaries.append(boundaries[-1] + lk)
+        
+        # Convert list of embeddings into a numpy matrix
+        embeddings_matrix = np.vstack(embeddings)
+
+        # Add the message embedding to the top-k embeddings and normalize
+        message_embedding = EMBEDDER.embed(data=message)  # Replace with your message embedding method
+        top_k_embeddings_with_message = embeddings_matrix.copy()
+        top_k_embeddings_with_message[:-1] += message_embedding
+        norms = np.linalg.norm(top_k_embeddings_with_message, axis=1)
+        normalized_embeddings = top_k_embeddings_with_message / norms[:, np.newaxis]
+        
+        # Compute the adjacency matrix using cosine similarity on the normalized embeddings
+        adjacency_matrix_with_message = cosine_similarity(normalized_embeddings)
+        adjacency_matrix_with_message =  adjacency_matrix_with_message**2
+        
+        # Compute the stability of connections within each boundary
+        boundary_stability = np.zeros(len(boundaries) - 1)
+        for i in range(len(boundaries) - 1):
+            boundary_connections = adjacency_matrix_with_message[boundaries[i]:boundaries[i+1], boundaries[i]:boundaries[i+1]]
+            boundary_stability[i] = np.mean(boundary_connections)
+            sigma = np.std(boundary_connections)
+            boundary_stability[i] = boundary_stability[i] - sigma
+        logging.info(f"Boundary Stability: {boundary_stability}")
+        # Find the boundary with the highest stability
+        max_boundary_idx = np.argmax(boundary_stability)
+
+        # Compute heat trajectory by summing up all degrees in each index section
+        degrees = np.sum(adjacency_matrix_with_message, axis=1)
+        #logging.info(f"Degrees: {degrees}")
+        heat_trajectory = [np.sum(degrees[boundaries[i]:boundaries[i + 1]]) for i in range(len(boundaries) - 1)]
+        #logging.info(f"Heat Trajectory: {heat_trajectory}")
+        # Return dictionary of connections mapped to index names and the max boundary index
+        heat_dict = dict(zip(list(self.index_dict.keys()) + ['longterm_thread'], heat_trajectory))
+        heat_dict['max_boundary_index'] = max_boundary_idx
+        return heat_dict
+
+
+    def fifovector_memory_prompt(
+        self, message: str, k: int = 3
+    ) -> Tuple[List[dict], dict]:
+        index_name = self.context_manager.get_context_for_user_input(message)
+        hdict = self.heat_trajectory(message)
+        logging.info(f"Heat Dictionary: {hdict}")
+
+        if index_name == 'longterm_thread':
+            logging.info(f"Chosen Index: {index_name} - Retrieving prompt from long-term memory.")
+            logging.info(f"Number of values in Index: {len(self.longterm_thread.values)}")
+            top_k_hint, scores, indices= self.longterm_thread.token_bound_query(message, k=k, max_tokens=self.max_output_tokens)
+            logging.info(f"Top K Hint: {top_k_hint}")
+            prompt =f'[LONG TERM MEMORY]{str(top_k_hint)}\n\n [QUESTION]: {message}'
+        elif index_name in self.index_dict.keys():
+            logging.info(f"Chosen Index: {index_name} - Retrieving prompt from index.")
+            logging.info(f"Number of values in Index {self.index_dict[index_name].name}: {len(self.index_dict[index_name].values)}")
+            top_k_hint, scores, indices = self.index_dict[index_name].token_bound_query(message, k=k, max_tokens=self.max_output_tokens)
+            logging.info(f"Top K Hint: {top_k_hint}")
+            prompt =f'{str(top_k_hint)}\n\n [QUESTION]: {message}'
+        else:
+            raise ValueError("The provided index name is not available.")
+
+        return prompt
+
+    def context_query(self, question: str, verbose: bool = False, stream: bool = False) -> Union[Generator, str]:
+        prompt = self.fifovector_memory_prompt(question)
+
+        original_question = {'role': 'user', 'content': question}
+        modified_question = mark_question(prompt)
+        self.add_message(original_question)
+        self.longterm_thread.add_message(original_question)
+        self.add_message(modified_question)
+        #self.longterm_thread.add_message(modified_question)
+
+        answer = BaseChat.query(self, message=prompt, verbose=verbose, stream=stream)
+
+        if stream:
+            return answer
+        else:
+            self.add_message(answer)
+            self.longterm_thread.add_message(answer)
+            return answer
