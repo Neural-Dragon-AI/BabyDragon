@@ -398,13 +398,13 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         logging.info(f"Number of values in Longterm Index: {len(self.longterm_thread.values)}")
         logging.info(f"Number of embeddings in Longterm Index: {len(self.longterm_thread.embeddings)}")
 
-        if len(self.longterm_thread.values) > k-1:
-            top_k_embeddings = self.longterm_thread.compute_embeddings()
-            lk = len(self.longterm_thread.values)
-            _, _, indices = self.longterm_thread.token_bound_query(message, k=lk, max_tokens=3000)
+        if len(self.longterm_thread.values) >= k:
+            if len(self.longterm_thread.embeddings) != len(self.longterm_thread.values):
+                self.longterm_thread.compute_embeddings()
+            top_k, _, indices = self.longterm_thread.token_bound_query(message, k=k, max_tokens=3000)
             top_k_embeddings = [self.longterm_thread.embeddings[i] for i in indices]
             embeddings.extend(top_k_embeddings)
-            boundaries.append(boundaries[-1] + lk)
+            boundaries.append(boundaries[-1] + k)
             top_k_hints['longterm_thread'] =top_k
         # Convert list of embeddings into a numpy matrix
         embeddings_matrix = np.vstack(embeddings)
@@ -419,7 +419,8 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         # Compute the adjacency matrix using cosine similarity on the normalized embeddings
         adjacency_matrix_with_message = cosine_similarity(normalized_embeddings)
         #subtract the adjacency matrix from the adjacency matrix with message
-        adjacency_matrix_with_message = adjacency_matrix_with_message - adjacency_matrix
+        #adjacency_matrix_with_message = adjacency_matrix_with_message - adjacency_matrix
+        adjacency_matrix_with_message = adjacency_matrix_with_message**2 - adjacency_matrix**2
         adjacency_matrix_with_message =  adjacency_matrix_with_message**2
         # Compute the stability of connections within each boundary
         boundary_stability = np.zeros(len(boundaries) - 1)
@@ -440,7 +441,9 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         # Return dictionary of connections mapped to index names and the max boundary index
 
         heat_dict = dict(zip(list(self.index_dict.keys()) + ['longterm_thread'], heat_trajectory))
-
+        # values should sum to 1
+        sum_of_vals = sum(heat_dict.values())
+        heat_dict = {k: v / sum_of_vals for k, v in heat_dict.items()}
         return heat_dict, top_k_hints
 
 
@@ -451,20 +454,33 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         hdict, top_k_hint_dict = self.heat_trajectory(message)
         logging.info(f"Heat Dictionary: {hdict}")
         #get index with max heat
-        max_heat_index = min(hdict, key=hdict.get)
-        logging.info(f"Max Heat Index: {max_heat_index}")
-        if max_heat_index == 'longterm_thread':
-            logging.info(f"Chosen Index: {max_heat_index} - Retrieving prompt from long-term memory.")
+        #sort keys by value the min val should be the 0 index
+        hdict = {k: v for k, v in sorted(hdict.items(), key=lambda item: item[1])}
+        min_heat_index = list(hdict.keys())[0]
+        second_min_heat_index = list(hdict.keys())[1]
+
+        logging.info(f"Max Heat Index: {min_heat_index}")
+        if min_heat_index == 'longterm_thread':
+            logging.info(f"Chosen Index: {min_heat_index} - Retrieving prompt from long-term memory.")
             logging.info(f"Number of values in Index: {len(self.longterm_thread.values)}")
-            top_k_hint = top_k_hint_dict[max_heat_index][:k]
+            top_k_hint = top_k_hint_dict[min_heat_index][:1] + top_k_hint_dict[second_min_heat_index][:k-1]
             logging.info(f"Top K Hint: {top_k_hint}")
             prompt =f'[LONG TERM MEMORY]{str(top_k_hint)}\n\n [QUESTION]: {message}'
-        elif max_heat_index in self.index_dict.keys():
-            logging.info(f"Chosen Index: {max_heat_index} - Retrieving prompt from index.")
-            logging.info(f"Number of values in Index {self.index_dict[max_heat_index].name}: {len(self.index_dict[max_heat_index].values)}")
-            top_k_hint = top_k_hint_dict[max_heat_index][:k]
-            logging.info(f"Top K Hint: {top_k_hint}")
-            prompt =f'{str(top_k_hint)}\n\n [QUESTION]: {message}'
+        elif min_heat_index in self.index_dict.keys():
+            # if the difference between min and second min is less than 0.1, merge hints from both indexes
+            if hdict[min_heat_index] - hdict[second_min_heat_index] < 0.1:
+                logging.info(f"Chosen Index: {min_heat_index} - Retrieving prompt from index.")
+                logging.info(f"Number of values in Index {self.index_dict[min_heat_index].name}: {len(self.index_dict[min_heat_index].values)}")
+                #take 2 from first index topk and 1 from second index topk
+                top_k_hint = top_k_hint_dict[min_heat_index][:k-1] + top_k_hint_dict[second_min_heat_index][:1]
+                logging.info(f"Top K Hint: {top_k_hint}")
+                prompt =f'{str(top_k_hint)}\n\n [QUESTION]: {message}'
+            else:
+                logging.info(f"Chosen Index: {min_heat_index} - Retrieving prompt from index.")
+                logging.info(f"Number of values in Index {self.index_dict[min_heat_index].name}: {len(self.index_dict[min_heat_index].values)}")
+                top_k_hint = top_k_hint_dict[min_heat_index][:k]
+                logging.info(f"Top K Hint: {top_k_hint}")
+                prompt =f'{str(top_k_hint)}\n\n [QUESTION]: {message}'
         else:
             raise ValueError("The provided index name is not available.")
 
@@ -476,7 +492,6 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         original_question = {'role': 'user', 'content': question}
         modified_question = mark_question(prompt)
         self.add_message(original_question)
-        self.longterm_thread.add_message(original_question)
         self.add_message(modified_question)
         #self.longterm_thread.add_message(modified_question)
 
@@ -486,5 +501,5 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
             return answer
         else:
             self.add_message(answer)
-            self.longterm_thread.add_message(answer)
+            #self.longterm_thread.add_message(answer))
             return answer
