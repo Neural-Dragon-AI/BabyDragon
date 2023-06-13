@@ -297,11 +297,8 @@ class FifoVectorChat(FifoThread, Chat):
         :param verbose: A boolean indicating whether to display input and output messages as Markdown.
         :return: A string representing the chatbot's response.
         """
-        #marked_question = mark_question(question)
-        original_question = {'role': 'user', 'content': question}
         prompt, marked_question = self.fifovector_memory_prompt(question)
-        self.add_message(original_question)
-        self.longterm_thread.add_message(original_question)
+
         self.add_message(marked_question)
 
         answer = BaseChat.query(self, message=question, verbose=verbose, stream=stream)
@@ -309,7 +306,6 @@ class FifoVectorChat(FifoThread, Chat):
             return answer
         else:
             self.add_message(answer)
-            self.longterm_thread.add_message(answer)
             return answer
 
 
@@ -377,6 +373,20 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
             self.max_fifo_memory = self.total_max_memory - self.max_vector_memory
             self.longterm_frac = self.max_vector_memory / self.total_max_memory
 
+    def calculate_stability(self, boundaries, adjacency_matrix_with_message):
+        boundary_stability = np.zeros(len(boundaries) - 1)
+        for i in range(len(boundaries) - 1):
+            boundary_connections = adjacency_matrix_with_message[boundaries[i]:boundaries[i+1], :][:, boundaries[i]:boundaries[i+1]]
+            boundary_stability[i] = np.mean(boundary_connections) - np.std(boundary_connections)**2
+        logging.info(f"Boundary Stability: {boundary_stability}")
+        return boundary_stability
+
+    def query_hints(self, message, index, k):
+        top_k, _, indices = index.token_bound_query(message, k=k, max_tokens=5000)
+        top_k_embeddings = [index.embeddings[i] for i in indices]
+        return top_k, top_k_embeddings
+
+
     def heat_trajectory(self, message, k=5):
         """
         This function gets the top k embeddings from all indexes including longterm, merges into numpy matrix,
@@ -389,59 +399,36 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         # Gather top k embeddings from each index
         logging.info("Computing Heat Trajectory for the current state of memory.")
         for index_key, index in self.index_dict.items():
-            top_k, _, indices = index.token_bound_query(message, k=k, max_tokens=5000)
-            top_k_embeddings = [index.embeddings[i] for i in indices]
+            top_k, top_k_embeddings = self.query_hints(message, index, k)
             embeddings.extend(top_k_embeddings)
             boundaries.append(boundaries[-1] + k)
             top_k_hints[index_key] = top_k
-        # Gather top k embeddings from longterm index
-        logging.info(f"Number of values in Longterm Index: {len(self.longterm_thread.values)}")
-        logging.info(f"Number of embeddings in Longterm Index: {len(self.longterm_thread.embeddings)}")
+
 
         if len(self.longterm_thread.values) >= k:
             if len(self.longterm_thread.embeddings) != len(self.longterm_thread.values):
                 self.longterm_thread.compute_embeddings()
-            top_k, _, indices = self.longterm_thread.token_bound_query(message, k=k, max_tokens=3000)
-            top_k_embeddings = [self.longterm_thread.embeddings[i] for i in indices]
+            top_k, top_k_embeddings = self.query_hints(message, index, k)
             embeddings.extend(top_k_embeddings)
             boundaries.append(boundaries[-1] + k)
             top_k_hints['longterm_thread'] =top_k
-        # Convert list of embeddings into a numpy matrix
+
         embeddings_matrix = np.vstack(embeddings)
         adjacency_matrix = cosine_similarity(embeddings_matrix)
-        # Add the message embedding to the top-k embeddings and normalize
-        message_embedding = EMBEDDER.embed(data=message)  # Replace with your message embedding method
+        message_embedding = EMBEDDER.embed(data=message)
         top_k_embeddings_with_message = embeddings_matrix.copy()
         top_k_embeddings_with_message[:-1] += message_embedding
         norms = np.linalg.norm(top_k_embeddings_with_message, axis=1)
         normalized_embeddings = top_k_embeddings_with_message / norms[:, np.newaxis]
-        
-        # Compute the adjacency matrix using cosine similarity on the normalized embeddings
         adjacency_matrix_with_message = cosine_similarity(normalized_embeddings)
-        #subtract the adjacency matrix from the adjacency matrix with message
-        #adjacency_matrix_with_message = adjacency_matrix_with_message - adjacency_matrix
+
         adjacency_matrix_with_message = adjacency_matrix_with_message**2 - adjacency_matrix**2
         adjacency_matrix_with_message =  adjacency_matrix_with_message**2
-        # Compute the stability of connections within each boundary
-        boundary_stability = np.zeros(len(boundaries) - 1)
-        for i in range(len(boundaries) - 1):
-            boundary_connections = adjacency_matrix_with_message[boundaries[i]:boundaries[i+1], :][:, boundaries[i]:boundaries[i+1]]
-            # apply a time decay param gamma to the boundary connections
-            boundary_stability[i] = np.mean(boundary_connections)
-            sigma = np.std(boundary_connections)
-            boundary_stability[i] = boundary_stability[i] - sigma**2
-        logging.info(f"Boundary Stability: {boundary_stability}")
-        # Find the boundary with the highest stability
 
-        # Compute heat trajectory by summing up all degrees in each index section
         degrees = np.sum(adjacency_matrix_with_message, axis=1)
-        #logging.info(f"Degrees: {degrees}")
         heat_trajectory = [np.sum(degrees[boundaries[i]:boundaries[i + 1]]) for i in range(len(boundaries) - 1)]
         logging.info(f"Heat Trajectory: {heat_trajectory}")
-        # Return dictionary of connections mapped to index names and the max boundary index
-
         heat_dict = dict(zip(list(self.index_dict.keys()) + ['longterm_thread'], heat_trajectory))
-        # values should sum to 1
         sum_of_vals = sum(heat_dict.values())
         heat_dict = {k: v / sum_of_vals for k, v in heat_dict.items()}
         return heat_dict, top_k_hints
@@ -488,12 +475,8 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
 
     def context_query(self, question: str, verbose: bool = False, stream: bool = False) -> Union[Generator, str]:
         prompt = self.fifovector_memory_prompt(question)
-
-        original_question = {'role': 'user', 'content': question}
         modified_question = mark_question(prompt)
-        self.add_message(original_question)
         self.add_message(modified_question)
-        #self.longterm_thread.add_message(modified_question)
 
         answer = BaseChat.query(self, message=prompt, verbose=verbose, stream=stream)
 
@@ -501,5 +484,4 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
             return answer
         else:
             self.add_message(answer)
-            #self.longterm_thread.add_message(answer))
             return answer
