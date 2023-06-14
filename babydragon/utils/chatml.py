@@ -1,4 +1,6 @@
 from typing import List
+from scipy.special import expit
+import numpy as np
 
 def convert_mark_to_str_prompt(messages: List[dict], prompt: str = "") -> str:
     prompt = ""
@@ -60,3 +62,20 @@ def get_str_from_response(response, model = "gpt"):
         return text_without_assistant
     else:
         raise Exception("Unknown model type")
+
+
+def apply_sigmoid(matrix:np.ndarray):
+    """
+    This function applies a sigmoid non-linearity to the matrix elements.
+    The sigmoid function maps any value to a value between 0 and 1.
+    """
+    return expit(matrix)
+
+def apply_threshold(matrix, threshold=0.5):
+    """
+    This function applies a threshold to the matrix elements.
+    All values above the threshold are set to 1, all values below or equal to the threshold are set to 0.
+    """
+    matrix[matrix > threshold] = 1
+    matrix[matrix <= threshold] = 0
+    return matrix
