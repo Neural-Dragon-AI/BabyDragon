@@ -3,6 +3,7 @@ from typing import Dict, List, Optional, Tuple, Union, Generator
 from babydragon.chat.chat import BaseChat, Chat, Prompter
 from babydragon.memory.indexes.memory_index import MemoryIndex
 from babydragon.memory.indexes.pandas_index import PandasIndex
+from babydragon.memory.kernels.multi_kernel import CreateMultiKernel
 from babydragon.memory.threads.base_thread import BaseThread
 from babydragon.memory.threads.fifo_thread import FifoThread
 from babydragon.memory.threads.vector_thread import VectorThread
@@ -12,6 +13,7 @@ import logging
 import numpy as np
 from sklearn.metrics.pairwise import  cosine_similarity
 import random
+import copy
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 
 
@@ -324,6 +326,7 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         longterm_frac: float = 0.5,
     ):
         self.total_max_memory = max_memory
+        
 
         self.setup_longterm_memory(longterm_thread, max_memory, longterm_frac)
         FifoThread.__init__(
@@ -342,8 +345,17 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
             user_prompt=user_prompt,
             name=name,
         )
-        self.context_manager = ContextManager(index_dict)
-        #self.prompt_func = self.fifovector_memory_prompt
+        #self.context_manager = ContextManager(index_dict)
+        #deep copy of index_dict
+        '''
+        deep_copied_index_dict = copy.deepcopy(self.index_dict)
+        
+        self.multi_kernel = CreateMultiKernel(deep_copied_index_dict).create_multi_kernel()
+        self.memory_kernel_dict = self.multi_kernel.memory_kernel_dict
+        self.path_group = self.multi_kernel.path_group
+        
+        self.prompt_func = self.fifovector_memory_prompt
+        '''
         self.prompt_list = []
     
     def setup_longterm_memory(
@@ -386,8 +398,13 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         top_k_embeddings = [index.embeddings[i] for i in indices]
         return top_k, top_k_embeddings
 
+    def query_mk_hints(self, message, index_key, index, k):
+        top_k, _, indices = index.token_bound_query(message, k=k, max_tokens=3000)
+        top_k_embeddings = [self.memory_kernel_dict[index_key].node_embeddings[i] for i in indices]
+        return top_k, top_k_embeddings
 
-    def heat_trajectory(self, message, k=5):
+
+    def heat_trajectory(self, message, k=20):
         """
         This function gets the top k embeddings from all indexes including longterm, merges into numpy matrix,
         record boundaries, computes kernel adj matrix, and sums all connections in each index section.
@@ -397,7 +414,7 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         boundaries = [0]  # Start boundary
         top_k_hints = {}
         # Gather top k embeddings from each index
-        logging.info("Computing Heat Trajectory for the current state of memory.")
+        logging.info("Computing Trajectory for the current state of memory.")
         for index_key, index in self.index_dict.items():
             top_k, top_k_embeddings = self.query_hints(message, index, k)
             embeddings.extend(top_k_embeddings)
@@ -411,19 +428,27 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
             top_k, top_k_embeddings = self.query_hints(message, index, k)
             embeddings.extend(top_k_embeddings)
             boundaries.append(boundaries[-1] + k)
-            top_k_hints['longterm_thread'] =top_k
+            top_k_hints['longterm_thread'] = top_k
+        mean = np.sum(embeddings, axis=1)
+        mean = mean / np.linalg.norm(mean)
+        #should be shape (,1536) currently (4, 1536)
+        mean = np.sum(mean, axis=0)
 
+
+        logging.info(f"Mean: {mean.shape}")
         embeddings_matrix = np.vstack(embeddings)
         adjacency_matrix = cosine_similarity(embeddings_matrix)
         message_embedding = EMBEDDER.embed(data=message)
+        #get residuals
+        message_embedding = message_embedding - mean
         top_k_embeddings_with_message = embeddings_matrix.copy()
         top_k_embeddings_with_message[:-1] += message_embedding
         norms = np.linalg.norm(top_k_embeddings_with_message, axis=1)
         normalized_embeddings = top_k_embeddings_with_message / norms[:, np.newaxis]
         adjacency_matrix_with_message = cosine_similarity(normalized_embeddings)
 
-        adjacency_matrix_with_message = adjacency_matrix_with_message**2 - adjacency_matrix**2
-        adjacency_matrix_with_message =  adjacency_matrix_with_message**2
+        adjacency_matrix_with_message = adjacency_matrix_with_message - adjacency_matrix
+        adjacency_matrix_with_message =  adjacency_matrix_with_message**3
 
         degrees = np.sum(adjacency_matrix_with_message, axis=1)
         heat_trajectory = [np.sum(degrees[boundaries[i]:boundaries[i + 1]]) for i in range(len(boundaries) - 1)]
@@ -431,35 +456,39 @@ class ContextManagedFifoVectorChat(FifoThread, Chat):
         heat_dict = dict(zip(list(self.index_dict.keys()) + ['longterm_thread'], heat_trajectory))
         sum_of_vals = sum(heat_dict.values())
         heat_dict = {k: v / sum_of_vals for k, v in heat_dict.items()}
-        return heat_dict, top_k_hints
+        hdict = {k: v for k, v in sorted(heat_dict.items(), key=lambda item: item[1])}
+        logging.info(f"Heat dict: {heat_dict}")
+        return hdict, top_k_hints
 
 
     def fifovector_memory_prompt(
-        self, message: str, k: int = 3
+        self, message: str, k: int = 5
     ) -> Tuple[List[dict], dict]:
-        #index_name = self.context_manager.get_context_for_user_input(message)
         hdict, top_k_hint_dict = self.heat_trajectory(message)
-        logging.info(f"Heat Dictionary: {hdict}")
-        #get index with max heat
-        #sort keys by value the min val should be the 0 index
-        hdict = {k: v for k, v in sorted(hdict.items(), key=lambda item: item[1])}
         min_heat_index = list(hdict.keys())[0]
         second_min_heat_index = list(hdict.keys())[1]
-
-        logging.info(f"Max Heat Index: {min_heat_index}")
+        if len(hdict) > 2:
+            third_min_heat_index = list(hdict.keys())[2]
         if min_heat_index == 'longterm_thread':
             logging.info(f"Chosen Index: {min_heat_index} - Retrieving prompt from long-term memory.")
             logging.info(f"Number of values in Index: {len(self.longterm_thread.values)}")
-            top_k_hint = top_k_hint_dict[min_heat_index][:1] + top_k_hint_dict[second_min_heat_index][:k-1]
+            if len(hdict) > 2:
+                if hdict[second_min_heat_index] - hdict[third_min_heat_index] < 0.20:
+                    top_k_hint = top_k_hint_dict[min_heat_index][:1] + top_k_hint_dict[second_min_heat_index][:k-2] + top_k_hint_dict[third_min_heat_index][:1]
+                else:
+                    top_k_hint = top_k_hint_dict[min_heat_index][:1] + top_k_hint_dict[second_min_heat_index][:k-1]
+            else:
+                top_k_hint = top_k_hint_dict[min_heat_index][:1] + top_k_hint_dict[second_min_heat_index][:k-1]
+
             logging.info(f"Top K Hint: {top_k_hint}")
             prompt =f'[LONG TERM MEMORY]{str(top_k_hint)}\n\n [QUESTION]: {message}'
         elif min_heat_index in self.index_dict.keys():
-            # if the difference between min and second min is less than 0.1, merge hints from both indexes
-            if hdict[min_heat_index] - hdict[second_min_heat_index] < 0.1:
+            # if the difference between min and second min is less than 0.25, merge hints from both indexes
+            if hdict[min_heat_index] - hdict[second_min_heat_index] < 0.25:
                 logging.info(f"Chosen Index: {min_heat_index} - Retrieving prompt from index.")
                 logging.info(f"Number of values in Index {self.index_dict[min_heat_index].name}: {len(self.index_dict[min_heat_index].values)}")
                 #take 2 from first index topk and 1 from second index topk
-                top_k_hint = top_k_hint_dict[min_heat_index][:k-1] + top_k_hint_dict[second_min_heat_index][:1]
+                top_k_hint = top_k_hint_dict[min_heat_index][:k-2] + top_k_hint_dict[second_min_heat_index][:2]
                 logging.info(f"Top K Hint: {top_k_hint}")
                 prompt =f'{str(top_k_hint)}\n\n [QUESTION]: {message}'
             else:
