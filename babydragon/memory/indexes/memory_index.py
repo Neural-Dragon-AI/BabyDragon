@@ -450,6 +450,20 @@ class MemoryIndex:
             if default_save:
                 self.save()  # we should check here the save time is not too long
 
+    def remove_from_id(self, id: int) -> None:
+        """
+        Remove a value from the index and the values list.
+        Args:
+            value: The value to remove from the index.
+        """
+        if id is not None:
+            self.values.pop(id)
+            self.embeddings = np.array(list(self.embeddings).pop(id))
+            id_selector = faiss.IDSelectorArray(n=1, ids=np.array([id], dtype=np.int64))
+            self.index.remove_ids(id_selector)            
+            self.save()
+        else:
+            print(f"The value '{id}' was not found in the index.")
 
     def remove_from_index(self, value: str) -> None:
         """

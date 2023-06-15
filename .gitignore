@@ -24,3 +24,7 @@ outs/*
 *.json
 *.arrow
 !babydragon/chat/prompts/perspective_prompts.jsons
+
+## Docs build
+
+docs/_build
