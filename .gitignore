@@ -28,3 +28,4 @@ outs/*
 ## Docs build
 
 docs/_build
+*.npy
