@@ -5,6 +5,10 @@ import numpy as np
 import openai
 import tiktoken
 
+import time
+
+
+
 ADA_EMBEDDING_SIZE = 1536
 MAX_CONTEXT_LENGTH = 8100
 
@@ -15,9 +19,13 @@ class OpenAiEmbedder:
         return ADA_EMBEDDING_SIZE
 
     def embed(self, data, verbose=False):
-
-        if type(data) is dict and "content" in data:
-            if verbose is True:
+        if isinstance(data, list) and len(data) > 1:
+            return self.batch_embed(data)
+        elif isinstance(data, list) and len(data) == 1:
+            data = data[0]
+        
+        if isinstance(data, dict) and "content" in data:
+            if verbose:
                 print("Embedding without mark", data["content"])
             out = openai.Embedding.create(
                 input=data["content"], engine="text-embedding-ada-002"
@@ -25,7 +33,7 @@ class OpenAiEmbedder:
         else:
             if len(tokenizer.encode(data)) > MAX_CONTEXT_LENGTH:
                 raise ValueError(f" The input is too long for OpenAI, num tokens is {len(tokenizer.encode(data))}, instead of {MAX_CONTEXT_LENGTH}")
-            if verbose is True:
+            if verbose:
                 print("Embedding without preprocessing the input", data)
             out = openai.Embedding.create(
                 input=str(data), engine="text-embedding-ada-002"
@@ -33,17 +41,38 @@ class OpenAiEmbedder:
         return out.data[0].embedding
 
     def batch_embed(self, data: List[str]):
-        if type(data) is dict and "content" in data:
+        if isinstance(data, dict) and "content" in data:
             raise ValueError("Batch embedding not supported for dictionaries")
-        elif type(data) is str:
+        elif isinstance(data, str):
             return self.embed(data)
-        elif type(data) is list:
-            out = openai.Embedding.create(
-                input=data, engine="text-embedding-ada-002"
-            )
+        elif isinstance(data, list):
+            batch = []
             embeddings = []
-            for embedding in out.data:
-                embeddings.append(embedding.embedding)
+            i = 1
+            total_number_of_batches = len(data)//1000 + 1 if len(data) % 1000 > 0 else len(data)//1000
+            for value in data:
+                batch.append(value)
+                if len(batch) == 1000:
+                    start = time.time()
+                    out = openai.Embedding.create(
+                        input=batch, engine="text-embedding-ada-002"
+                    )
+                    for embedding in out.data:
+                        embeddings.append(embedding.embedding)
+                    print(f"Embedding batch {i} took ", time.time() - start, " seconds")
+                    print(f"Batch {i} of {total_number_of_batches}")
+                    i += 1
+                    batch = []
+            if len(batch) > 0:
+                start = time.time()
+                out = openai.Embedding.create(
+                    input=batch, engine="text-embedding-ada-002"
+                )
+                for embedding in out.data:
+                    embeddings.append(embedding.embedding)
+                print(f"Embedding batch {i} took ", time.time() - start, " seconds")
+                print(f"Batch {i} of {total_number_of_batches}")
+                    
             return embeddings
 
 
