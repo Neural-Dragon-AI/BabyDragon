@@ -72,8 +72,10 @@ class BaseIndex(ABC):
 
         with open(os.path.join(save_directory, f"{self.name}_values.json"), "w") as f:
             json.dump(self.values, f)
-        with open(os.path.join(save_directory, f"{self.name}_queries.json"), "w") as f:
-            json.dump(self.queries, f)
+        #check if queries exist
+        if len(self.queries) > 0:
+            with open(os.path.join(save_directory, f"{self.name}_queries.json"), "w") as f:
+                json.dump(self.queries, f)
 
         # Save embeddings in a subclass-specific way
         self._save_embeddings(save_directory)
@@ -89,9 +91,11 @@ class BaseIndex(ABC):
         with open(os.path.join(load_directory, f"{self.name}_values.json"), "r") as f:
             self.values = json.load(f)
         self.values_set = set(self.values)
-        with open(os.path.join(load_directory, f"{self.name}_queries.json"), "r") as f:
-            self.queries = json.load(f)
-        self.queries_set = set(self.queries)
+        #check that queries exist
+        if os.path.exists(os.path.join(load_directory, f"{self.name}_queries.json")):
+            with open(os.path.join(load_directory, f"{self.name}_queries.json"), "r") as f:
+                self.queries = json.load(f)
+            self.queries_set = set(self.queries)
 
         # Load embeddings in a subclass-specific way
         self._load_embeddings(load_directory)

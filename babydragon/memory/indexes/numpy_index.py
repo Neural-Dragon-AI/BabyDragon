@@ -19,6 +19,7 @@ class NpIndex(BaseIndex):
     ):
         BaseIndex.__init__(self,values, embeddings, name, save_path, load, embedder)
 
+
     @staticmethod
     def compare_embeddings(query: np.ndarray, targets: np.ndarray) -> np.ndarray:
         return np.array([np.allclose(query, target, rtol=1e-05, atol=1e-08) for target in targets])
@@ -40,7 +41,8 @@ class NpIndex(BaseIndex):
 
     def _save_embeddings(self, directory: str):
         np.save(os.path.join(directory, f"{self.name}_embeddings.npy"), self.embeddings)
-        np.save(os.path.join(directory, f"{self.name}_queries_embeddings.npy"), self.queries_embeddings)
+        if self.queries_embeddings is not None:
+            np.save(os.path.join(directory, f"{self.name}_queries_embeddings.npy"), self.queries_embeddings)
 
 
     def _load_embeddings(self, directory: str):
@@ -50,13 +52,17 @@ class NpIndex(BaseIndex):
             return
         
         self.embeddings = np.load(os.path.join(load_directory, f"{self.name}_embeddings.npy"))
-        self.queries_embeddings = np.load(os.path.join(load_directory, f"{self.name}_queries_embeddings.npy"))
-        print(self.embeddings.shape, len(self.values))
-        print(self.queries_embeddings.shape, len(self.queries))
         if len(self.values) != len(self.embeddings):
             raise ValueError("Loaded values and embeddings are not the same length.")
-        elif len(self.queries) != len(self.queries_embeddings):
-            raise ValueError("Loaded queries and query embeddings are not the same length.")
+        #check that queries embeddings exist
+        if os.path.exists(os.path.join(load_directory, f"{self.name}_queries_embeddings.npy")):
+            self.queries_embeddings = np.load(os.path.join(load_directory, f"{self.name}_queries_embeddings.npy"),allow_pickle=True)
+            print(self.embeddings.shape, len(self.values))
+            print(self.queries_embeddings.shape, len(self.queries))
+            print(self.queries, self.queries_embeddings, self.queries_embeddings is not None, type(self.queries_embeddings), self.queries_embeddings.shape)
+            
+            if self.queries_embeddings is not None and len(self.queries) != len(self.queries_embeddings):
+                raise ValueError("Loaded queries and queries embeddings are not the same length.")
 
 
     def setup_index(self, input_values: Optional[List[str]], embeddings: Optional[List[Union[List[float], np.ndarray]]], load: bool):
