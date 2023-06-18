@@ -1,4 +1,4 @@
-from typing import List, Optional, Union, Tuple
+from typing import List, Optional, Union, Tuple, Dict
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder
 import numpy as np
@@ -21,7 +21,7 @@ class NpIndex(BaseIndex):
 
     @staticmethod
     def compare_embeddings(query: np.ndarray, targets: np.ndarray) -> np.ndarray:
-        return np.all(query == targets, axis=1)
+        return np.array([np.allclose(query, target, rtol=1e-05, atol=1e-08) for target in targets])
 
     @staticmethod
     def batched_l2_distance(query_embedding: np.ndarray, embeddings: np.ndarray, mask: Optional[np.ndarray] = None) -> np.ndarray:
@@ -83,6 +83,43 @@ class NpIndex(BaseIndex):
             self.add(list(set(input_values)))
             self.save_index()
 
+    def get(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]], output_type: str = "value") -> Union[int, str, np.ndarray, Dict[str, Union[int, str, np.ndarray]]]:
+
+        if isinstance(identifier, int):  # if given an index
+            if identifier < len(self.values):  # if valid index
+                index = identifier
+            else:
+                raise ValueError("Invalid index given.")
+        elif isinstance(identifier, str):  # if given a value
+            if identifier in self.values:
+                index = self.values.index(identifier)
+            else:
+                raise ValueError("Value not found.")
+        elif isinstance(identifier, np.ndarray):  # if given an embedding
+            # Find indices of embeddings that are equal to the given one
+            indices = np.where(self.compare_embeddings(identifier, self.embeddings))[0]
+            if len(indices) == 0:
+                raise ValueError("Embedding not found.")
+            index = indices[0]
+        else:
+            raise TypeError("Invalid identifier type. Expected int, str, np.ndarray, or list of these types")
+
+        # Define output types
+        output_types = {
+            'index': index,
+            'value': self.values[index],
+            'embedding': self.embeddings[index],
+            'all': {
+                'index': index,
+                'value': self.values[index],
+                'embedding': self.embeddings[index]}
+        }
+        
+        # Check output type is valid
+        if output_type not in output_types:
+            raise ValueError("Invalid output_type. Expected 'index', 'value', or 'embedding'.")
+
+        return output_types[output_type]
 
     def add(self, values: List[str], embeddings: Optional[List[Union[List[float], np.ndarray]]] = None):
         if embeddings is None:
@@ -143,6 +180,8 @@ class NpIndex(BaseIndex):
             raise TypeError("Invalid identifier type. Expected int, str, np.ndarray, or list of these types")
         
     def update(self, old_identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]], new_value: Union[str, List[str]], new_embedding: Optional[Union[List[float], np.ndarray, List[List[float]], List[np.ndarray]]] = None) -> None:
+        if new_value in self.index_set:
+            raise ValueError("new_value already exists in the index. Please remove it first.")
         if isinstance(old_identifier, list):
             if not isinstance(new_value, list) or len(old_identifier) != len(new_value):
                 raise ValueError("For list inputs, old_identifier and new_value must all be lists of the same length.")
@@ -187,7 +226,8 @@ class NpIndex(BaseIndex):
         else:
             raise TypeError("Invalid identifier type. Expected int, str, np.ndarray, or list of these types")
 
-    def search(self, query: Optional[str] = None, query_embedding: Optional[np.ndarray] = None, top_k: int = 10, metric: str = "cosine", filter_mask: Optional[np.ndarray] = None) -> List[Tuple[int, float]]:
+    def search(self, query: Optional[str] = None, query_embedding: Optional[np.ndarray] = None, top_k: int = 10, metric: str = "cosine", filter_mask: Optional[np.ndarray] = None) -> Tuple[List[str], Optional[List[float]], List[int]]:
+
         # create a 2D numpy array from the embeddings list
         embeddings_array = self.embeddings
 
@@ -208,7 +248,7 @@ class NpIndex(BaseIndex):
         elif query is not None:
             print("Query is not in cache. Computing embedding...")
             query_embedding = self.embedder.embed([query])
-            print(query_embedding)
+            # print(query_embedding)
             self.query_cache[query] = query_embedding  # store the new query and its embedding in cache
 
         # compute distances or similarities
