@@ -29,3 +29,7 @@ outs/*
 
 docs/_build
 *.npy
+*.json
+*.faiss
+*.faiss
+*.json
