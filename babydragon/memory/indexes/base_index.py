@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional, Union, Tuple
+from typing import List, Optional, Union, Tuple, Any
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder
 import numpy as np
@@ -26,6 +26,25 @@ class BaseIndex(ABC):
         self.index_set = set()  # add this to quickly check for duplicates
         self.loaded = False
         self.setup_index(values, embeddings, load)
+    
+    @staticmethod
+    @abstractmethod
+    def compare_embeddings(query: Any, targets: Any) -> Any:
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def batched_l2_distance(query_embedding: Any, embeddings: Any, mask: Optional[Any] = None) -> Any:
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def batched_cosine_similarity(query_embedding: Any, embeddings: Any, mask: Optional[Any] = None) -> Any:
+        pass
+
+    @abstractmethod
+    def get(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]]) -> Union[str, List[str]]:
+        pass
 
     @abstractmethod
     def add(self, values: List[str], embeddings: Optional[List[Union[List[float], np.ndarray]]] = None):
@@ -40,7 +59,7 @@ class BaseIndex(ABC):
         pass
 
     @abstractmethod
-    def search(self, query: Optional[str] = None, query_embedding: Optional[np.ndarray] = None, top_k: int = 10, metric: str = "cosine", filter_mask: Optional[np.ndarray] = None) -> List[Tuple[int, float]]:
+    def search(self, query: Optional[str] = None, query_embedding: Optional[np.ndarray] = None, top_k: int = 10, metric: str = "cosine", filter_mask: Optional[np.ndarray] = None) -> Tuple[List[str], Optional[List[float]], List[int]]:
         pass
 
     # Non-abstract method
