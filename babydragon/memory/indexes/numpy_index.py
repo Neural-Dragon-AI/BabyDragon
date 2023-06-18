@@ -40,25 +40,24 @@ class NpIndex(BaseIndex):
 
     def _save_embeddings(self, directory: str):
         np.save(os.path.join(directory, f"{self.name}_embeddings.npy"), self.embeddings)
+        np.save(os.path.join(directory, f"{self.name}_queries_embeddings.npy"), self.queries_embeddings)
 
 
-    def load_index(self):
+    def _load_embeddings(self, directory: str):
         load_directory = os.path.join(self.save_path, self.name)
         if not os.path.exists(load_directory):
-            print(f"I did not find the directory to load the index from: {load_directory}")
+            print(f"I did not find the directory to load the embe from: {load_directory}")
             return
-
-        print(f"Loading index from {load_directory}")
-
-        with open(os.path.join(load_directory, f"{self.name}_values.json"), "r") as f:
-            self.values = json.load(f)
-
+        
         self.embeddings = np.load(os.path.join(load_directory, f"{self.name}_embeddings.npy"))
+        self.queries_embeddings = np.load(os.path.join(load_directory, f"{self.name}_queries_embeddings.npy"))
         print(self.embeddings.shape, len(self.values))
+        print(self.queries_embeddings.shape, len(self.queries))
         if len(self.values) != len(self.embeddings):
             raise ValueError("Loaded values and embeddings are not the same length.")
+        elif len(self.queries) != len(self.queries_embeddings):
+            raise ValueError("Loaded queries and query embeddings are not the same length.")
 
-        self.loaded = True
 
     def setup_index(self, input_values: Optional[List[str]], embeddings: Optional[List[Union[List[float], np.ndarray]]], load: bool):
         if load and os.path.exists(os.path.join(self.save_path, self.name)):
@@ -236,20 +235,22 @@ class NpIndex(BaseIndex):
             indices = np.random.choice(len(self.values), size=top_k, replace=False)
             return [self.values[i] for i in indices],None, indices  # return indices with dummy scores
 
-        # initialize a cache for storing unique queries and their embeddings
-        if not hasattr(self, 'query_cache'):
-            self.query_cache = {}
-
-        # if the query is in the cache, use the stored embedding
-        if query in self.query_cache:
-            print("Query is in cache.")
-            query_embedding = self.query_cache[query]
-        # else if a query string is provided but not in cache, compute its embedding
+        # if the query is in the queries set, use the stored embedding
+        if query in self.queries_set:
+            print("Query is in queries set.")
+            query_embedding = self.queries_embeddings[self.queries.index(query)]
+        # else if a query string is provided but not in queries set, compute its embedding
         elif query is not None:
-            print("Query is not in cache. Computing embedding...")
+            print("Query is not in queries set. Computing embedding...")
             query_embedding = self.embedder.embed([query])
             # print(query_embedding)
-            self.query_cache[query] = query_embedding  # store the new query and its embedding in cache
+            self.queries_set.add(query)
+            self.queries.append(query)
+            # If queries_embeddings array is not yet created, initialize it, else append to it
+            if self.queries_embeddings is None:
+                self.queries_embeddings = np.array([query_embedding])
+            else:
+                self.queries_embeddings = np.vstack((self.queries_embeddings, query_embedding))
 
         # compute distances or similarities
         if metric == "l2":

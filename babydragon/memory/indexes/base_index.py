@@ -23,6 +23,9 @@ class BaseIndex(ABC):
         os.makedirs(self.save_path, exist_ok=True)
         self.values = []
         self.embeddings = None  # initialize embeddings as None
+        self.queries_embeddings = None  # initialize query embeddings as None
+        self.queries = []
+        self.queries_set = set()  # add this to quickly check for duplicates
         self.index_set = set()  # add this to quickly check for duplicates
         self.loaded = False
         self.setup_index(values, embeddings, load)
@@ -61,7 +64,7 @@ class BaseIndex(ABC):
     @abstractmethod
     def search(self, query: Optional[str] = None, query_embedding: Optional[np.ndarray] = None, top_k: int = 10, metric: str = "cosine", filter_mask: Optional[np.ndarray] = None) -> Tuple[List[str], Optional[List[float]], List[int]]:
         pass
-
+    
     # Non-abstract method
     def save_index(self):
         save_directory = os.path.join(self.save_path, self.name)
@@ -69,10 +72,35 @@ class BaseIndex(ABC):
 
         with open(os.path.join(save_directory, f"{self.name}_values.json"), "w") as f:
             json.dump(self.values, f)
+        with open(os.path.join(save_directory, f"{self.name}_queries.json"), "w") as f:
+            json.dump(self.queries, f)
 
         # Save embeddings in a subclass-specific way
         self._save_embeddings(save_directory)
 
+    def load_index(self):
+        load_directory = os.path.join(self.save_path, self.name)
+        if not os.path.exists(load_directory):
+            print(f"I did not find the directory to load the index from: {load_directory}")
+            return
+
+        print(f"Loading index from {load_directory}")
+
+        with open(os.path.join(load_directory, f"{self.name}_values.json"), "r") as f:
+            self.values = json.load(f)
+        self.values_set = set(self.values)
+        with open(os.path.join(load_directory, f"{self.name}_queries.json"), "r") as f:
+            self.queries = json.load(f)
+        self.queries_set = set(self.queries)
+
+        # Load embeddings in a subclass-specific way
+        self._load_embeddings(load_directory)
+        self.loaded = True
+
     @abstractmethod
     def _save_embeddings(self, directory: str):
+        pass
+
+    @abstractmethod
+    def _load_embeddings(self, directory: str):
         pass
