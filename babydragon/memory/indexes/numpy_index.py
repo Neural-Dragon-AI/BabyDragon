@@ -210,7 +210,7 @@ class NpIndex(BaseIndex):
         self.old_ids[new_value] = self.old_ids.pop(self.values[old_id])
         self.values[old_id] = new_value
         self.index_set.add(new_value)
-        self.embeddings[old_id] = self.embedder.embed([new_value])[0] if new_embedding is None else new_embedding
+        self.embeddings[old_id] = self.embedder.embed([new_value]) if new_embedding is None else new_embedding
 
     def search(self, query: Optional[str] = None, query_embedding: Optional[np.ndarray] = None, top_k: int = 10, metric: str = "cosine", filter_mask: Optional[np.ndarray] = None) -> Tuple[List[str], Optional[List[float]], List[int]]:
 
