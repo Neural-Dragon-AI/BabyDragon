@@ -18,6 +18,7 @@ class NpIndex(BaseIndex):
             embedder: Optional[Union[OpenAiEmbedder, CohereEmbedder]] = OpenAiEmbedder,
     ):
         BaseIndex.__init__(self,values, embeddings, name, save_path, load, embedder)
+        self.old_ids = collections.OrderedDict()
 
 
     @staticmethod
@@ -63,7 +64,7 @@ class NpIndex(BaseIndex):
             
             if self.queries_embeddings is not None and len(self.queries) != len(self.queries_embeddings):
                 raise ValueError("Loaded queries and queries embeddings are not the same length.")
-
+    
 
     def setup_index(self, input_values: Optional[List[str]], embeddings: Optional[List[Union[List[float], np.ndarray]]], load: bool):
         if load and os.path.exists(os.path.join(self.save_path, self.name)):
@@ -90,25 +91,7 @@ class NpIndex(BaseIndex):
 
     def get(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]], output_type: str = "value") -> Union[int, str, np.ndarray, Dict[str, Union[int, str, np.ndarray]]]:
 
-        if isinstance(identifier, int):  # if given an index
-            if identifier < len(self.values):  # if valid index
-                index = identifier
-            else:
-                raise ValueError("Invalid index given.")
-        elif isinstance(identifier, str):  # if given a value
-            if identifier in self.values:
-                index = self.values.index(identifier)
-            else:
-                raise ValueError("Value not found.")
-        elif isinstance(identifier, np.ndarray):  # if given an embedding
-            # Find indices of embeddings that are equal to the given one
-            indices = np.where(self.compare_embeddings(identifier, self.embeddings))[0]
-            if len(indices) == 0:
-                raise ValueError("Embedding not found.")
-            index = indices[0]
-        else:
-            raise TypeError("Invalid identifier type. Expected int, str, np.ndarray, or list of these types")
-
+        index = self.identify_input(identifier)
         # Define output types
         output_types = {
             'index': index,
@@ -127,17 +110,30 @@ class NpIndex(BaseIndex):
         return output_types[output_type]
 
     def add(self, values: List[str], embeddings: Optional[List[Union[List[float], np.ndarray]]] = None):
-        if embeddings is None:
-            embeddings = self.embedder.embed(values)
-        elif len(values) != len(embeddings):
+        
+        if embeddings is not None and len(values) != len(embeddings):
             raise ValueError("values and embeddings must be the same length")
 
         # Check for duplicates and only add unique values
-        unique_values = [value for value in values if value not in self.index_set]
-        unique_embeddings = [embedding for value, embedding in zip(values, embeddings) if value not in self.index_set]
+        unique_values = []
+        unique_embeddings = []
+        #extract the max value in old_ids consider that each old_ids is a list take the max of the list itself
+        for i,value in enumerate(values):
+            if value not in self.index_set:
+                unique_values.append(value)
+                self.index_set.add(value)
+                
+                self.old_ids[value] = [i]
+                if embeddings is not None:
+                    unique_embeddings.append(embeddings[i])
+            else:
+                self.old_ids[value].append(i)
+            
         if not unique_values:
             print("All values already exist in the index. No values were added.")
             return
+        if embeddings is None:
+            unique_embeddings = self.embedder.embed(unique_values)
 
         # Add unique values to the set
         self.index_set.update(unique_values)
@@ -149,44 +145,51 @@ class NpIndex(BaseIndex):
             self.embeddings = np.vstack((self.embeddings, unique_embeddings))
         
         self.values.extend(unique_values)
+    
+    def identify_input(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]]) -> Union[int, str, np.ndarray]:
+        if isinstance(identifier, int):  # if given an index
+            if identifier < len(self.values):  # if valid index
+                index = identifier
+            else:
+                raise ValueError("Invalid index given.")
+        elif isinstance(identifier, str):  # if given a value
+            if identifier in self.values:
+                index = self.values.index(identifier)
+            else:
+                raise ValueError("Value not found.")
+        elif isinstance(identifier, np.ndarray):  # if given an embedding
+            indices = np.where(self.compare_embeddings(identifier, self.embeddings))[0]
+            if len(indices) == 0:
+                raise ValueError("Embedding not found.")
+            index = indices[0]
+        else:
+            raise TypeError("Invalid identifier type. Expected int, str, np.ndarray, or list of these types")
+        
+        return index
+    
 
     def remove(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]]) -> None:
+        
         if isinstance(identifier, list):
             if all(isinstance(i, type(identifier[0])) for i in identifier):
                 for i in identifier:
                     self.remove(i)
             else:
                 raise TypeError("All elements in the list must be of the same type.")
-        elif isinstance(identifier, int):  # if given an index
-            if identifier < len(self.values):  # if valid index
-                self.index_set.remove(self.values[identifier])
-                self.values = [v for i, v in enumerate(self.values) if i != identifier]
-                self.embeddings = self.embeddings[np.arange(len(self.embeddings))!=identifier]
-            else:
-                raise ValueError("Invalid index given for removal.")
-        elif isinstance(identifier, str):  # if given a value
-            if identifier in self.values:
-                index = self.values.index(identifier)
-                self.index_set.remove(identifier)
-                self.values = [v for i, v in enumerate(self.values) if i != index]
-                self.embeddings = self.embeddings[np.arange(len(self.embeddings))!=index]
-            else:
-                raise ValueError("Value not found for removal.")
-        elif isinstance(identifier, np.ndarray):  # if given an embedding
-            # Find indices of embeddings that are equal to the given one
-            indices = np.where(self.compare_embeddings(identifier, self.embeddings))[0]
-            if len(indices) == 0:
-                raise ValueError("Embedding not found for removal.")
-            for i in reversed(indices):
-                self.index_set.remove(self.values[i])
-                self.values.pop(i)
-            self.embeddings = np.delete(self.embeddings, indices, axis=0)
-        else:
-            raise TypeError("Invalid identifier type. Expected int, str, np.ndarray, or list of these types")
+        
+        id = self.identify_input(identifier)
+        value = self.values[id]
+        self.index_set.remove(value)
+        self.old_ids.pop(value)
+        self.values.pop(id)
+        self.embeddings = np.delete(self.embeddings, [id], axis=0)
+
         
     def update(self, old_identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]], new_value: Union[str, List[str]], new_embedding: Optional[Union[List[float], np.ndarray, List[List[float]], List[np.ndarray]]] = None) -> None:
-        if new_value in self.index_set:
+        if isinstance(new_value,str) and new_value in self.index_set:
             raise ValueError("new_value already exists in the index. Please remove it first.")
+        elif isinstance(new_value, list) and any(v in self.index_set for v in new_value):
+            raise ValueError("One or more new_value already exists in the index. Please remove them first.")
         if isinstance(old_identifier, list):
             if not isinstance(new_value, list) or len(old_identifier) != len(new_value):
                 raise ValueError("For list inputs, old_identifier and new_value must all be lists of the same length.")
@@ -201,35 +204,13 @@ class NpIndex(BaseIndex):
                 new_embedding = self.embedder.embed(new_value)
             for old_id, new_val, new_emb in zip(old_identifier, new_value, new_embedding):
                 self.update(old_id, new_val, new_emb)
-        elif isinstance(old_identifier, int):  # if given an index
-            if old_identifier < len(self.values):  # if valid index
-                self.index_set.remove(self.values[old_identifier])
-                self.values[old_identifier] = new_value
-                self.index_set.add(new_value)
-                self.embeddings[old_identifier] = self.embedder.embed([new_value])[0] if new_embedding is None else new_embedding
-            else:
-                raise ValueError("Invalid index given for update.")
-        elif isinstance(old_identifier, str):  # if given a value
-            if old_identifier in self.values:
-                index = self.values.index(old_identifier)
-                self.index_set.remove(old_identifier)
-                self.values[index] = new_value
-                self.index_set.add(new_value)
-                self.embeddings[index] = self.embedder.embed([new_value])[0] if new_embedding is None else new_embedding
-            else:
-                raise ValueError("Value not found for update.")
-        elif isinstance(old_identifier, np.ndarray):  # if given an embedding
-            # Find indices of embeddings that are equal to the given one
-            indices = np.where(self.compare_embeddings(old_identifier, self.embeddings))[0]
-            if len(indices) == 0:
-                raise ValueError("Embedding not found for update.")
-            for i in indices:
-                self.index_set.remove(self.values[i])
-                self.values[i] = new_value
-                self.index_set.add(new_value)
-                self.embeddings[i] = self.embedder.embed([new_value])[0] if new_embedding is None else new_embedding
-        else:
-            raise TypeError("Invalid identifier type. Expected int, str, np.ndarray, or list of these types")
+        
+        old_id = self.identify_input(old_identifier)
+        self.index_set.remove(self.values[old_id])
+        self.old_ids[new_value] = self.old_ids.pop(self.values[old_id])
+        self.values[old_id] = new_value
+        self.index_set.add(new_value)
+        self.embeddings[old_id] = self.embedder.embed([new_value])[0] if new_embedding is None else new_embedding
 
     def search(self, query: Optional[str] = None, query_embedding: Optional[np.ndarray] = None, top_k: int = 10, metric: str = "cosine", filter_mask: Optional[np.ndarray] = None) -> Tuple[List[str], Optional[List[float]], List[int]]:
 
