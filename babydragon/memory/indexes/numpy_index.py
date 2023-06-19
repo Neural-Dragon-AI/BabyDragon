@@ -17,8 +17,8 @@ class NpIndex(BaseIndex):
             load: bool = False,
             embedder: Optional[Union[OpenAiEmbedder, CohereEmbedder]] = OpenAiEmbedder,
     ):
-        BaseIndex.__init__(self,values, embeddings, name, save_path, load, embedder)
         self.old_ids = collections.OrderedDict()
+        BaseIndex.__init__(self,values, embeddings, name, save_path, load, embedder)
 
 
     @staticmethod
@@ -51,7 +51,7 @@ class NpIndex(BaseIndex):
         if not os.path.exists(load_directory):
             print(f"I did not find the directory to load the embe from: {load_directory}")
             return
-        
+
         self.embeddings = np.load(os.path.join(load_directory, f"{self.name}_embeddings.npy"))
         if len(self.values) != len(self.embeddings):
             raise ValueError("Loaded values and embeddings are not the same length.")
@@ -61,15 +61,15 @@ class NpIndex(BaseIndex):
             print(self.embeddings.shape, len(self.values))
             print(self.queries_embeddings.shape, len(self.queries))
             print(self.queries, self.queries_embeddings, self.queries_embeddings is not None, type(self.queries_embeddings), self.queries_embeddings.shape)
-            
+
             if self.queries_embeddings is not None and len(self.queries) != len(self.queries_embeddings):
                 raise ValueError("Loaded queries and queries embeddings are not the same length.")
-    
+
 
     def setup_index(self, input_values: Optional[List[str]], embeddings: Optional[List[Union[List[float], np.ndarray]]], load: bool):
         if load and os.path.exists(os.path.join(self.save_path, self.name)):
             self.load_index()
-                 
+
         elif input_values and embeddings and len(input_values) == len(embeddings):
             # Check that input_values and embeddings are the same length
             unique_dict = collections.defaultdict(list)
@@ -102,7 +102,7 @@ class NpIndex(BaseIndex):
                 'value': self.values[index],
                 'embedding': self.embeddings[index]}
         }
-        
+
         # Check output type is valid
         if output_type not in output_types:
             raise ValueError("Invalid output_type. Expected 'index', 'value', or 'embedding'.")
@@ -110,7 +110,7 @@ class NpIndex(BaseIndex):
         return output_types[output_type]
 
     def add(self, values: List[str], embeddings: Optional[List[Union[List[float], np.ndarray]]] = None):
-        
+
         if embeddings is not None and len(values) != len(embeddings):
             raise ValueError("values and embeddings must be the same length")
 
@@ -122,13 +122,13 @@ class NpIndex(BaseIndex):
             if value not in self.index_set:
                 unique_values.append(value)
                 self.index_set.add(value)
-                
+
                 self.old_ids[value] = [i]
                 if embeddings is not None:
                     unique_embeddings.append(embeddings[i])
             else:
                 self.old_ids[value].append(i)
-            
+
         if not unique_values:
             print("All values already exist in the index. No values were added.")
             return
@@ -137,15 +137,15 @@ class NpIndex(BaseIndex):
 
         # Add unique values to the set
         self.index_set.update(unique_values)
-        
+
         # If embeddings array is not yet created, initialize it, else append to it
         if self.embeddings is None:
             self.embeddings = np.array(unique_embeddings)
         else:
             self.embeddings = np.vstack((self.embeddings, unique_embeddings))
-        
+
         self.values.extend(unique_values)
-    
+
     def identify_input(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]]) -> Union[int, str, np.ndarray]:
         if isinstance(identifier, int):  # if given an index
             if identifier < len(self.values):  # if valid index
@@ -164,19 +164,19 @@ class NpIndex(BaseIndex):
             index = indices[0]
         else:
             raise TypeError("Invalid identifier type. Expected int, str, np.ndarray, or list of these types")
-        
+
         return index
-    
+
 
     def remove(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]]) -> None:
-        
+
         if isinstance(identifier, list):
             if all(isinstance(i, type(identifier[0])) for i in identifier):
                 for i in identifier:
                     self.remove(i)
             else:
                 raise TypeError("All elements in the list must be of the same type.")
-        
+
         id = self.identify_input(identifier)
         value = self.values[id]
         self.index_set.remove(value)
@@ -184,7 +184,7 @@ class NpIndex(BaseIndex):
         self.values.pop(id)
         self.embeddings = np.delete(self.embeddings, [id], axis=0)
 
-        
+
     def update(self, old_identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]], new_value: Union[str, List[str]], new_embedding: Optional[Union[List[float], np.ndarray, List[List[float]], List[np.ndarray]]] = None) -> None:
         if isinstance(new_value,str) and new_value in self.index_set:
             raise ValueError("new_value already exists in the index. Please remove it first.")
@@ -204,7 +204,7 @@ class NpIndex(BaseIndex):
                 new_embedding = self.embedder.embed(new_value)
             for old_id, new_val, new_emb in zip(old_identifier, new_value, new_embedding):
                 self.update(old_id, new_val, new_emb)
-        
+            return
         old_id = self.identify_input(old_identifier)
         self.index_set.remove(self.values[old_id])
         self.old_ids[new_value] = self.old_ids.pop(self.values[old_id])
