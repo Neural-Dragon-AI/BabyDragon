@@ -171,7 +171,7 @@ class NpIndex(BaseIndex):
     def remove(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]]) -> None:
 
         if isinstance(identifier, list):
-            if all(isinstance(i, type(identifier[0])) for i in identifier):
+            if all(isinstance(i, type(identifier[0])) for i in identifier) and not isinstance(identifier[0], list):
                 for i in identifier:
                     self.remove(i)
             else:
@@ -190,7 +190,7 @@ class NpIndex(BaseIndex):
             raise ValueError("new_value already exists in the index. Please remove it first.")
         elif isinstance(new_value, list) and any(v in self.index_set for v in new_value):
             raise ValueError("One or more new_value already exists in the index. Please remove them first.")
-        if isinstance(old_identifier, list):
+        if isinstance(old_identifier, list) and not isinstance(old_identifier[0], list):
             if not isinstance(new_value, list) or len(old_identifier) != len(new_value):
                 raise ValueError("For list inputs, old_identifier and new_value must all be lists of the same length.")
             if new_embedding is not None:
