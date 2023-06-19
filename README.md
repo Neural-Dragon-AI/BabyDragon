@@ -32,7 +32,7 @@ The `dataframes.py` script contains several utility functions which are used for
 
 - Implement the utility functions in `dataframes.py`.
 - Implement the function `extract_values_and_embeddings_python` in `pythonparser.py`. This function should extract values and their corresponding embeddings from Python code. The file can be found [here](https://github.com/Neural-Dragon-AI/BabyDragon/blob/polars/babydragon/utils/pythonparser.py).
-- Continue the development of `MemoryIndex`, particularly the logic for loading from frames.
+- Continue the development of `MemoryIndex`, particularly the logic for loading from frames and saving and loading context if in jsonable format.
 - Test all the classes and functions you've worked on.
 
 Once you've implemented `extract_values_and_embeddings_python`, start reasoning about the meaning of a concept in an index of Python values. This will be crucial for the later stages of the project.
