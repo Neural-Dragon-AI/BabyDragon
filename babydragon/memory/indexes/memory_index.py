@@ -9,6 +9,10 @@ import os
 from babydragon.utils.dataframes import extract_values_and_embeddings_pd, extract_values_and_embeddings_hf, extract_values_and_embeddings_polars, get_context_from_hf, get_context_from_pandas, get_context_from_polars
 from babydragon.utils.pythonparser import extract_values_and_embeddings_python
 from datasets import load_dataset
+import logging
+
+#info logger
+logging.basicConfig(level=logging.INFO)
 
 class MemoryIndex(NpIndex):
     """
@@ -17,6 +21,11 @@ class MemoryIndex(NpIndex):
     a concept of context that can be used to store information about the values, there is a one to many relationship between values and context, 
     when loading from a dataframe or dataset the context is automatically extracted from the dataframe/dataset if context_columns are provided
     """
+    @staticmethod
+    def check_uniform_context_type(context: List[Any]) -> None:
+        """Check if all context elements are of the same type."""
+        if not all(isinstance(x, type(context[0])) for x in context):
+            raise ValueError("All context elements must be of the same type.")
 
     def __init__(
         self,
@@ -28,14 +37,21 @@ class MemoryIndex(NpIndex):
         load: bool = False,
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder,
         markdown: str = "text/markdown",
+        token_overflow_strategy: str = "ignore",
     ):
+        NpIndex.__init__(self, values=values, embeddings=embeddings, name=name, save_path=save_path, load=load, embedder=embedder, token_overflow_strategy=token_overflow_strategy)
         if context is not None and len(context) != len(values):
             raise ValueError("The context must have the same length as the values")
-        
-        NpIndex.__init__(self, values, embeddings, name, save_path, load, embedder)
+
+
         self.markdown = markdown
         if context is not None and values is not None:
-            self.context = {value: [context[old_id] for old_id in self.old_ids[value]] for value in self.values} 
+            self.context = {value: [context[old_id] for old_id in self.old_ids[value]] for value in self.values}
+
+        if context is not None:
+            self.check_uniform_context_type(context)
+            self.context_type = type(context[0])
+
 
     def get_context(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]]) -> Optional[Any]:
         """ get the context of a value id or embedding or a list of """
@@ -45,25 +61,29 @@ class MemoryIndex(NpIndex):
             id = self.identify_input(identifier)
             value = self.values[id]
             return self.context[value]
-        
+
     def clean_context(self):
         """ method to be called after parent modifications with add/remove/update remove from context all the values that are not in the index anymore """
         self.context = {value: self.context[value] for value in self.values}
 
     def add_to_context(self, value: str, context: Any):
         """ add a context to a value """
-        if value in self.values and value not in self.context:
-            self.context[value] = []
-        elif value in self.values:
+        if not isinstance(context, self.context_type):
+            raise ValueError("The context must be of the same type as the other contexts")
+        if value in self.values:
+            if value not in self.context:
+                self.context[value] = []
             self.context[value].append(context)
 
     def add(self, values: List[str], embedding: Optional[Union[List[float], np.ndarray]] = None, context: Optional[Any] = None):
         """ add a value to the index, if the value is already in the index it will be updated """
+        if isinstance(values, str):
+            values = [values]
         NpIndex.add(self, values, embedding)
         if context is not None:
             for value, cont in zip(values, context):
                 self.add_to_context(value, cont)
-    
+
     def remove(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]]) -> None:
         if not isinstance(identifier, list):
             id = self.identify_input(identifier)
@@ -72,12 +92,24 @@ class MemoryIndex(NpIndex):
         if not isinstance(identifier, list):
             self.context.pop(value)
 
-    def update(self, old_identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]], new_value: Union[str, List[str]], new_embedding: Optional[Union[List[float], np.ndarray, List[List[float]], List[np.ndarray]]] = None) -> None:
+    def update(self, old_identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]], new_value: Union[str, List[str]], new_context: Optional[Any] = None, new_embedding: Optional[Union[List[float], np.ndarray, List[List[float]], List[np.ndarray]]] = None) -> None:
         #recover value from old_identifier
-        NpIndex.update(self, old_identifier, new_value, new_embedding)
+        if new_context is not None:
+            if not isinstance(new_context, self.context_type):
+                raise ValueError("The context must be of the same type as the other contexts")
         if not isinstance(old_identifier, list):
             old_id = self.identify_input(old_identifier)
-            self.context[new_value] = self.context.pop(self.values[old_id])
+            old_value = self.values[old_id]
+            # Only perform the update if the old_value is not the same as the new_value.
+            if old_value != new_value:
+                NpIndex.update(self, old_identifier, new_value, new_embedding)
+
+            if new_context is not None:
+                self.context[new_value] = [new_context]
+            else:
+                self.context[new_value] = self.context.pop(old_value)
+        else:
+            self.context[new_value] = self.context.pop(old_value)
 
     @classmethod
     def from_pandas(
@@ -96,11 +128,11 @@ class MemoryIndex(NpIndex):
             and data_frame.endswith(".csv")
             and os.path.isfile(data_frame)
         ):
-            print("Loading the CSV file")
+            logging.info("Loading the CSV file")
             data_frame = pd.read_csv(data_frame)
             name = os.path.basename(data_frame).split(".")[0]
         elif isinstance(data_frame, pd.core.frame.DataFrame):
-            print("Loading the DataFrame")
+            logging.info("Loading the pandas DataFrame")
         else:
             raise ValueError("The data_frame is not a valid pandas dataframe or the path is not valid")
 
@@ -121,13 +153,12 @@ class MemoryIndex(NpIndex):
         name: str = "memory_index",
         save_path: Optional[str] = None,
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
-        markdown: str = "text/markdown"
+        markdown: str = "text/markdown",
     ) -> "MemoryIndex":
         dataset = load_dataset(dataset_url)['train']
         values, embeddings = extract_values_and_embeddings_hf(dataset, value_column, embeddings_column)
         if context_columns is not None:
             context = get_context_from_hf(dataset, context_columns)
-
         return cls(values=values, embeddings=embeddings, name=name, save_path=save_path, embedder=embedder, markdown=markdown, context = context)
 
     @classmethod

@@ -1,9 +1,8 @@
 from typing import List, Optional, Union, Tuple, Dict
-from babydragon.models.embedders.ada2 import OpenAiEmbedder
+from babydragon.models.embedders.ada2 import OpenAiEmbedder, TOKENIZER, MAX_CONTEXT_LENGTH
 from babydragon.models.embedders.cohere import CohereEmbedder
 import numpy as np
 import os
-import json
 import collections
 from babydragon.memory.indexes.base_index import BaseIndex
 
@@ -16,9 +15,11 @@ class NpIndex(BaseIndex):
             save_path: Optional[str] = None,
             load: bool = False,
             embedder: Optional[Union[OpenAiEmbedder, CohereEmbedder]] = OpenAiEmbedder,
+            token_overflow_strategy: str = "ignore",
     ):
         self.old_ids = collections.OrderedDict()
-        BaseIndex.__init__(self,values, embeddings, name, save_path, load, embedder)
+        self.token_overflow_strategy = token_overflow_strategy
+        BaseIndex.__init__(self,values=values, embeddings=embeddings, name=name, save_path=save_path, load=load, embedder=embedder, token_overflow_strategy=token_overflow_strategy)
 
 
     @staticmethod
