@@ -71,14 +71,28 @@ def extract_values_and_embeddings_polars(
 def get_context_from_pandas(
           data_frame: pd.DataFrame,
           context_columns: List[str]):
-     """ return a list dictionaries with the keys the column name and value the context columns values"""
-     pass
+    """Extract context information from a pandas DataFrame."""
+    # This function will convert the row of the DataFrame into a dictionary where the keys are the column names.
+    def row_to_dict(row: pd.Series) -> Dict[str, Any]:
+        return {column: row[column] for column in context_columns}
+
+    # Apply the function to each row of the DataFrame and convert the result into a list.
+    context = data_frame.apply(row_to_dict, axis=1).tolist()
+
+    return context
 
 def get_context_from_hf(
           data_frame: datasets.Dataset,
           context_columns: List[str]):
     """return a list dictionaries with the keys the column name and value the context columns values"""
-    pass
+    context_columns = {}
+    context = []
+    for column in context_columns:
+        context_columns[column] = data_frame[column]
+    data_frame_len = len(data_frame)
+    for row in range(data_frame_len):
+         context.append({column: context_columns[column][row] for column in context_columns})
+    return context
 
 def get_context_from_polars(
           data_frame: pl.DataFrame,

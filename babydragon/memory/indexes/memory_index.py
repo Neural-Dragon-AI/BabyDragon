@@ -6,13 +6,12 @@ import numpy as np
 import pandas as pd
 import polars as pl
 import os
+from babydragon.utils.main_logger import logger
 from babydragon.utils.dataframes import extract_values_and_embeddings_pd, extract_values_and_embeddings_hf, extract_values_and_embeddings_polars, get_context_from_hf, get_context_from_pandas, get_context_from_polars
 from babydragon.utils.pythonparser import extract_values_and_embeddings_python
 from datasets import load_dataset
-import logging
 
-#info logger
-logging.basicConfig(level=logging.INFO)
+
 
 class MemoryIndex(NpIndex):
     """
@@ -128,11 +127,11 @@ class MemoryIndex(NpIndex):
             and data_frame.endswith(".csv")
             and os.path.isfile(data_frame)
         ):
-            logging.info("Loading the CSV file")
+            logger.info("Loading the CSV file")
             data_frame = pd.read_csv(data_frame)
             name = os.path.basename(data_frame).split(".")[0]
         elif isinstance(data_frame, pd.core.frame.DataFrame):
-            logging.info("Loading the pandas DataFrame")
+            logger.info("Loading the pandas DataFrame")
         else:
             raise ValueError("The data_frame is not a valid pandas dataframe or the path is not valid")
 
@@ -148,6 +147,7 @@ class MemoryIndex(NpIndex):
         cls,
         dataset_url: str,
         value_column: str,
+        data_split: str = "train",
         embeddings_column: Optional[str] = None,
         context_columns: Optional[List[str]] = None,
         name: str = "memory_index",
@@ -155,7 +155,7 @@ class MemoryIndex(NpIndex):
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
         markdown: str = "text/markdown",
     ) -> "MemoryIndex":
-        dataset = load_dataset(dataset_url)['train']
+        dataset = load_dataset(dataset_url)[data_split]
         values, embeddings = extract_values_and_embeddings_hf(dataset, value_column, embeddings_column)
         if context_columns is not None:
             context = get_context_from_hf(dataset, context_columns)

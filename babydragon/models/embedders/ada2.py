@@ -1,5 +1,5 @@
 from typing import List
-
+from babydragon.utils.main_logger import logger
 import libcst as cst
 import numpy as np
 import openai
@@ -12,55 +12,58 @@ import time
 ADA_EMBEDDING_SIZE = 1536
 MAX_CONTEXT_LENGTH = 8100
 
-tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
+TOKENIZER = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
 class OpenAiEmbedder:
+
     def get_embedding_size(self):
         return ADA_EMBEDDING_SIZE
 
     def embed(self, data, verbose=False):
         if isinstance(data, list) and len(data) > 1:
+            logger.info("Batch embedding")
             return self.batch_embed(data)
         elif isinstance(data, list) and len(data) == 1:
+            logger.info("Serial embedding")
             data = data[0]
-        
+
         if isinstance(data, dict) and "content" in data:
             if verbose:
-                print("Embedding without mark", data["content"])
+                logger.info("Embedding without mark", data["content"])
             out = openai.Embedding.create(
                 input=data["content"], engine="text-embedding-ada-002"
             )
         else:
-            if len(tokenizer.encode(data)) > MAX_CONTEXT_LENGTH:
-                raise ValueError(f" The input is too long for OpenAI, num tokens is {len(tokenizer.encode(data))}, instead of {MAX_CONTEXT_LENGTH}")
+            if len(TOKENIZER.encode(data)) > MAX_CONTEXT_LENGTH:
+                raise ValueError(f" The input is too long for OpenAI, num tokens is {len(TOKENIZER.encode(data))}, instead of {MAX_CONTEXT_LENGTH}")
             if verbose:
-                print("Embedding without preprocessing the input", data)
+                logger.info(f"Embedding without preprocessing the input {data}")
             out = openai.Embedding.create(
                 input=str(data), engine="text-embedding-ada-002"
             )
         return out.data[0].embedding
 
-    def batch_embed(self, data: List[str]):
+    def batch_embed(self, data: List[str], batch_size: int = 1000):
         if isinstance(data, dict) and "content" in data:
             raise ValueError("Batch embedding not supported for dictionaries")
         elif isinstance(data, str):
-            return self.embed(data)
+            raise ValueError("Batch embedding not supported for strings use embed() instead")
         elif isinstance(data, list):
             batch = []
             embeddings = []
             i = 1
-            total_number_of_batches = len(data)//1000 + 1 if len(data) % 1000 > 0 else len(data)//1000
+            total_number_of_batches = len(data)//batch_size + 1 if len(data) % batch_size > 0 else len(data)//batch_size
             for value in data:
                 batch.append(value)
-                if len(batch) == 1000:
+                if len(batch) == batch_size:
                     start = time.time()
                     out = openai.Embedding.create(
                         input=batch, engine="text-embedding-ada-002"
                     )
                     for embedding in out.data:
                         embeddings.append(embedding.embedding)
-                    print(f"Embedding batch {i} took ", time.time() - start, " seconds")
-                    print(f"Batch {i} of {total_number_of_batches}")
+                    logger.info(f"Batch {i} of {total_number_of_batches}")
+                    logger.info(f"Embedding batch {i} took {time.time() - start} seconds")
                     i += 1
                     batch = []
             if len(batch) > 0:
@@ -70,9 +73,12 @@ class OpenAiEmbedder:
                 )
                 for embedding in out.data:
                     embeddings.append(embedding.embedding)
-                print(f"Embedding batch {i} took ", time.time() - start, " seconds")
-                print(f"Batch {i} of {total_number_of_batches}")
-                    
+                logger.info(f"Batch {i} of {total_number_of_batches}")
+                logger.info(f"Embedding batch {i} took {time.time() - start} seconds")
+            logger.info(f'Total number of embeddings {len(embeddings)}')
+
+            if len(embeddings) != len(data):
+                raise ValueError("The number of embeddings is different from the number of values an error occured in OpenAI API during the embedding process")
             return embeddings
 
 
