@@ -85,18 +85,25 @@ def get_context_from_hf(
           data_frame: datasets.Dataset,
           context_columns: List[str]):
     """return a list dictionaries with the keys the column name and value the context columns values"""
-    context_columns = {}
+    context_data = {column: data_frame[column] for column in context_columns}
     context = []
-    for column in context_columns:
-        context_columns[column] = data_frame[column]
     data_frame_len = len(data_frame)
     for row in range(data_frame_len):
-         context.append({column: context_columns[column][row] for column in context_columns})
+         context.append({column: context_data[column][row] for column in context_columns})
     return context
 
 def get_context_from_polars(
           data_frame: pl.DataFrame,
-          context_columns: List[str]):
-    """ return a list dictionaries with the keys the column name and value the context columns values"""
-    pass
+          context_columns: List[str]) -> List[Dict[str, Any]]:
+    """Extract context information from a Polars DataFrame."""
+
+    context = []
+    
+    # Convert each row to a dictionary
+    for i in range(len(data_frame)):
+        row_dict = data_frame[i]
+        context.append({column: row_dict[column] for column in context_columns})
+
+    return context
+
 
