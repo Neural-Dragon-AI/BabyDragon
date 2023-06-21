@@ -33,7 +33,7 @@ class BaseThread:
         """
         self.name = name
         self.max_memory = max_memory
-        self.memory_schema = {"role": pl.Utf8, "content": pl.Utf8,"timestamp":pl.Time,"tokens_count":pl.UInt16}
+        self.memory_schema = {"role": pl.Utf8, "content": pl.Utf8,"timestamp":pl.Float64,"tokens_count":pl.UInt16}
         self.memory_thread: pl.DataFrame = pl.DataFrame(schema=self.memory_schema)
         """ self.time_stamps = [] """
         """ self.message_tokens = [] """
@@ -49,7 +49,7 @@ class BaseThread:
         return self.memory_thread.shape[0]
 
     def polars_udf_encode_content(self, content: pl.Series) -> pl.Series:
-        return content.apply(lambda x: len(self.tokenizer.encode(x)) + 7) 
+        return content.apply(lambda x: len(self.tokenizer.encode(x)) + 7, skip_nulls=False) 
 
     def get_total_tokens_from_thread(self):
         self.memory_thread = self.memory_thread.with_columns(self.polars_udf_encode_content(self.memory_thread["content"]).alias("tokens_count").cast(pl.UInt16))
@@ -103,7 +103,7 @@ class BaseThread:
             self.max_memory is None
             or self.total_tokens + new_message_row['tokens_count'] <= self.max_memory
         ):
-            pl.concat([self.memory_thread, new_message_row], rechunk=True)
+            self.memory_thread = pl.concat([self.memory_thread, new_message_row], rechunk=True)
             self.total_tokens = self.get_total_tokens_from_thread()
         else:
             print("The memory BaseThread is full, the last message was not added")
@@ -145,7 +145,7 @@ class BaseThread:
             return self.memory_thread.lazy().filter(pl.col("content") == message).collect()
 
         else:
-            return self.memory_thread.lazy().filter(pl.col("content") == message["content"] and pl.col("role") == message['role']).collect()
+            return self.memory_thread.lazy().filter((pl.col("content") == message["content"]) & (pl.col("role") == message['role'])).collect()
 
 
     def find_role(self, role: str) -> pl.DataFrame:
@@ -176,61 +176,61 @@ class BaseThread:
         """
         Get all messages before a specific message in the memory thread."""
         
-        index = self.memory_thread.lazy().with_row_count("index").filter(pl.col('content')==message['content'] and pl.col('role')==message['role']).select('index').collect()[0][0]
+        index = self.memory_thread.lazy().with_row_count("index").filter((pl.col('content')==message['content']) & (pl.col('role')==message['role'])).select('index').collect()[0][0]
         return self.memory_thread.lazy().with_row_count("index").filter(pl.col('index')<index).collect()
     
     def messages_after( self, message: dict   ) -> pl.DataFrame:
         """
         Get all messages after a specific message in the memory thread."""
         
-        index = self.memory_thread.lazy().with_row_count("index").filter(pl.col('content')==message['content'] and pl.col('role')==message['role']).select('index').collect()[0][0]
+        index = self.memory_thread.lazy().with_row_count("index").filter((pl.col('content')==message['content']) & (pl.col('role')==message['role'])).select('index').collect()[0][0]
         return self.memory_thread.lazy().with_row_count("index").filter(pl.col('index')>index).collect()
 
     def messages_between(
         self, start_message: dict, end_message: dict ) -> pl.DataFrame:
         """
         Get all messages between two specific messages in the memory thread with a specific role."""
-        start_index = self.memory_thread.lazy().with_row_count("index").filter(pl.col('content')==start_message['content'] and pl.col('role')==start_message['role']).select('index').collect()[0][0]
-        end_index = self.memory_thread.lazy().with_row_count("index").filter(pl.col('content')==end_message['content'] and pl.col('role')==end_message['role']).select('index').collect()[0][0]
-        return self.memory_thread.lazy().with_row_count("index").filter(pl.col('index')<end_index and pl.col('index')>start_index).collect()
+        start_index = self.memory_thread.lazy().with_row_count("index").filter((pl.col('content')==start_message['content']) & (pl.col('role')==start_message['role'])).select('index').collect()[0][0]
+        end_index = self.memory_thread.lazy().with_row_count("index").filter((pl.col('content')==end_message['content']) & (pl.col('role')==end_message['role'])).select('index').collect()[0][0]
+        return self.memory_thread.lazy().with_row_count("index").filter((pl.col('index')<end_index) & (pl.col('index'))>start_index).collect()
 
     def messages_more_tokens(self, tokens: int, role: Union[str, None] = None) -> pl.DataFrame:
         """
         Get all messages with more tokens than a specific number in the memory thread with a specific role."""
         
-        return self.memory_thread.lazy().filter(pl.col('role')==role and pl.col('tokens_count')>tokens).collect()
+        return self.memory_thread.lazy().filter((pl.col('role')==role) & (pl.col('tokens_count'))>tokens).collect()
 
     def messages_less_tokens(self, tokens: int, role: Union[str, None] = None) -> pl.DataFrame:
         """
         Get all messages with less tokens than a specific number in the memory thread with a specific role."""
         
-        return self.memory_thread.lazy().filter(pl.col('role')==role and pl.col('tokens_count')<tokens).collect()
+        return self.memory_thread.lazy().filter((pl.col('role')==role) & (pl.col('tokens_count'))<tokens).collect()
 
 
     def messages_after_time(self, timestamp: int, role: Union[str, None] = None) -> pl.DataFrame:
         """
         Get all messages with more tokens than a specific number in the memory thread with a specific role."""
         
-        return self.memory_thread.lazy().filter(pl.col('role')==role and pl.col('timestamp')>timestamp).collect()
+        return self.memory_thread.lazy().filter((pl.col('role')==role) & (pl.col('timestamp')>timestamp)).collect()
 
     def messages_before_time(self, timestamp: int, role: Union[str, None] = None) -> pl.DataFrame:
         """
         Get all messages with more tokens than a specific number in the memory thread with a specific role."""
         
-        return self.memory_thread.lazy().filter(pl.col('role')==role and pl.col('timestamp')<timestamp).collect()
+        return self.memory_thread.lazy().filter((pl.col('role')==role) & (pl.col('timestamp')<timestamp)).collect()
 
 
     def token_bound_history(
         self, max_tokens: int, role: Union[str, None] = None
     ):
 
-        reversed_df = self.memory_thread.lazy().with_columns(pl.col("index")).reverse()
+        reversed_df = self.memory_thread.lazy().with_row_count("index").reverse()
 
     
         reversed_df = reversed_df.with_columns(pl.col("tokens_count").cumsum().alias("cum_tokens_count"))
 
     
-        filtered_df = reversed_df.filter(pl.col("cum_tokens_count") <= max_tokens and pl.col("role") != role).collect()
+        filtered_df = reversed_df.filter((pl.col("cum_tokens_count") <= max_tokens) & (pl.col("role") != role)).collect()
 
         messages = filtered_df['content']
         indexes = filtered_df['index']
