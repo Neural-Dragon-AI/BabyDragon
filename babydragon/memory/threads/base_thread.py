@@ -1,11 +1,11 @@
-import time
-from typing import Any, Dict, Optional, Union
+from time import time as now
+from typing import Any, Optional, Union, Dict
 
 import tiktoken
-from IPython.display import Markdown, display
+import polars as pl
 
-from babydragon.memory.indexes.memory_index import MemoryIndex
-from babydragon.utils.chatml import check_dict, mark_question
+
+from babydragon.utils.chatml import check_dict
 
 
 class BaseThread:
@@ -32,29 +32,43 @@ class BaseThread:
         """
         self.name = name
         self.max_memory = max_memory
-        self.memory_thread = []
-        self.time_stamps = []
-        self.message_tokens = []
-        self.total_tokens = 0
+        self.memory_schema = {"role": pl.Utf8, "content": pl.Utf8,"timestamp":pl.Time,"tokens_count":pl.UInt16}
+        self.memory_thread: pl.DataFrame = pl.DataFrame(schema=self.memory_schema)
+        """ self.time_stamps = [] """
+        """ self.message_tokens = [] """
+        self.total_tokens = self.get_total_tokens_from_thread()
+
         if tokenizer is None:
             self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
     def __getitem__(self, idx):
-        return self.memory_thread[idx]
+        return self.memory_thread.slice(idx, 1)
 
     def __len__(self):
-        return len(self.memory_thread)
+        return self.memory_thread.shape[0]
+
+    def polars_udf_encode_content(self, content: pl.Series) -> pl.Series:
+        return content.apply(lambda x: len(self.tokenizer.encode(x)) + 7) 
+
+    def get_total_tokens_from_thread(self):
+        self.memory_thread = self.memory_thread.with_columns(self.polars_udf_encode_content(self.memory_thread["content"]).alias("tokens_count").cast(pl.UInt16))
+        return self.memory_thread["tokens_count"].sum()
 
     def reset_memory(self) -> None:
-        """
-        Reset the memory thread.
-        """
-        self.memory_thread = []
-        self.time_stamps = []
-        self.message_tokens = []
-        self.total_tokens = 0
+        self.memory_thread = pl.DataFrame(schema=self.memory_schema) 
 
-    def get_message_tokens(self, message_dict: dict) -> int:
+    def dict_to_row(self, message_dict:Dict[str,str]) -> pl.DataFrame:
+        return pl.DataFrame(schema=self.memory_schema,
+                            data={ "role":[message_dict["role"]],
+                                  "content":[message_dict["content"]],
+                                  "timestamp":[now()],
+                                  "tokens_count":[len(self.tokenizer.encode(message_dict["content"]))+7]
+                                  })
+
+
+
+
+    def get_message_tokens_from_dict(self, message_dict: dict) -> int:
         """
         Calculate the number of tokens in a message, including the role token.
 
@@ -63,9 +77,9 @@ class BaseThread:
         """
         message_dict = check_dict(message_dict)
         message = message_dict["content"]
-        return len(self.tokenizer.encode(message)) + 6  # +6 for the role token
+        return len(self.tokenizer.encode(message)) + 7  # +7 for the role token
 
-    def get_message_role(self, message_dict: dict) -> str:
+    def get_message_role_from_dict(self, message_dict: dict) -> str:
         """
         Get the role of the message from a message dictionary.
 
@@ -75,61 +89,46 @@ class BaseThread:
         message_dict = check_dict(message_dict)
         return message_dict["role"]
 
-    def add_message(self, message_dict: dict) -> None:
+    def add_dict_to_thread(self, message_dict: dict) -> None:
         """
         Add a message to the memory thread.
 
         :param message_dict: A dictionary containing the role and content of the message.
         """
-        message_tokens = self.get_message_tokens(message_dict)
+        
+        new_message_row = self.dict_to_row(message_dict)
 
         if (
             self.max_memory is None
-            or self.total_tokens + message_tokens <= self.max_memory
+            or self.total_tokens + new_message_row['tokens_count'] <= self.max_memory
         ):
-            # add the message_dict to the memory_thread
-            # update the total number of tokens
-            self.memory_thread.append(message_dict)
-            self.total_tokens += message_tokens
-            self.message_tokens.append(message_tokens)
-            time_stamp = time.time()
-            self.time_stamps.append(time_stamp)
+            pl.concat([self.memory_thread, new_message_row], rechunk=True)
+            self.total_tokens = self.get_total_tokens_from_thread()
         else:
-            display(
-                Markdown(
-                    "The memory BaseThread is full, the last message was not added"
-                )
-            )
+            print("The memory BaseThread is full, the last message was not added")
+            
 
-    def remove_message(
-        self, message_dict: Union[dict, None] = None, idx: Union[int, None] = None
+    def remove_dict_from_thread(
+        self, message_dict: Union[Dict, None] = None, idx: Union[int, None] = None
     ) -> None:
-        """
-        Remove a message from the memory thread.
-        """
+        
         if message_dict is None and idx is None:
             raise Exception("You need to provide either a message_dict or an idx")
-        elif message_dict is not None and idx is not None:
-            raise Exception("You need to provide either a message_dict or an idx")
 
-        if idx is None:
+        elif idx is not None and idx < len(self.memory_thread):
+            
+            self.memory_thread = self.memory_thread.lazy().with_row_count("index").filter(pl.col("index") != idx).drop("index").collect()
+            self.total_tokens = self.get_total_tokens_from_thread() 
+            return
+
+        elif message_dict is not None:
             message_dict = check_dict(message_dict)
-            search_results = self.find_message(message_dict)
-            if search_results is not None:
-                idx = search_results[-1]["idx"]
-                message = search_results[-1]["message_dict"]
-                self.memory_thread.pop(idx)
-                self.message_tokens.pop(idx)
-                self.time_stamps.pop(idx)
-                self.total_tokens -= self.get_message_tokens(message)
-            else:
-                raise Exception("The message was not found in the memory BaseThread")
+            self.memory_thread = self.memory_thread.filter(self.memory_thread["content"] != message_dict["content"]) 
+            self.total_tokens = self.get_total_tokens_from_thread()
+            return
+
         else:
-            if idx < len(self.memory_thread):
-                message = self.memory_thread.pop(idx)
-                self.total_tokens -= self.get_message_tokens(message)
-            else:
-                raise Exception("The index was out bound")
+            raise Exception("Index was out bound and no corresponding content found.")
 
     def find_message(
         self, message: Union[dict, str], role: Union[str, None] = None
@@ -322,3 +321,4 @@ class BaseThread:
             else:
                 break
         return messages, indices if len(messages) > 0 else (None, None)
+
