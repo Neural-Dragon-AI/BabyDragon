@@ -1,3 +1,4 @@
+from operator import index
 from time import time as now
 from typing import Any, Optional, Union, Dict
 
@@ -123,202 +124,116 @@ class BaseThread:
 
         elif message_dict is not None:
             message_dict = check_dict(message_dict)
-            self.memory_thread = self.memory_thread.filter(self.memory_thread["content"] != message_dict["content"]) 
+            self.memory_thread = self.memory_thread.lazy().filter(self.memory_thread["content"] != message_dict["content"]).collect()
             self.total_tokens = self.get_total_tokens_from_thread()
             return
 
         else:
             raise Exception("Index was out bound and no corresponding content found.")
 
+
     def find_message(
-        self, message: Union[dict, str], role: Union[str, None] = None
-    ) -> Union[None, list]:
+        self, message: Union[dict, str]
+        ) -> pl.DataFrame:
         """
         Find a message in the memory thread. If the message is a dictionary, it will search for the exact match.
         If the message is a string, it will search for the string in the content of the message dictionary."""
-        # check if the message is a dictioanry or a string
-        message = message if isinstance(message, str) else check_dict(message)
-        search_results = []
-        for idx, message_dict in enumerate(self.memory_thread):
-            target = (
-                message_dict if isinstance(message, dict) else message_dict["content"]
-            )
-            if target == message and (role is None or message_dict["role"] == role):
-                search_results.append({"idx": idx, "message_dict": message_dict})
-        return search_results if len(search_results) > 0 else None
 
-    def find_role(self, role: str) -> Union[None, list]:
+        message = message if isinstance(message, str) else check_dict(message)
+        
+        if isinstance(message,str):
+            return self.memory_thread.lazy().filter(pl.col("content") == message).collect()
+
+        else:
+            return self.memory_thread.lazy().filter(pl.col("content") == message["content"] and pl.col("role") == message['role']).collect()
+
+
+    def find_role(self, role: str) -> pl.DataFrame:
         """
         Find all messages with a specific role in the memory thread.
         """
-        search_results = []
-        for idx, message_dict in enumerate(self.memory_thread):
-            if message_dict["role"] == role:
-                search_results.append({"idx": idx, "message_dict": message_dict})
-        return search_results if len(search_results) > 0 else None
+        return self.memory_thread.lazy().filter(pl.col("role") == role).collect()
+        
 
-    def last_message(self, role: Union[str, None] = None) -> Union[None, dict]:
+    def last_message(self, role: Union[str, None] = None) ->  pl.DataFrame:
         """
         Get the last message in the memory thread with a specific role."""
         if role is None:
             return self.memory_thread[-1]
         else:
-            for message_dict in reversed(self.memory_thread):
-                if message_dict["role"] == role:
-                    return message_dict
-            return None
+            return self.memory_thread.lazy().filter(pl.col("role") == role).collect()[-1]
 
-    def first_message(self, role: Union[str, None] = None) -> Union[None, dict]:
+    def first_message(self, role: Union[str, None] = None) -> pl.DataFrame: 
         """
         Get the first message in the memory thread with a specific role."""
         if role is None:
             return self.memory_thread[0]
         else:
-            for message_dict in self.memory_thread:
-                if message_dict["role"] == role:
-                    return message_dict
-            return None
+            return self.memory_thread.lazy().filter(pl.col("role") == role).collect()[0]
 
-    def messages_before(
-        self, message: dict, role: Union[str, None] = None
-    ) -> Union[None, list]:
+
+    def messages_before( self, message: dict   ) -> pl.DataFrame:
         """
-        Get all messages before a specific message in the memory thread with a specific role."""
-        messages = []
-        # print("ci siamo")
-        for idx, message_dict in enumerate(self.memory_thread):
-            # print(message, message_dict)
-            if message_dict == message :
-                for mess in self.memory_thread[:idx]:
-                    if role is None or mess["role"] == role:
-                        messages.append(mess)
-                break
-        return messages if len(messages) > 0 else None
+        Get all messages before a specific message in the memory thread."""
+        
+        index = self.memory_thread.lazy().with_row_count("index").filter(pl.col('content')==message['content'] and pl.col('role')==message['role']).select('index').collect()[0][0]
+        return self.memory_thread.lazy().with_row_count("index").filter(pl.col('index')<index).collect()
     
-    def messages_after(
-        self, message: dict, role: Union[str, None] = None
-    ) -> Union[None, list]:
+    def messages_after( self, message: dict   ) -> pl.DataFrame:
         """
-        Get all messages after a specific message in the memory thread with a specific role."""
-        messages = []
-        for idx, message_dict in enumerate(self.memory_thread):
-            if message_dict == message:
-                for mess in self.memory_thread[:idx]:
-                    if role is None or mess["role"] == role:
-                        messages.append(mess)
-                break
-        return messages if len(messages) > 0 else None
+        Get all messages after a specific message in the memory thread."""
+        
+        index = self.memory_thread.lazy().with_row_count("index").filter(pl.col('content')==message['content'] and pl.col('role')==message['role']).select('index').collect()[0][0]
+        return self.memory_thread.lazy().with_row_count("index").filter(pl.col('index')>index).collect()
 
     def messages_between(
-        self, start_message: dict, end_message: dict, role: Union[str, None] = None
-    ) -> Union[None, list]:
+        self, start_message: dict, end_message: dict ) -> pl.DataFrame:
         """
         Get all messages between two specific messages in the memory thread with a specific role."""
-        messages = []
-        for idx, message_dict in enumerate(self.memory_thread):
-            if message_dict == start_message:
-                start_idx = idx
-                break
-        for idx, message_dict in enumerate(self.memory_thread):
-            if message_dict == end_message:
-                end_idx = idx
-                break
-        for mess in self.memory_thread[start_idx + 1 : end_idx-1]:
-                    if role is None or mess["role"] == role:
-                        messages.append(mess)
-        return messages if len(messages) > 0 else None
+        start_index = self.memory_thread.lazy().with_row_count("index").filter(pl.col('content')==start_message['content'] and pl.col('role')==start_message['role']).select('index').collect()[0][0]
+        end_index = self.memory_thread.lazy().with_row_count("index").filter(pl.col('content')==end_message['content'] and pl.col('role')==end_message['role']).select('index').collect()[0][0]
+        return self.memory_thread.lazy().with_row_count("index").filter(pl.col('index')<end_index and pl.col('index')>start_index).collect()
 
-    def messages_more_tokens(self, tokens: int, role: Union[str, None] = None):
+    def messages_more_tokens(self, tokens: int, role: Union[str, None] = None) -> pl.DataFrame:
         """
         Get all messages with more tokens than a specific number in the memory thread with a specific role."""
-        messages = []
-        for idx, message_dict in enumerate(self.memory_thread):
-            if self.message_tokens[idx] > tokens and (
-                role is None or message_dict["role"] == role
-            ):
-                messages.append(message_dict)
-        return messages if len(messages) > 0 else None
+        
+        return self.memory_thread.lazy().filter(pl.col('role')==role and pl.col('tokens_count')>tokens).collect()
 
-    def messages_less_tokens(self, tokens: int, role: Union[str, None] = None):
+    def messages_less_tokens(self, tokens: int, role: Union[str, None] = None) -> pl.DataFrame:
         """
         Get all messages with less tokens than a specific number in the memory thread with a specific role."""
-        messages = []
-        for idx, message_dict in enumerate(self.memory_thread):
-            if self.message_tokens[idx] < tokens and (
-                role is None or message_dict["role"] == role
-            ):
-                messages.append(message_dict)
-        return messages if len(messages) > 0 else None
+        
+        return self.memory_thread.lazy().filter(pl.col('role')==role and pl.col('tokens_count')<tokens).collect()
 
-    def messages_between_tokens(
-        self, start_tokens: int, end_tokens: int, role: Union[str, None] = None
-    ):
-        """
-        Get all messages with less tokens than a specific number in the memory thread with a specific role."""
-        messages = []
-        for idx, message_dict in enumerate(self.memory_thread):
-            if (
-                self.message_tokens[idx] > start_tokens
-                and self.message_tokens[idx] < end_tokens
-                and (role is None or message_dict["role"] == role)
-            ):
-                messages.append(message_dict)
-        return messages if len(messages) > 0 else None
 
-    def messages_before_time(self, time_stamp, role: Union[str, None] = None):
+    def messages_after_time(self, timestamp: int, role: Union[str, None] = None) -> pl.DataFrame:
         """
-        Get all messages before a specific time in the memory thread with a specific role."""
-        messages = []
-        for idx, message_dict in enumerate(self.memory_thread):
-            if self.time_stamps[idx] < time_stamp and (
-                role is None or message_dict["role"] == role
-            ):
-                messages.append(message_dict)
-        return messages if len(messages) > 0 else None
+        Get all messages with more tokens than a specific number in the memory thread with a specific role."""
+        
+        return self.memory_thread.lazy().filter(pl.col('role')==role and pl.col('timestamp')>timestamp).collect()
 
-    def messages_after_time(self, time_stamp, role: Union[str, None] = None):
+    def messages_before_time(self, timestamp: int, role: Union[str, None] = None) -> pl.DataFrame:
         """
-        Get all messages after a specific time in the memory thread with a specific role."""
-        messages = []
-        for idx, message_dict in enumerate(self.memory_thread):
-            if self.time_stamps[idx] > time_stamp and (
-                role is None or message_dict["role"] == role
-            ):
-                messages.append(message_dict)
-        return messages if len(messages) > 0 else None
+        Get all messages with more tokens than a specific number in the memory thread with a specific role."""
+        
+        return self.memory_thread.lazy().filter(pl.col('role')==role and pl.col('timestamp')<timestamp).collect()
 
-    def messages_between_time(
-        self, start_time, end_time, role: Union[str, None] = None
-    ):
-        """
-        Get all messages between two specific times in the memory thread with a specific role."""
-        messages = []
-        for idx, message_dict in enumerate(self.memory_thread):
-            if (
-                self.time_stamps[idx] > start_time
-                and self.time_stamps[idx] < end_time
-                and (role is None or message_dict["role"] == role)
-            ):
-                messages.append(message_dict)
-        return messages if len(messages) > 0 else None
 
     def token_bound_history(
-        self, max_tokens: int, max_history=None, role: Union[str, None] = None
+        self, max_tokens: int, role: Union[str, None] = None
     ):
-        messages = []
-        indices = []
-        tokens = 0
-        if max_history is None:
-            max_history = len(self.memory_thread)
 
-        for idx, message_dict in enumerate(reversed(self.memory_thread)):
-            if  tokens + self.message_tokens[idx] <= max_tokens:
-                if role is not None and message_dict["role"] != role:
-                    continue
-                messages.append(message_dict)
-                indices.append(len(self.memory_thread) - 1 - idx)
-                tokens += self.message_tokens[idx]
-            else:
-                break
-        return messages, indices if len(messages) > 0 else (None, None)
+        reversed_df = self.memory_thread.lazy().with_columns(pl.col("index")).reverse()
+
+    
+        reversed_df = reversed_df.with_columns(pl.col("tokens_count").cumsum().alias("cum_tokens_count"))
+
+    
+        filtered_df = reversed_df.filter(pl.col("cum_tokens_count") <= max_tokens and pl.col("role") != role).collect()
+
+        messages = filtered_df['content']
+        indexes = filtered_df['index']
+
+        return messages,indexes
 
