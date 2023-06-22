@@ -200,15 +200,15 @@ class NpIndex(BaseIndex):
         return index
 
 
-    def remove(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]]) -> None:
+    def remove(self, identifier: Union[int, str, np.ndarray, List[Union[str, np.ndarray]]]) -> None:
 
         if isinstance(identifier, list):
-            if all(isinstance(i, type(identifier[0])) for i in identifier) and not isinstance(identifier[0], list):
+            if all(isinstance(i, type(identifier[0])) for i in identifier) and not isinstance(identifier[0], list) and not isinstance(identifier[0], int):
                 for i in identifier:
                     self.remove(i)
             else:
                 raise TypeError("All elements in the list must be of the same type.")
-
+            return
         id = self.identify_input(identifier)
         value = self.values[id]
         self.index_set.remove(value)
@@ -217,12 +217,12 @@ class NpIndex(BaseIndex):
         self.embeddings = np.delete(self.embeddings, [id], axis=0)
 
 
-    def update(self, old_identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]], new_value: Union[str, List[str]], new_embedding: Optional[Union[List[float], np.ndarray, List[List[float]], List[np.ndarray]]] = None) -> None:
+    def update(self, old_identifier: Union[int, str, np.ndarray, List[Union[str, np.ndarray]]], new_value: Union[str, List[str]], new_embedding: Optional[Union[List[float], np.ndarray, List[List[float]], List[np.ndarray]]] = None) -> None:
         if isinstance(new_value,str) and new_value in self.index_set:
             raise ValueError("new_value already exists in the index. Please remove it first.")
         elif isinstance(new_value, list) and any(v in self.index_set for v in new_value):
             raise ValueError("One or more new_value already exists in the index. Please remove them first.")
-        if isinstance(old_identifier, list) and not isinstance(old_identifier[0], list):
+        if isinstance(old_identifier, list) and not isinstance(old_identifier[0], list) and not isinstance(old_identifier[0], int):
             if not isinstance(new_value, list) or len(old_identifier) != len(new_value):
                 raise ValueError("For list inputs, old_identifier and new_value must all be lists of the same length.")
             if new_embedding is not None:
