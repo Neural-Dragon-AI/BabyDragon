@@ -260,25 +260,32 @@ class BaseThread:
 
         response = requests.get(url)
         if response.status_code == 200:
-        # Analizza l'HTML della pagina con BeautifulSoup
+        
             soup = BeautifulSoup(response.text, 'html.parser')
         else:
-            print(f"Non è stato possibile accedere alla pagina. Codice di stato: {response.status_code}")
-            return
-        data_string = soup.find('script', id='__NEXT_DATA__').string
+            raise ValueError(f"Non è stato possibile accedere alla pagina. Codice di stato: {response.status_code}")
+            
+        
+        next_data = soup.find('script', id='__NEXT_DATA__')
 
-        json_obj = json.loads(data_string)
+        if next_data is not None:
 
-        conversation_data = json_obj['props']['pageProps']['serverResponse']['data']
+            data_string = next_data.string  # pyright: ignore 
 
-        messages = conversation_data['mapping']
+            json_obj = json.loads(data_string)  # pyright: ignore
 
-        for _,value in messages.items():
-            if ('parent' in value.keys()) and (value['message']['content']['parts'][0] != ''):
-                message_dict = {'role':value['message']['author']['role'],
-                                'content': value['message']['content']['parts'][0],
-                                'timestamp': value['message']['create_time']}
-                self.add_dict_to_thread(message_dict)
+            conversation_data = json_obj['props']['pageProps']['serverResponse']['data']
+
+            messages = conversation_data['mapping']
+
+            for _,value in messages.items():
+                if ('parent' in value.keys()) and (value['message']['content']['parts'][0] != ''):
+                    message_dict = {'role':value['message']['author']['role'],
+                                    'content': value['message']['content']['parts'][0],
+                                    'timestamp': value['message']['create_time']}
+                    self.add_dict_to_thread(message_dict)
+        else:
+            raise ValueError(f"Nessuna conversazione trovata a questo link!")
 
 
 
