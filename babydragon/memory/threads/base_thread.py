@@ -1,10 +1,11 @@
-from operator import index
 from time import time as now
-from typing import Any, Optional, Union, Dict
-
+from typing import Any, Optional, Union, Dict, List
+import os
 import tiktoken
 import polars as pl
-
+import requests
+from bs4 import BeautifulSoup
+import json
 
 from babydragon.utils.chatml import check_dict
 
@@ -21,6 +22,8 @@ class BaseThread:
         name: str = "memory",
         max_memory: Optional[int] = None,
         tokenizer: Optional[Any] = None,
+        save_path: str = 'threads'
+
     ) -> None:
         """
         Initialize the BaseThread instance.
@@ -38,36 +41,51 @@ class BaseThread:
         """ self.time_stamps = [] """
         """ self.message_tokens = [] """
         self.total_tokens = self.get_total_tokens_from_thread()
-
+        self.save_path = save_path
         if tokenizer is None:
             self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
     def __getitem__(self, idx):
-        return self.memory_thread.slice(idx, 1)
+        return self.memory_thread[idx]
 
     def __len__(self):
         return self.memory_thread.shape[0]
 
-    def polars_udf_encode_content(self, content: pl.Series) -> pl.Series:
-        return content.apply(lambda x: len(self.tokenizer.encode(x)) + 7, skip_nulls=False) 
+    def save(self, path: Union[str,None]) -> None:
+        if path is None:
+            path = os.path.join(self.save_path,f'{self.name}.parquet')
+        self.memory_thread.write_parquet(
+            file=path,
+            compression='zstd',
+            compression_level=None,
+            statistics=False,
+            row_group_size=None,
+            use_pyarrow=True,
+            pyarrow_options=None
+        )
 
+    def load(self, path: Union[str,None]) -> None:
+        if path is None:
+            path = os.path.join(self.save_path,f'{self.name}.parquet')
+        self.memory_thread = pl.read_parquet(source = path,
+                        use_pyarrow= True,
+                        memory_map = True,
+                        )
+        
     def get_total_tokens_from_thread(self):
-        self.memory_thread = self.memory_thread.with_columns(self.polars_udf_encode_content(self.memory_thread["content"]).alias("tokens_count").cast(pl.UInt16))
         return self.memory_thread["tokens_count"].sum()
 
     def reset_memory(self) -> None:
         self.memory_thread = pl.DataFrame(schema=self.memory_schema) 
 
     def dict_to_row(self, message_dict:Dict[str,str]) -> pl.DataFrame:
+        timestamp = message_dict['timestamp'] if 'timestamp' in message_dict else [now()]
         return pl.DataFrame(schema=self.memory_schema,
                             data={ "role":[message_dict["role"]],
                                   "content":[message_dict["content"]],
-                                  "timestamp":[now()],
+                                  "timestamp": timestamp,
                                   "tokens_count":[len(self.tokenizer.encode(message_dict["content"]))+7]
                                   })
-
-
-
 
     def get_message_tokens_from_dict(self, message_dict: dict) -> int:
         """
@@ -148,11 +166,6 @@ class BaseThread:
             return self.memory_thread.lazy().filter((pl.col("content") == message["content"]) & (pl.col("role") == message['role'])).collect()
 
 
-    def find_role(self, role: str) -> pl.DataFrame:
-        """
-        Find all messages with a specific role in the memory thread.
-        """
-        return self.memory_thread.lazy().filter(pl.col("role") == role).collect()
         
 
     def last_message(self, role: Union[str, None] = None) ->  pl.DataFrame:
@@ -219,21 +232,55 @@ class BaseThread:
         
         return self.memory_thread.lazy().filter((pl.col('role')==role) & (pl.col('timestamp')<timestamp)).collect()
 
+    def select_col(self, feature: Union[List[str],str]):
+        return self.memory_thread[feature]
+
+    def filter_col(self, feature: str, filter: str):
+        try:
+            return self.memory_thread.lazy().filter(pl.col(feature) == filter).collect()
+        except Exception as e:
+            return str(e)
+
+
 
     def token_bound_history(
         self, max_tokens: int, role: Union[str, None] = None
     ):
 
-        reversed_df = self.memory_thread.lazy().with_row_count("index").reverse()
-
-    
-        reversed_df = reversed_df.with_columns(pl.col("tokens_count").cumsum().alias("cum_tokens_count"))
-
-    
+        reversed_df = self.memory_thread.lazy().with_row_count("index").reverse()   
+        reversed_df = reversed_df.with_columns(pl.col("tokens_count").cumsum().alias("cum_tokens_count"))  
         filtered_df = reversed_df.filter((pl.col("cum_tokens_count") <= max_tokens) & (pl.col("role") != role)).collect()
-
         messages = filtered_df['content']
         indexes = filtered_df['index']
 
         return messages,indexes
+
+    
+    def load_from_gpt_link(self, url: str):
+
+        response = requests.get(url)
+        if response.status_code == 200:
+        # Analizza l'HTML della pagina con BeautifulSoup
+            soup = BeautifulSoup(response.text, 'html.parser')
+        else:
+            print(f"Non è stato possibile accedere alla pagina. Codice di stato: {response.status_code}")
+            return
+        data_string = soup.find('script', id='__NEXT_DATA__').string
+
+        json_obj = json.loads(data_string)
+
+        conversation_data = json_obj['props']['pageProps']['serverResponse']['data']
+
+        messages = conversation_data['mapping']
+
+        for _,value in messages.items():
+            if ('parent' in value.keys()) and (value['message']['content']['parts'][0] != ''):
+                message_dict = {'role':value['message']['author']['role'],
+                                'content': value['message']['content']['parts'][0],
+                                'timestamp': value['message']['create_time']}
+                self.add_dict_to_thread(message_dict)
+
+
+
+        
 
