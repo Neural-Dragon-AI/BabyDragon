@@ -136,7 +136,6 @@ class MemoryIndex(NpIndex):
             raise ValueError("The data_frame is not a valid pandas dataframe or the path is not valid")
 
         values, embeddings = extract_values_and_embeddings_pd(data_frame, value_column, embeddings_column)
-        #for daniel here the get_context methods do not exists just inspiration for you do the same for hf datasets, polars and python
         if context_columns is not None:
             context = get_context_from_pandas(data_frame, context_columns)
 
@@ -180,7 +179,7 @@ class MemoryIndex(NpIndex):
 
         return cls(values=values, embeddings=embeddings, name=name, save_path=save_path,markdown=markdown, embedder=embedder, context = context)
 
-    
+
     @classmethod
     def from_python(
         cls,
@@ -190,8 +189,9 @@ class MemoryIndex(NpIndex):
         name: str = "memory_index",
         save_path: Optional[str] = None,
         markdown: str = "python/markdown",
-        resolution: str = "function",
+        resolution: str = "both",
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
     ) -> "MemoryIndex":
-        values,embeddings, context = extract_values_and_embeddings_python(directory_path, minify_code, remove_docstrings, resolution)
-        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path,markdown=markdown, embedder=embedder, context = context)
+        values, context = extract_values_and_embeddings_python(directory_path, minify_code, remove_docstrings, resolution)
+        logger.info(f"Found {len(values)} values in the directory {directory_path}")
+        return cls(values=values, embeddings=None, name=name, save_path=save_path,markdown=markdown, embedder=embedder, context = context)
