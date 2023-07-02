@@ -51,7 +51,7 @@ BabyDragon supports several auto-data types for automatic embedder inference:
 |-------------------------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | Text                          | String / List of Strings | Natural Language Processing, Audio Transcript (with support for timestamps and diarization), Python Code (with `libcst` parsing)              |
 | Finite Alphabet Discrete Seq. | List of Strings/Integers | Replay Buffers, Tabular Reinforcement Learning Environments, Epsilon Machines, HMM, Small-scale Transformers                                  |
-| Episodic Time Series          | Array / List of Floats   | Dynamic Time Warping (DTW), Inverse Fourier Features of DTW Kernel, Auto-regressive Forecasting (traditional, XGBoost, Neural Diff. Equations)|
+| Episodic Time Series          | Array / List of Floats   | Dynamic Time Warping (DTW), Inverse Fourier Features of DTW Kernel, Auto-regressive Forecasting (traditional, XGBoost, Neural Differential Equations)|
 | Images                        | -                        | Natural Images (feature extraction, segmentation, classification), Medical Images, Text-rich Images                                           |
 | Audio                         | -                        | Speech (Speech Recognition, Speaker Diarization, Emotion/Sentiment Analysis), Music (Genre Classification, Beat Detection)                     |
 
@@ -78,3 +78,54 @@ The LLMs can also be used to elaborate the data and produce new columns. This in
 
 All this processing happens under the hood, with multi-threading and batching for efficiency, and robust error handling to ensure the smooth processing of data. All the steps are saved to optimize the process, ensuring that the package makes the best use of computational resources.
 
+# Stratified Sampling in MemoryFrame
+
+Stratified sampling is a powerful technique used to ensure that the subset (or subsets) of data you're working with is representative of the whole in certain specified respects. When applied to the task of cross-validation in machine learning, it helps ensure that each fold is representative of the whole dataset, improving the reliability of the validation process.
+
+In the context of MemoryFrame, a data structure which holds in-memory datasets augmented with additional contextual and embedded features, we are interested in performing stratified cross-validation using all available data. This includes categorical context columns, embedded high-dimensional data, as well as quantized real-valued columns.
+
+## 1. Quantization of Real-Valued Columns
+
+Real-valued columns can be discretized into "bins", essentially turning them into categorical variables for the purpose of creating strata. This process, known as quantization, converts a continuous range of values into a finite number of intervals. The resulting binned data can then be used like any other categorical variable in the stratification process.
+
+## 2. Entropy and Mutual Information Computation
+
+With all categorical data at hand, which includes the original categorical columns and the newly quantized real-valued columns, we compute the entropy and mutual information between these columns. 
+
+Entropy gives us a measure of the uncertainty or randomness of a single variable, while mutual information measures the amount of information you can obtain about one random variable by observing another. By calculating these measures, we gain insights into the relationships between variables, and can identify those which are conditionally independent.
+
+This information is crucial when creating the strata, as we strive to create strata that are as informative as possible. The concept here is to ensure that each stratum, or subset of data, is as similar as possible internally, while being as different as possible from the other strata.
+
+## 3. High Dimensional Vector Fields
+
+For high-dimensional embedded columns, we must take a slightly different approach. These embeddings might represent complex data like text or images in a condensed form, and can't be treated directly as categorical data. 
+
+Instead, we propose to use a clustering algorithm to partition the high-dimensional space into discrete clusters, and use these clusters as strata. At the same time, we compute a non-parametric estimate of the entropy of these vector fields to get a measure of their inherent diversity and complexity.
+
+This approach allows us to treat high-dimensional data in a way that's compatible with our stratified sampling methodology, ensuring that our cross-validation process remains robust and reliable, no matter the nature of the data in the MemoryFrame.
+
+# Artificial Transfer Learning Experiments with Stratified Sampling
+
+Stratified sampling not only ensures that each subset of data is representative of the whole dataset, but it can also be leveraged to create interesting and insightful artificial transfer learning experiments. This process allows for the exploration of invariances and equivalence classes across different strata, which can lead to deeper understanding and new scientific inquiries.
+
+In the classic approach of stratified cross-validation, we strive to ensure that each fold is representative of the whole dataset. But by strategically varying the distribution of strata in training and validation sets, we can set up experiments to test how well models generalize under specific conditions.
+
+## 1. Setting Up the Experiment
+
+Let's say we have identified a certain stratum (or a set of strata) that is of particular interest. For instance, these could be strata that represent a certain demographic in a social science study, certain types of transactions in a financial analysis, or specific categories of images in a computer vision task.
+
+We can construct our training and validation folds such that this stratum is over-represented in the training set and under-represented in the validation set, or vice versa. 
+
+## 2. Transfer Learning and Invariances
+
+In this setup, a model trained on the modified training set is in effect a model trained with a biased view of the world. When this model is evaluated on the validation set, any significant drop in performance can be interpreted as the model's inability to generalize beyond the bias in the training data.
+
+By conducting a series of such experiments, systematically varying the strata that are over- and under-represented, we can gain insights into what invariances the model is able to learn, and which ones it struggles with. 
+
+This forms the basis for a form of scientific inquiry, where we're not just interested in creating a model that performs well overall, but one that performs well under specific conditions. It provides an empirical basis for identifying equivalence classes of strata, where an equivalence class consists of strata that a model treats as effectively the same.
+
+## 3. Beyond Cross-Validation
+
+While the above discussion focused on the context of cross-validation in a single dataset, the same principles can be applied in a broader context. For instance, they can be used to create "artificial" transfer learning scenarios, where a model is trained on one dataset and evaluated on another, to test how well it generalizes across different but related domains.
+
+Overall, while the standard use of stratified sampling is to ensure robustness in cross-validation, its strategic use can lead to deeper insights about the models and the phenomena they are trying to capture.
