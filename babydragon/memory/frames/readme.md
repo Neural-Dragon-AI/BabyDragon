@@ -2,7 +2,30 @@
 
 The `babydragon` package is designed to handle heterogeneous data in an efficient and intuitive way. It combines the power of polar frames, machine learning techniques, neural network embedders, and language models. This package is very flexible and could significantly facilitate the handling of different types of data. 
 
-## MemoryFrame
+
+# BabyDragon Auto-Data Types
+
+BabyDragon supports several auto-data types for automatic embedder inference:
+
+- **Text**: This includes natural language text, audio-transcripts, and python-code. They can be represented as strings or lists of strings. Audio transcripts also have support for timestamps and diarization, while Python uses `libcst` to parse code syntax trees and automatically create a rich context of variables associated with a script.
+
+- **Finite Alphabet Discrete Sequences**: These can be represented as a list of strings or a list of integers. This data type can be used to store replay buffers or datasets for tabular reinforcement learning environments. The package supports learning epsilon machines, hidden Markov models (HMM), and small-scale transformers for model-based prediction.
+
+- **Episodic Time Series**: These are multiple realizations of the same dynamical system with float or int values. They can be represented as arrays or lists of floats. The package supports 1D search using dynamic time warping (DTW) and DTW-based kernels. In addition, time-series features using inverse Fourier features of the DTW kernel for 1D are supported. The package also facilitates learning n-dimensional auto-regressive forecasting with traditional methods, XGBoost, and neural differential equations/operators.
+
+- **Images**: The package supports a variety of images, including natural images (for feature extraction, segmentation, classification), medical images, and text-rich images (such as slides and plots).
+
+- **Audio**: The package supports audio data, and differentiates between Speech and Music This includes speech recognition, speaker diarization, and possibly emotion or sentiment analysis. As well as conenction to speec2text api. For music data, the package might offer features like genre classification, beat detection, and music recommendation based on audio and lyrics feature analysis.
+
+| BD Data Type                   | Representation           | Supported Operations/Features                                                                                                                |
+|-------------------------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Text                          | String / List of Strings | Natural Language Processing, Audio Transcript (with support for timestamps and diarization), Python Code (with `libcst` parsing)              |
+| Finite Alphabet Discrete Seq. | List of Strings/Integers | Replay Buffers, Tabular Reinforcement Learning Environments, Epsilon Machines, HMM, Small-scale Transformers                                  |
+| Episodic Time Series          | Array / List of Floats   | Dynamic Time Warping (DTW), Inverse Fourier Features of DTW Kernel, Auto-regressive Forecasting (traditional, XGBoost, Neural Differential Equations)|
+| Images                        | -                        | Natural Images (feature extraction, segmentation, classification), Medical Images, Text-rich Images                                           |
+| Audio                         | -                        | Speech (Speech Recognition, Speaker Diarization, Emotion/Sentiment Analysis), Music (Genre Classification, Beat Detection)                     |
+
+# MemoryFrame
 
 A central component of this package is the `MemoryFrame` class. This frame classifies data into three groups of columns: `meta_columns`, `value_columns`, and `embedding_columns`.
 
@@ -33,28 +56,6 @@ The `embeddable_columns` contain data of stricter `babydragon` types, which will
 
 The `embedding_columns` store the vector for the corresponding value in the `embeddable_columns`. There will be the same number of embedding columns as there are embeddable columns.
 
-## BabyDragon Auto-Data Types
-
-BabyDragon supports several auto-data types for automatic embedder inference:
-
-- **Text**: This includes natural language text, audio-transcripts, and python-code. They can be represented as strings or lists of strings. Audio transcripts also have support for timestamps and diarization, while Python uses `libcst` to parse code syntax trees and automatically create a rich context of variables associated with a script.
-
-- **Finite Alphabet Discrete Sequences**: These can be represented as a list of strings or a list of integers. This data type can be used to store replay buffers or datasets for tabular reinforcement learning environments. The package supports learning epsilon machines, hidden Markov models (HMM), and small-scale transformers for model-based prediction.
-
-- **Episodic Time Series**: These are multiple realizations of the same dynamical system with float or int values. They can be represented as arrays or lists of floats. The package supports 1D search using dynamic time warping (DTW) and DTW-based kernels. In addition, time-series features using inverse Fourier features of the DTW kernel for 1D are supported. The package also facilitates learning n-dimensional auto-regressive forecasting with traditional methods, XGBoost, and neural differential equations/operators.
-
-- **Images**: The package supports a variety of images, including natural images (for feature extraction, segmentation, classification), medical images, and text-rich images (such as slides and plots).
-
-- **Audio**: The package supports audio data, and differentiates between Speech and Music This includes speech recognition, speaker diarization, and possibly emotion or sentiment analysis. As well as conenction to speec2text api. For music data, the package might offer features like genre classification, beat detection, and music recommendation based on audio and lyrics feature analysis.
-
-| BD Data Type                   | Representation           | Supported Operations/Features                                                                                                                |
-|-------------------------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| Text                          | String / List of Strings | Natural Language Processing, Audio Transcript (with support for timestamps and diarization), Python Code (with `libcst` parsing)              |
-| Finite Alphabet Discrete Seq. | List of Strings/Integers | Replay Buffers, Tabular Reinforcement Learning Environments, Epsilon Machines, HMM, Small-scale Transformers                                  |
-| Episodic Time Series          | Array / List of Floats   | Dynamic Time Warping (DTW), Inverse Fourier Features of DTW Kernel, Auto-regressive Forecasting (traditional, XGBoost, Neural Differential Equations)|
-| Images                        | -                        | Natural Images (feature extraction, segmentation, classification), Medical Images, Text-rich Images                                           |
-| Audio                         | -                        | Speech (Speech Recognition, Speaker Diarization, Emotion/Sentiment Analysis), Music (Genre Classification, Beat Detection)                     |
-
 
 ## Bridging Structured and Unstructured Data
 
@@ -62,33 +63,41 @@ BabyDragon supports several auto-data types for automatic embedder inference:
 `BabyDragon` extends typical database operations such as `select`, `group_by`, `filter`, and `sort` by incorporating top-k nearest neighbor search capabilities over vector representations of column values. This integration enables the manipulation and querying of both structured and unstructured data within a unified framework. Users can create dynamic query pipelines, first employing SQL-like operations to filter and organize the data, followed by vector search operations to extract information based on similarity in the vector space. This is especially beneficial when dealing with unstructured data like text or images. Furthermore, `BabyDragon` supports advanced analytical tasks across data types. The fusion of these techniques enables efficient processing and advanced exploration of heterogeneous data.
 
 
-## LLM-Ready Processing
+# Column Generators
+The concept of column generators is a key feature in the BabyDragon package. Column generators are arbitrary generator classes that can take existing columns in a MemoryFrame and use them to generate new columns. A wide range of generator classes are supported, allowing you to utilize different types of data and models to generate new columns in your MemoryFrame.
 
-`BabyDragon` is designed to efficiently work with Large Language Models (LLMs) like OpenAI, Cohere, and Google, as well as locally hosted GPU models. It allows parallelized calls to these LLMs to process data and create new rows. 
+For example, you could use a Large Language Model (LLM) as a column generator to take a text column and generate a summary column. This involves feeding the text from the original column into the LLM, having it generate a summary, and then storing that summary in a new column in the MemoryFrame.
 
-### Supporting Retrieval and Grounding for LLM Agents
+But column generation is not limited to just text-to-text operations. You can also use column generators for image-to-text, text-to-image, or text-to-speech tasks. This enables you to extract and store diverse types of information from your original data in a structured and easily accessible format.
 
-The `MemoryFrame` can be used as a support for retrieval and grounding of LLM agents or chatbots. It provides an efficient way to use the knowledge stored in the `MemoryFrame` to inform the responses of these agents, leading to more context-aware and grounded interactions.
-
-### LLMs for Data Processing and Feature Creation
-
-The LLMs can also be used to elaborate the data and produce new columns. This includes tasks like summarizing a text column, interpreting a mix of text and numerical columns, or using the LLM as a few-shot classifier. In fact, any task that depends on row-wise inputs can be achieved through the integrated processing with LLMs. 
+Moreover, you can use auto-regressive forecasters as column generators to create a time series column from another one. This allows you to make predictions about future data points based on the existing data in a column, and then store those predictions in a new column for further analysis.
 
 ### Efficiency and Error Handling
 
 All this processing happens under the hood, with multi-threading and batching for efficiency, and robust error handling to ensure the smooth processing of data. All the steps are saved to optimize the process, ensuring that the package makes the best use of computational resources.
 
-# Stratified Sampling in MemoryFrame
+# Stratified Sampling for Multimodal Classification
+The stratification part of BabyDragon leverages a novel concept: learning supervised classifiers for all data types by combining multimodal datasets via embeddings and traditional categorical/numerical features for multimodal classification.
 
-Stratified sampling is a powerful technique used to ensure that the subset (or subsets) of data you're working with is representative of the whole in certain specified respects. When applied to the task of cross-validation in machine learning, it helps ensure that each fold is representative of the whole dataset, improving the reliability of the validation process.
+The package supports stratified sampling over this combined feature set, which includes traditional structured data and unstructured data represented through embeddings. This provides a more nuanced and comprehensive view of your data, as it encapsulates different types of data and the relationships between them.
 
-In the context of MemoryFrame, a data structure which holds in-memory datasets augmented with additional contextual and embedded features, we are interested in performing stratified cross-validation using all available data. This includes categorical context columns, embedded high-dimensional data, as well as quantized real-valued columns.
+The package uses stratified sampling to ensure each subset of data is representative of the entire dataset, improving the reliability of the validation process. Moreover, the stratified sampling technique is flexible and can adapt to different kinds of data, making it particularly suitable for handling multimodal datasets.
+
+By leveraging column generators and stratified sampling in this way, BabyDragon provides a powerful tool for handling, analyzing, and making predictions based on heterogeneous datasets. The flexibility and capabilities of the package make it a potent tool for data analysis and machine learning tasks.
 
 ## 1. Quantization of Real-Valued Columns
 
 Real-valued columns can be discretized into "bins", essentially turning them into categorical variables for the purpose of creating strata. This process, known as quantization, converts a continuous range of values into a finite number of intervals. The resulting binned data can then be used like any other categorical variable in the stratification process.
 
-## 2. Entropy and Mutual Information Computation
+## 2. Quantization of High Dimensional Vector Fields
+
+For high-dimensional embedded columns, we must take a slightly different approach. These embeddings might represent complex data like text or images in a condensed form, and can't be treated directly as categorical data. 
+
+Instead, we propose to use a clustering algorithm to partition the high-dimensional space into discrete clusters, and use these clusters as strata. At the same time, we compute a non-parametric estimate of the entropy of these vector fields to get a measure of their inherent diversity and complexity.
+
+This approach allows us to treat high-dimensional data in a way that's compatible with our stratified sampling methodology, ensuring that our cross-validation process remains robust and reliable, no matter the nature of the data in the MemoryFrame.
+
+## 3. Entropy and Mutual Information Computation
 
 With all categorical data at hand, which includes the original categorical columns and the newly quantized real-valued columns, we compute the entropy and mutual information between these columns. 
 
@@ -96,13 +105,6 @@ Entropy gives us a measure of the uncertainty or randomness of a single variable
 
 This information is crucial when creating the strata, as we strive to create strata that are as informative as possible. The concept here is to ensure that each stratum, or subset of data, is as similar as possible internally, while being as different as possible from the other strata.
 
-## 3. High Dimensional Vector Fields
-
-For high-dimensional embedded columns, we must take a slightly different approach. These embeddings might represent complex data like text or images in a condensed form, and can't be treated directly as categorical data. 
-
-Instead, we propose to use a clustering algorithm to partition the high-dimensional space into discrete clusters, and use these clusters as strata. At the same time, we compute a non-parametric estimate of the entropy of these vector fields to get a measure of their inherent diversity and complexity.
-
-This approach allows us to treat high-dimensional data in a way that's compatible with our stratified sampling methodology, ensuring that our cross-validation process remains robust and reliable, no matter the nature of the data in the MemoryFrame.
 
 # Artificial Transfer Learning Experiments with Stratified Sampling
 
@@ -129,3 +131,16 @@ This forms the basis for a form of scientific inquiry, where we're not just inte
 While the above discussion focused on the context of cross-validation in a single dataset, the same principles can be applied in a broader context. For instance, they can be used to create "artificial" transfer learning scenarios, where a model is trained on one dataset and evaluated on another, to test how well it generalizes across different but related domains.
 
 Overall, while the standard use of stratified sampling is to ensure robustness in cross-validation, its strategic use can lead to deeper insights about the models and the phenomena they are trying to capture.
+
+# Chatbot Memory Support and Grounding with Multimodal Data
+BabyDragon offers strong capabilities when it comes to supporting chatbot functionalities, particularly in the context of grounding responses and retrieval from multimodal datasets.
+
+## Retrieval and Grounding for Chatbot Agents
+The MemoryFrame in BabyDragon provides a robust structure for organizing and accessing information, making it an excellent support system for chatbot agents. The data stored in the MemoryFrame can be used to inform a chatbot's responses, leading to more context-aware and grounded interactions.
+
+For instance, suppose a chatbot is asked a question about a specific data point or trend within the stored data. The MemoryFrame can be queried to retrieve the relevant information, which can then be used to formulate a grounded and accurate response.
+
+## Chatbots and Multimodal Data
+BabyDragon extends the concept of chatbot memory support to multimodal datasets. Multimodal data includes data of different types - such as text, images, and audio - that can be processed and represented together in the MemoryFrame.
+
+A chatbot supported by BabyDragon can, therefore, leverage this rich, multimodal context to provide more comprehensive and accurate responses. For example, a chatbot can use text-based data in conjunction with relevant image or audio data to answer a query, resulting in a more informative response.
