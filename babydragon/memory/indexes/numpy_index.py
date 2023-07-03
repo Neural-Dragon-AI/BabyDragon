@@ -148,7 +148,7 @@ class NpIndex(BaseIndex):
         for i, (val, tokens) in enumerate(zip(values, token_batch)):
             is_valid, value = self.validate_value_length(val, tokens)
             if not is_valid:
-                print(f"Value '{value}' is too long and will be ignored.")
+                print(f"Value '{value[:50]}...' is too long and will be ignored.")
                 continue
             if value not in self.index_set:
                 unique_values.append(value)

@@ -67,6 +67,10 @@ class BaseIndex(ABC):
     def search(self, query: Optional[str] = None, query_embedding: Optional[np.ndarray] = None, top_k: int = 10, metric: str = "cosine", filter_mask: Optional[np.ndarray] = None) -> Tuple[List[str], Optional[List[float]], List[int]]:
         pass
     
+    @abstractmethod
+    def setup_index(self, values: Optional[List[str]] = None, embeddings: Optional[List[Union[List[float], np.ndarray]]] = None, load: bool = False):
+        pass
+    
     # Non-abstract method
     def save_index(self):
         save_directory = os.path.join(self.save_path, self.name)

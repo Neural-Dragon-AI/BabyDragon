@@ -121,6 +121,7 @@ class MemoryIndex(NpIndex):
         save_path: Optional[str] = None,
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
         markdown: str = "text/markdown",
+        token_overflow_strategy: str = "ignore",
     ) -> "MemoryIndex":
         if (
             isinstance(data_frame, str)
@@ -139,7 +140,7 @@ class MemoryIndex(NpIndex):
         if context_columns is not None:
             context = get_context_from_pandas(data_frame, context_columns)
 
-        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path,markdown=markdown, embedder=embedder, context = context)
+        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path,markdown=markdown, embedder=embedder, context = context, token_overflow_strategy=token_overflow_strategy)
 
     @classmethod
     def from_hf_dataset(
@@ -153,12 +154,13 @@ class MemoryIndex(NpIndex):
         save_path: Optional[str] = None,
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
         markdown: str = "text/markdown",
+        token_overflow_strategy: str = "ignore",
     ) -> "MemoryIndex":
         dataset = load_dataset(dataset_url)[data_split]
         values, embeddings = extract_values_and_embeddings_hf(dataset, value_column, embeddings_column)
         if context_columns is not None:
             context = get_context_from_hf(dataset, context_columns)
-        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path, embedder=embedder, markdown=markdown, context = context)
+        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path, embedder=embedder, markdown=markdown, context = context, token_overflow_strategy=token_overflow_strategy)
 
     @classmethod
     def from_polars(
@@ -171,13 +173,14 @@ class MemoryIndex(NpIndex):
         save_path: Optional[str] = None,
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
         markdown: str = "text/markdown",
+        token_overflow_strategy: str = "ignore",
     ) -> "MemoryIndex":
         print("Loading the Polars DataFrame")
         values, embeddings = extract_values_and_embeddings_polars(data_frame, value_column, embeddings_column)
         if context_columns is not None:
             context = get_context_from_polars(data_frame, context_columns)
 
-        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path,markdown=markdown, embedder=embedder, context = context)
+        return cls(values=values, embeddings=embeddings, name=name, save_path=save_path,markdown=markdown, embedder=embedder, context = context, token_overflow_strategy=token_overflow_strategy)
 
 
     @classmethod
@@ -191,7 +194,8 @@ class MemoryIndex(NpIndex):
         markdown: str = "python/markdown",
         resolution: str = "both",
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
+        token_overflow_strategy: str = "ignore",
     ) -> "MemoryIndex":
         values, context = extract_values_and_embeddings_python(directory_path, minify_code, remove_docstrings, resolution)
         logger.info(f"Found {len(values)} values in the directory {directory_path}")
-        return cls(values=values, embeddings=None, name=name, save_path=save_path,markdown=markdown, embedder=embedder, context = context)
+        return cls(values=values, embeddings=None, name=name, save_path=save_path,markdown=markdown, embedder=embedder, context = context, token_overflow_strategy=token_overflow_strategy)
