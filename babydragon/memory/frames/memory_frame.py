@@ -31,22 +31,13 @@ class MemoryFrame:
 
     def search_column(self, query, embeddable_column_name, top_k):
         embedding_column_name = 'embedding|' + embeddable_column_name
-        
-        # Add the query as a new column in the DataFrame
-        n_rows = len(self.df)
-        query_df = pl.DataFrame({ 'query': [query] * n_rows })
 
-        extended_df = self.df.hstack([query_df])
-
-        # Compute dot product of the target column with the query column
-        dot_prod = extended_df.with_columns(
-            extended_df[embedding_column_name].dot(extended_df['query']).alias('dot_prod')
-        )
-
+        query_as_series = pl.Series(query)
+        dot_product_frame = self.df.with_columns(self.df[embedding_column_name].list.eval(pl.element().explode().dot(query_as_series),parallel=True).list.first().alias("dot_product"))
         # Sort by dot product and select top_k rows
-        result = dot_prod.sort('dot_prod', reverse=True).slice(0, top_k)
-        
+        result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
         return result
+        
 
     def search_time_series_column(self, query, embeddable_column_name, top_k):
         ## uses dtw to match any sub-sequence of the query to the time series in the column
