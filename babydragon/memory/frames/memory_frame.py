@@ -1,8 +1,9 @@
 from babydragon.types import infer_embeddable_type
+from typing import  List
 import polars as pl
-
+import numpy as np
 class MemoryFrame:
-    def __init__(self, df: pl.DataFrame, context_columns: list, embeddable_columns: list):
+    def __init__(self, df: pl.DataFrame, context_columns: List, embeddable_columns: List):
         self.df = df
         self.context_columns = context_columns
         self.embeddable_columns = embeddable_columns
@@ -20,16 +21,34 @@ class MemoryFrame:
         return common_methods
 
     def embed_columns(self, embeddable_columns):
-        for column in embeddable_columns:
-            column_type, embedder = infer_embeddable_type(column)
+        for column_name in embeddable_columns:
+            column = self.df[column_name]
+            _, embedder = infer_embeddable_type(column)
             self._embed_column(column, embedder)
 
     def _embed_column(self, column, embedder):
-        # the implementation of this function will depend on how exactly you want to embed the column
-        # the result should be added to self.df and the column name should be added to self.embedding_columns
-        pass
+        # Add the embeddings as a new column
+        # Generate new values
+        new_values = embedder.embed(self.df[column.name].to_list())
+        # Add new column to DataFrame
+        new_series = pl.Series(new_column_name, new_values)
+        self.df = self.df.with_columns(new_series)
+        new_column_name = f'embedding|{column.name}'
+        self.embedding_columns.append(new_column_name)
 
-    def search_column(self, query, embeddable_column_name, top_k):
+
+    def search_column_with_sql_polar(self, sql_query, query, embeddable_column_name, top_k):
+        df = self.df.filter(sql_query)
+        embedding_column_name = 'embedding|' + embeddable_column_name
+
+        query_as_series = pl.Series(query)
+        dot_product_frame = df.with_columns(df[embedding_column_name].list.eval(pl.element().explode().dot(query_as_series),parallel=True).list.first().alias("dot_product"))
+        # Sort by dot product and select top_k rows
+        result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
+        return result
+
+
+    def search_column_polar(self, query, embeddable_column_name, top_k):
         embedding_column_name = 'embedding|' + embeddable_column_name
 
         query_as_series = pl.Series(query)
@@ -37,13 +56,25 @@ class MemoryFrame:
         # Sort by dot product and select top_k rows
         result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
         return result
-        
+    
+    def search_column_numpy(self, query, embeddable_column_name, top_k):
+        embedding_column_name = 'embedding|' + embeddable_column_name
+        #convert query and column to numpy arrays
+        column_np = self.df[embedding_column_name].to_numpy()
+        #calculate dot product
+        dot_product = np.dot(column_np, query)
+        #add dot products as column to dataframe
+        dot_product_frame = self.df.with_columns(dot_product)
+        # Sort by dot product and select top_k rows
+        result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
+        return result
 
     def search_time_series_column(self, query, embeddable_column_name, top_k):
         ## uses dtw to match any sub-sequence of the query to the time series in the column
         ## time series column have a date o time or delta time column associated with them 
         ## each row-value is a list of across rows variable length for both the time series and the date or time column
         pass
+
     
     def generate_column(self, row_generator, new_column_name):
         # Generate new values
