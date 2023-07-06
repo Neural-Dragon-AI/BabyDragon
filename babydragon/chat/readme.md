@@ -1,148 +1,48 @@
-# BabyDragon Chatbot Submodule
+# BabyDragon Enhanced Memory and Multimodal Chatbot Capabilities
 
-This submodule provides a set of chatbot classes that leverage different memory
-thread strategies for managing the context provided to the model. The chatbot
-subclasses are designed to be flexible and extensible, allowing users to
-customize the chatbot's behavior. The chatbot classes inherit from the base
-classes and combine them with the other modules to build more advanced and
-specialized chatbots.
+The BabyDragon system's MemoryFrame module provides an innovative enhancement to chatbot functionality, incorporating advanced memory management strategies, automatic comprehension of multimodal data, and code parsing. 
 
-## Subclasses and Functionalities
+## Advanced Memory Management
 
-### FifoChat
+The MemoryFrame's superior memory management strategies introduce advanced flexibility in chatbot memory utilization. Utilizing traditional columnar Polar queries or Vector Search strategies, it's now possible to configure diverse context requirements effectively. 
 
-`FifoChat` inherits from `FifoThread` and `Chat`. It implements a chatbot that
-uses a First-In-First-Out (FIFO) memory management strategy. The oldest messages
-are removed first when reaching the `max_fifo_memory` limit.
+Here are examples of memory management strategies provided by BabyDragon:
 
-#### Key Methods
+- **FifoMemoryChat:** This chatbot uses a First-In-First-Out (FIFO) memory management strategy. When the chatbot's memory reaches its maximum limit, the oldest messages are removed first. This ensures the bot's responses are always informed by the most recent conversation context.
 
-- `fifo_memory_prompt`: Composes the prompt for the model, including the system
-  prompt and memory thread.
-- `query`: Queries the chatbot with a given question, adds the question and
-  answer to the memory, and returns the chatbot's response.
+- **VectorMemoryChat:** This strategy utilizes a vector-based approach for managing the chatbot's memory. The chatbot is equipped to analyze and store messages most similar to the incoming query. This method ensures that the chatbot's responses are based on contextually relevant and similar past interactions.
 
-### VectorChat
+- **FifoVectorChat:** FifoVectorChat combines the FIFO and Vector memory strategies. It uses FIFO for short-term memory while using Vector memory for long-term memory storage. This approach provides a balanced and efficient memory management system, maintaining relevancy and depth in the chatbot's responses.
 
-`VectorChat` inherits from `VectorThread` and `Chat`. It implements a chatbot
-that uses a vector-based memory management strategy. The memory prompt is
-constructed by filling the memory with the `k` most similar messages to the
-question until the `max_vector_memory` limit is reached.
+## Multimodal Data Processing and Extensive Data Type Support
 
-#### Key Methods
+BabyDragon's MemoryFrame is not limited to text-based interactions. It is designed to comprehend and process multimodal data, transforming it into a text-compatible format that chatbots can understand and utilize. This includes various data types such as text, images, audio, and even code snippets.
 
-- `vector_memory_prompt`: Combines the system prompt, `k` most similar messages
-  to the question, and the user prompt.
-- `weighted_memory_prompt`: Combines the system prompt, weighted by temporal
-  decay `k` most similar messages to the question, and the user prompt.
-- `query`: Queries the chatbot with a given question, adds the question and
-  answer to the memory, and returns the chatbot's response.
+Each of these data types, or `bd_type`, is mapped to a corresponding Pydantic class in BabyDragon, allowing for robust data validation and efficient handling. Below are some examples:
 
-### FifoVectorChat
+- **NaturalLanguage**: This `bd_type` is for processing natural language text, like prose, speech transcripts, and Python code. For instance, the `PythonCode` subtype leverages the LibCST library to parse and comprehend Python code snippets, enabling chatbots to offer code-related insights and support coding activities. Other subtypes like `Chat Conversation` and `Conversation Transcript` allow chatbots to maintain and retrieve conversational context effectively.
 
-`FifoVectorChat` inherits from `FifoThread` and `Chat`. It implements a chatbot
-that combines both FIFO and Vector memory strategies. The memory prompt is
-constructed by including both FIFO memory and Vector memory.
+- **DiscreteData**: This `bd_type` handles discrete data like labels, categories, and sequences. It is particularly useful for categorizing messages, tracking the relevance of different topics, and managing ordered sequences of conversation.
 
-#### Key Methods
+- **RealValuedData**: This type handles numerical data, providing a way for chatbots to understand and work with quantitative information. For example, a chatbot might be asked to analyze or summarize numerical trends in a dataset.
 
-- `setup_longterm_memory`: Sets up long-term memory by allocating memory for the
-  FIFO and Vector memory components.
-- `fifovector_memory_prompt`: Combines the system prompt, long-term memory
-  (vector memory), short-term memory (FIFO memory), and the user prompt.
-- `query`: Queries the chatbot with a given question, adds the question and
-  answer to the memory, and returns the chatbot's response.
+- **EpisodicTimeSeries**: This data type represents multiple realizations of the same dynamical system and requires an associated time, datetime, or delta-time object. It's especially useful for chatbots operating in dynamic environments where responses need to adapt to changing conditions over time.
 
-## Usage
+- **Images**: This `bd_type` caters to images, providing a mechanism for chatbots to comprehend and interact with visual data. The `Text Rich Images` subtype can even extract significant textual content from images, enhancing the chatbot's ability to process and respond to visual stimuli.
 
-To create a chatbot instance, simply import the desired chatbot class and
-instantiate it with the appropriate parameters. For example:
+- **Sound**: This `bd_type` is treated similarly to time-series data and supports different kinds of audio data, including speech and music. For instance, the `Speech` subtype is often associated with conversation transcripts, providing a mechanism for audio-visual chatbots to comprehend spoken language and respond accordingly.
 
-```python
-from babydragon.chat.submodule import FifoChat
+In conclusion, BabyDragon's extensive support for different data types and its ability to automatically parse and understand these data formats equip chatbots with a richer context for interaction. Combined with its advanced memory management strategies, it ensures that chatbot responses are not only contextually relevant but also grounded in diverse data modalities.
 
-chatbot = FifoChat(model="gpt-4", max_fifo_memory=2048, max_output_tokens=1000)
-```
 
-You can then query the chatbot using the query method:
+## Automatic Classification and Relevance Tracking with BabyDragon
 
-```python
+Leveraging the diverse data types supported by BabyDragon, the MemoryFrame is capable of intelligently classifying and prioritizing messages based on their content and relevance. This includes processing and comprehending not just text, but also code, images, and audio data.
 
-response = chatbot.query("What is the capital of France?")
-print(response)
-```
+For instance, a chatbot using BabyDragon's `PythonCode` data type can classify Python code snippets, enabling it to offer code-related insights and respond to code-related queries. Similarly, the `DiscreteData` data type allows the chatbot to categorize conversations based on labels or categories, helping it keep track of different topics in a conversation.
 
-## Creating and Using Chatbots with Memory Indexes
+This automatic classification is instrumental in guiding the chatbot to prioritize responses to certain messages depending on their relevance. It does this by assessing the 'importance' of each message in the MemoryFrame, enabling the chatbot to decide which messages to prioritize in its responses. Consequently, the chatbot's ability to maintain context and provide relevant, grounded responses is enhanced significantly.
 
-This section provides examples of how to create chatbots with and without a
-memory index and instantiate each type of memory with appropriate initialization
-parameters.
+In addition, BabyDragon's MemoryFrame also offers tracking capabilities. It can keep track of message relevancy over time, updating the significance of different conversational threads as the dialogue progresses. This ensures that the chatbot's responses are always contextually relevant and grounded in the most up-to-date conversational context.
 
-### Chatbot without Memory Index
-
-You can create a chatbot without a memory index by simply initializing it with
-the default parameters. For example, using the `FifoChat` class:
-
-```python
-from babydragon.chat.submodule import FifoChat
-
-chatbot_no_index = FifoChat(model="gpt-4", max_fifo_memory=2048, max_output_tokens=1000)
-response = chatbot_no_index.query("What is the capital of France?")
-print(response)
-```
-
-### Chatbot with Memory Index
-
-To create a chatbot with a memory index, you need to initialize the memory index
-and pass it to the chatbot. The following example demonstrates how to create a
-PandasIndex and use it with a VectorChat chatbot:
-
-```python
-from babydragon.memory.indexes.pandas_index import PandasIndex
-from babydragon.chat.submodule import VectorChat
-
-# Initialize the PandasIndex
-index = PandasIndex(data_path="path/to/data.csv")
-
-# Create a dictionary containing the index
-index_dict = {'my_index': index}
-
-# Instantiate the VectorChat chatbot with the memory index
-chatbot_with_index = FifoChat(model="gpt-4",index_dict = index_dict, max_fifo_memory=2048, max_output_tokens=1000, max_index_memory = 500)
-
-# Query the chatbot
-response = chatbot_with_index.query("What is the capital of France?")
-print(response)
-```
-
-## Creating Each Type of Memory
-
-You can initialize each type of memory by providing the appropriate parameters
-during instantiation. Here are some examples for each type of memory:
-
-### FifoChat
-
-```python
-
-from babydragon.chat.submodule import FifoChat
-
-fifo_chatbot = FifoChat(model="gpt-4", max_fifo_memory=2048, max_output_tokens=1000)
-```
-
-### VectorChat
-
-```python
-
-from babydragon.chat.submodule import VectorChat
-
-vector_chatbot = VectorChat(model="gpt-4", max_vector_memory=2048, max_output_tokens=1000)
-```
-
-### FifoVectorChat
-
-```python
-
-from babydragon.chat.submodule import FifoVectorChat
-
-fifovector_chatbot = FifoVectorChat(model="gpt-4", max_memory=4096, max_output_tokens=1000, longterm_frac=0.5)
-```
+In summary, BabyDragon equips chatbots with the capability to automatically classify and prioritize messages, thereby enhancing their ability to maintain conversation context and offer relevant, grounded responses.
