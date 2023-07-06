@@ -2,7 +2,7 @@ import numpy as np
 from typing import Any, Dict
 
 class EmbeddingAnalysis:
-    def __init__(self, kernel_matrix: np.ndarray) -> None:
+    def __init__(self, embedding_matrix: np.ndarray, kernel_matrix: np.ndarray) -> None:
         """
         Initializes an instance of the EmbeddingAnalysis class.
 
@@ -16,8 +16,31 @@ class EmbeddingAnalysis:
             raise ValueError("The input kernel matrix must be square.")
         if not np.allclose(kernel_matrix, kernel_matrix.T, atol=1e-8):
             raise ValueError("The input kernel matrix must be symmetric.")
+        self.embedding_matrix = embedding_matrix
         self.kernel_matrix = kernel_matrix
         self.eigenvalues = np.linalg.eigvalsh(kernel_matrix)
+
+    def mean_center(self, A):
+        # A.shape = (embedding dim, num of articles)
+        avg_doc = np.mean(A, axis=1)
+        # avg_doc.shape = (embedding dim, 1)
+        # Compute eigenfaces on mean-subtracted training data
+        X = A - np.tile(avg_doc,(A.shape[1],1)).T
+        # X.shape = A.shape
+        return X, avg_doc
+
+    def eigen_topic(self, A, r1 = 5, r2=55):
+        X, avg_doc = self.mean_center(A)
+        # SVD on Mean-centered articles
+        U, _, _ = np.linalg.svd(X)
+        # U.shape = (embedding dim, embedding dim)
+        # np.diag(S.shape) = (embedding dim, embedding dim)
+        # VT.shape = (num of articles, num of articles)
+        econ_UT = U[:, r1:r2].T
+        # econ_UT.shape = (r2-r1, emmbedding dim)
+        transformed_matrix = econ_UT @ X
+        # transformed_matrix.shape = (r2-r1, num of articles)
+        return transformed_matrix, avg_doc, econ_UT
 
     def check_symmetry(self) -> bool:
         """
