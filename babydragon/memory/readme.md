@@ -156,19 +156,3 @@ Although the previous discussion centered on the context of cross-validation wit
 In conclusion, while the conventional use of stratified sampling is to ensure robustness in cross-validation, its strategic application can yield deeper insights about the models and the phenomena they aim to simulate. This experimental approach allows us to estimate the invariances or equivalences a model can learn, and those it struggles with. Such insights can guide the creation of better models, influence the design of future data collection endeavors, or even inform the generation of new hypotheses in the underlying domain of study.
 
 This experimental framework is extremely versatile and can be adapted to a plethora of contexts. It can assist in uncovering hidden dataset biases, understanding model vulnerabilities, or revealing surprising data patterns. Furthermore, it can support exploratory data analysis and hypothesis testing, all under the unified framework provided by BabyDragon.
-
-
-
-# Chatbot Memory Support and Grounding with Multimodal Data
-BabyDragon offers strong capabilities when it comes to supporting chatbot functionalities, particularly in the context of grounding responses and retrieval from multimodal datasets.
-
-## Retrieval and Grounding for Chatbot Agents
-The MemoryFrame in BabyDragon provides a robust structure for organizing and accessing information, making it an excellent support system for chatbot agents. The data stored in the MemoryFrame can be used to inform a chatbot's responses, leading to more context-aware and grounded interactions.
-
-For instance, suppose a chatbot is asked a question about a specific data point or trend within the stored data. The MemoryFrame can be queried to retrieve the relevant information, which can then be used to formulate a grounded and accurate response.
-
-## Chatbots and Multimodal Data
-BabyDragon extends the concept of chatbot memory support to multimodal datasets. Multimodal data includes data of different types - such as text, images, and audio - that can be processed and represented together in the MemoryFrame.
-
-A chatbot supported by BabyDragon can, therefore, leverage this rich, multimodal context to provide more comprehensive and accurate responses. For example, a chatbot can use text-based data in conjunction with relevant image or audio data to answer a query, resulting in a more informative response.
-
