@@ -110,30 +110,36 @@ The non-parametric approach to these computations ensures that BabyDragon is cap
 - For **mixed types**, BabyDragon's strategy is to train supervised predictors. For example, it can use a classifier to predict a discrete column based on other columns and then estimate the mutual information between the predicted and actual values of the discrete column.
 
 This non-parametric approach allows BabyDragon to handle various data types and to provide a more robust and flexible understanding of your data's complexity and interrelationships.
+## Stratified Sampling for Multimodal Predictions and Semi-parametric Models
 
-# Stratified Sampling for Multimodal Predictions
+BabyDragon's stratification capability embodies a groundbreaking concept. It allows the training of supervised predictors across all data types by merging multimodal datasets with embeddings and traditional categorical/numerical features for comprehensive predictions.
 
-BabyDragon's stratification functionality introduces an innovative concept: it allows for the training of supervised predictors for all types of data by harmonizing multimodal datasets using embeddings, along with traditional categorical/numerical features, for multimodal predictions.
+This process enables stratified sampling over this blended feature set, incorporating both standard structured data and unstructured data manifested through embeddings. This methodology gives a more complex and complete portrayal of your data, encapsulating a wide array of data types and their interconnections.
 
-Stratified sampling is enabled over this amalgamated feature set, which includes both conventional structured data and unstructured data expressed through embeddings. This approach provides a more intricate and comprehensive representation of your data, encapsulating a myriad of data types and their interrelationships.
+Stratified sampling, as implemented by BabyDragon, ensures that each data subset mirrors the entire dataset accurately, thereby enhancing the validation process's reliability. Furthermore, the stratified sampling technique is highly adaptable and can manage various data types, making it exceptionally suitable for multimodal datasets.
 
-BabyDragon employs stratified sampling to ensure each data subset accurately represents the entire dataset, thereby enhancing the reliability of the validation process. Additionally, the stratified sampling technique is highly adaptable and can accommodate various kinds of data, making it especially appropriate for managing multimodal datasets.
+This innovative strategy coincides with the complexities that arise in statistical inference for semi-parametric models when the sampling method deviates from complete randomness. In a semi-parametric model, the conditional distribution of the outcome given the predictors, f(y|x, Θ), is parameterized, while the marginal distribution of the predictors, h(x), is not.
 
-## 1. Quantization of Real-Valued Columns
+When observations are randomly sampled, inferring the unknown parameter Θ becomes simpler as we can estimate it by maximizing the conditional likelihood function. This is achievable without making assumptions about the marginal distribution of the predictors, an advantage as h(x) is unknown.
 
-BabyDragon provides a means to discretize real-valued columns into "bins", effectively transforming them into categorical variables for the purpose of creating strata. This operation, known as quantization, translates a continuous spectrum of values into a finite number of intervals. The resultant binned data can then be employed like any other categorical variable in the stratification process.
+However, complications arise if the sampling process is not random or if it is 'endogenous'—where the probability of an observation being included in the sample depends on both the predictors and the outcome. In this situation, h(x) can't be factored out easily, making assumptions about h(x) necessary to estimate Θ.
 
-## 2. Quantization of High Dimensional Vector Fields
+BabyDragon provides techniques for dealing with these complexities:
 
-When dealing with high-dimensional embedded columns, a slightly different approach is required. These embeddings, which might encapsulate complex data types like text or images in a condensed form, cannot be treated directly as categorical data.
+1. **Quantization of Real-Valued Columns**: BabyDragon can discretize real-valued columns into "bins", converting them into categorical variables for the purpose of creating strata. This process, called quantization, transforms a continuous spectrum of values into a finite number of intervals. The resulting binned data can then be used like any other categorical variable in the stratification process.
 
-To accommodate these high-dimensional vectors, BabyDragon uses a clustering algorithm to partition the high-dimensional space into discrete clusters, which are then used as strata. In parallel, a non-parametric estimate of the entropy of these vector fields is computed to measure their inherent diversity and complexity. This unique strategy allows for the handling of high-dimensional data in a way that's compatible with BabyDragon's stratified sampling methodology, thereby ensuring the cross-validation process remains robust and reliable, irrespective of the nature of the data contained in the MemoryFrame.
+2. **Quantization of High Dimensional Vector Fields**: When working with high-dimensional embedded columns, a slightly different approach is required. BabyDragon employs a clustering algorithm to divide the high-dimensional space into discrete clusters, which are then used as strata. Simultaneously, a non-parametric estimate of these vector fields' entropy is calculated to gauge their inherent diversity and complexity.
 
-# Artificial Transfer Learning Experiments with Stratified Sampling
+The combination of these methods introduces a unique strategy for dealing with high-dimensional data, ensuring that the cross-validation process remains robust and reliable, regardless of the data's nature in the MemoryFrame.
 
-Stratified sampling in BabyDragon not only guarantees each data subset accurately mirrors the entire dataset, but also facilitates intriguing and insightful artificial transfer learning experiments. Through this process, we can examine invariances and equivalence classes across different strata, paving the way for profound understanding and novel scientific explorations.
+## Artificial Transfer Learning Experiments with Stratified Sampling and Semi-parametric Models
 
-In the traditional methodology of stratified cross-validation, the objective is to ensure that each fold is representative of the entire dataset. However, by intentionally altering the distribution of strata in training and validation sets, we can design experiments to assess the models' generalizability under specific conditions.
+Stratified sampling in BabyDragon not only ensures each data subset accurately represents the entire dataset, but it also enables the exploration of artificial transfer learning experiments. This process lets us examine invariances and equivalence classes across different strata, leading to a deeper understanding and novel scientific discoveries.
+
+In the conventional methodology of stratified cross-validation, the objective is to make sure each fold is a good representation of the entire dataset. By purposefully manipulating the distribution of strata in the training and validation sets, we can devise experiments to evaluate the models' ability to generalize under specific conditions.
+
+This experimental framework is highly flexible and can be adapted to a variety of contexts. It can help uncover hidden dataset biases, understand model vulnerabilities, or reveal surprising data patterns. Additionally, it can support exploratory data analysis and hypothesis testing, all under the unified framework offered by BabyDragon.
+
 
 ## 1. Setting Up the Experiment
 
