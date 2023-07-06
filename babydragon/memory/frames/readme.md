@@ -1,37 +1,35 @@
-# BabyDragon Package Overview
+# BabyDragon: Comprehensive Data Management and Processing
 
-The `babydragon` package is designed to handle heterogeneous data in an efficient and intuitive way. It combines the power of polar frames, machine learning techniques, neural network embedders, and language models. This package is very flexible and could significantly facilitate the handling of different types of data. 
+## Introduction
 
+BabyDragon is a versatile package designed for handling heterogeneous data in an efficient and intuitive manner. It brings together the capabilities of Polars Frames, machine learning techniques, neural network embedders, and language models to streamline the handling of diverse data types.
 
-# BabyDragon Auto-Data Types
+## Data Types and Corresponding Pydantic Classes
 
-BabyDragon supports several auto-data types for automatic embedder inference:
+Each BabyDragon data type (`bd_type`) is coupled with a specific Pydantic class, providing comprehensive data validation:
 
-- **Text**: This includes natural language text, audio-transcripts, and python-code. They can be represented as strings or lists of strings. Audio transcripts also have support for timestamps and diarization, while Python uses `libcst` to parse code syntax trees and automatically create a rich context of variables associated with a script.
+- **NaturalLanguage**: Utilized for natural language text, including prose, speech transcripts. Its associated Pydantic class uses the `tiktoken` library for validation.
+- **PythonCode**: For managing Python code, it leverages `libcst` for parsing code syntax trees.
+- **Conversation**: Designed for OpenAI's chat markup language. The Pydantic class verifies a list of message objects.
 
-- **Finite Alphabet Discrete Sequences**: These can be represented as a list of strings or a list of integers. This data type can be used to store replay buffers or datasets for tabular reinforcement learning environments. The package supports learning epsilon machines, hidden Markov models (HMM), and small-scale transformers for model-based prediction.
+These `bd_types` are flexible, supporting either single or multiple strings. 
 
-- **Episodic Time Series**: These are multiple realizations of the same dynamical system with float or int values. They can be represented as arrays or lists of floats. The package supports 1D search using dynamic time warping (DTW) and DTW-based kernels. In addition, time-series features using inverse Fourier features of the DTW kernel for 1D are supported. The package also facilitates learning n-dimensional auto-regressive forecasting with traditional methods, XGBoost, and neural differential equations/operators.
+## Additional Modalities and Their Pydantic Classes
 
-- **Images**: The package supports a variety of images, including natural images (for feature extraction, segmentation, classification), medical images, and text-rich images (such as slides and plots).
+Apart from text data, BabyDragon supports numerous other modalities:
 
-- **Audio**: The package supports audio data, and differentiates between Speech and Music This includes speech recognition, speaker diarization, and possibly emotion or sentiment analysis. As well as conenction to speec2text api. For music data, the package might offer features like genre classification, beat detection, and music recommendation based on audio and lyrics feature analysis.
+- **Finite Alphabet Discrete Sequences**: Stored as lists of strings or integers. Useful for replay buffers or tabular reinforcement learning environments.
+- **Episodic Time Series**: Stored as arrays or lists of floats, these represent multiple realizations of the same dynamical system.
+- **Images**: Natural images for feature extraction, segmentation, classification, medical images, and text-rich images.
+- **Audio**: BabyDragon differentiates between Speech and Music data, offering features like speech recognition and sentiment analysis for speech and genre classification for music.
 
-| BD Data Type                   | Representation           | Supported Operations/Features                                                                                                                |
-|-------------------------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| Text                          | String / List of Strings | Natural Language Processing, Audio Transcript (with support for timestamps and diarization), Python Code (with `libcst` parsing)              |
-| Finite Alphabet Discrete Seq. | List of Strings/Integers | Replay Buffers, Tabular Reinforcement Learning Environments, Epsilon Machines, HMM, Small-scale Transformers                                  |
-| Episodic Time Series          | Array / List of Floats   | Dynamic Time Warping (DTW), Inverse Fourier Features of DTW Kernel, Auto-regressive Forecasting (traditional, XGBoost, Neural Differential Equations)|
-| Images                        | -                        | Natural Images (feature extraction, segmentation, classification), Medical Images, Text-rich Images                                           |
-| Audio                         | -                        | Speech (Speech Recognition, Speaker Diarization, Emotion/Sentiment Analysis), Music (Genre Classification, Beat Detection)                     |
+## MemoryFrame: The Backbone of BabyDragon
 
-# MemoryFrame
-
-A central component of this package is the `MemoryFrame` class. This frame classifies data into three groups of columns: `meta_columns`, `value_columns`, and `embedding_columns`.
+BabyDragon's core construct, the `MemoryFrame`, serves as a bridge between Pydantic and Polars, facilitating data validation and storage. `MemoryFrame` is essentially a Polars DataFrame wrapped with additional functionalities. It classifies data into three groups of columns: `meta_columns`, `value_columns`, and `embedding_columns`.
 
 ### Meta Columns
 
-The `meta_columns` are used to store metadata about each sample. These columns might contain:
+Meta columns carry metadata pertaining to each data entry. This can include information such as:
 
 - ID
 - Name
@@ -42,25 +40,27 @@ The `meta_columns` are used to store metadata about each sample. These columns m
 
 ### Value Columns
 
-The `value_columns` are subdivided into two types: `context_columns` and `embeddable_columns`.
+Value columns are further subdivided into two categories: `context_columns` and `embeddable_columns`.
 
 #### Context Columns
 
-The `context_columns` contain data of any polar type. It can also be auto-generated based on the data type, like applying pre-trained classifiers to get their prediction or applying some transformation or augmentation to the data.
+Context columns house data of any polar type. They can contain auto-generated data based on specific data type applications like pre-trained classifiers' predictions or data transformations/augmentations.
 
 #### Embeddable Columns
 
-The `embeddable_columns` contain data of stricter `babydragon` types, which will allow automatic inference of embedders and interaction with language models. 
+Embeddable columns, on the other hand, hold data of stricter `babydragon` types. This rigidity allows for automatic inference of embedders and seamless interaction with language models.
 
 ### Embedding Columns
 
-The `embedding_columns` store the vector for the corresponding value in the `embeddable_columns`. There will be the same number of embedding columns as there are embeddable columns.
+These columns store vector representations corresponding to the values in the `embeddable_columns`. The number of embedding columns mirrors the number of embeddable columns.
 
+## Intelligent Selection of Vector Embedders
 
-## Bridging Structured and Unstructured Data
+BabyDragon boasts a feature of automatic selection of vector embedders based on the `bd_type`. This feature identifies the best-suited embedder for the data, facilitating the conversion of complex, diverse data into formats suitable for machine learning algorithms and operations like vector search. It streamlines preprocessing and optimizes the data processing pipeline.
 
+## Unifying Structured and Unstructured Data
 
-`BabyDragon` extends typical database operations such as `select`, `group_by`, `filter`, and `sort` by incorporating top-k nearest neighbor search capabilities over vector representations of column values. This integration enables the manipulation and querying of both structured and unstructured data within a unified framework. Users can create dynamic query pipelines, first employing SQL-like operations to filter and organize the data, followed by vector search operations to extract information based on similarity in the vector space. This is especially beneficial when dealing with unstructured data like text or images. Furthermore, `BabyDragon` supports advanced analytical tasks across data types. The fusion of these techniques enables efficient processing and advanced exploration of heterogeneous data.
+BabyDragon augments conventional database operations like `select`, `group_by`, `filter`, and `sort` with top-k nearest neighbor search over vector representations of column values. This enhancement allows manipulation of both structured and unstructured data within the same framework, making it possible to perform advanced analytical tasks across data types. Users can create dynamic query pipelines: employing SQL-like operations to filter and organize data before leveraging vector search operations to draw insights based on vector space similarity. This proves particularly advantageous when handling unstructured data like text or images, paving the way for efficient processing and sophisticated exploration of heterogeneous data.
 
 
 # Column Generators
