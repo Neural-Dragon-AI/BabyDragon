@@ -1,14 +1,32 @@
 from babydragon.types import infer_embeddable_type
-from typing import  List
+from typing import  List, Optional, Union
+from babydragon.models.embedders.ada2 import OpenAiEmbedder
+from babydragon.models.embedders.cohere import CohereEmbedder
 import polars as pl
 import numpy as np
 class MemoryFrame:
-    def __init__(self, df: pl.DataFrame, context_columns: List, embeddable_columns: List):
+    def __init__(self, df: pl.DataFrame,
+                context_columns: List,
+                embeddable_columns: List,
+                time_series_columns: List,
+                name: str = "memory_frame",
+                save_path: Optional[str] = None,
+                load: bool = False,
+                text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder,
+                markdown: str = "text/markdown",
+                token_overflow_strategy: str = "ignore"):
         self.df = df
         self.context_columns = context_columns
+        self.time_series_columns = time_series_columns
         self.embeddable_columns = embeddable_columns
         self.meta_columns = ['ID', 'Name', 'Source', 'Author', 'Created At', 'Last Modified At']
         self.embedding_columns = []
+        self.name = name
+        self.save_path = save_path
+        self.load = load
+        self.text_embedder = text_embedder
+        self.markdown = markdown
+        self.token_overflow_strategy = token_overflow_strategy
 
     def __getattr__(self, name):
         # delegate to the self.df object
@@ -56,7 +74,7 @@ class MemoryFrame:
         # Sort by dot product and select top_k rows
         result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
         return result
-    
+
     def search_column_numpy(self, query, embeddable_column_name, top_k):
         embedding_column_name = 'embedding|' + embeddable_column_name
         #convert query and column to numpy arrays
@@ -69,13 +87,22 @@ class MemoryFrame:
         result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
         return result
 
+    def save_parquet(self):
+        #save to arrow
+        self.full_save_path = self.save_path + self.name + '.parquet'
+        self.df.write_parquet(self.full_save_path)
+
+    def load_parquet(self):
+        self.full_save_path = self.save_path + self.name + '.parquet'
+        self.df = pl.read_parquet(self.full_save_path)
+
+
     def search_time_series_column(self, query, embeddable_column_name, top_k):
         ## uses dtw to match any sub-sequence of the query to the time series in the column
         ## time series column have a date o time or delta time column associated with them 
         ## each row-value is a list of across rows variable length for both the time series and the date or time column
         pass
 
-    
     def generate_column(self, row_generator, new_column_name):
         # Generate new values
         new_values = row_generator.generate(self.df)
