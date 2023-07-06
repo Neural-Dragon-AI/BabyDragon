@@ -2,6 +2,10 @@ from babydragon.types import infer_embeddable_type
 from typing import  List, Optional, Union
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder
+from babydragon.utils.main_logger import logger
+from babydragon.utils.dataframes import extract_values_and_embeddings_pd, extract_values_and_embeddings_hf, extract_values_and_embeddings_polars, get_context_from_hf, get_context_from_pandas, get_context_from_polars
+from babydragon.utils.pythonparser import extract_values_and_embeddings_python
+from datasets import load_dataset
 import polars as pl
 import numpy as np
 class MemoryFrame:
@@ -192,3 +196,39 @@ class MemoryFrame:
             n_folds (int): The number of folds for the cross-validation.
         """
         pass
+
+    @classmethod
+    def from_hf_dataset(
+        cls,
+        dataset_url: str,
+        value_column: str,
+        data_split: str = "train",
+        embeddings_column: Optional[str] = None,
+        embeddable_columns: List,
+        context_columns: Optional[List[str]] = None,
+        time_series_columns: List,
+        name: str = "memory_frame",
+        save_path: Optional[str] = None,
+        embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
+        markdown: str = "text/markdown",
+        token_overflow_strategy: str = "ignore",
+    ) -> "MemoryFrame":
+        dataset = load_dataset(dataset_url)[data_split]
+        values, embeddings = extract_values_and_embeddings_hf(dataset, value_column, embeddings_column)
+        if context_columns is not None:
+            context = get_context_from_hf(dataset, context_columns)
+        else:
+            context = None
+        #convert retrieved data to polars dataframe
+        if embeddings is not None:
+            df = pl.DataFrame({value_column: values, embeddings_column: embeddings})
+        else:
+            df = pl.DataFrame({value_column: values})
+        context_df = pl.DataFrame(context)
+        df = df.hstack([context_df])
+        if value_column not in embeddable_columns:
+            embeddable_columns.append(value_column)
+        if embeddings_column is not None and embeddings_column not in embeddable_columns:
+            embeddable_columns.append(f'embedding|{value_column}')
+        return cls(df, context_columns, embeddable_columns, time_series_columns, name, save_path, embedder, markdown, token_overflow_strategy)
+
