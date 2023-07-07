@@ -2,7 +2,7 @@
 
 ## Introduction
 
-BabyDragon is a comprehensive package designed to facilitate the handling, analysis, and processing of heterogeneous data in a joint probabilistic framework. By integrating the power of Polars DataFrames, machine learning techniques, neural network embedders, and language models, BabyDragon is capable of handling and modeling a wide array of data types. Each type is represented as dimensions of a joint PDF, enabling automatic inference for efficient marginalization and conditioning across these dimensions.
+BabyDragon is a comprehensive package designed to facilitate the handling, analysis, and processing of heterogeneous data in a joint probabilistic framework. By integrating the power of Polars DataFrames, machine learning techniques, neural network embedders, and language models, BabyDragon is capable of handling and modeling a wide array of data types. Each type is represented as dimensions of a joint Probability Density Function (PDF), enabling automatic inference for efficient marginalization and conditioning across these dimensions.
 
 ## Data Types and Corresponding Pydantic Classes
 
@@ -95,21 +95,28 @@ Column generation in BabyDragon is built for efficiency and reliability. It uses
 
 # Non-parametric Mutual Information and Entropy
 
-The BabyDragon package stands out for its unique non-parametric approach to computing mutual information and entropy across various types of columns in a dataset. This methodology provides a flexible and robust measure to assess the complexity and interdependence within your data.
+The BabyDragon package offers a unique non-parametric approach to computing mutual information and entropy across different types of data in a dataset. This method provides a flexible and robust way to assess the complexity and interdependence of your data.
 
-Entropy, which quantifies the uncertainty or randomness inherent in a variable, and mutual information, which gauges the amount of information about one random variable obtained by observing another, are both pivotal in comprehending the relationships between different variables in a dataset. They are particularly essential in identifying conditionally independent variables.
+Entropy is a measure that quantifies the uncertainty or randomness inherent in a variable. On the other hand, mutual information gauges the amount of information about one random variable obtained by observing another. Both these measures play a pivotal role in understanding the relationships between different variables in a dataset and are particularly useful in identifying conditionally independent variables.
 
-The non-parametric approach to these computations ensures that BabyDragon is capable of handling a wide variety of data types and complexities. For instance:
+The non-parametric approach of the BabyDragon package ensures its capability to handle a wide variety of data types and complexities. Specifically:
 
-- For **discrete variables**, the package can compute entropy and mutual information directly from frequency tables.
+- For **discrete variables**, BabyDragon computes entropy and mutual information directly from frequency tables.
 
-- For **continuous variables**, BabyDragon employs the concept of kernel density estimation, a non-parametric way of estimating the probability density function of a random variable. Using this, it can estimate entropy and mutual information.
+- For **continuous variables**, it employs the concept of kernel density estimation, a non-parametric way of estimating the probability density function of a random variable. It uses this method to estimate entropy and mutual information.
 
-- For **high-dimensional vectors** (like embeddings), BabyDragon uses clustering algorithms (such as K-means) to partition the high-dimensional space into discrete clusters. Then, it treats these clusters as discrete categories and calculates entropy and mutual information.
+- For **high-dimensional vectors** (like embeddings), BabyDragon uses clustering algorithms (such as K-means) to partition the high-dimensional space into discrete clusters. Then, it treats these clusters as discrete categories and calculates entropy and mutual information accordingly.
 
 - For **mixed types**, BabyDragon's strategy is to train supervised predictors. For example, it can use a classifier to predict a discrete column based on other columns and then estimate the mutual information between the predicted and actual values of the discrete column.
 
-This non-parametric approach allows BabyDragon to handle various data types and to provide a more robust and flexible understanding of your data's complexity and interrelationships.
+This non-parametric approach enables BabyDragon to manage various data types and to provide a more robust and flexible understanding of your data's complexity and interrelationships.
+
+In many practical scenarios, especially when dealing with high-dimensional data, it is difficult to directly estimate the joint PDF or compute quantities like mutual information or cross entropy. This is where the BabyDragon package and neural networks come into play.
+
+A common approach used by BabyDragon is to train a neural network to predict one variable from the others. The trained network can then be viewed as a model of the conditional PDF of the predicted variable given the other variables. The entropy of the predicted variable, as well as the cross entropy between the true and predicted variables, can be estimated from the network's output. Similarly, mutual information can be approximated as the difference between the entropy of the predicted variable and the cross entropy.
+
+This approach allows BabyDragon to handle complex, high-dimensional data and to estimate quantities of interest in a scalable and efficient manner. The key idea here is to leverage the power of neural networks to learn useful representations of the data, which in turn facilitate the estimation of the joint PDF and related quantities.
+
 ## Stratified Sampling for Multimodal Predictions and Semi-parametric Models
 
 BabyDragon's stratification capability embodies a groundbreaking concept. It allows the training of supervised predictors across all data types by merging multimodal datasets with embeddings and traditional categorical/numerical features for comprehensive predictions.
