@@ -10,9 +10,9 @@ import polars as pl
 import numpy as np
 class MemoryFrame:
     def __init__(self, df: pl.DataFrame,
-                context_columns: List,
-                embeddable_columns: List,
-                time_series_columns: List,
+                context_columns: List = [],
+                embeddable_columns: List = [],
+                time_series_columns: List = [],
                 name: str = "memory_frame",
                 save_path: Optional[str] = None,
                 load: bool = False,
@@ -53,9 +53,9 @@ class MemoryFrame:
         # Generate new values
         new_values = embedder.embed(self.df[column.name].to_list())
         # Add new column to DataFrame
+        new_column_name = f'embedding|{column.name}'
         new_series = pl.Series(new_column_name, new_values)
         self.df = self.df.with_columns(new_series)
-        new_column_name = f'embedding|{column.name}'
         self.embedding_columns.append(new_column_name)
 
 
@@ -204,9 +204,9 @@ class MemoryFrame:
         value_column: str,
         data_split: str = "train",
         embeddings_column: Optional[str] = None,
-        embeddable_columns: List,
+        embeddable_columns: List = [],
         context_columns: Optional[List[str]] = None,
-        time_series_columns: List,
+        time_series_columns: List = [],
         name: str = "memory_frame",
         save_path: Optional[str] = None,
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
@@ -225,7 +225,8 @@ class MemoryFrame:
         else:
             df = pl.DataFrame({value_column: values})
         context_df = pl.DataFrame(context)
-        df = df.hstack([context_df])
+        #merge context columns with dataframe
+        df = pl.concat([df, context_df], how='horizontal')
         if value_column not in embeddable_columns:
             embeddable_columns.append(value_column)
         if embeddings_column is not None and embeddings_column not in embeddable_columns:
