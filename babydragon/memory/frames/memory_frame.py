@@ -230,6 +230,36 @@ class MemoryFrame:
         if value_column not in embeddable_columns:
             embeddable_columns.append(value_column)
         if embeddings_column is not None and embeddings_column not in embeddable_columns:
-            embeddable_columns.append(f'embedding|{value_column}')
+            embeddings_column.append(f'embedding|{value_column}')
         return cls(df, context_columns, embeddable_columns, time_series_columns, name, save_path, embedder, markdown, token_overflow_strategy)
 
+    @classmethod
+    def from_python(
+        cls,
+        directory_path: str,
+        value_column: str,
+        minify_code: bool = False,
+        remove_docstrings: bool = False,
+        resolution: str = "both",
+        embeddings_column: Optional[str] = None,
+        embeddable_columns: List = [],
+        context_columns: Optional[List[str]] = None,
+        time_series_columns: List = [],
+        name: str = "memory_frame",
+        save_path: Optional[str] = None,
+        embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
+        markdown: str = "text/markdown",
+        token_overflow_strategy: str = "ignore",
+    ) -> "MemoryFrame":
+        values, context = extract_values_and_embeddings_python(directory_path, minify_code, remove_docstrings, resolution)
+        logger.info(f"Found {len(values)} values in the directory {directory_path}")
+        #convert retrieved data to polars dataframe
+        df = pl.DataFrame({value_column: values})
+        context_df = pl.DataFrame(context)
+        #merge context columns with dataframe
+        df = pl.concat([df, context_df], how='horizontal')
+        if value_column not in embeddable_columns:
+            embeddable_columns.append(value_column)
+        if embeddings_column is not None and embeddings_column not in embeddable_columns:
+            embeddings_column.append(f'embedding|{value_column}')
+        return cls(df, context_columns, embeddable_columns, time_series_columns, name, save_path, embedder, markdown, token_overflow_strategy)
