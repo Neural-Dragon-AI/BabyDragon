@@ -229,8 +229,6 @@ class MemoryFrame:
         df = pl.concat([df, context_df], how='horizontal')
         if value_column not in embeddable_columns:
             embeddable_columns.append(value_column)
-        if embeddings_column is not None and embeddings_column not in embeddable_columns:
-            embeddings_column.append(f'embedding|{value_column}')
         return cls(df, context_columns, embeddable_columns, time_series_columns, name, save_path, embedder, markdown, token_overflow_strategy)
 
     @classmethod
@@ -260,6 +258,4 @@ class MemoryFrame:
         df = pl.concat([df, context_df], how='horizontal')
         if value_column not in embeddable_columns:
             embeddable_columns.append(value_column)
-        if embeddings_column is not None and embeddings_column not in embeddable_columns:
-            embeddings_column.append(f'embedding|{value_column}')
         return cls(df, context_columns, embeddable_columns, time_series_columns, name, save_path, embedder, markdown, token_overflow_strategy)
