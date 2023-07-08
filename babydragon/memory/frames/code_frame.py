@@ -9,6 +9,86 @@ import polars as pl
 import os
 import numpy as np
 from pydantic import BaseModel
+import libcst as cst
+
+class DocstringCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.docstrings = []
+
+    def visit_Module(self, node: cst.Module) -> bool:
+        if node.body and isinstance(node.body[0].body, cst.SimpleStatementLine):
+            for stmt in node.body[0].body.body:
+                if isinstance(stmt, cst.Expr) and isinstance(stmt.value, cst.SimpleString):
+                    self.docstrings.append(stmt.value.value)
+        return True
+
+    def visit_FunctionDef(self, node: cst.FunctionDef) -> bool:
+        docstring = node.get_docstring()
+        if docstring is not None:
+            self.docstrings.append(docstring)
+        return True
+
+    def visit_ClassDef(self, node: cst.ClassDef) -> bool:
+        docstring = node.get_docstring()
+        if docstring is not None:
+            self.docstrings.append(docstring)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.docstrings
+
+class FunctionCallCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.function_calls = []
+
+    def visit_Call(self, node: cst.Call) -> bool:
+        if isinstance(node.func, cst.Name):
+            # Add the function name to the list
+            self.function_calls.append(node.func.value)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.function_calls
+
+class ArgumentTypeCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.argument_types = []
+
+    def visit_FunctionDef(self, node: cst.FunctionDef) -> bool:
+        # Collect argument types for functions
+        arg_types = []
+        for param in node.params.params:
+            if isinstance(param.annotation, cst.Annotation):
+                arg_types.append(param.annotation.annotation.value)
+            else:
+                arg_types.append(None)
+
+        self.argument_types.append(arg_types)
+        return True
+
+    def visit_ClassDef(self, node: cst.ClassDef) -> bool:
+        # Collect argument types for methods
+        for stmt in node.body.body:
+            if isinstance(stmt, cst.FunctionDef):
+                arg_types = []
+                for param in stmt.params.params:
+                    if isinstance(param.annotation, cst.Annotation):
+                        arg_types.append(param.annotation.annotation.value)
+                    else:
+                        arg_types.append(None)
+
+                self.argument_types.append(arg_types)
+
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.argument_types
 
 class CodeFramePydantic(BaseModel):
     df_path: str
@@ -120,6 +200,25 @@ class CodeFrame:
         new_df = pl.DataFrame({ new_column_name: new_values })
         # Concatenate horizontally
         self.df = self.df.hstack([new_df])
+    
+    def apply_visitor_to_column(self, column_name: str, visitor_class: type):
+        # Ensure the visitor_class is a subclass of PythonCodeVisitor
+        if not issubclass(visitor_class, cst.CSTVisitor):
+            raise TypeError('visitor_class must be a subclass of PythonCodeVisitor')
+
+        # Iterate over the specified column
+        new_values = []
+        for code in self.df[column_name]:
+            # Create a visitor and apply it to the code
+            visitor = visitor_class(code)
+            new_value = visitor.collect()
+            new_values.append(new_value)
+        # Generate new column
+        new_column_name = f'{column_name}|{visitor_class.__name__}'
+        new_series = pl.Series(new_column_name, new_values)
+        self.df = self.df.with_columns(new_series)
+
+        return self
 
     @classmethod
     def from_python(
