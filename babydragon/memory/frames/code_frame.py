@@ -203,6 +203,187 @@ class VariableDeclarationCollector(cst.CSTVisitor):
         self.module.visit(self)
         return self.variable_declarations
 
+class ListComprehensionCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.list_comprehensions = []
+
+    def visit_ListComp(self, node: cst.ListComp) -> bool:
+        self.list_comprehensions.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.list_comprehensions
+
+class DictComprehensionCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.dict_comprehensions = []
+
+    def visit_DictComp(self, node: cst.DictComp) -> bool:
+        self.dict_comprehensions.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.dict_comprehensions
+
+
+# Set Comprehension Collector
+class SetComprehensionCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.set_comprehensions = []
+
+    def visit_SetComp(self, node: cst.SetComp) -> bool:
+        self.set_comprehensions.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.set_comprehensions
+
+# Generator Expression Collector
+class GeneratorExpressionCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.generator_expressions = []
+
+    def visit_GeneratorExp(self, node: cst.GeneratorExp) -> bool:
+        self.generator_expressions.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.generator_expressions
+
+# Yield Statement Collector
+class YieldCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.yields = []
+
+    def visit_Yield(self, node: cst.Yield) -> bool:
+        self.yields.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.yields
+
+# Yield From Statement Collector
+class YieldFromCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.yield_froms = []
+
+    def visit_YieldFrom(self, node: cst.YieldFrom) -> bool:
+        self.yield_froms.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.yield_froms
+
+# Return Statement Collector
+class ReturnCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.returns = []
+
+    def visit_Return(self, node: cst.Return) -> bool:
+        self.returns.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.returns
+
+# Raise Statement Collector
+class RaiseCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.raises = []
+
+    def visit_Raise(self, node: cst.Raise) -> bool:
+        self.raises.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.raises
+
+# Assert Statement Collector
+class AssertCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.asserts = []
+
+    def visit_Assert(self, node: cst.Assert) -> bool:
+        self.asserts.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.asserts
+
+# Break Statement Collector
+class BreakCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.breaks = []
+
+    def visit_Break(self, node: cst.Break) -> bool:
+        self.breaks.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.breaks
+
+# Continue Statement Collector
+class ContinueCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.continues = []
+
+    def visit_Continue(self, node: cst.Continue) -> bool:
+        self.continues.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.continues
+
+# Pass Statement Collector
+class PassCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.passes = []
+
+    def visit_Pass(self, node: cst.Pass) -> bool:
+        self.passes.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.passes
+
+# Delete Statement Collector
+class DeleteCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.deletes = []
+
+    def visit_Delete(self, node: cst.Delete) -> bool:
+        self.deletes.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.deletes
+
 
 class CodeFramePydantic(BaseModel):
     df_path: str
