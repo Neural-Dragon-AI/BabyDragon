@@ -94,8 +94,6 @@ class AddOperatorCounter(cst.CSTVisitor):
         self.module.visit(self)
         return self.add_operator_count
 
-import libcst as cst
-
 # Binary Operators
 class BitAndOperatorCounter(cst.CSTVisitor):
     def __init__(self, code: str):
