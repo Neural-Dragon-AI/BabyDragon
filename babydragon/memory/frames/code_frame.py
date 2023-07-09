@@ -3,7 +3,6 @@ from typing import  List, Optional, Union
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder
 from babydragon.utils.main_logger import logger
-from babydragon.utils.dataframes import extract_values_and_embeddings_pd, extract_values_and_embeddings_hf, extract_values_and_embeddings_polars, get_context_from_hf, get_context_from_pandas, get_context_from_polars
 from babydragon.utils.pythonparser import extract_values_and_embeddings_python
 from babydragon.memory.frames.visitors.module_augmenter_visitors import CodeReplacerVisitor
 import polars as pl
@@ -11,9 +10,6 @@ import os
 import numpy as np
 from pydantic import BaseModel
 import libcst as cst
-
-
-
 
 
 class CodeFramePydantic(BaseModel):
@@ -29,8 +25,6 @@ class CodeFramePydantic(BaseModel):
 
     class Config:
         arbitrary_types_allowed = True
-
-
 
 class CodeFrame:
     def __init__(self, df: pl.DataFrame,
@@ -52,7 +46,6 @@ class CodeFrame:
         self.text_embedder = text_embedder
         self.markdown = markdown
         self.frame_template = CodeFramePydantic(df_path=f'{self.save_dir}/{self.name}.parquet', context_columns=self.context_columns, embeddable_columns=self.embeddable_columns, embedding_columns=self.embedding_columns, name=self.name, save_path=self.save_path, save_dir=self.save_dir, load=True, text_embedder=self.text_embedder, markdown=self.markdown)
-
 
     def __getattr__(self, name: str):
         # delegate to the self.df object
@@ -80,7 +73,6 @@ class CodeFrame:
         self.df = self.df.with_columns(new_series)
         self.embedding_columns.append(new_column_name)
 
-
     def search_column_with_sql_polar(self, sql_query, query, embeddable_column_name, top_k):
         df = self.df.filter(sql_query)
         embedding_column_name = 'embedding|' + embeddable_column_name
@@ -91,7 +83,6 @@ class CodeFrame:
         result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
         return result
 
-
     def search_column_polar(self, query, embeddable_column_name, top_k):
         embedding_column_name = 'embedding|' + embeddable_column_name
 
@@ -100,7 +91,6 @@ class CodeFrame:
         # Sort by dot product and select top_k rows
         result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
         return result
-
 
     def save_parquet(self):
         #create dir in storage if not exists
