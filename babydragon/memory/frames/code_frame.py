@@ -471,6 +471,43 @@ class NonlocalStatementCollector(cst.CSTVisitor):
         return self.nonlocal_statements
 
 
+class CodeReplacerVisitor(cst.CSTTransformer):
+    def __init__(self, filename_column: str, original_code_column: str, replacing_code_column: str):
+        self.filename_column = filename_column
+        self.original_code_column = original_code_column
+        self.replacing_code_column = replacing_code_column
+
+    def visit_Module(self, node: cst.Module) -> cst.Module:
+        # Get the filename from the node metadata
+        filename = node.metadata.get(self.filename_column)
+        if filename is None:
+            return node
+
+        # Load the content of the file
+        with open(filename, "r") as f:
+            file_content = f.read()
+
+        # Get the original code and replacing code from the node metadata
+        original_code = node.metadata.get(self.original_code_column)
+        replacing_code = node.metadata.get(self.replacing_code_column)
+
+        if original_code is None or replacing_code is None:
+            return node
+
+        # Replace the original code with the replacing code in the file content
+        modified_content = file_content.replace(original_code, replacing_code)
+
+        # Save the modified content back to the file
+        with open(filename, "w") as f:
+            f.write(modified_content)
+
+        # Parse the modified content to update the node
+        return cst.parse_module(modified_content)
+
+    def leave_Module(self, original_node: cst.Module, updated_node: cst.Module) -> cst.Module:
+        # Copy the metadata from the original node to the updated node
+        updated_node.metadata = original_node.metadata
+        return updated_node
 
 class CodeFramePydantic(BaseModel):
     df_path: str
@@ -582,7 +619,7 @@ class CodeFrame:
         new_df = pl.DataFrame({ new_column_name: new_values })
         # Concatenate horizontally
         self.df = self.df.hstack([new_df])
-    
+
     def apply_visitor_to_column(self, column_name: str, visitor_class: type):
         # Ensure the visitor_class is a subclass of PythonCodeVisitor
         if not issubclass(visitor_class, cst.CSTVisitor):
@@ -599,6 +636,25 @@ class CodeFrame:
         new_column_name = f'{column_name}|{visitor_class.__name__}'
         new_series = pl.Series(new_column_name, new_values)
         self.df = self.df.with_columns(new_series)
+
+        return self
+
+    def replace_code_in_files(self, filename_column: str, original_code_column: str, replacing_code_column: str):
+        visitor = CodeReplacerVisitor(filename_column, original_code_column, replacing_code_column)
+        for row in self.df.rows():
+            filename = row[filename_column]
+            original_code = row[original_code_column]
+            replacing_code = row[replacing_code_column]
+
+            if filename and original_code and replacing_code and os.path.isfile(filename):
+                node = cst.parse_module(original_code)
+                node.metadata[original_code_column] = original_code
+                node.metadata[replacing_code_column] = replacing_code
+                node.metadata[filename_column] = filename
+
+                modified_node = node.visit(visitor)
+                modified_code = cst.Module(body=modified_node.body).code
+                row[original_code_column] = modified_code
 
         return self
 
