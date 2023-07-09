@@ -4,7 +4,7 @@ from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder
 from babydragon.utils.main_logger import logger
 from babydragon.utils.pythonparser import extract_values_and_embeddings_python
-from babydragon.memory.frames.visitors.module_augmenter_visitors import CodeReplacerVisitor
+from babydragon.memory.frames.visitors.module_augmenters import CodeReplacerVisitor
 import polars as pl
 import os
 import numpy as np
