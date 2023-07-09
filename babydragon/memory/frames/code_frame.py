@@ -90,6 +90,120 @@ class ArgumentTypeCollector(cst.CSTVisitor):
         self.module.visit(self)
         return self.argument_types
 
+class ImportCollector(cst.CSTVisitor):
+    def __init__(self, filename: str):
+        with open(filename, "r") as file:
+            self.module = cst.parse_module(file.read())
+        self.imports = []
+
+    def visit_Import(self, node: cst.Import) -> bool:
+        for name in node.names:
+            self.imports.append(cst.Module([node]))
+        return True
+
+    def visit_ImportFrom(self, node: cst.ImportFrom) -> bool:
+        module = node.module.value if node.module else ""
+        for name in node.names:
+            self.imports.append(cst.Module([node]))
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        import_code = [import_statement.code for import_statement in self.imports]
+        return import_code
+
+class IfStatementCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.if_statements = []
+
+    def visit_If(self, node: cst.If) -> bool:
+        self.if_statements.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.if_statements
+
+class BaseCompoundStatementCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.compound_statements = []
+
+    def visit_BaseCompoundStatement(self, node: cst.BaseCompoundStatement) -> bool:
+        self.compound_statements.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.compound_statements
+    
+class ForLoopCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.for_loops = []
+
+    def visit_For(self, node: cst.For) -> bool:
+        self.for_loops.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.for_loops
+
+class WhileLoopCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.while_loops = []
+
+    def visit_While(self, node: cst.While) -> bool:
+        self.while_loops.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.while_loops
+    
+class TryExceptCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.try_excepts = []
+
+    def visit_Try(self, node: cst.Try) -> bool:
+        self.try_excepts.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.try_excepts
+
+class WithCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.withs = []
+
+    def visit_With(self, node: cst.With) -> bool:
+        self.withs.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.withs
+
+class VariableDeclarationCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.variable_declarations = []
+
+    def visit_Assign(self, node: cst.Assign) -> bool:
+        self.variable_declarations.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.variable_declarations
+
+
 class CodeFramePydantic(BaseModel):
     df_path: str
     context_columns: List
