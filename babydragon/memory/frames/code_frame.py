@@ -384,6 +384,93 @@ class DeleteCollector(cst.CSTVisitor):
         self.module.visit(self)
         return self.deletes
 
+import libcst as cst
+
+# With Statement Collector
+class WithStatementCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.with_statements = []
+
+    def visit_With(self, node: cst.With) -> bool:
+        self.with_statements.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.with_statements
+
+# Try Statement Collector
+class TryStatementCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.try_statements = []
+
+    def visit_Try(self, node: cst.Try) -> bool:
+        self.try_statements.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.try_statements
+
+# Except Clause Collector
+class ExceptClauseCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.except_clauses = []
+
+    def visit_ExceptHandler(self, node: cst.ExceptHandler) -> bool:
+        self.except_clauses.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.except_clauses
+
+# Lambda Function Collector
+class LambdaFunctionCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.lambda_functions = []
+
+    def visit_Lambda(self, node: cst.Lambda) -> bool:
+        self.lambda_functions.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.lambda_functions
+
+# Global Statement Collector
+class GlobalStatementCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.global_statements = []
+
+    def visit_Global(self, node: cst.Global) -> bool:
+        self.global_statements.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.global_statements
+
+# Nonlocal Statement Collector
+class NonlocalStatementCollector(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.nonlocal_statements = []
+
+    def visit_Nonlocal(self, node: cst.Nonlocal) -> bool:
+        self.nonlocal_statements.append(cst.Module([node]).code)
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.nonlocal_statements
+
+
 
 class CodeFramePydantic(BaseModel):
     df_path: str
