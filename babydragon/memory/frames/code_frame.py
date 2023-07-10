@@ -5,11 +5,12 @@ from babydragon.models.embedders.cohere import CohereEmbedder
 from babydragon.utils.main_logger import logger
 from babydragon.utils.pythonparser import extract_values_and_embeddings_python
 from babydragon.memory.frames.visitors.module_augmenters import CodeReplacerVisitor
+from babydragon.memory.frames.base_frame import BaseFrame
 import polars as pl
 import os
-import numpy as np
 from pydantic import BaseModel
 import libcst as cst
+
 
 
 class CodeFramePydantic(BaseModel):
@@ -26,36 +27,31 @@ class CodeFramePydantic(BaseModel):
     class Config:
         arbitrary_types_allowed = True
 
-class CodeFrame:
-    def __init__(self, df: pl.DataFrame,
-                context_columns: List = [],
-                embeddable_columns: List = [],
-                embedding_columns: List = [],
-                name: str = "code_frame",
-                save_path: Optional[str] = "/storage",
-                text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder,
-                markdown: str = "text/markdown",):
+class CodeFrame(BaseFrame):
+    def __init__(self, df: pl.DataFrame, **kwargs):
+        super().__init__(**kwargs)
         self.df = df
-        self.context_columns = context_columns
-        self.embeddable_columns = embeddable_columns
-        self.meta_columns = ['ID', 'Name', 'Source', 'Author', 'Created At', 'Last Modified At']
-        self.embedding_columns = embedding_columns
-        self.name = name
-        self.save_path = save_path
-        self.save_dir = f'{self.save_path}/{self.name}'
-        self.text_embedder = text_embedder
-        self.markdown = markdown
         self.frame_template = CodeFramePydantic(df_path=f'{self.save_dir}/{self.name}.parquet', context_columns=self.context_columns, embeddable_columns=self.embeddable_columns, embedding_columns=self.embedding_columns, name=self.name, save_path=self.save_path, save_dir=self.save_dir, load=True, text_embedder=self.text_embedder, markdown=self.markdown)
 
     def __getattr__(self, name: str):
-        # delegate to the self.df object
-        return getattr(self.df.lazy(), name)
+        if "df" in self.__dict__:
+            return getattr(self.df.lazy(), name)
+        raise AttributeError(f"{self.__class__.__name__} object has no attribute {name}")
 
     def get_overwritten_attr(self):
         df_methods = [method for method in dir(self.df) if callable(getattr(self.df, method))]
         memory_frame_methods = [method for method in dir(CodeFrame) if callable(getattr(CodeFrame, method))]
         common_methods = list(set(df_methods) & set(memory_frame_methods))
         return common_methods
+
+    def tokenize_column(self, column_name: str):
+        new_values = self.tokenizer.encode_batch(self.df[column_name].to_list())
+        new_series = pl.Series(f'tokens|{column_name}', new_values)
+        len_values = [len(x) for x in new_values]
+        new_series_len = pl.Series(f'tokens_len|{column_name}', len_values)
+        self.df = self.df.with_columns(new_series)
+        self.df = self.df.with_columns(new_series_len)
+        return self
 
     def embed_columns(self, embeddable_columns: List):
         for column_name in embeddable_columns:
@@ -72,6 +68,21 @@ class CodeFrame:
         new_series = pl.Series(new_column_name, new_values)
         self.df = self.df.with_columns(new_series)
         self.embedding_columns.append(new_column_name)
+
+    def apply_validator_to_column(self, column_name: str, validator: type):
+        # Ensure the validator is a subclass of BaseModel from Pydantic
+        if not issubclass(validator, BaseModel):
+            raise TypeError('validator must be a subclass of BaseModel from Pydantic')
+
+        # Iterate over the specified column
+        for text in self.df[column_name]:
+            # Create a validator instance and validate the text
+            try:
+                _ = validator(text=text).text
+            except Exception as e:
+                raise ValueError(f"Failed to validate text in column '{column_name}'.") from e
+
+        return self
 
     def search_column_with_sql_polar(self, sql_query, query, embeddable_column_name, top_k):
         df = self.df.filter(sql_query)
@@ -92,7 +103,7 @@ class CodeFrame:
         result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
         return result
 
-    def save_parquet(self):
+    def save(self):
         #create dir in storage if not exists
         if not os.path.exists(self.save_dir):
             os.makedirs(self.save_dir)
@@ -103,7 +114,7 @@ class CodeFrame:
             f.write(frame_template_json)
 
     @classmethod
-    def load_parquet(cls, frame_path, name):
+    def load(cls, frame_path, name):
         df = pl.read_parquet(f'{frame_path}/{name}.parquet')
         with open(f'{frame_path}/{name}.json', 'r') as f:
             frame_template = CodeFramePydantic.parse_raw(f.read())
@@ -180,4 +191,14 @@ class CodeFrame:
         df = pl.concat([df, context_df], how='horizontal')
         if value_column not in embeddable_columns:
             embeddable_columns.append(value_column)
-        return cls(df, context_columns, embeddable_columns, embeddings_column, name, save_path, embedder, markdown)
+
+        kwargs = {
+            "context_columns": context_columns,
+            "embeddable_columns": embeddable_columns,
+            "embedding_columns": embeddings_column,
+            "name": name,
+            "save_path": save_path,
+            "text_embedder": embedder,
+            "markdown": markdown
+        }
+        return cls(df, **kwargs)
