@@ -6,7 +6,6 @@ import polars as pl
 import requests
 from bs4 import BeautifulSoup
 import json
-
 from babydragon.utils.chatml import check_dict
 
 
@@ -256,7 +255,7 @@ class BaseThread:
         return messages,indexes
 
     
-    def load_from_gpt_link(self, url: str):
+    def load_from_gpt_url(self, url: str):
 
         response = requests.get(url)
         if response.status_code == 200:
@@ -284,6 +283,7 @@ class BaseThread:
                                     'content': value['message']['content']['parts'][0],
                                     'timestamp': value['message']['create_time']}
                     self.add_dict_to_thread(message_dict)
+            print("Conversation loaded succesfully")
         else:
             raise ValueError(f"Nessuna conversazione trovata a questo link!")
 
