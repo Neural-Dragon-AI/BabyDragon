@@ -12,7 +12,9 @@ class StatusTrackerModel(BaseModel):
     available_token_capacity: int = 625000
     last_update_time: float = now()
     num_rate_limit_errors: int = 0
-    time_of_last_rate_limit_error: float = 0
+    time_of_last_rate_limit_error: float = 0.0
+    num_tasks_failed: int = 0
+    num_tasks_started: int = 0
     num_api_errors: int = 0
     num_other_errors: int = 0 
 
