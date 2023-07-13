@@ -6,6 +6,8 @@ from babydragon.utils.main_logger import logger
 from babydragon.utils.pythonparser import extract_values_and_embeddings_python
 from babydragon.memory.frames.visitors.module_augmenters import CodeReplacerVisitor
 from babydragon.memory.frames.base_frame import BaseFrame
+from babydragon.memory.frames.visitors.node_type_counters import *
+from babydragon.memory.frames.visitors.operator_counters import *
 import polars as pl
 import os
 from pydantic import BaseModel
@@ -73,7 +75,10 @@ class CodeFrame(BaseFrame):
         # Ensure the validator is a subclass of BaseModel from Pydantic
         if not issubclass(validator, BaseModel):
             raise TypeError('validator must be a subclass of BaseModel from Pydantic')
-
+        if column_name not in self.df.columns:
+            raise ValueError(f"Column '{column_name}' does not exist.")
+        if column_name not in self.embeddable_columns:
+            raise ValueError(f"Column '{column_name}' is not set to embeddable.")
         # Iterate over the specified column
         for text in self.df[column_name]:
             # Create a validator instance and validate the text
@@ -128,7 +133,7 @@ class CodeFrame(BaseFrame):
         # Concatenate horizontally
         self.df = self.df.hstack([new_df])
 
-    def apply_visitor_to_column(self, column_name: str, visitor_class: type):
+    def apply_visitor_to_column(self, column_name: str, visitor_class: type, new_column_prefix: Optional[str] = None):
         # Ensure the visitor_class is a subclass of PythonCodeVisitor
         if not issubclass(visitor_class, cst.CSTVisitor):
             raise TypeError('visitor_class must be a subclass of PythonCodeVisitor')
@@ -141,11 +146,22 @@ class CodeFrame(BaseFrame):
             new_value = visitor.collect()
             new_values.append(new_value)
         # Generate new column
-        new_column_name = f'{column_name}|{visitor_class.__name__}'
+        new_column_name = f'{column_name}_{new_column_prefix}|{visitor_class.__name__}'
         new_series = pl.Series(new_column_name, new_values)
         self.df = self.df.with_columns(new_series)
 
         return self
+
+    def count_node_types(self, column_name: str, new_column_prefix: str = 'node_count'):
+        for node_type_counter in NODETYPE_COUNTERS:
+            self.apply_visitor_to_column(column_name, globals()[node_type_counter], new_column_prefix)
+        return self
+
+    def count_operators(self, column_name: str, new_column_prefix: str = 'operator_count'):
+        for operator_counter in OPERATOR_COUNTERS:
+            self.apply_visitor_to_column(column_name, globals()[operator_counter], new_column_prefix)
+        return self
+
 
     def replace_code_in_files(self, filename_column: str, original_code_column: str, replacing_code_column: str):
         visitor = CodeReplacerVisitor(filename_column, original_code_column, replacing_code_column)

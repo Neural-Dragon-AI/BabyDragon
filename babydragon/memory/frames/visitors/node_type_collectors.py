@@ -261,19 +261,6 @@ class YieldCollector(cst.CSTVisitor):
         self.module.visit(self)
         return self.yields
 
-# Yield From Statement Collector
-class YieldFromCollector(cst.CSTVisitor):
-    def __init__(self, code: str):
-        self.module = cst.parse_module(code)
-        self.yield_froms = []
-
-    def visit_YieldFrom(self, node: cst.YieldFrom) -> bool:
-        self.yield_froms.append(cst.Module([node]).code)
-        return True
-
-    def collect(self):
-        self.module.visit(self)
-        return self.yield_froms
 
 # Return Statement Collector
 class ReturnCollector(cst.CSTVisitor):
@@ -359,19 +346,6 @@ class PassCollector(cst.CSTVisitor):
         self.module.visit(self)
         return self.passes
 
-# Delete Statement Collector
-class DeleteCollector(cst.CSTVisitor):
-    def __init__(self, code: str):
-        self.module = cst.parse_module(code)
-        self.deletes = []
-
-    def visit_Delete(self, node: cst.Delete) -> bool:
-        self.deletes.append(cst.Module([node]).code)
-        return True
-
-    def collect(self):
-        self.module.visit(self)
-        return self.deletes
 
 
 # With Statement Collector

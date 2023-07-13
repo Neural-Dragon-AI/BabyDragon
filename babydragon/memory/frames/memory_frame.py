@@ -17,8 +17,7 @@ class MemoryFrame:
                 save_path: Optional[str] = None,
                 load: bool = False,
                 text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder,
-                markdown: str = "text/markdown",
-                token_overflow_strategy: str = "ignore"):
+                markdown: str = "text/markdown",):
         self.df = df
         self.context_columns = context_columns
         self.time_series_columns = time_series_columns
@@ -30,9 +29,9 @@ class MemoryFrame:
         self.load = load
         self.text_embedder = text_embedder
         self.markdown = markdown
-        self.token_overflow_strategy = token_overflow_strategy
 
-    def __getattr__(self, name):
+
+    def __getattr__(self, name: str):
         # delegate to the self.df object
         return getattr(self.df, name)
 
@@ -42,7 +41,7 @@ class MemoryFrame:
         common_methods = list(set(df_methods) & set(memory_frame_methods))
         return common_methods
 
-    def embed_columns(self, embeddable_columns):
+    def embed_columns(self, embeddable_columns: List):
         for column_name in embeddable_columns:
             column = self.df[column_name]
             _, embedder = infer_embeddable_type(column)

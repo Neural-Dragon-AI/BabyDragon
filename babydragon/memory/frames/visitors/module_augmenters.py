@@ -1,4 +1,56 @@
 import libcst as cst
+import libcst.matchers as matchers
+
+class PassInserter(cst.CSTTransformer):
+    def __init__(self):
+        super().__init__()
+        self.inside_class = False
+
+    def visit_ClassDef(self, node: cst.ClassDef):
+        self.inside_class = True
+        return super().visit_ClassDef(node)
+
+    def leave_ClassDef(self, original_node: cst.ClassDef, updated_node: cst.ClassDef) -> cst.ClassDef:
+        self.inside_class = False
+        return updated_node
+
+    def leave_FunctionDef(self, original_node: cst.FunctionDef, updated_node: cst.FunctionDef) -> cst.FunctionDef:
+        body = updated_node.body
+        body_elements = body.body
+
+        # Check if the first element is a docstring
+
+        #if body_elements and matchers.matches(body_elements[0], matchers.Expr(matchers.SimpleString() | matchers.ConcatenatedString())):
+            #docstring = body_elements[0]
+        docstrings = []
+        for element in body_elements:
+            if matchers.matches(element, matchers.Expr(matchers.SimpleString() | matchers.ConcatenatedString())):
+                docstrings.append(element)
+
+        # Prepare new body
+        new_body = [cst.SimpleStatementLine(body=(cst.Pass(),))]
+        if docstrings[0] is not None:
+            new_body.insert(0, docstrings[0])
+
+        return updated_node.with_changes(
+            body=cst.IndentedBlock(body=tuple(new_body))
+        )
+
+def generate_skeleton(code: str) -> str:
+    """
+    Generate a skeleton for the given code, replacing function and class bodies with a pass statement.
+    """
+    # Parse the code into a CST
+    module = cst.parse_module(code)
+
+    # Apply the transformer
+    transformer = PassInserter()
+    transformed_module = module.visit(transformer)
+
+    # Convert the transformed CST back to code
+    skeleton_code = transformed_module.code
+
+    return skeleton_code
 
 class CodeReplacerVisitor(cst.CSTTransformer):
     def __init__(self, filename_column: str, original_code_column: str, replacing_code_column: str):

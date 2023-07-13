@@ -1,5 +1,38 @@
 import libcst as cst
 # Function Call Counter
+
+NODETYPE_COUNTERS = [
+    'FunctionCallCounter',
+    'ArgumentTypeCounter',
+    'ImportCounter',
+    'IfStatementCounter',
+    'BaseCompoundStatementCounter',
+    'ForLoopCounter',
+    'WhileLoopCounter',
+    'TryExceptCounter',
+    'WithStatementCounter',
+    'LambdaFunctionCounter',
+    'GlobalStatementCounter',
+    'NonlocalStatementCounter',
+    'ListComprehensionCounter',
+    'DictComprehensionCounter',
+    'SetComprehensionCounter',
+    'GeneratorExpressionCounter',
+    'YieldCounter',
+    'YieldFromCounter',
+    'AwaitCounter',
+    'AsyncForCounter',
+    'AsyncWithCounter',
+    'AsyncFunctionCounter',
+    'ReturnCounter',
+    'BreakCounter',
+    'ContinueCounter',
+    'RaiseCounter',
+    'AssertCounter',
+    'DelCounter',
+    'PassCounter'
+]
+
 class FunctionCallCounter(cst.CSTVisitor):
     def __init__(self, code: str):
         self.module = cst.parse_module(code)
@@ -161,7 +194,7 @@ class GlobalStatementCounter(cst.CSTVisitor):
 
     def collect(self):
         self.module.visit(self)
-        return self
+        return self.global_statement_count
 
 # Nonlocal Statement Counter
 class NonlocalStatementCounter(cst.CSTVisitor):
@@ -176,3 +209,225 @@ class NonlocalStatementCounter(cst.CSTVisitor):
     def collect(self):
         self.module.visit(self)
         return self.nonlocal_statement_count
+
+class ListComprehensionCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.list_comprehension_count = 0
+
+    def visit_ListComp(self, node: cst.ListComp) -> bool:
+        self.list_comprehension_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.list_comprehension_count
+
+class DictComprehensionCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.dict_comprehension_count = 0
+
+    def visit_DictComp(self, node: cst.DictComp) -> bool:
+        self.dict_comprehension_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.dict_comprehension_count
+
+class SetComprehensionCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.set_comprehension_count = 0
+
+    def visit_SetComp(self, node: cst.SetComp) -> bool:
+        self.set_comprehension_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.set_comprehension_count
+
+class GeneratorExpressionCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.generator_expression_count = 0
+
+    def visit_GeneratorExp(self, node: cst.GeneratorExp) -> bool:
+        self.generator_expression_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.generator_expression_count
+
+class YieldCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.yield_count = 0
+
+    def visit_Yield(self, node: cst.Yield) -> bool:
+        self.yield_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.yield_count
+
+class YieldFromCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.yield_from_count = 0
+
+    def visit_YieldFrom(self, node: cst.YieldFrom) -> bool:
+        self.yield_from_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.yield_from_count
+
+class AwaitCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.await_count = 0
+
+    def visit_Await(self, node: cst.Await) -> bool:
+        self.await_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.await_count
+
+class AsyncForCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.async_for_count = 0
+
+    def visit_AsyncFor(self, node: cst.AsyncFor) -> bool:
+        self.async_for_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.async_for_count
+
+class AsyncWithCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.async_with_count = 0
+
+    def visit_AsyncWith(self, node: cst.AsyncWith) -> bool:
+        self.async_with_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.async_with_count
+
+class AsyncFunctionCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.async_function_count = 0
+
+    def visit_AsyncFunctionDef(self, node: cst.AsyncFunctionDef) -> bool:
+        self.async_function_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.async_function_count
+
+class ReturnCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.return_count = 0
+
+    def visit_Return(self, node: cst.Return) -> bool:
+        self.return_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.return_count
+
+class BreakCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.break_count = 0
+
+    def visit_Break(self, node: cst.Break) -> bool:
+        self.break_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.break_count
+
+class ContinueCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.continue_count = 0
+
+    def visit_Continue(self, node: cst.Continue) -> bool:
+        self.continue_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.continue_count
+
+class RaiseCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.raise_count = 0
+
+    def visit_Raise(self, node: cst.Raise) -> bool:
+        self.raise_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.raise_count
+
+class AssertCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.assert_count = 0
+
+    def visit_Assert(self, node: cst.Assert) -> bool:
+        self.assert_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.assert_count
+
+class DelCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.del_count = 0
+
+    def visit_Delete(self, node: cst.Delete) -> bool:
+        self.del_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.del_count
+
+class PassCounter(cst.CSTVisitor):
+    def __init__(self, code: str):
+        self.module = cst.parse_module(code)
+        self.pass_count = 0
+
+    def visit_Pass(self, node: cst.Pass) -> bool:
+        self.pass_count += 1
+        return True
+
+    def collect(self):
+        self.module.visit(self)
+        return self.pass_count
+
