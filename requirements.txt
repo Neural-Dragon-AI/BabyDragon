@@ -1,5 +1,3 @@
-faiss-cpu
-gradio
 IPython
 libcst
 markdown
