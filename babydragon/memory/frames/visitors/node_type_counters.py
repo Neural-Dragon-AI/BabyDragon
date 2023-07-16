@@ -18,18 +18,13 @@ NODETYPE_COUNTERS = [
     'DictComprehensionCounter',
     'SetComprehensionCounter',
     'GeneratorExpressionCounter',
-    'YieldCounter',
-    'YieldFromCounter',
     'AwaitCounter',
-    'AsyncForCounter',
-    'AsyncWithCounter',
     'AsyncFunctionCounter',
     'ReturnCounter',
     'BreakCounter',
     'ContinueCounter',
     'RaiseCounter',
     'AssertCounter',
-    'DelCounter',
     'PassCounter'
 ]
 
@@ -275,18 +270,7 @@ class YieldCounter(cst.CSTVisitor):
         self.module.visit(self)
         return self.yield_count
 
-class YieldFromCounter(cst.CSTVisitor):
-    def __init__(self, code: str):
-        self.module = cst.parse_module(code)
-        self.yield_from_count = 0
 
-    def visit_YieldFrom(self, node: cst.YieldFrom) -> bool:
-        self.yield_from_count += 1
-        return True
-
-    def collect(self):
-        self.module.visit(self)
-        return self.yield_from_count
 
 class AwaitCounter(cst.CSTVisitor):
     def __init__(self, code: str):
@@ -300,32 +284,6 @@ class AwaitCounter(cst.CSTVisitor):
     def collect(self):
         self.module.visit(self)
         return self.await_count
-
-class AsyncForCounter(cst.CSTVisitor):
-    def __init__(self, code: str):
-        self.module = cst.parse_module(code)
-        self.async_for_count = 0
-
-    def visit_AsyncFor(self, node: cst.AsyncFor) -> bool:
-        self.async_for_count += 1
-        return True
-
-    def collect(self):
-        self.module.visit(self)
-        return self.async_for_count
-
-class AsyncWithCounter(cst.CSTVisitor):
-    def __init__(self, code: str):
-        self.module = cst.parse_module(code)
-        self.async_with_count = 0
-
-    def visit_AsyncWith(self, node: cst.AsyncWith) -> bool:
-        self.async_with_count += 1
-        return True
-
-    def collect(self):
-        self.module.visit(self)
-        return self.async_with_count
 
 class AsyncFunctionCounter(cst.CSTVisitor):
     def __init__(self, code: str):
@@ -405,18 +363,6 @@ class AssertCounter(cst.CSTVisitor):
         self.module.visit(self)
         return self.assert_count
 
-class DelCounter(cst.CSTVisitor):
-    def __init__(self, code: str):
-        self.module = cst.parse_module(code)
-        self.del_count = 0
-
-    def visit_Delete(self, node: cst.Delete) -> bool:
-        self.del_count += 1
-        return True
-
-    def collect(self):
-        self.module.visit(self)
-        return self.del_count
 
 class PassCounter(cst.CSTVisitor):
     def __init__(self, code: str):
