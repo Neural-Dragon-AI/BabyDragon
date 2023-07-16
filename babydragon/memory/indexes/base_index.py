@@ -16,6 +16,7 @@ class BaseIndex(ABC):
             save_path: Optional[str] = None,
             load: bool = False,
             embedder: Optional[Union[OpenAiEmbedder, CohereEmbedder]] = OpenAiEmbedder,
+            token_overflow_strategy: str = "ignore",
     ):
         self.name = name
         self.embedder = embedder()
@@ -24,6 +25,7 @@ class BaseIndex(ABC):
         self.values = []
         self.embeddings = None  # initialize embeddings as None
         self.queries_embeddings = None  # initialize query embeddings as None
+        self.token_overflow_strategy = token_overflow_strategy
         self.queries = []
         self.queries_set = set()  # add this to quickly check for duplicates
         self.index_set = set()  # add this to quickly check for duplicates
@@ -63,6 +65,10 @@ class BaseIndex(ABC):
 
     @abstractmethod
     def search(self, query: Optional[str] = None, query_embedding: Optional[np.ndarray] = None, top_k: int = 10, metric: str = "cosine", filter_mask: Optional[np.ndarray] = None) -> Tuple[List[str], Optional[List[float]], List[int]]:
+        pass
+    
+    @abstractmethod
+    def setup_index(self, values: Optional[List[str]] = None, embeddings: Optional[List[Union[List[float], np.ndarray]]] = None, load: bool = False):
         pass
     
     # Non-abstract method

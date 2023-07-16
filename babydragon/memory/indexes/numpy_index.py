@@ -1,11 +1,12 @@
 from typing import List, Optional, Union, Tuple, Dict
-from babydragon.models.embedders.ada2 import OpenAiEmbedder
+from babydragon.models.embedders.ada2 import OpenAiEmbedder, TOKENIZER, MAX_CONTEXT_LENGTH
 from babydragon.models.embedders.cohere import CohereEmbedder
 import numpy as np
 import os
-import json
 import collections
 from babydragon.memory.indexes.base_index import BaseIndex
+from babydragon.utils.main_logger import logger
+
 
 class NpIndex(BaseIndex):
     def __init__(
@@ -16,9 +17,10 @@ class NpIndex(BaseIndex):
             save_path: Optional[str] = None,
             load: bool = False,
             embedder: Optional[Union[OpenAiEmbedder, CohereEmbedder]] = OpenAiEmbedder,
+            token_overflow_strategy: str = "ignore",
     ):
         self.old_ids = collections.OrderedDict()
-        BaseIndex.__init__(self,values, embeddings, name, save_path, load, embedder)
+        BaseIndex.__init__(self,values=values, embeddings=embeddings, name=name, save_path=save_path, load=load, embedder=embedder, token_overflow_strategy=token_overflow_strategy)
 
 
     @staticmethod
@@ -109,6 +111,30 @@ class NpIndex(BaseIndex):
 
         return output_types[output_type]
 
+    def validate_value_length(self, value: str, tokens: List[int]) -> Union[bool, str]:
+        if not isinstance(value, str):
+            raise TypeError("Value must be a string.")
+        token_len = len(tokens)
+        overflow_check = token_len > MAX_CONTEXT_LENGTH
+        match self.token_overflow_strategy:
+            case "ignore":
+                if overflow_check:
+                    return False, value
+                else:
+                    return True, value
+            case "truncate":
+                if overflow_check:
+                    return True, TOKENIZER.decode(tokens[:MAX_CONTEXT_LENGTH])
+                else:
+                    return True, value
+            case "error":
+                if overflow_check:
+                    raise ValueError(f" The input is too long for OpenAI, num tokens is {token_len}, instead of {MAX_CONTEXT_LENGTH}")
+                else:
+                    return True, value
+            case _:
+                raise ValueError("Invalid token_overflow_strategy. Expected 'ignore', 'truncate', or 'error'.")
+
     def add(self, values: List[str], embeddings: Optional[List[Union[List[float], np.ndarray]]] = None):
 
         if embeddings is not None and len(values) != len(embeddings):
@@ -117,8 +143,13 @@ class NpIndex(BaseIndex):
         # Check for duplicates and only add unique values
         unique_values = []
         unique_embeddings = []
+        token_batch = TOKENIZER.encode_batch(values, allowed_special="all")
         #extract the max value in old_ids consider that each old_ids is a list take the max of the list itself
-        for i,value in enumerate(values):
+        for i, (val, tokens) in enumerate(zip(values, token_batch)):
+            is_valid, value = self.validate_value_length(val, tokens)
+            if not is_valid:
+                print(f"Value '{value[:50]}...' is too long and will be ignored.")
+                continue
             if value not in self.index_set:
                 unique_values.append(value)
                 self.index_set.add(value)
@@ -140,7 +171,8 @@ class NpIndex(BaseIndex):
 
         # If embeddings array is not yet created, initialize it, else append to it
         if self.embeddings is None:
-            self.embeddings = np.array(unique_embeddings)
+            logger.info("Initializing embeddings array")
+            self.embeddings = np.vstack(unique_embeddings)
         else:
             self.embeddings = np.vstack((self.embeddings, unique_embeddings))
 
@@ -168,15 +200,15 @@ class NpIndex(BaseIndex):
         return index
 
 
-    def remove(self, identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]]) -> None:
+    def remove(self, identifier: Union[int, str, np.ndarray, List[Union[str, np.ndarray]]]) -> None:
 
         if isinstance(identifier, list):
-            if all(isinstance(i, type(identifier[0])) for i in identifier) and not isinstance(identifier[0], list):
+            if all(isinstance(i, type(identifier[0])) for i in identifier) and not isinstance(identifier[0], list) and not isinstance(identifier[0], int):
                 for i in identifier:
                     self.remove(i)
             else:
                 raise TypeError("All elements in the list must be of the same type.")
-
+            return
         id = self.identify_input(identifier)
         value = self.values[id]
         self.index_set.remove(value)
@@ -185,12 +217,12 @@ class NpIndex(BaseIndex):
         self.embeddings = np.delete(self.embeddings, [id], axis=0)
 
 
-    def update(self, old_identifier: Union[int, str, np.ndarray, List[Union[int, str, np.ndarray]]], new_value: Union[str, List[str]], new_embedding: Optional[Union[List[float], np.ndarray, List[List[float]], List[np.ndarray]]] = None) -> None:
+    def update(self, old_identifier: Union[int, str, np.ndarray, List[Union[str, np.ndarray]]], new_value: Union[str, List[str]], new_embedding: Optional[Union[List[float], np.ndarray, List[List[float]], List[np.ndarray]]] = None) -> None:
         if isinstance(new_value,str) and new_value in self.index_set:
             raise ValueError("new_value already exists in the index. Please remove it first.")
         elif isinstance(new_value, list) and any(v in self.index_set for v in new_value):
             raise ValueError("One or more new_value already exists in the index. Please remove them first.")
-        if isinstance(old_identifier, list) and not isinstance(old_identifier[0], list):
+        if isinstance(old_identifier, list) and not isinstance(old_identifier[0], list) and not isinstance(old_identifier[0], int):
             if not isinstance(new_value, list) or len(old_identifier) != len(new_value):
                 raise ValueError("For list inputs, old_identifier and new_value must all be lists of the same length.")
             if new_embedding is not None:

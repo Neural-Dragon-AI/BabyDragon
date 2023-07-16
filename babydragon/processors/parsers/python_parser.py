@@ -55,8 +55,14 @@ class FunctionAndClassVisitor(cst.CSTVisitor):
     def __init__(self):
         self.function_source_codes = []
         self.function_nodes = []
+        self.function_count = 0
         self.class_source_codes = []
         self.class_nodes = []
+        self.class_count = 0
+        self.filename_map = []
+        self.full_source_list = []
+        self.full_node_list = []
+
 
     def visit_FunctionDef(self, node: cst.FunctionDef) -> None:
         """This method is called for every FunctionDef node in the tree.
@@ -64,10 +70,14 @@ class FunctionAndClassVisitor(cst.CSTVisitor):
         1. Gets the source code for the node
         2. Adds the node to the list of function nodes
         3. Adds the source code to the list of function source codes
+        4. Increments the function count
         """
         function_source_code = cst.Module([]).code_for_node(node)
         self.function_nodes.append(node)
         self.function_source_codes.append(function_source_code)
+        self.full_node_list.append(node)
+        self.full_source_list.append(function_source_code)
+        self.function_count += 1
 
     def visit_ClassDef(self, node: cst.ClassDef) -> None:
         """This method is called for every ClassDef node in the tree.
@@ -75,10 +85,14 @@ class FunctionAndClassVisitor(cst.CSTVisitor):
         1. Gets the source code for the node
         2. Adds the node to the list of class nodes
         3. Adds the source code to the list of class source codes
+        4. Increments the class count
         """
         class_source_code = cst.Module([]).code_for_node(node)
         self.class_nodes.append(node)
         self.class_source_codes.append(class_source_code)
+        self.full_node_list.append(node)
+        self.full_source_list.append(class_source_code)
+        self.class_count += 1
 
 
 class PythonParser(OsProcessor):
@@ -133,6 +147,8 @@ class PythonParser(OsProcessor):
         2. Parses the file
         3. Visits the file with the visitor
         """
+        #get current number of nodes in visitor
+        current_node_count = self.visitor.function_count + self.visitor.class_count
         with open(file_path, "r", encoding="utf-8") as file:
             source_code = file.read()
 
@@ -143,7 +159,9 @@ class PythonParser(OsProcessor):
             return
 
         tree.visit(self.visitor)
-
+        #calculate how many new nodes were added
+        new_node_counter = self.visitor.function_count + self.visitor.class_count - current_node_count
+        self.visitor.filename_map.extend([file_path]*new_node_counter)
         # Remove docstrings if specified
         if self.remove_docstrings:
             source_code = self.remove_docstring(source_code, tree)
@@ -194,17 +212,21 @@ class PythonParser(OsProcessor):
         2. Processes each file
         3. Returns the list of function source codes, class source codes, function nodes, and class nodes
         """
-        function_source_codes = []
-        class_source_codes = []
 
         python_files = self.get_files_with_extension(".py")
 
         for file_path in python_files:
             self._process_file(file_path)
 
-        function_source_codes = self.visitor.function_source_codes
-        function_nodes = self.visitor.function_nodes
-        class_source_codes = self.visitor.class_source_codes
-        class_nodes = self.visitor.class_nodes
+        result_dict = {
+            'function_source_codes': self.visitor.function_source_codes,
+            'function_nodes': self.visitor.function_nodes,
+            'class_source_codes': self.visitor.class_source_codes,
+            'class_nodes': self.visitor.class_nodes,
+            'file_map': self.visitor.filename_map,
+            'full_nodes': self.visitor.full_node_list,
+            'full_source': self.visitor.full_source_list
+        }
 
-        return function_source_codes, class_source_codes, function_nodes, class_nodes
+
+        return result_dict

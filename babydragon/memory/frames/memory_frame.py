@@ -1,15 +1,37 @@
 from babydragon.types import infer_embeddable_type
+from typing import  List, Optional, Union
+from babydragon.models.embedders.ada2 import OpenAiEmbedder
+from babydragon.models.embedders.cohere import CohereEmbedder
+from babydragon.utils.main_logger import logger
+from babydragon.utils.dataframes import extract_values_and_embeddings_pd, extract_values_and_embeddings_hf, extract_values_and_embeddings_polars, get_context_from_hf, get_context_from_pandas, get_context_from_polars
+from babydragon.utils.pythonparser import extract_values_and_embeddings_python
+from datasets import load_dataset
 import polars as pl
-
+import numpy as np
 class MemoryFrame:
-    def __init__(self, df: pl.DataFrame, context_columns: list, embeddable_columns: list):
+    def __init__(self, df: pl.DataFrame,
+                context_columns: List = [],
+                embeddable_columns: List = [],
+                time_series_columns: List = [],
+                name: str = "memory_frame",
+                save_path: Optional[str] = None,
+                load: bool = False,
+                text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder,
+                markdown: str = "text/markdown",):
         self.df = df
         self.context_columns = context_columns
+        self.time_series_columns = time_series_columns
         self.embeddable_columns = embeddable_columns
         self.meta_columns = ['ID', 'Name', 'Source', 'Author', 'Created At', 'Last Modified At']
         self.embedding_columns = []
+        self.name = name
+        self.save_path = save_path
+        self.load = load
+        self.text_embedder = text_embedder
+        self.markdown = markdown
 
-    def __getattr__(self, name):
+
+    def __getattr__(self, name: str):
         # delegate to the self.df object
         return getattr(self.df, name)
 
@@ -19,17 +41,35 @@ class MemoryFrame:
         common_methods = list(set(df_methods) & set(memory_frame_methods))
         return common_methods
 
-    def embed_columns(self, embeddable_columns):
-        for column in embeddable_columns:
-            column_type, embedder = infer_embeddable_type(column)
+    def embed_columns(self, embeddable_columns: List):
+        for column_name in embeddable_columns:
+            column = self.df[column_name]
+            _, embedder = infer_embeddable_type(column)
             self._embed_column(column, embedder)
 
     def _embed_column(self, column, embedder):
-        # the implementation of this function will depend on how exactly you want to embed the column
-        # the result should be added to self.df and the column name should be added to self.embedding_columns
-        pass
+        # Add the embeddings as a new column
+        # Generate new values
+        new_values = embedder.embed(self.df[column.name].to_list())
+        # Add new column to DataFrame
+        new_column_name = f'embedding|{column.name}'
+        new_series = pl.Series(new_column_name, new_values)
+        self.df = self.df.with_columns(new_series)
+        self.embedding_columns.append(new_column_name)
 
-    def search_column(self, query, embeddable_column_name, top_k):
+
+    def search_column_with_sql_polar(self, sql_query, query, embeddable_column_name, top_k):
+        df = self.df.filter(sql_query)
+        embedding_column_name = 'embedding|' + embeddable_column_name
+
+        query_as_series = pl.Series(query)
+        dot_product_frame = df.with_columns(df[embedding_column_name].list.eval(pl.element().explode().dot(query_as_series),parallel=True).list.first().alias("dot_product"))
+        # Sort by dot product and select top_k rows
+        result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
+        return result
+
+
+    def search_column_polar(self, query, embeddable_column_name, top_k):
         embedding_column_name = 'embedding|' + embeddable_column_name
 
         query_as_series = pl.Series(query)
@@ -37,14 +77,35 @@ class MemoryFrame:
         # Sort by dot product and select top_k rows
         result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
         return result
-        
+
+    def search_column_numpy(self, query, embeddable_column_name, top_k):
+        embedding_column_name = 'embedding|' + embeddable_column_name
+        #convert query and column to numpy arrays
+        column_np = self.df[embedding_column_name].to_numpy()
+        #calculate dot product
+        dot_product = np.dot(column_np, query)
+        #add dot products as column to dataframe
+        dot_product_frame = self.df.with_columns(dot_product)
+        # Sort by dot product and select top_k rows
+        result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
+        return result
+
+    def save_parquet(self):
+        #save to arrow
+        self.full_save_path = self.save_path + self.name + '.parquet'
+        self.df.write_parquet(self.full_save_path)
+
+    def load_parquet(self):
+        self.full_save_path = self.save_path + self.name + '.parquet'
+        self.df = pl.read_parquet(self.full_save_path)
+
 
     def search_time_series_column(self, query, embeddable_column_name, top_k):
         ## uses dtw to match any sub-sequence of the query to the time series in the column
         ## time series column have a date o time or delta time column associated with them 
         ## each row-value is a list of across rows variable length for both the time series and the date or time column
         pass
-    
+
     def generate_column(self, row_generator, new_column_name):
         # Generate new values
         new_values = row_generator.generate(self.df)
@@ -134,3 +195,66 @@ class MemoryFrame:
             n_folds (int): The number of folds for the cross-validation.
         """
         pass
+
+    @classmethod
+    def from_hf_dataset(
+        cls,
+        dataset_url: str,
+        value_column: str,
+        data_split: str = "train",
+        embeddings_column: Optional[str] = None,
+        embeddable_columns: List = [],
+        context_columns: Optional[List[str]] = None,
+        time_series_columns: List = [],
+        name: str = "memory_frame",
+        save_path: Optional[str] = None,
+        embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
+        markdown: str = "text/markdown",
+        token_overflow_strategy: str = "ignore",
+    ) -> "MemoryFrame":
+        dataset = load_dataset(dataset_url)[data_split]
+        values, embeddings = extract_values_and_embeddings_hf(dataset, value_column, embeddings_column)
+        if context_columns is not None:
+            context = get_context_from_hf(dataset, context_columns)
+        else:
+            context = None
+        #convert retrieved data to polars dataframe
+        if embeddings is not None:
+            df = pl.DataFrame({value_column: values, embeddings_column: embeddings})
+        else:
+            df = pl.DataFrame({value_column: values})
+        context_df = pl.DataFrame(context)
+        #merge context columns with dataframe
+        df = pl.concat([df, context_df], how='horizontal')
+        if value_column not in embeddable_columns:
+            embeddable_columns.append(value_column)
+        return cls(df, context_columns, embeddable_columns, time_series_columns, name, save_path, embedder, markdown, token_overflow_strategy)
+
+    @classmethod
+    def from_python(
+        cls,
+        directory_path: str,
+        value_column: str,
+        minify_code: bool = False,
+        remove_docstrings: bool = False,
+        resolution: str = "both",
+        embeddings_column: Optional[str] = None,
+        embeddable_columns: List = [],
+        context_columns: Optional[List[str]] = None,
+        time_series_columns: List = [],
+        name: str = "memory_frame",
+        save_path: Optional[str] = None,
+        embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
+        markdown: str = "text/markdown",
+        token_overflow_strategy: str = "ignore",
+    ) -> "MemoryFrame":
+        values, context = extract_values_and_embeddings_python(directory_path, minify_code, remove_docstrings, resolution)
+        logger.info(f"Found {len(values)} values in the directory {directory_path}")
+        #convert retrieved data to polars dataframe
+        df = pl.DataFrame({value_column: values})
+        context_df = pl.DataFrame(context)
+        #merge context columns with dataframe
+        df = pl.concat([df, context_df], how='horizontal')
+        if value_column not in embeddable_columns:
+            embeddable_columns.append(value_column)
+        return cls(df, context_columns, embeddable_columns, time_series_columns, name, save_path, embedder, markdown, token_overflow_strategy)
