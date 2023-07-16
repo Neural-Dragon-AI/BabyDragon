@@ -23,7 +23,7 @@ class StatusTrackerModel(BaseModel):
 class OpenaiRequestModel(BaseModel):
     model: str
     input: Union[str,List,None]
-    messages: List
+    messages: Union[List,None]
     function: Union[List,None]
     function_call: Union[str,Any,None]
     temperature: Union[float,None]

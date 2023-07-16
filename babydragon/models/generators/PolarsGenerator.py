@@ -1,4 +1,4 @@
-from typing import Any, Optional, Union, List, Dict
+from typing import Any, Optional, Union
 from babydragon.models.generators.polars_batch_generator_models import StatusTrackerModel, OpenaiRequestModel
 import polars as pl
 import logging
@@ -7,7 +7,6 @@ import aiohttp  # for making API calls concurrently
 import asyncio  # for running API calls concurrently
 import tiktoken  # for counting tokens
 import time  # for sleeping after rate limit is hit
-from datetime import datetime
 import os
 
 class PolarsGenerator:
@@ -86,15 +85,19 @@ class PolarsGenerator:
 
     async def process_objects(self):
         while True:
-                    next_request = None
-                    retry = False
+                    next_request = None                 
                     if not self.retries_queue.empty():
                             next_request = self.retries_queue.get_nowait()
+
+                            self.st.replace("num_tasks_started", self.st['num_tasks_started']+1)
                             logging.debug(f"Retrying request: {next_request[0]}")
-                            retry = True
+                            source_queue = self.retries_queue 
                     elif not self.requests_queue.empty():                       
                             logging.debug(f"Trying to retrieve next request")
-                            next_request = self.requests_queue.get_nowait()    
+                            next_request = self.requests_queue.get_nowait()
+
+                            self.st.replace("num_tasks_started", self.st['num_tasks_started']+1)
+                            source_queue = self.requests_queue
                             logging.info(f'Next request is {next_request[0]} of {self.len_queue}')
                             logging.info(f'Respects token limit? {next_request[1].respect_token_limit}')
                             if next_request[1].respect_token_limit:
@@ -102,6 +105,7 @@ class PolarsGenerator:
                             else:
                                 self.errors_queue.put_nowait(next_request)
                     else:
+                        logging.info("Exiting the loop")
                         break
 
                     current_time = time.time()
@@ -139,7 +143,7 @@ class PolarsGenerator:
                             # call API
                             try:
                                 logging.info(f"Calling Api for {next_request[0]}")
-                                start_time = time.time()
+                                start_time = int(time.time())
                                 async with aiohttp.ClientSession() as session:
                                     async with session.post(
                                     url=next_request[1].url, headers=self.request_header, json=next_request[1].body
@@ -147,7 +151,7 @@ class PolarsGenerator:
                                         response = await response.json()
                                 if "error" in response:
                                     logging.warning(
-                                        """ f"Request {self.task_id} failed with error {response['error']}" """
+                                        f"Request {next_request[0]} failed with error {response['error']['message']}"
                                     )
                                     self.st.replace("num_api_errors", self.st['num_api_errors']+1)
                                     if "Rate limit" in response["error"].get("message", ""):
@@ -189,16 +193,7 @@ class PolarsGenerator:
                                     total_tokens = response['usage']['total_tokens']
                                     self.st.replace("available_token_capacity", available_token_capacity+total_tokens)
                                     self.st.replace("available_request_capacity", available_request_capacity+1)
-                                    
-                                    if retry:
-                                        self.retries_queue.task_done()
-                                    else:
-                                        self.requests_queue.task_done()
-
-
-                                        
-                                        
-
+                                                                      
                             except Exception as e:  # catching naked exceptions is bad practice, but in this case we'll log & save them
                                 logging.warning(f"Request {next_request[0]} failed with Exception {e}")
                                 self.st.replace("num_other_errors", self.st['num_other_errors']+1)
@@ -207,11 +202,13 @@ class PolarsGenerator:
                                 json_string = json.dumps(str(e))
                                 with open(self.error_path, "a") as f:
                                     f.write(json_string + "\n")
-                                if retry:
-                                    self.retries_queue.task_done()
-                                else:
-                                    self.requests_queue.task_done()
 
+                            finally:
+                                if source_queue is not None:
+                                    source_queue.task_done()
+
+
+                    
                     await asyncio.sleep(self.st['seconds_to_sleep_each_loop'][0])
 
                     # if a rate limit error was hit recently, pause to cool down
@@ -221,10 +218,7 @@ class PolarsGenerator:
                         await asyncio.sleep(remaining_seconds_to_pause)
                         # ^e.g., if pause is 15 seconds and final limit was hit 5 seconds ago
                         logging.warn(f"Pausing to cool down until {time.ctime(self.st['time_of_last_rate_limit_error'][0] + self.st['seconds_to_pause_after_rate_limit_error'][0])}")
-                    if retry:
-                        self.retries_queue.task_done()
-                    else:
-                        self.requests_queue.task_done()
+
 
 
         logging.info(f"""Parallel processing complete. Results saved to {self.save_path}""")
@@ -234,6 +228,7 @@ class PolarsGenerator:
             logging.warning(f"{self.st['num_rate_limit_errors'][0]} rate limit errors received. Consider running at a lower rate.")
         
         self.st.write_ndjson(self.log_path)
+        print(self.st)
 
                     
 
