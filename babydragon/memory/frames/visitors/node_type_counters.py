@@ -19,7 +19,6 @@ NODETYPE_COUNTERS = [
     'SetComprehensionCounter',
     'GeneratorExpressionCounter',
     'AwaitCounter',
-    'AsyncFunctionCounter',
     'ReturnCounter',
     'BreakCounter',
     'ContinueCounter',
@@ -270,8 +269,6 @@ class YieldCounter(cst.CSTVisitor):
         self.module.visit(self)
         return self.yield_count
 
-
-
 class AwaitCounter(cst.CSTVisitor):
     def __init__(self, code: str):
         self.module = cst.parse_module(code)
@@ -284,19 +281,6 @@ class AwaitCounter(cst.CSTVisitor):
     def collect(self):
         self.module.visit(self)
         return self.await_count
-
-class AsyncFunctionCounter(cst.CSTVisitor):
-    def __init__(self, code: str):
-        self.module = cst.parse_module(code)
-        self.async_function_count = 0
-
-    def visit_AsyncFunctionDef(self, node: cst.AsyncFunctionDef) -> bool:
-        self.async_function_count += 1
-        return True
-
-    def collect(self):
-        self.module.visit(self)
-        return self.async_function_count
 
 class ReturnCounter(cst.CSTVisitor):
     def __init__(self, code: str):
