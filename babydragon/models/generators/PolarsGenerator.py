@@ -72,14 +72,14 @@ class PolarsGenerator:
     def enqueue_objects(self):
         id = 0
         with open(self.load_path, 'r') as jsonl_file:
-            for line in jsonl_file:
-                id += 1
+            for line in jsonl_file: 
                 line = line.strip()
                 if not line:
                     continue
                 json_obj = json.loads(line)
                 request = OpenaiRequest(**json_obj)
                 self.requests_queue.put_nowait((id,request))
+                id += 1
                 self.len_queue = self.requests_queue.qsize()
 
 
@@ -130,6 +130,7 @@ class PolarsGenerator:
 
                         next_request_tokens = next_request[1].total_tokens
 
+                        logging.info(f"Next request tokens is {next_request_tokens}")
 
                         if (
                             self.st['available_request_capacity'][0] >= 1
@@ -138,7 +139,8 @@ class PolarsGenerator:
                             # update counters
                             self.st.replace("available_request_capacity", available_request_capacity-1)
                             self.st.replace("available_token_capacity", available_token_capacity-next_request_tokens)
-                        
+                            logging.info(f"Available_token_capacity changed to  {self.st['available_token_capacity'][0]}")
+                  
 
                             # call API
                             try:
@@ -153,14 +155,18 @@ class PolarsGenerator:
                                     logging.warning(
                                         f"Request {next_request[0]} failed with error {response['error']['message']}"
                                     )
-                                    self.st.replace("num_api_errors", self.st['num_api_errors']+1)
+                                    
                                     if "Rate limit" in response["error"].get("message", ""):
                                         self.st.replace("time_of_last_rate_limit_error", pl.Series([time.time()]))
                                         self.st.replace("num_rate_limit_errors", self.st['num_rate_limit_errors']+1)
-                                        self.st.replace("num_api_errors", self.st['num_api_errors']-1)
+                                        self.retries_queue.put_nowait(next_request)
+                                        
 
+                                    elif "currently overloaded" in response["error"].get("message", ""):
+                                        self.st.replace("num_overloaded_errors", self.st['num_overloaded_errors']+1)
                                         self.retries_queue.put_nowait(next_request)
                                     else:
+                                        self.st.replace("num_api_errors", self.st['num_api_errors']+1)
                                         json_string = json.dumps(response)
                                         with open(self.error_path, "a") as f:
                                             f.write(json_string + "\n") 
@@ -168,6 +174,7 @@ class PolarsGenerator:
                                     output = ''
                                     if next_request[1].request_type == 'chat':
                                         output = {
+                                            'id': next_request[0],
                                             'start_time': start_time,
                                             'output': response['choices'][0]['message']['content'],
                                             'prompt_tokens': response['usage']['prompt_tokens'],
@@ -178,6 +185,7 @@ class PolarsGenerator:
                                     elif next_request[1].request_type == 'embedding':
 
                                         output = {
+                                            'id': next_request[0],
                                             'start_time': start_time,
                                             'output': response['data'][0]['embedding'],
                                             'prompt_tokens': response['usage']['prompt_tokens'],
@@ -237,7 +245,7 @@ class PolarsGenerator:
     async def main(self):
         logging.debug(f"Entering main loop")
         self.enqueue_objects()
-        consumers = [asyncio.create_task(self.process_objects()) for _ in range(5)]
+        consumers = [asyncio.create_task(self.process_objects()) for _ in range(7)]
         await self.requests_queue.join()
         await self.retries_queue.join()
         for consumer in consumers:
@@ -316,6 +324,17 @@ class OpenaiRequest:
         match self.body['model']: # pyright: ignore
             case 'gpt-3.5-turbo':
                 if self.total_tokens < 10000:
+                    self.respect_token_limit = True
+                    self.max_requests_per_minute = 3000
+                    self.max_tokens_per_minute= 1000000
+                    self.url = 'https://api.openai.com/v1/chat/completions'
+                else:
+                    self.respect_token_limit = False
+                    self.max_requests_per_minute = 0
+                    self.max_tokens_per_minute= 0
+
+            case 'gpt-3.5-turbo-16k-0613':
+                if self.total_tokens < 16000:
                     self.respect_token_limit = True
                     self.max_requests_per_minute = 3000
                     self.max_tokens_per_minute= 1000000
