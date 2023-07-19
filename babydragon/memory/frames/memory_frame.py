@@ -1,4 +1,4 @@
-from babydragon.types import infer_embeddable_type
+from _types import infer_embeddable_type
 from typing import  List, Optional, Union
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder

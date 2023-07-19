@@ -32,11 +32,11 @@ def extract_values_and_embeddings_python(
     if resolution in ['function', 'class']:
         for source_code, node in zip(source_codes, nodes):
             values.append(source_code)
-            context.append({"libcst tree": node})
+            context.append({"libcst tree": str(node)})
     elif resolution == "both":
         for source_code, node, filename in zip(source_codes, nodes, results_dict['file_map']):
             values.append(source_code)
-            context.append({"libcst tree": node, "filename": filename})
+            context.append({"libcst tree": str(node), "filename": filename})
     else:
         raise ValueError(f"Invalid resolution: {resolution}")
     return values, context

@@ -1,4 +1,4 @@
-from babydragon.types import infer_embeddable_type
+from babydragon.bd_types import infer_embeddable_type
 from typing import  List, Optional, Union
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder
@@ -10,7 +10,7 @@ from babydragon.memory.frames.visitors.node_type_counters import *
 from babydragon.memory.frames.visitors.operator_counters import *
 import polars as pl
 import os
-from pydantic import BaseModel
+from pydantic import ConfigDict, BaseModel
 import libcst as cst
 
 
@@ -25,9 +25,7 @@ class CodeFramePydantic(BaseModel):
     save_dir: str
     text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder
     markdown: str
-
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 class CodeFrame(BaseFrame):
     def __init__(self, df: pl.DataFrame, **kwargs):
@@ -195,7 +193,7 @@ class CodeFrame(BaseFrame):
         context_columns: Optional[List[str]] = None,
         name: str = "code_frame",
         save_path: Optional[str] = "./storage",
-        embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
+        embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= None,
         markdown: str = "text/markdown",
     ) -> "CodeFrame":
         values, context = extract_values_and_embeddings_python(directory_path, minify_code, remove_docstrings, resolution)
@@ -207,7 +205,7 @@ class CodeFrame(BaseFrame):
         df = pl.concat([df, context_df], how='horizontal')
         if value_column not in embeddable_columns:
             embeddable_columns.append(value_column)
-
+        print(type(embedder))
         kwargs = {
             "context_columns": context_columns,
             "embeddable_columns": embeddable_columns,

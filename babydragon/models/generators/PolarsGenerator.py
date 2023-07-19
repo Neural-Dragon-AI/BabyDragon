@@ -18,8 +18,16 @@ class PolarsGenerator:
         tokenizer: Optional[Any] = None,
         save_path: str = 'batch_generator',
         logging_level: int = 10,
+<<<<<<< Updated upstream
     ) -> None:
 
+=======
+        api_key: Optional[str] = None,
+    ) -> None:
+        #creave save path if it does not exist
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+>>>>>>> Stashed changes
         if isinstance(input_df, pl.DataFrame):
             self.load_path = f"{save_path}/{name}.ndjson" ## pyright: ignore
             input_df.write_ndjson(self.load_path)
@@ -52,7 +60,11 @@ class PolarsGenerator:
 
         # Status Tracker - polars
         self.st_model = StatusTrackerModel(name=name)
+<<<<<<< Updated upstream
         self.st: pl.DataFrame = pl.DataFrame(self.st_model.model_dump())
+=======
+        self.st: pl.DataFrame = pl.DataFrame(self.st_model.dict())
+>>>>>>> Stashed changes
         
         # loads the frame in advance for usefull checks 
         self.frame = pl.read_ndjson(self.load_path)
@@ -64,35 +76,69 @@ class PolarsGenerator:
 
 
         # api authentication
+<<<<<<< Updated upstream
         self.api_key =  os.getenv("OPENAI_API_KEY")
         self.request_header = {"Authorization": f"Bearer {self.api_key}"}
     
+=======
+        if api_key is None:
+            self.api_key =  os.getenv("OPENAI_API_KEY")
+        else:
+            self.api_key = api_key
+        self.request_header = {"Authorization": f"Bearer {self.api_key}"}
+
+>>>>>>> Stashed changes
         logging.debug(f"Initialization complete.")
 
     def enqueue_objects(self):
         id = 0
         with open(self.load_path, 'r') as jsonl_file:
+<<<<<<< Updated upstream
             for line in jsonl_file: 
+=======
+<<<<<<< Updated upstream
+            for line in jsonl_file:
+                id += 1
+=======
+            for line in jsonl_file: 
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                 line = line.strip()
                 if not line:
                     continue
                 json_obj = json.loads(line)
                 request = OpenaiRequest(**json_obj)
                 self.requests_queue.put_nowait((id,request))
+<<<<<<< Updated upstream
                 id += 1
+=======
+<<<<<<< Updated upstream
+=======
+                id += 1
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                 self.len_queue = self.requests_queue.qsize()
 
 
     async def process_objects(self):
         while True:
+<<<<<<< Updated upstream
                     next_request = None                 
+=======
+                    next_request = None
+>>>>>>> Stashed changes
                     if not self.retries_queue.empty():
                             next_request = self.retries_queue.get_nowait()
 
                             self.st.replace("num_tasks_started", self.st['num_tasks_started']+1)
                             logging.debug(f"Retrying request: {next_request[0]}")
+<<<<<<< Updated upstream
                             source_queue = self.retries_queue 
                     elif not self.requests_queue.empty():                       
+=======
+                            source_queue = self.retries_queue
+                    elif not self.requests_queue.empty():
+>>>>>>> Stashed changes
                             logging.debug(f"Trying to retrieve next request")
                             next_request = self.requests_queue.get_nowait()
 
@@ -130,7 +176,14 @@ class PolarsGenerator:
 
                         next_request_tokens = next_request[1].total_tokens
 
+<<<<<<< Updated upstream
                         logging.info(f"Next request tokens is {next_request_tokens}")
+=======
+<<<<<<< Updated upstream
+=======
+                        logging.info(f"Next request tokens is {next_request_tokens}")
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
                         if (
                             self.st['available_request_capacity'][0] >= 1
@@ -139,8 +192,17 @@ class PolarsGenerator:
                             # update counters
                             self.st.replace("available_request_capacity", available_request_capacity-1)
                             self.st.replace("available_token_capacity", available_token_capacity-next_request_tokens)
+<<<<<<< Updated upstream
                             logging.info(f"Available_token_capacity changed to  {self.st['available_token_capacity'][0]}")
                   
+=======
+<<<<<<< Updated upstream
+                        
+=======
+                            logging.info(f"Available_token_capacity changed to  {self.st['available_token_capacity'][0]}")
+                  
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
                             # call API
                             try:
@@ -155,7 +217,12 @@ class PolarsGenerator:
                                     logging.warning(
                                         f"Request {next_request[0]} failed with error {response['error']['message']}"
                                     )
+<<<<<<< Updated upstream
                                     
+=======
+<<<<<<< Updated upstream
+                                    self.st.replace("num_api_errors", self.st['num_api_errors']+1)
+>>>>>>> Stashed changes
                                     if "Rate limit" in response["error"].get("message", ""):
                                         self.st.replace("time_of_last_rate_limit_error", pl.Series([time.time()]))
                                         self.st.replace("num_rate_limit_errors", self.st['num_rate_limit_errors']+1)
@@ -170,22 +237,57 @@ class PolarsGenerator:
                                         json_string = json.dumps(response)
                                         with open(self.error_path, "a") as f:
                                             f.write(json_string + "\n") 
+=======
+                                    
+                                    if "Rate limit" in response["error"].get("message", ""):
+                                        self.st.replace("time_of_last_rate_limit_error", pl.Series([time.time()]))
+                                        self.st.replace("num_rate_limit_errors", self.st['num_rate_limit_errors']+1)
+                                        self.retries_queue.put_nowait(next_request)
+                                        
+
+                                    elif "currently overloaded" in response["error"].get("message", ""):
+                                        self.st.replace("num_overloaded_errors", self.st['num_overloaded_errors']+1)
+                                        self.retries_queue.put_nowait(next_request)
+                                    else:
+                                        self.st.replace("num_api_errors", self.st['num_api_errors']+1)
+                                        json_string = json.dumps(response)
+                                        with open(self.error_path, "a") as f:
+                                            f.write(json_string + "\n")
+>>>>>>> Stashed changes
                                 else:
                                     output = ''
                                     if next_request[1].request_type == 'chat':
                                         output = {
+<<<<<<< Updated upstream
                                             'id': next_request[0],
+=======
+<<<<<<< Updated upstream
+=======
+                                            'id': next_request[0],
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                                             'start_time': start_time,
                                             'output': response['choices'][0]['message']['content'],
                                             'prompt_tokens': response['usage']['prompt_tokens'],
                                             'completion_tokens': response['usage']['completion_tokens'],
                                             'total_tokens': response['usage']['total_tokens'],
                                             'end_time': response['created']
+<<<<<<< Updated upstream
                                         }   
                                     elif next_request[1].request_type == 'embedding':
 
                                         output = {
+<<<<<<< Updated upstream
                                             'id': next_request[0],
+=======
+=======
+                                        }
+                                    elif next_request[1].request_type == 'embedding':
+
+                                        output = {
+                                            'id': next_request[0],
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
                                             'start_time': start_time,
                                             'output': response['data'][0]['embedding'],
                                             'prompt_tokens': response['usage']['prompt_tokens'],
@@ -201,7 +303,11 @@ class PolarsGenerator:
                                     total_tokens = response['usage']['total_tokens']
                                     self.st.replace("available_token_capacity", available_token_capacity+total_tokens)
                                     self.st.replace("available_request_capacity", available_request_capacity+1)
+<<<<<<< Updated upstream
                                                                       
+=======
+
+>>>>>>> Stashed changes
                             except Exception as e:  # catching naked exceptions is bad practice, but in this case we'll log & save them
                                 logging.warning(f"Request {next_request[0]} failed with Exception {e}")
                                 self.st.replace("num_other_errors", self.st['num_other_errors']+1)
@@ -216,7 +322,11 @@ class PolarsGenerator:
                                     source_queue.task_done()
 
 
+<<<<<<< Updated upstream
                     
+=======
+
+>>>>>>> Stashed changes
                     await asyncio.sleep(self.st['seconds_to_sleep_each_loop'][0])
 
                     # if a rate limit error was hit recently, pause to cool down
@@ -245,7 +355,15 @@ class PolarsGenerator:
     async def main(self):
         logging.debug(f"Entering main loop")
         self.enqueue_objects()
+<<<<<<< Updated upstream
         consumers = [asyncio.create_task(self.process_objects()) for _ in range(7)]
+=======
+<<<<<<< Updated upstream
+        consumers = [asyncio.create_task(self.process_objects()) for _ in range(5)]
+=======
+        consumers = [asyncio.create_task(self.process_objects()) for _ in range(7)]
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         await self.requests_queue.join()
         await self.retries_queue.join()
         for consumer in consumers:
@@ -284,7 +402,11 @@ class OpenaiRequest:
                 user=parameters.get('user')
         )
 
+<<<<<<< Updated upstream
         self.body = {k: v for k, v in self.body.model_dump().items() if v is not None}
+=======
+        self.body = {k: v for k, v in self.body.dict().items() if v is not None}
+>>>>>>> Stashed changes
         if self.request_type == 'embedding':
             keys_to_remove = ["n", "max_tokens"]
             self.body = {k: v for k, v in self.body.items() if k not in keys_to_remove}
@@ -333,6 +455,11 @@ class OpenaiRequest:
                     self.max_requests_per_minute = 0
                     self.max_tokens_per_minute= 0
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
             case 'gpt-3.5-turbo-16k-0613':
                 if self.total_tokens < 16000:
                     self.respect_token_limit = True
@@ -344,6 +471,10 @@ class OpenaiRequest:
                     self.max_requests_per_minute = 0
                     self.max_tokens_per_minute= 0
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
             case 'gpt-4':
                 if self.total_tokens < 16000:
                     self.respect_token_limit = True
