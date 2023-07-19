@@ -8,6 +8,8 @@ from babydragon.memory.frames.visitors.module_augmenters import CodeReplacerVisi
 from babydragon.memory.frames.base_frame import BaseFrame
 from babydragon.memory.frames.visitors.node_type_counters import *
 from babydragon.memory.frames.visitors.operator_counters import *
+import hdbscan
+import umap
 import polars as pl
 import os
 from pydantic import ConfigDict, BaseModel
@@ -87,6 +89,17 @@ class CodeFrame(BaseFrame):
 
         return self
 
+    def convert_column_to_messages(self, column_name, model_name = "gpt-3.5-turbo-16k-0613", system_prompt = "Youre a Helpful Summarizer!"):
+        df = self.df.select(column_name).with_columns(pl.lit(model_name).alias("model"))
+
+        def create_content(value):
+            return ([{"role": "system", "content":system_prompt},
+                        {"role": "user", "content": f"{value}"}])
+
+        input_df = df.with_columns(df[column_name].apply(create_content, return_dtype=pl.List).alias('messages')).drop(column_name)
+        self.df = self.df.with_columns(input_df)
+        return self
+
     def search_column_with_sql_polar(self, sql_query, query, embeddable_column_name, top_k):
         df = self.df.filter(sql_query)
         embedding_column_name = 'embedding|' + embeddable_column_name
@@ -160,6 +173,18 @@ class CodeFrame(BaseFrame):
             self.apply_visitor_to_column(column_name, globals()[operator_counter], new_column_prefix)
         return self
 
+    def cluster_embeddings(self, column_name: str, dim_reduction_model, cluster_model):
+        embeddings = self.df[column_name].to_list()
+        if dim_reduction_model is None:
+            dim_reduction_model = umap.UMAP()
+        if cluster_model is None:
+            cluster_model = hdbscan.HDBSCAN()
+        reduced_embeddings = dim_reduction_model.fit_transform(embeddings)
+        labels = cluster_model.fit_predict(reduced_embeddings)
+        new_column_name = f'cluster|{column_name}'
+        new_series = pl.Series(new_column_name, labels)
+        self.df = self.df.with_columns(new_series)
+        return self
 
     def replace_code_in_files(self, filename_column: str, original_code_column: str, replacing_code_column: str):
         visitor = CodeReplacerVisitor(filename_column, original_code_column, replacing_code_column)
