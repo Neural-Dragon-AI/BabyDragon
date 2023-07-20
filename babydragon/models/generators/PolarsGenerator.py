@@ -1,4 +1,6 @@
 from typing import Any, Optional, Union
+
+from numpy import source
 from babydragon.models.generators.polars_batch_generator_models import StatusTrackerModel, OpenaiRequestModel
 import polars as pl
 import logging
@@ -7,6 +9,7 @@ import aiohttp  # for making API calls concurrently
 import asyncio  # for running API calls concurrently
 import tiktoken  # for counting tokens
 import time  # for sleeping after rate limit is hit
+from time import time as now
 import os
 
 class PolarsGenerator:
@@ -18,16 +21,8 @@ class PolarsGenerator:
         tokenizer: Optional[Any] = None,
         save_path: str = 'batch_generator',
         logging_level: int = 10,
-<<<<<<< Updated upstream
     ) -> None:
 
-=======
-        api_key: Optional[str] = None,
-    ) -> None:
-        #creave save path if it does not exist
-        if not os.path.exists(save_path):
-            os.makedirs(save_path)
->>>>>>> Stashed changes
         if isinstance(input_df, pl.DataFrame):
             self.load_path = f"{save_path}/{name}.ndjson" ## pyright: ignore
             input_df.write_ndjson(self.load_path)
@@ -58,261 +53,170 @@ class PolarsGenerator:
         logging.debug(f"Logging initialized at level {logging_level}")
 
 
-        # Status Tracker - polars
+        # Status Tracker Logs - polars
         self.st_model = StatusTrackerModel(name=name)
-<<<<<<< Updated upstream
         self.st: pl.DataFrame = pl.DataFrame(self.st_model.model_dump())
-=======
-        self.st: pl.DataFrame = pl.DataFrame(self.st_model.dict())
->>>>>>> Stashed changes
         
-        # loads the frame in advance for usefull checks 
+        # loads the frame 
         self.frame = pl.read_ndjson(self.load_path)
 
         # queues
         self.requests_queue = asyncio.Queue()
         self.retries_queue = asyncio.Queue()
-        self.errors_queue = asyncio.Queue()
 
+        # settings
+        self.available_request_capacity = 3500
+        self.available_token_capacity = 180000
+        self.reset_time_token_capacity = 0.0
+        self.reset_time_request_capacity = 0.0
+
+        self.time_of_last_rate_limit_error = 0.0
 
         # api authentication
-<<<<<<< Updated upstream
         self.api_key =  os.getenv("OPENAI_API_KEY")
         self.request_header = {"Authorization": f"Bearer {self.api_key}"}
     
-=======
-        if api_key is None:
-            self.api_key =  os.getenv("OPENAI_API_KEY")
-        else:
-            self.api_key = api_key
-        self.request_header = {"Authorization": f"Bearer {self.api_key}"}
-
->>>>>>> Stashed changes
         logging.debug(f"Initialization complete.")
 
     def enqueue_objects(self):
         id = 0
         with open(self.load_path, 'r') as jsonl_file:
-<<<<<<< Updated upstream
             for line in jsonl_file: 
-=======
-<<<<<<< Updated upstream
-            for line in jsonl_file:
-                id += 1
-=======
-            for line in jsonl_file: 
->>>>>>> Stashed changes
->>>>>>> Stashed changes
                 line = line.strip()
                 if not line:
                     continue
                 json_obj = json.loads(line)
                 request = OpenaiRequest(**json_obj)
                 self.requests_queue.put_nowait((id,request))
-<<<<<<< Updated upstream
                 id += 1
-=======
-<<<<<<< Updated upstream
-=======
-                id += 1
->>>>>>> Stashed changes
->>>>>>> Stashed changes
                 self.len_queue = self.requests_queue.qsize()
 
 
     async def process_objects(self):
+
         while True:
-<<<<<<< Updated upstream
-                    next_request = None                 
-=======
+
                     next_request = None
->>>>>>> Stashed changes
-                    if not self.retries_queue.empty():
-                            next_request = self.retries_queue.get_nowait()
-
-                            self.st.replace("num_tasks_started", self.st['num_tasks_started']+1)
-                            logging.debug(f"Retrying request: {next_request[0]}")
-<<<<<<< Updated upstream
-                            source_queue = self.retries_queue 
-                    elif not self.requests_queue.empty():                       
-=======
-                            source_queue = self.retries_queue
-                    elif not self.requests_queue.empty():
->>>>>>> Stashed changes
-                            logging.debug(f"Trying to retrieve next request")
-                            next_request = self.requests_queue.get_nowait()
-
-                            self.st.replace("num_tasks_started", self.st['num_tasks_started']+1)
-                            source_queue = self.requests_queue
-                            logging.info(f'Next request is {next_request[0]} of {self.len_queue}')
-                            logging.info(f'Respects token limit? {next_request[1].respect_token_limit}')
-                            if next_request[1].respect_token_limit:
-                                logging.debug(f"Reading request: {next_request[0]}")
-                            else:
-                                self.errors_queue.put_nowait(next_request)
-                    else:
-                        logging.info("Exiting the loop")
-                        break
-
-                    current_time = time.time()
-                    seconds_since_update = current_time - self.st['last_update_time'][0]
+                    source_queue = None
+              
+                    if next_request is None:
+                        try:
+                                next_request = self.retries_queue.get_nowait()
+                                source_queue = self.retries_queue
+                                self.st.replace("num_tasks_started", self.st['num_tasks_started']+1)
+                                logging.debug(f"Retrying request with id: {next_request[0]}")
+                        except asyncio.QueueEmpty:
+                                pass
+                    if next_request is None:
+                        try:
+                                next_request = self.requests_queue.get_nowait()
+                                source_queue = self.requests_queue
+                                self.st.replace("num_tasks_started", self.st['num_tasks_started']+1)
+                                logging.info(f'Next request is {next_request[0]} of {self.len_queue}') 
+                                
+                        except asyncio.QueueEmpty:
+                                logging.info("Exiting the loop")
+                                break
 
                     if next_request is not None:
 
-                        available_request_capacity = pl.Series([min([
-                            self.st['available_request_capacity'][0] + next_request[1].max_requests_per_minute * seconds_since_update / 60.0,
-                            next_request[1].max_requests_per_minute
-                        ])])
-                        self.st.replace("available_request_capacity", available_request_capacity)
-                        logging.info(f"Task number {next_request[0]} available_request_capacity: {self.st['available_request_capacity'][0]}")
-
-
-                        available_token_capacity = pl.Series([min([
-                            self.st['available_token_capacity'][0] + next_request[1].max_tokens_per_minute * seconds_since_update / 60.0,
-                            next_request[1].max_tokens_per_minute
-                        ])])
-                        self.st.replace("available_token_capacity", available_token_capacity)
-                        logging.info(f"Task number {next_request[0]} available_token_capacity: {self.st['available_token_capacity'][0]}")
-
                         next_request_tokens = next_request[1].total_tokens
 
-<<<<<<< Updated upstream
-                        logging.info(f"Next request tokens is {next_request_tokens}")
-=======
-<<<<<<< Updated upstream
-=======
-                        logging.info(f"Next request tokens is {next_request_tokens}")
->>>>>>> Stashed changes
->>>>>>> Stashed changes
-
                         if (
-                            self.st['available_request_capacity'][0] >= 1
-                            and self.st['available_token_capacity'][0] >= next_request_tokens
+                            self.available_request_capacity >= 1
+                            and self.available_token_capacity >= next_request_tokens
                         ):
-                            # update counters
-                            self.st.replace("available_request_capacity", available_request_capacity-1)
-                            self.st.replace("available_token_capacity", available_token_capacity-next_request_tokens)
-<<<<<<< Updated upstream
-                            logging.info(f"Available_token_capacity changed to  {self.st['available_token_capacity'][0]}")
-                  
-=======
-<<<<<<< Updated upstream
-                        
-=======
-                            logging.info(f"Available_token_capacity changed to  {self.st['available_token_capacity'][0]}")
-                  
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+                            self.available_request_capacity -=1
+                            self.available_token_capacity =  self.available_token_capacity-next_request_tokens 
 
-                            # call API
                             try:
-                                logging.info(f"Calling Api for {next_request[0]}")
+                                logging.info(f"Calling Api for {next_request[0]}...")
                                 start_time = int(time.time())
                                 async with aiohttp.ClientSession() as session:
                                     async with session.post(
                                     url=next_request[1].url, headers=self.request_header, json=next_request[1].body
                                     ) as response:
+                                        headers = response.headers
                                         response = await response.json()
                                 if "error" in response:
                                     logging.warning(
                                         f"Request {next_request[0]} failed with error {response['error']['message']}"
                                     )
-<<<<<<< Updated upstream
                                     
-=======
-<<<<<<< Updated upstream
-                                    self.st.replace("num_api_errors", self.st['num_api_errors']+1)
->>>>>>> Stashed changes
                                     if "Rate limit" in response["error"].get("message", ""):
-                                        self.st.replace("time_of_last_rate_limit_error", pl.Series([time.time()]))
+                                        self.time_of_last_rate_limit_error = now()
+                                        self.available_token_capacity =  0 
+                                        self.available_request_capacity +=1
                                         self.st.replace("num_rate_limit_errors", self.st['num_rate_limit_errors']+1)
                                         self.retries_queue.put_nowait(next_request)
                                         
 
                                     elif "currently overloaded" in response["error"].get("message", ""):
+                                        self.available_request_capacity +=1
+                                        self.available_token_capacity =  self.available_token_capacity+next_request_tokens
                                         self.st.replace("num_overloaded_errors", self.st['num_overloaded_errors']+1)
                                         self.retries_queue.put_nowait(next_request)
+ 
                                     else:
+                                        self.available_request_capacity +=1
+                                        self.available_token_capacity =  self.available_token_capacity+next_request_tokens 
                                         self.st.replace("num_api_errors", self.st['num_api_errors']+1)
                                         json_string = json.dumps(response)
                                         with open(self.error_path, "a") as f:
                                             f.write(json_string + "\n") 
-=======
-                                    
-                                    if "Rate limit" in response["error"].get("message", ""):
-                                        self.st.replace("time_of_last_rate_limit_error", pl.Series([time.time()]))
-                                        self.st.replace("num_rate_limit_errors", self.st['num_rate_limit_errors']+1)
-                                        self.retries_queue.put_nowait(next_request)
-                                        
-
-                                    elif "currently overloaded" in response["error"].get("message", ""):
-                                        self.st.replace("num_overloaded_errors", self.st['num_overloaded_errors']+1)
-                                        self.retries_queue.put_nowait(next_request)
-                                    else:
-                                        self.st.replace("num_api_errors", self.st['num_api_errors']+1)
-                                        json_string = json.dumps(response)
-                                        with open(self.error_path, "a") as f:
-                                            f.write(json_string + "\n")
->>>>>>> Stashed changes
                                 else:
                                     output = ''
+                                    
+                                    self.available_token_capacity = int(headers['x-ratelimit-remaining-tokens'])
+                                    self.available_request_capacity = int(headers['x-ratelimit-remaining-requests'])
+                                    reset_time_token_capacity = headers['x-ratelimit-reset-tokens']
+                                    logging.info(f"From Headers: Available_token_capacity changed to {self.available_token_capacity} for request with id {next_request[0]}")
+                                    if "ms" in reset_time_token_capacity:  
+                                        
+                                        self.reset_time_token_capacity =  float(reset_time_token_capacity.replace("ms", "")) / 1000.0
+                                    elif "s" in reset_time_token_capacity:
+                                        
+                                        self.reset_time_token_capacity = float(reset_time_token_capacity.replace("s", ""))
+                                    else:
+                                        self.reset_time_token_capacity = 0.01
+
+
+                                    total_tokens = response['usage']['total_tokens']
                                     if next_request[1].request_type == 'chat':
                                         output = {
-<<<<<<< Updated upstream
                                             'id': next_request[0],
-=======
-<<<<<<< Updated upstream
-=======
-                                            'id': next_request[0],
->>>>>>> Stashed changes
->>>>>>> Stashed changes
                                             'start_time': start_time,
                                             'output': response['choices'][0]['message']['content'],
                                             'prompt_tokens': response['usage']['prompt_tokens'],
                                             'completion_tokens': response['usage']['completion_tokens'],
-                                            'total_tokens': response['usage']['total_tokens'],
+                                            'total_tokens': total_tokens,
                                             'end_time': response['created']
-<<<<<<< Updated upstream
                                         }   
                                     elif next_request[1].request_type == 'embedding':
 
                                         output = {
-<<<<<<< Updated upstream
                                             'id': next_request[0],
-=======
-=======
-                                        }
-                                    elif next_request[1].request_type == 'embedding':
-
-                                        output = {
-                                            'id': next_request[0],
->>>>>>> Stashed changes
->>>>>>> Stashed changes
                                             'start_time': start_time,
                                             'output': response['data'][0]['embedding'],
                                             'prompt_tokens': response['usage']['prompt_tokens'],
-                                            'total_tokens': response['usage']['total_tokens'],
+                                            'total_tokens': total_tokens,
                                             'end_time': time.time()
                                         }
 
                                     json_string = json.dumps(output)
-
+                                     
                                     with open(self.save_path, "a") as f:
                                         f.write(json_string + "\n")
+                                        
+                                    if self.available_token_capacity < 20000:
+                                        await asyncio.sleep(self.reset_time_token_capacity/14)
 
-                                    total_tokens = response['usage']['total_tokens']
-                                    self.st.replace("available_token_capacity", available_token_capacity+total_tokens)
-                                    self.st.replace("available_request_capacity", available_request_capacity+1)
-<<<<<<< Updated upstream
-                                                                      
-=======
-
->>>>>>> Stashed changes
-                            except Exception as e:  # catching naked exceptions is bad practice, but in this case we'll log & save them
+                                                                                                                                              
+                            except Exception as e:
                                 logging.warning(f"Request {next_request[0]} failed with Exception {e}")
                                 self.st.replace("num_other_errors", self.st['num_other_errors']+1)
-                                self.st.replace("available_token_capacity", available_token_capacity+next_request_tokens)
-                                self.st.replace("available_request_capacity", available_request_capacity+1)
+                                self.available_token_capacity = self.available_token_capacity+next_request_tokens
+                                self.available_request_capacity = self.available_request_capacity+1
                                 json_string = json.dumps(str(e))
                                 with open(self.error_path, "a") as f:
                                     f.write(json_string + "\n")
@@ -322,32 +226,29 @@ class PolarsGenerator:
                                     source_queue.task_done()
 
 
-<<<<<<< Updated upstream
-                    
-=======
 
->>>>>>> Stashed changes
-                    await asyncio.sleep(self.st['seconds_to_sleep_each_loop'][0])
+                        else:
+                            if self.time_of_last_rate_limit_error > 0:
+                                seconds_since_rate_limit_error = (now() - self.time_of_last_rate_limit_error)
+                                print(f"now={now()}")
+                                print(f"time of last rate limit error = {self.time_of_last_rate_limit_error}")
+                                print(f"reset time token capacity = {self.reset_time_token_capacity}")
+                                time_to_wait = (self.reset_time_token_capacity - seconds_since_rate_limit_error)
+                                logging.warn(f"Pausing to reset_time_token_capacity = {time_to_wait/7}")
+                                await asyncio.sleep(time_to_wait/7)
+                                self.retries_queue.put_nowait(next_request)
+                                self.time_of_last_rate_limit_error = 0.0
+                                self.available_token_capacity = 180000
+                            else:
+                                await asyncio.sleep(self.reset_time_token_capacity/14)
+                                self.available_token_capacity = self.available_token_capacity + next_request_tokens
+                                self.retries_queue.put_nowait(next_request)
 
-                    # if a rate limit error was hit recently, pause to cool down
-                    seconds_since_rate_limit_error = (time.time() - self.st['time_of_last_rate_limit_error'][0])
-                    if seconds_since_rate_limit_error < self.st['seconds_to_pause_after_rate_limit_error'][0]:
-                        remaining_seconds_to_pause = (self.st['seconds_to_pause_after_rate_limit_error'][0] - seconds_since_rate_limit_error)
-                        await asyncio.sleep(remaining_seconds_to_pause)
-                        # ^e.g., if pause is 15 seconds and final limit was hit 5 seconds ago
-                        logging.warn(f"Pausing to cool down until {time.ctime(self.st['time_of_last_rate_limit_error'][0] + self.st['seconds_to_pause_after_rate_limit_error'][0])}")
+                            
+                            if source_queue is not None:
+                                    source_queue.task_done()
 
-
-
-        logging.info(f"""Parallel processing complete. Results saved to {self.save_path}""")
-        if self.st['num_tasks_failed'][0] > 0:
-            logging.warning(f"{self.st['num_tasks_failed'][0]} / {self.st['num_tasks_started'][0]} requests failed. Errors logged to {self.log_path}.")
-        if self.st['num_rate_limit_errors'][0] > 0:
-            logging.warning(f"{self.st['num_rate_limit_errors'][0]} rate limit errors received. Consider running at a lower rate.")
-        
-        self.st.write_ndjson(self.log_path)
-        print(self.st)
-
+                            
                     
 
 
@@ -355,19 +256,17 @@ class PolarsGenerator:
     async def main(self):
         logging.debug(f"Entering main loop")
         self.enqueue_objects()
-<<<<<<< Updated upstream
-        consumers = [asyncio.create_task(self.process_objects()) for _ in range(7)]
-=======
-<<<<<<< Updated upstream
-        consumers = [asyncio.create_task(self.process_objects()) for _ in range(5)]
-=======
-        consumers = [asyncio.create_task(self.process_objects()) for _ in range(7)]
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+        self.consumers = [asyncio.create_task(self.process_objects()) for _ in range(7)]
         await self.requests_queue.join()
         await self.retries_queue.join()
-        for consumer in consumers:
+        for consumer in self.consumers:
             consumer.cancel()
+        logging.info(f"""Parallel processing complete. Results saved to {self.save_path}""")
+        if self.st['num_rate_limit_errors'][0] > 0:
+            logging.warning(f"{self.st['num_rate_limit_errors'][0]} rate limit errors received. Consider running at a lower rate.")
+        
+        self.st.write_ndjson(self.log_path)
+        print(self.st)
 
     def execute(self):
         asyncio.run(self.main())
@@ -402,103 +301,43 @@ class OpenaiRequest:
                 user=parameters.get('user')
         )
 
-<<<<<<< Updated upstream
         self.body = {k: v for k, v in self.body.model_dump().items() if v is not None}
-=======
-        self.body = {k: v for k, v in self.body.dict().items() if v is not None}
->>>>>>> Stashed changes
         if self.request_type == 'embedding':
             keys_to_remove = ["n", "max_tokens"]
             self.body = {k: v for k, v in self.body.items() if k not in keys_to_remove}
 
-        """Count the number of tokens in the request. Only supports chat and embedding requests."""
-        encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+
         self.total_tokens = 0
         self.respect_token_limit = False
         self.max_tokens_per_minute = 0
         self.max_requests_per_minute = 0
         self.url = ''
 
-        # if completions request, tokens = prompt + n * max_tokens
-        if self.request_type == 'chat':
-            max_tokens = self.body['max_tokens']  
-            n = self.body['n'] # pyright: ignore
-            completion_tokens = n * max_tokens # pyright: ignore
-            for message in self.body["messages"]: # pyright: ignore
-                self.total_tokens += 4  # every message follows <im_start>{role/name}\n{content}<im_end>\n
-                for key, value in message.items():
-                    self.total_tokens += len(encoding.encode(value))
-                    if key == "name":  # if there's a name, the role is omitted
-                        self.total_tokens -= 1  # role is always required and always 1 token
-                    self.total_tokens += 2  # every reply is primed with <im_start>assistant
-                self.total_tokens =  self.total_tokens + completion_tokens
-            
-        # if embeddings request, tokens = input tokens
-        elif self.request_type == "embedding":
-            if isinstance(self.body['input'], str):  # single input # pyright: ignore
-                self.total_tokens = len(encoding.encode(self.body["input"]))  # pyright: ignore
-            elif isinstance(input, list):  # multiple inputs
-                self.total_tokens = sum([len(encoding.encode(i)) for i in self.body["input"]]) # pyright: ignore
-            else:
-                raise TypeError('Expecting either string or list of strings for "inputs" field in embedding request')
-
-
         match self.body['model']: # pyright: ignore
             case 'gpt-3.5-turbo':
-                if self.total_tokens < 10000:
-                    self.respect_token_limit = True
-                    self.max_requests_per_minute = 3000
-                    self.max_tokens_per_minute= 1000000
+                    self.total_tokens = 4096
+                    self.max_requests_per_minute = 3500
+                    self.max_tokens_per_minute= 90000
                     self.url = 'https://api.openai.com/v1/chat/completions'
-                else:
-                    self.respect_token_limit = False
-                    self.max_requests_per_minute = 0
-                    self.max_tokens_per_minute= 0
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
-            case 'gpt-3.5-turbo-16k-0613':
-                if self.total_tokens < 16000:
-                    self.respect_token_limit = True
-                    self.max_requests_per_minute = 3000
-                    self.max_tokens_per_minute= 1000000
+            case 'gpt-3.5-turbo-16k':
+                    self.total_tokens =16384 
+                    self.max_requests_per_minute = 3500
+                    self.max_tokens_per_minute= 180000
                     self.url = 'https://api.openai.com/v1/chat/completions'
-                else:
-                    self.respect_token_limit = False
-                    self.max_requests_per_minute = 0
-                    self.max_tokens_per_minute= 0
 
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
->>>>>>> Stashed changes
             case 'gpt-4':
-                if self.total_tokens < 16000:
-                    self.respect_token_limit = True
-                    self.max_requests_per_minute = 3000
-                    self.max_tokens_per_minute= 1000000
+                    self.total_tokens =8192 
+                    self.max_requests_per_minute = 3500
+                    self.max_tokens_per_minute= 90000
                     self.url = 'https://api.openai.com/v1/chat/completions'
-                else:
-                    self.respect_token_limit = False
-                    self.max_requests_per_minute = 0
-                    self.max_tokens_per_minute= 0
 
 
             case 'text-embedding-ada-002':
-                if self.total_tokens < 10000:
-                    self.respect_token_limit = True
-                    self.max_tokens_per_minute = 1000000
+                    self.total_tokens = 10000 
                     self.max_requests_per_minute = 3000
                     self.url = 'https://api.openai.com/v1/embeddings'
-                else:
-                    self.respect_token_limit = False              
-                    self.max_requests_per_minute = 0
-                    self.max_tokens_per_minute= 0
 
-
-                
+ 
 
 

@@ -1,1 +1,0 @@
-"0, message='Attempt to decode JSON with unexpected mimetype: text/html', url=URL('https://api.openai.com/v1/chat/completions')"
