@@ -1,7 +1,7 @@
 from babydragon.processors.parsers.python_parser import PythonParser
 from typing import Dict, List, Tuple
 
-def extract_values_and_embeddings_python(
+def extract_values_python(
     directory_path: str,
     minify_code: bool = False,
     remove_docstrings: bool = False,

@@ -3,7 +3,8 @@ from typing import  List, Optional, Union
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder
 from babydragon.utils.main_logger import logger
-from babydragon.utils.pythonparser import extract_values_and_embeddings_python
+from babydragon.utils.pythonparser import extract_values_python
+from babydragon.processors.github_processors import GithubProcessor
 from babydragon.memory.frames.visitors.module_augmenters import CodeReplacerVisitor
 from babydragon.memory.frames.base_frame import BaseFrame
 from babydragon.memory.frames.visitors.node_type_counters import *
@@ -221,7 +222,7 @@ class CodeFrame(BaseFrame):
         embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= None,
         markdown: str = "text/markdown",
     ) -> "CodeFrame":
-        values, context = extract_values_and_embeddings_python(directory_path, minify_code, remove_docstrings, resolution)
+        values, context = extract_values_python(directory_path, minify_code, remove_docstrings, resolution)
         logger.info(f"Found {len(values)} values in the directory {directory_path}")
         #convert retrieved data to polars dataframe
         df = pl.DataFrame({value_column: values})
@@ -241,3 +242,4 @@ class CodeFrame(BaseFrame):
             "markdown": markdown
         }
         return cls(df, **kwargs)
+
