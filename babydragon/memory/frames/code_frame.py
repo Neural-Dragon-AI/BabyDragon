@@ -1,4 +1,4 @@
-from babydragon.bd_types import infer_embeddable_type
+from babydragon.types.bd_types import infer_embeddable_type
 from typing import  List, Optional, Union
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder
@@ -31,6 +31,10 @@ class CodeFramePydantic(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 class CodeFrame(BaseFrame):
+    """
+    @daniel
+    remove kwargs and be explicit about what is passed in
+    """
     def __init__(self, df: pl.DataFrame, **kwargs):
         super().__init__(**kwargs)
         self.df = df
@@ -145,7 +149,7 @@ class CodeFrame(BaseFrame):
         # Concatenate horizontally
         self.df = self.df.hstack([new_df])
 
-    def apply_visitor_to_column(self, column_name: str, visitor_class: type, new_column_prefix: Optional[str] = None):
+    def apply_visitor_to_column(self, column_name: str, visitor_class: cst.CSTVisitor, new_column_prefix: Optional[str] = None):
         # Ensure the visitor_class is a subclass of PythonCodeVisitor
         if not issubclass(visitor_class, cst.CSTVisitor):
             raise TypeError('visitor_class must be a subclass of PythonCodeVisitor')
@@ -164,6 +168,11 @@ class CodeFrame(BaseFrame):
 
         return self
 
+    def apply_code_transformer(self, column_name: str, transformer_class: cst.CSTTransformer, new_column_prefix: Optional[str] = None):
+        """@daniel implement this function"""
+        pass
+
+    
     def count_node_types(self, column_name: str, new_column_prefix: str = 'node_count'):
         for node_type_counter in NODETYPE_COUNTERS:
             self.apply_visitor_to_column(column_name, globals()[node_type_counter], new_column_prefix)
@@ -188,6 +197,7 @@ class CodeFrame(BaseFrame):
         return self
 
     def replace_code_in_files(self, filename_column: str, original_code_column: str, replacing_code_column: str):
+        """@daniel here a  libcst codemod which uses the CodeReplacerVisitor should be applied instead of this function"""
         visitor = CodeReplacerVisitor(filename_column, original_code_column, replacing_code_column)
         for row in self.df.rows():
             filename = row[filename_column]
