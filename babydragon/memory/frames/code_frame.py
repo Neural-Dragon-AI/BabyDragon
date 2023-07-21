@@ -31,9 +31,17 @@ class CodeFramePydantic(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 class CodeFrame(BaseFrame):
-    def __init__(self, df: pl.DataFrame, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, df: pl.DataFrame, context_columns: Optional[List[str]] = None, embeddable_columns: Optional[List[str]] = None, embedding_columns: Optional[List[str]] = None, name: str = "code_frame", save_path: Optional[str] = "./storage", text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = None, markdown: str = "text/markdown"):
+        super().__init__(context_columns=..., embeddable_columns=..., embedding_columns=..., name=..., save_path=..., text_embedder=..., markdown=...)
         self.df = df
+        self.context_columns = context_columns
+        self.embeddable_columns = embeddable_columns
+        self.embedding_columns = embedding_columns
+        self.name = name
+        self.save_path = save_path
+        self.text_embedder = text_embedder
+        self.markdown = markdown
+        self.save_dir = f'{self.save_path}/{self.name}'
         self.frame_template = CodeFramePydantic(df_path=f'{self.save_dir}/{self.name}.parquet', context_columns=self.context_columns, embeddable_columns=self.embeddable_columns, embedding_columns=self.embedding_columns, name=self.name, save_path=self.save_path, save_dir=self.save_dir, load=True, text_embedder=self.text_embedder, markdown=self.markdown)
 
     def __getattr__(self, name: str):
@@ -231,7 +239,6 @@ class CodeFrame(BaseFrame):
         df = pl.concat([df, context_df], how='horizontal')
         if value_column not in embeddable_columns:
             embeddable_columns.append(value_column)
-        print(type(embedder))
         kwargs = {
             "context_columns": context_columns,
             "embeddable_columns": embeddable_columns,
