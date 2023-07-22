@@ -24,7 +24,7 @@ class PolarsGenerator:
     ) -> None:
 
         if isinstance(input_df, pl.DataFrame):
-            self.load_path = f"{save_path}/{name}.ndjson" ## pyright: ignore
+            self.load_path = f"{save_path}/{name}.ndjson" 
             input_df.write_ndjson(self.load_path)
         elif input_df == 'noinput':
             raise TypeError('Constructor requires either a pl.Dataframe or a path to a ndjson')
@@ -33,7 +33,6 @@ class PolarsGenerator:
         else:
             raise TypeError('Constructor requires either a pl.Dataframe or a path to a ndjson')
         
-
         # Settings
 
         self.name = name
@@ -208,8 +207,8 @@ class PolarsGenerator:
                                     with open(self.save_path, "a") as f:
                                         f.write(json_string + "\n")
                                         
-                                    if self.available_token_capacity < 20000:
-                                        await asyncio.sleep(self.reset_time_token_capacity/14)
+                                    if self.available_token_capacity < 16000:
+                                        await asyncio.sleep(self.reset_time_token_capacity/12)
 
                                                                                                                                               
                             except Exception as e:
@@ -234,13 +233,13 @@ class PolarsGenerator:
                                 print(f"time of last rate limit error = {self.time_of_last_rate_limit_error}")
                                 print(f"reset time token capacity = {self.reset_time_token_capacity}")
                                 time_to_wait = (self.reset_time_token_capacity - seconds_since_rate_limit_error)
-                                logging.warn(f"Pausing to reset_time_token_capacity = {time_to_wait/7}")
-                                await asyncio.sleep(time_to_wait/7)
+                                logging.warn(f"Pausing to reset_time_token_capacity = {time_to_wait}")
+                                await asyncio.sleep(time_to_wait)
                                 self.retries_queue.put_nowait(next_request)
                                 self.time_of_last_rate_limit_error = 0.0
                                 self.available_token_capacity = 180000
                             else:
-                                await asyncio.sleep(self.reset_time_token_capacity/14)
+                                await asyncio.sleep(self.reset_time_token_capacity/12)
                                 self.available_token_capacity = self.available_token_capacity + next_request_tokens
                                 self.retries_queue.put_nowait(next_request)
 
@@ -256,7 +255,7 @@ class PolarsGenerator:
     async def main(self):
         logging.debug(f"Entering main loop")
         self.enqueue_objects()
-        self.consumers = [asyncio.create_task(self.process_objects()) for _ in range(7)]
+        self.consumers = [asyncio.create_task(self.process_objects()) for _ in range(12)]
         await self.requests_queue.join()
         await self.retries_queue.join()
         for consumer in self.consumers:
@@ -294,7 +293,7 @@ class OpenaiRequest:
                 n=parameters.get('n',1),
                 stream=parameters.get('stream'),
                 stop=parameters.get('stop'),
-                max_tokens=parameters.get('max_tokens',4000),
+                max_tokens=parameters.get('max_tokens',1000),
                 presence_penalty=parameters.get('presence_penalty'),
                 frequency_penalty=parameters.get('frequency_penalty'),
                 logit_bias=parameters.get('logit_bias'),
@@ -306,35 +305,55 @@ class OpenaiRequest:
             keys_to_remove = ["n", "max_tokens"]
             self.body = {k: v for k, v in self.body.items() if k not in keys_to_remove}
 
+        """Count the number of tokens in the request. Only supports completion and embedding requests."""
+        encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
-        self.total_tokens = 0
-        self.respect_token_limit = False
+        if self.request_type == 'chat':
+
+            completion_tokens = self.body['max_tokens']
+            num_tokens = 0
+            for message in self.body["messages"]:
+                    num_tokens += 4  # every message follows <im_start>{role/name}\n{content}<im_end>\n
+                    for key, value in message.items():
+                        num_tokens += len(encoding.encode(value))
+                        if key == "name":  # if there's a name, the role is omitted
+                            num_tokens -= 1  # role is always required and always 1 token
+            num_tokens += 2  # every reply is primed with <im_start>assistant
+            self.total_tokens = num_tokens + completion_tokens
+
+        elif self.request_type == "embeddings":
+            input = self.body["input"]
+            if isinstance(input, str):  # single input
+                self.total_tokens = len(encoding.encode(input))
+            elif isinstance(input, list):  # multiple inputs
+                self.total_tokens = sum([len(encoding.encode(i)) for i in input])
+
         self.max_tokens_per_minute = 0
         self.max_requests_per_minute = 0
         self.url = ''
 
         match self.body['model']: # pyright: ignore
             case 'gpt-3.5-turbo':
-                    self.total_tokens = 4096
+
                     self.max_requests_per_minute = 3500
                     self.max_tokens_per_minute= 90000
                     self.url = 'https://api.openai.com/v1/chat/completions'
 
             case 'gpt-3.5-turbo-16k':
-                    self.total_tokens =16384 
+
                     self.max_requests_per_minute = 3500
                     self.max_tokens_per_minute= 180000
                     self.url = 'https://api.openai.com/v1/chat/completions'
 
             case 'gpt-4':
-                    self.total_tokens =8192 
+
                     self.max_requests_per_minute = 3500
                     self.max_tokens_per_minute= 90000
                     self.url = 'https://api.openai.com/v1/chat/completions'
 
 
             case 'text-embedding-ada-002':
-                    self.total_tokens = 10000 
+
                     self.max_requests_per_minute = 3000
                     self.url = 'https://api.openai.com/v1/embeddings'
 
