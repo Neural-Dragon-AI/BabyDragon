@@ -33,3 +33,5 @@ docs/_build
 *.faiss
 *.faiss
 *.json
+*.parquet
+*.parquet
