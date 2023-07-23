@@ -20,6 +20,7 @@ class PolarsGenerator:
         name: str = "summarizer",
         tokenizer: Optional[Any] = None,
         save_path: str = 'batch_generator',
+        process_objects_number:int = 17,
         logging_level: int = 10,
     ) -> None:
 
@@ -36,6 +37,8 @@ class PolarsGenerator:
         # Settings
 
         self.name = name
+        self.process_objects_number = process_objects_number
+        self.max_power_process = process_objects_number*10000
         self.save_path =f"{save_path}/{self.name}_output.ndjson"
         self.error_path = f"{save_path}/{self.name}_errors.ndjson"
         self.log_path = f"{save_path}/{self.name}_log.ndjson"
@@ -148,6 +151,17 @@ class PolarsGenerator:
                                         self.available_request_capacity +=1
                                         self.st.replace("num_rate_limit_errors", self.st['num_rate_limit_errors']+1)
                                         self.retries_queue.put_nowait(next_request)
+                                        output = {
+                                        'type': 'RateLimit',
+                                        'time': now(),
+                                        'response': str(response)
+                                        }
+
+                                        json_string = json.dumps(output)
+
+                                        with open(self.error_path, "a") as f:
+
+                                            f.write(json_string + "\n")
                                         
 
                                     elif "currently overloaded" in response["error"].get("message", ""):
@@ -165,9 +179,9 @@ class PolarsGenerator:
                                             f.write(json_string + "\n") 
                                 else:
                                     output = ''
-                                    
+                                    remaining_token_capacity = int(headers['x-ratelimit-remaining-requests'])
                                     self.available_token_capacity = int(headers['x-ratelimit-remaining-tokens'])
-                                    self.available_request_capacity = int(headers['x-ratelimit-remaining-requests'])
+                                    self.available_request_capacity = remaining_token_capacity
                                     reset_time_token_capacity = headers['x-ratelimit-reset-tokens']
                                     logging.info(f"From Headers: Available_token_capacity changed to {self.available_token_capacity} for request with id {next_request[0]}")
                                     if "ms" in reset_time_token_capacity:  
@@ -189,7 +203,8 @@ class PolarsGenerator:
                                             'prompt_tokens': response['usage']['prompt_tokens'],
                                             'completion_tokens': response['usage']['completion_tokens'],
                                             'total_tokens': total_tokens,
-                                            'end_time': response['created']
+                                            'end_time': response['created'],
+                                            'remaining_token_capacity': int(headers['x-ratelimit-remaining-tokens']),
                                         }   
                                     elif next_request[1].request_type == 'embedding':
 
@@ -199,16 +214,24 @@ class PolarsGenerator:
                                             'output': response['data'][0]['embedding'],
                                             'prompt_tokens': response['usage']['prompt_tokens'],
                                             'total_tokens': total_tokens,
-                                            'end_time': time.time()
+                                            'end_time': now(),
+                                            'remaining_token_capacity': int(headers['x-ratelimit-remaining-tokens']),
                                         }
 
                                     json_string = json.dumps(output)
                                      
                                     with open(self.save_path, "a") as f:
                                         f.write(json_string + "\n")
-                                        
-                                    if self.available_token_capacity < 16000:
-                                        await asyncio.sleep(self.reset_time_token_capacity/12)
+   
+                                    if self.available_token_capacity < 3000:
+                                        await asyncio.sleep(self.reset_time_token_capacity/self.max_power_process)
+                                    else:
+                                        max_power_process = (self.max_power_process+1)
+                                        if max_power_process >= self.process_objects_number*10000:
+                                            self.max_power_process = self.process_objects_number*10000
+                                        else:
+                                            self.max_power_process = max_power_process
+                                    logging.info(f"Max power process is :{self.max_power_process}")
 
                                                                                                                                               
                             except Exception as e:
@@ -216,8 +239,15 @@ class PolarsGenerator:
                                 self.st.replace("num_other_errors", self.st['num_other_errors']+1)
                                 self.available_token_capacity = self.available_token_capacity+next_request_tokens
                                 self.available_request_capacity = self.available_request_capacity+1
-                                json_string = json.dumps(str(e))
+                                output = {
+                                    'type': 'other',
+                                    'time': now(),
+                                    'response': str(e)
+                                }
+
+                                json_string = json.dumps(output)
                                 with open(self.error_path, "a") as f:
+
                                     f.write(json_string + "\n")
 
                             finally:
@@ -227,19 +257,18 @@ class PolarsGenerator:
 
 
                         else:
-                            if self.time_of_last_rate_limit_error > 0:
-                                seconds_since_rate_limit_error = (now() - self.time_of_last_rate_limit_error)
-                                print(f"now={now()}")
-                                print(f"time of last rate limit error = {self.time_of_last_rate_limit_error}")
-                                print(f"reset time token capacity = {self.reset_time_token_capacity}")
+                            seconds_since_rate_limit_error = (now() - self.time_of_last_rate_limit_error)
+                            if seconds_since_rate_limit_error < 3 :
+                                self.max_power_process = self.process_objects_number
+                                logging.info(f"Max power process decreased to :{self.max_power_process}")
                                 time_to_wait = (self.reset_time_token_capacity - seconds_since_rate_limit_error)
-                                logging.warn(f"Pausing to reset_time_token_capacity = {time_to_wait}")
-                                await asyncio.sleep(time_to_wait)
+                                logging.warn(f"Pausing to reset_time_token_capacity = {time_to_wait/self.max_power_process}")
+                                await asyncio.sleep(time_to_wait/self.max_power_process)
                                 self.retries_queue.put_nowait(next_request)
                                 self.time_of_last_rate_limit_error = 0.0
-                                self.available_token_capacity = 180000
+                                self.available_token_capacity = 180000/self.max_power_process
                             else:
-                                await asyncio.sleep(self.reset_time_token_capacity/12)
+                                await asyncio.sleep(self.reset_time_token_capacity/self.max_power_process)
                                 self.available_token_capacity = self.available_token_capacity + next_request_tokens
                                 self.retries_queue.put_nowait(next_request)
 
@@ -255,7 +284,7 @@ class PolarsGenerator:
     async def main(self):
         logging.debug(f"Entering main loop")
         self.enqueue_objects()
-        self.consumers = [asyncio.create_task(self.process_objects()) for _ in range(12)]
+        self.consumers = [asyncio.create_task(self.process_objects()) for _ in range(self.process_objects_number)]
         await self.requests_queue.join()
         await self.retries_queue.join()
         for consumer in self.consumers:
