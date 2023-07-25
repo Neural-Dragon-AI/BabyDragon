@@ -165,7 +165,7 @@ class PolarsGenerator:
                                         with open(self.error_path, "a") as f:
                                             f.write(json_string + "\n") 
                                 else:
-                                    output = ''
+                                    output = response
                                     
                                     self.available_token_capacity = int(headers['x-ratelimit-remaining-tokens'])
                                     self.available_request_capacity = int(headers['x-ratelimit-remaining-requests'])
