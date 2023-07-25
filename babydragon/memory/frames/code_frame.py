@@ -3,7 +3,7 @@ from typing import  List, Optional, Union
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder
 from babydragon.utils.main_logger import logger
-from babydragon.utils.pythonparser import extract_values_python
+from babydragon.utils.pythonparser import extract_values_python, traverse_and_collect_rtd
 from babydragon.processors.github_processors import GithubProcessor
 from babydragon.memory.frames.visitors.module_augmenters import CodeReplacerVisitor
 from babydragon.memory.frames.base_frame import BaseFrame
@@ -250,3 +250,33 @@ class CodeFrame(BaseFrame):
         }
         return cls(df, **kwargs)
 
+    @classmethod
+    def from_documentation(cls,
+                           directory_path,
+                           value_column: str,
+                           embedding_columns: List[str] = [],
+                           embeddable_columns: List[str] = [],
+                           name: str = "documentation_frame",
+                           save_path: Optional[str] = "./storage",
+                           embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= None,
+                           markdown: str = "text/markdown") -> "CodeFrame":
+        # Get the data from the directory
+        data = traverse_and_collect_rtd(directory_path)
+        logger.info(f"Found {len(data)} values in the directory {directory_path}")
+        #conver list of tuples to polars dataframe (filename, content)
+        df = pl.DataFrame(data, schema={"filename": str, value_column: str})
+
+        # Add a column with the filename without the extension       
+        if value_column not in embeddable_columns:
+            embeddable_columns.append(value_column)
+        context_columns = ['filename']
+        kwargs = {
+            "context_columns": context_columns,
+            "embeddable_columns": embeddable_columns,
+            "embedding_columns": embedding_columns,
+            "name": name,
+            "save_path": save_path,
+            "text_embedder": embedder,
+            "markdown": markdown
+        }
+        return cls(df, **kwargs)

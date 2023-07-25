@@ -8,6 +8,8 @@ numba
 numpy
 openai
 pandas
+polars
+pydantic
 pre_commit
 PyGithub
 python_minifier
@@ -19,6 +21,5 @@ torch
 datasets
 cohere
 sphinx
-sphintx_rtd_theme
 hdbscan
 umap

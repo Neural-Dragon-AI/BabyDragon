@@ -1,5 +1,35 @@
 from babydragon.processors.parsers.python_parser import PythonParser
 from typing import Dict, List, Tuple
+import os
+import glob
+import codecs
+
+def traverse_and_collect_rtd(directory):
+    '''
+    This function traverses a directory and collects content from .rst files.
+    The content is stored in a list of tuples, with filename as 0th element and content as 1st.
+
+    Parameters:
+    directory (str): The directory to traverse
+
+    Returns:
+    list: A list of tuples containing filename and file content
+    '''
+
+    # Placeholder for the list of tuples
+    data = []
+
+    # Traversing the directory recursively
+    for filename in glob.glob(os.path.join(directory, '**', '*.rst'), recursive=True):
+
+        # Open file
+        with codecs.open(filename, 'r', encoding='utf-8', errors='ignore') as file:
+
+            # Read content and add to list
+            content = file.read()
+            data.append((filename, content))
+
+    return data
 
 def extract_values_python(
     directory_path: str,
