@@ -22,7 +22,9 @@ class PolarsGenerator:
         save_path: str = 'batch_generator',
         logging_level: int = 10,
     ) -> None:
-
+        #if save_path is Not a directory, create it
+        if not os.path.isdir(save_path):
+            os.mkdir(save_path)
         if isinstance(input_df, pl.DataFrame):
             self.load_path = f"{save_path}/{name}.ndjson" ## pyright: ignore
             input_df.write_ndjson(self.load_path)
@@ -32,7 +34,7 @@ class PolarsGenerator:
             self.load_path = input_df
         else:
             raise TypeError('Constructor requires either a pl.Dataframe or a path to a ndjson')
-        
+
 
         # Settings
 
@@ -42,7 +44,7 @@ class PolarsGenerator:
         self.log_path = f"{save_path}/{self.name}_log.ndjson"
 
         self.logging_level = logging_level  
-        
+
         if tokenizer is None:
             self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
         else:
@@ -56,7 +58,7 @@ class PolarsGenerator:
         # Status Tracker Logs - polars
         self.st_model = StatusTrackerModel(name=name)
         self.st: pl.DataFrame = pl.DataFrame(self.st_model.model_dump())
-        
+
         # loads the frame 
         self.frame = pl.read_ndjson(self.load_path)
 
@@ -75,7 +77,7 @@ class PolarsGenerator:
         # api authentication
         self.api_key =  os.getenv("OPENAI_API_KEY")
         self.request_header = {"Authorization": f"Bearer {self.api_key}"}
-    
+
         logging.debug(f"Initialization complete.")
 
     def enqueue_objects(self):
@@ -95,161 +97,160 @@ class PolarsGenerator:
     async def process_objects(self):
 
         while True:
+            next_request = None
+            source_queue = None
 
-                    next_request = None
-                    source_queue = None
-              
-                    if next_request is None:
-                        try:
-                                next_request = self.retries_queue.get_nowait()
-                                source_queue = self.retries_queue
-                                self.st.replace("num_tasks_started", self.st['num_tasks_started']+1)
-                                logging.debug(f"Retrying request with id: {next_request[0]}")
-                        except asyncio.QueueEmpty:
-                                pass
-                    if next_request is None:
-                        try:
-                                next_request = self.requests_queue.get_nowait()
-                                source_queue = self.requests_queue
-                                self.st.replace("num_tasks_started", self.st['num_tasks_started']+1)
-                                logging.info(f'Next request is {next_request[0]} of {self.len_queue}') 
-                                
-                        except asyncio.QueueEmpty:
-                                logging.info("Exiting the loop")
-                                break
+            if next_request is None:
+                try:
+                        next_request = self.retries_queue.get_nowait()
+                        source_queue = self.retries_queue
+                        self.st.replace("num_tasks_started", self.st['num_tasks_started']+1)
+                        logging.debug(f"Retrying request with id: {next_request[0]}")
+                except asyncio.QueueEmpty:
+                        pass
+            if next_request is None:
+                try:
+                        next_request = self.requests_queue.get_nowait()
+                        source_queue = self.requests_queue
+                        self.st.replace("num_tasks_started", self.st['num_tasks_started']+1)
+                        logging.info(f'Next request is {next_request[0]} of {self.len_queue}') 
 
-                    if next_request is not None:
+                except asyncio.QueueEmpty:
+                        logging.info("Exiting the loop")
+                        break
 
-                        next_request_tokens = next_request[1].total_tokens
+            if next_request is not None:
 
-                        if (
-                            self.available_request_capacity >= 1
-                            and self.available_token_capacity >= next_request_tokens
-                        ):
-                            self.available_request_capacity -=1
-                            self.available_token_capacity =  self.available_token_capacity-next_request_tokens 
+                next_request_tokens = next_request[1].total_tokens
 
-                            try:
-                                logging.info(f"Calling Api for {next_request[0]}...")
-                                start_time = int(time.time())
-                                async with aiohttp.ClientSession() as session:
-                                    async with session.post(
-                                    url=next_request[1].url, headers=self.request_header, json=next_request[1].body
-                                    ) as response:
-                                        headers = response.headers
-                                        response = await response.json()
-                                if "error" in response:
-                                    logging.warning(
-                                        f"Request {next_request[0]} failed with error {response['error']['message']}"
-                                    )
-                                    
-                                    if "Rate limit" in response["error"].get("message", ""):
-                                        self.time_of_last_rate_limit_error = now()
-                                        self.available_token_capacity =  0 
-                                        self.available_request_capacity +=1
-                                        self.st.replace("num_rate_limit_errors", self.st['num_rate_limit_errors']+1)
-                                        self.retries_queue.put_nowait(next_request)
-                                        
+                if (
+                    self.available_request_capacity >= 1
+                    and self.available_token_capacity >= next_request_tokens
+                ):
+                    self.available_request_capacity -=1
+                    self.available_token_capacity =  self.available_token_capacity-next_request_tokens
 
-                                    elif "currently overloaded" in response["error"].get("message", ""):
-                                        self.available_request_capacity +=1
-                                        self.available_token_capacity =  self.available_token_capacity+next_request_tokens
-                                        self.st.replace("num_overloaded_errors", self.st['num_overloaded_errors']+1)
-                                        self.retries_queue.put_nowait(next_request)
- 
-                                    else:
-                                        self.available_request_capacity +=1
-                                        self.available_token_capacity =  self.available_token_capacity+next_request_tokens 
-                                        self.st.replace("num_api_errors", self.st['num_api_errors']+1)
-                                        json_string = json.dumps(response)
-                                        with open(self.error_path, "a") as f:
-                                            f.write(json_string + "\n") 
-                                else:
-                                    output = ''
-                                    
-                                    self.available_token_capacity = int(headers['x-ratelimit-remaining-tokens'])
-                                    self.available_request_capacity = int(headers['x-ratelimit-remaining-requests'])
-                                    reset_time_token_capacity = headers['x-ratelimit-reset-tokens']
-                                    logging.info(f"From Headers: Available_token_capacity changed to {self.available_token_capacity} for request with id {next_request[0]}")
-                                    if "ms" in reset_time_token_capacity:  
-                                        
-                                        self.reset_time_token_capacity =  float(reset_time_token_capacity.replace("ms", "")) / 1000.0
-                                    elif "s" in reset_time_token_capacity:
-                                        
-                                        self.reset_time_token_capacity = float(reset_time_token_capacity.replace("s", ""))
-                                    else:
-                                        self.reset_time_token_capacity = 0.01
+                    try:
+                        logging.info(f"Calling Api for {next_request[0]}...")
+                        start_time = int(time.time())
+                        async with aiohttp.ClientSession() as session:
+                            async with session.post(
+                            url=next_request[1].url, headers=self.request_header, json=next_request[1].body
+                            ) as response:
+                                headers = response.headers
+                                response = await response.json()
+                        if "error" in response:
+                            logging.warning(
+                                f"Request {next_request[0]} failed with error {response['error']['message']}"
+                            )
+
+                            if "Rate limit" in response["error"].get("message", ""):
+                                self.time_of_last_rate_limit_error = now()
+                                self.available_token_capacity =  0
+                                self.available_request_capacity +=1
+                                self.st.replace("num_rate_limit_errors", self.st['num_rate_limit_errors']+1)
+                                self.retries_queue.put_nowait(next_request)
 
 
-                                    total_tokens = response['usage']['total_tokens']
-                                    if next_request[1].request_type == 'chat':
-                                        output = {
-                                            'id': next_request[0],
-                                            'start_time': start_time,
-                                            'output': response['choices'][0]['message']['content'],
-                                            'prompt_tokens': response['usage']['prompt_tokens'],
-                                            'completion_tokens': response['usage']['completion_tokens'],
-                                            'total_tokens': total_tokens,
-                                            'end_time': response['created']
-                                        }   
-                                    elif next_request[1].request_type == 'embedding':
+                            elif "currently overloaded" in response["error"].get("message", ""):
+                                self.available_request_capacity +=1
+                                self.available_token_capacity =  self.available_token_capacity+next_request_tokens
+                                self.st.replace("num_overloaded_errors", self.st['num_overloaded_errors']+1)
+                                self.retries_queue.put_nowait(next_request)
 
-                                        output = {
-                                            'id': next_request[0],
-                                            'start_time': start_time,
-                                            'output': response['data'][0]['embedding'],
-                                            'prompt_tokens': response['usage']['prompt_tokens'],
-                                            'total_tokens': total_tokens,
-                                            'end_time': time.time()
-                                        }
-
-                                    json_string = json.dumps(output)
-                                     
-                                    with open(self.save_path, "a") as f:
-                                        f.write(json_string + "\n")
-                                        
-                                    if self.available_token_capacity < 20000:
-                                        await asyncio.sleep(self.reset_time_token_capacity/14)
-
-                                                                                                                                              
-                            except Exception as e:
-                                logging.warning(f"Request {next_request[0]} failed with Exception {e}")
-                                self.st.replace("num_other_errors", self.st['num_other_errors']+1)
-                                self.available_token_capacity = self.available_token_capacity+next_request_tokens
-                                self.available_request_capacity = self.available_request_capacity+1
-                                json_string = json.dumps(str(e))
+                            else:
+                                self.available_request_capacity +=1
+                                self.available_token_capacity =  self.available_token_capacity+next_request_tokens
+                                self.st.replace("num_api_errors", self.st['num_api_errors']+1)
+                                json_string = json.dumps(response)
                                 with open(self.error_path, "a") as f:
                                     f.write(json_string + "\n")
-
-                            finally:
-                                if source_queue is not None:
-                                    source_queue.task_done()
-
-
-
                         else:
-                            if self.time_of_last_rate_limit_error > 0:
-                                seconds_since_rate_limit_error = (now() - self.time_of_last_rate_limit_error)
-                                print(f"now={now()}")
-                                print(f"time of last rate limit error = {self.time_of_last_rate_limit_error}")
-                                print(f"reset time token capacity = {self.reset_time_token_capacity}")
-                                time_to_wait = (self.reset_time_token_capacity - seconds_since_rate_limit_error)
-                                logging.warn(f"Pausing to reset_time_token_capacity = {time_to_wait/7}")
-                                await asyncio.sleep(time_to_wait/7)
-                                self.retries_queue.put_nowait(next_request)
-                                self.time_of_last_rate_limit_error = 0.0
-                                self.available_token_capacity = 180000
+                            output = ''
+
+                            self.available_token_capacity = int(headers['x-ratelimit-remaining-tokens'])
+                            self.available_request_capacity = int(headers['x-ratelimit-remaining-requests'])
+                            reset_time_token_capacity = headers['x-ratelimit-reset-tokens']
+                            logging.info(f"From Headers: Available_token_capacity changed to {self.available_token_capacity} for request with id {next_request[0]}")
+                            if "ms" in reset_time_token_capacity:
+
+                                self.reset_time_token_capacity =  float(reset_time_token_capacity.replace("ms", "")) / 1000.0
+                            elif "s" in reset_time_token_capacity:
+
+                                self.reset_time_token_capacity = float(reset_time_token_capacity.replace("s", ""))
                             else:
+                                self.reset_time_token_capacity = 0.01
+
+
+                            total_tokens = response['usage']['total_tokens']
+                            if next_request[1].request_type == 'chat':
+                                output = {
+                                    'id': next_request[0],
+                                    'start_time': start_time,
+                                    'output': response['choices'][0]['message']['content'],
+                                    'prompt_tokens': response['usage']['prompt_tokens'],
+                                    'completion_tokens': response['usage']['completion_tokens'],
+                                    'total_tokens': total_tokens,
+                                    'end_time': response['created']
+                                }
+                            elif next_request[1].request_type == 'embedding':
+
+                                output = {
+                                    'id': next_request[0],
+                                    'start_time': start_time,
+                                    'output': response['data'][0]['embedding'],
+                                    'prompt_tokens': response['usage']['prompt_tokens'],
+                                    'total_tokens': total_tokens,
+                                    'end_time': time.time()
+                                }
+
+                            json_string = json.dumps(output)
+
+                            with open(self.save_path, "a") as f:
+                                f.write(json_string + "\n")
+
+                            if self.available_token_capacity < 20000:
                                 await asyncio.sleep(self.reset_time_token_capacity/14)
-                                self.available_token_capacity = self.available_token_capacity + next_request_tokens
-                                self.retries_queue.put_nowait(next_request)
 
-                            
-                            if source_queue is not None:
-                                    source_queue.task_done()
 
-                            
-                    
+                    except Exception as e:
+                        logging.warning(f"Request {next_request[0]} failed with Exception {e}")
+                        self.st.replace("num_other_errors", self.st['num_other_errors']+1)
+                        self.available_token_capacity = self.available_token_capacity+next_request_tokens
+                        self.available_request_capacity = self.available_request_capacity+1
+                        json_string = json.dumps(str(e))
+                        with open(self.error_path, "a") as f:
+                            f.write(json_string + "\n")
+
+                    finally:
+                        if source_queue is not None:
+                            source_queue.task_done()
+
+
+
+                else:
+                    if self.time_of_last_rate_limit_error > 0:
+                        seconds_since_rate_limit_error = (now() - self.time_of_last_rate_limit_error)
+                        print(f"now={now()}")
+                        print(f"time of last rate limit error = {self.time_of_last_rate_limit_error}")
+                        print(f"reset time token capacity = {self.reset_time_token_capacity}")
+                        time_to_wait = (self.reset_time_token_capacity - seconds_since_rate_limit_error)
+                        logging.warn(f"Pausing to reset_time_token_capacity = {time_to_wait/7}")
+                        await asyncio.sleep(time_to_wait/7)
+                        self.retries_queue.put_nowait(next_request)
+                        self.time_of_last_rate_limit_error = 0.0
+                        self.available_token_capacity = 180000
+                    else:
+                        await asyncio.sleep(self.reset_time_token_capacity/14)
+                        self.available_token_capacity = self.available_token_capacity + next_request_tokens
+                        self.retries_queue.put_nowait(next_request)
+
+
+                    if source_queue is not None:
+                            source_queue.task_done()
+
+
+
 
 
 
@@ -264,7 +265,7 @@ class PolarsGenerator:
         logging.info(f"""Parallel processing complete. Results saved to {self.save_path}""")
         if self.st['num_rate_limit_errors'][0] > 0:
             logging.warning(f"{self.st['num_rate_limit_errors'][0]} rate limit errors received. Consider running at a lower rate.")
-        
+
         self.st.write_ndjson(self.log_path)
         print(self.st)
 
@@ -274,15 +275,15 @@ class PolarsGenerator:
 
 class OpenaiRequest:
     def __init__(
-        self, 
+        self,
         **parameters
         ) -> None:
 
-        if ('input' in parameters):  
+        if ('input' in parameters):
             self.request_type = 'embedding'
         else:
             self.request_type = 'chat'
-        
+
         self.body = OpenaiRequestModel(
                 model=parameters.get('model','gpt-3.5-turbo'),
                 input=parameters.get('input'),
@@ -338,6 +339,6 @@ class OpenaiRequest:
                     self.max_requests_per_minute = 3000
                     self.url = 'https://api.openai.com/v1/embeddings'
 
- 
+
 
 
