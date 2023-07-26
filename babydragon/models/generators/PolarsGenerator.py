@@ -23,7 +23,8 @@ class PolarsGenerator:
         process_objects_number:int = 17,
         logging_level: int = 10,
     ) -> None:
-
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
         if isinstance(input_df, pl.DataFrame):
             self.load_path = f"{save_path}/{name}.ndjson" 
             input_df.write_ndjson(self.load_path)
