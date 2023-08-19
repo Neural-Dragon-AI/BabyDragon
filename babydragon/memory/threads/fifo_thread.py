@@ -1,6 +1,7 @@
 import copy
 
 from IPython.display import Markdown, display
+from time import time as now
 
 from babydragon.memory.threads.base_thread import BaseThread
 from babydragon.utils.chatml import check_dict
@@ -30,20 +31,18 @@ class FifoThread(BaseThread):
 
     def to_longterm(self, idx: int):
         """move the message at the index idx to the longterm_memory"""
-        # move the message at the index idx to the longterm_memory
-        display(
-            Markdown(
-                "The memory BaseThread is full, the message with index {} was moved to the longterm memory".format(
-                    idx
-                )
-            )
-        )
-        # this should not remove everything
-        # there should be a check to make sure the thread isnt left empty
-        message = copy.deepcopy(self.memory_thread[idx])
-        # print("preso il messagio e provo a ad aggiungerlo al longterm", message)
-        self.longterm_thread.add_message(message)
-        self.remove_message(idx=idx)
+        if idx < 0 or idx >= len(self.memory_thread):
+            raise Exception("Index is out of bounds")
+        
+        message_row = self.memory_thread.row(idx, named=True)
+        message_dict = {
+            "role": message_row["role"],
+            "content": message_row["content"],
+            "timestamp": message_row["timestamp"] if "timestamp" in message_row else now(),
+            "tokens_count": message_row["tokens_count"]
+        }
+        self.longterm_thread.add_dict_to_thread(message_dict=message_dict)
+        self.remove_dict_from_thread(idx=idx)
 
     def add_message(self, message_dict: dict):
         """add a message to the memory_thread, if the memory_thread is full remove the oldest message from the memory_thread using the FIFO principle, if not enough space is available remove the oldest messages until enough space is available"""
@@ -51,19 +50,19 @@ class FifoThread(BaseThread):
         # chek that the message_dict is a dictionary or a list of dictionaries
         message_dict = check_dict(message_dict)
         if self.redundant_thread is not None:
-            self.redundant_thread.add_message(message_dict)
-        message_tokens = self.get_message_tokens(message_dict)
+            self.redundant_thread.add_dict_to_thread(message_dict)
+        message_tokens = self.get_message_tokens_from_dict(message_dict)
 
         if self.total_tokens + message_tokens > self.max_memory:
             while self.total_tokens + message_tokens > self.max_memory:
                 if len(self.memory_thread) > 0:
                     self.to_longterm(idx=0)
-                    message_tokens = self.get_message_tokens(message_dict)  # Update message_tokens
+                    message_tokens = self.get_message_tokens_from_dict(message_dict)  # Update message_tokens
                     self.total_tokens -= message_tokens  # Update self.total_tokens
 
-            super().add_message(message_dict)
+            super().add_dict_to_thread(message_dict)
 
         else:
             # add the message_dict to the memory_thread
             # update the total number of tokens
-            super().add_message(message_dict)
+            super().add_dict_to_thread(message_dict)
