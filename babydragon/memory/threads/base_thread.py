@@ -116,14 +116,16 @@ class BaseThread:
         
         new_message_row = self.dict_to_row(message_dict)
 
+        new_tokens_count = new_message_row['tokens_count'][0]
         if (
             self.max_memory is None
-            or self.total_tokens + new_message_row['tokens_count'] <= self.max_memory
+            or self.total_tokens + new_tokens_count <= self.max_memory
         ):
             self.memory_thread = pl.concat([self.memory_thread, new_message_row], rechunk=True)
             self.total_tokens = self.get_total_tokens_from_thread()
         else:
             print("The memory BaseThread is full, the last message was not added")
+
             
 
     def remove_dict_from_thread(
@@ -164,16 +166,15 @@ class BaseThread:
         else:
             return self.memory_thread.lazy().filter((pl.col("content") == message["content"]) & (pl.col("role") == message['role'])).collect()
 
-
-        
-
-    def last_message(self, role: Union[str, None] = None) ->  pl.DataFrame:
+    def last_message(self, role: Union[str, None] = None) -> pl.DataFrame:
         """
-        Get the last message in the memory thread with a specific role."""
+        Get the last message in the memory thread with a specific role.
+        """
         if role is None:
-            return self.memory_thread[-1]
+            return self.memory_thread[self.memory_thread.shape[0] - 1]
         else:
-            return self.memory_thread.lazy().filter(pl.col("role") == role).collect()[-1]
+            return self.memory_thread.lazy().filter(pl.col("role") == role).collect()[self.memory_thread.shape[0] - 1]
+
 
     def first_message(self, role: Union[str, None] = None) -> pl.DataFrame: 
         """
@@ -182,7 +183,6 @@ class BaseThread:
             return self.memory_thread[0]
         else:
             return self.memory_thread.lazy().filter(pl.col("role") == role).collect()[0]
-
 
     def messages_before( self, message: dict   ) -> pl.DataFrame:
         """
@@ -210,13 +210,19 @@ class BaseThread:
         """
         Get all messages with more tokens than a specific number in the memory thread with a specific role."""
         
-        return self.memory_thread.lazy().filter((pl.col('role')==role) & (pl.col('tokens_count'))>tokens).collect()
+        if role is None:
+            return self.memory_thread.lazy().filter(pl.col('tokens_count') > tokens).collect()
+        else:
+            return self.memory_thread.lazy().filter((pl.col('role') == role) & (pl.col('tokens_count') > tokens)).collect()
 
     def messages_less_tokens(self, tokens: int, role: Union[str, None] = None) -> pl.DataFrame:
         """
         Get all messages with less tokens than a specific number in the memory thread with a specific role."""
         
-        return self.memory_thread.lazy().filter((pl.col('role')==role) & (pl.col('tokens_count'))<tokens).collect()
+        if role is None:
+            return self.memory_thread.lazy().filter(pl.col('tokens_count') < tokens).collect()
+        else:
+            return self.memory_thread.lazy().filter((pl.col('role') == role) & (pl.col('tokens_count') < tokens)).collect()
 
 
     def messages_after_time(self, timestamp: int, role: Union[str, None] = None) -> pl.DataFrame:
@@ -240,8 +246,6 @@ class BaseThread:
         except Exception as e:
             return str(e)
 
-
-
     def token_bound_history(
         self, max_tokens: int, role: Union[str, None] = None
     ):
@@ -254,22 +258,20 @@ class BaseThread:
 
         return messages,indexes
 
-    
     def load_from_gpt_url(self, url: str):
 
         response = requests.get(url)
         if response.status_code == 200:
-        
+
             soup = BeautifulSoup(response.text, 'html.parser')
         else:
             raise ValueError(f"Non è stato possibile accedere alla pagina. Codice di stato: {response.status_code}")
-            
-        
+
         next_data = soup.find('script', id='__NEXT_DATA__')
 
         if next_data is not None:
 
-            data_string = next_data.string  # pyright: ignore 
+            data_string = next_data.string  # pyright: ignore
 
             json_obj = json.loads(data_string)  # pyright: ignore
 
@@ -277,17 +279,22 @@ class BaseThread:
 
             messages = conversation_data['mapping']
 
-            for _,value in messages.items():
+            for _, value in messages.items():
                 if ('parent' in value.keys()) and (value['message']['content']['parts'][0] != ''):
-                    message_dict = {'role':value['message']['author']['role'],
+                    try:
+                        timestamp = value['message']['create_time']
+                    except KeyError:
+                        timestamp = None # or some default value
+
+                    message_dict = {'role': value['message']['author']['role'],
                                     'content': value['message']['content']['parts'][0],
-                                    'timestamp': value['message']['create_time']}
+                                    'timestamp': timestamp}
                     self.add_dict_to_thread(message_dict)
-            print("Conversation loaded succesfully")
+            print("Conversation loaded successfully")
         else:
             raise ValueError(f"Nessuna conversazione trovata a questo link!")
 
 
 
-        
+
 
