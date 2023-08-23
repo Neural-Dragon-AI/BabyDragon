@@ -25,6 +25,13 @@ class PromptConfiguration(BaseModel):
     def validate_user_prompt(cls, value):
         return value if value is not None else DEFAULT_USER_PROMPT
 
+class MessageHandler(BaseModel):
+    content: str
+
+    @validator("content", pre=True, always=True)
+    def validate_content(cls, value):
+        return value if value is not None else ""
+
 class Prompter:
     def __init__(self, system_prompt: Union[str, None] = None, user_prompt: Union[str, None] = None):
         config = PromptConfiguration(system_prompt=system_prompt, user_prompt=user_prompt)
@@ -55,6 +62,7 @@ class Prompter:
         :param message: A string representing the user message.
         :return: A tuple containing a list of strings representing the prompt and a string representing the marked question.
         """
+        message = MessageHandler(content=message).content
         marked_question = mark_question(self.default_user_prompt(message))
         prompt = [mark_system(self.system_prompt)] + [marked_question]
         return prompt, marked_question
