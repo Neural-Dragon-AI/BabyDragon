@@ -1,5 +1,4 @@
 from typing import Callable, Dict, List, Tuple, Union, Generator
-import gradio as gr
 import openai
 import tiktoken
 from IPython.display import Markdown, display
@@ -12,46 +11,42 @@ from babydragon.utils.chatml import (get_mark_from_response,
                                   mark_system)
 import logging
 
+from pydantic import BaseModel, validator
+
+class PromptConfiguration(BaseModel):
+    system_prompt: Union[str, None] = None
+    user_prompt: Union[str, None] = None
+
+    @validator("system_prompt", pre=True, always=True)
+    def validate_system_prompt(cls, value):
+        return value if value is not None else DEFAULT_SYSTEM_PROMPT
+
+    @validator("user_prompt", pre=True, always=True)
+    def validate_user_prompt(cls, value):
+        return value if value is not None else DEFAULT_USER_PROMPT
 
 class Prompter:
-    """
-    This class handles the system and user prompts and the prompt_func. By subclassing and overriding the
-    prompt_func, you can change the way the prompts are composed.
-    """
-
-    def __init__(self, system_prompt: Union[str,None] = None, user_prompt: Union[str,None] = None):
-        """
-        Initialize the Prompter with system and user prompts.
-
-        :param system_prompt: A string representing the system prompt.
-        :param user_prompt: A string representing the user prompt.
-        """
-        
-        if system_prompt is None:
-            self.system_prompt = DEFAULT_SYSTEM_PROMPT
-            self.user_defined_system_prompt = None
-        else:
-            self.system_prompt = system_prompt
-            self.user_defined_system_prompt = system_prompt
-        if user_prompt is None:
-            self.user_prompt = self.default_user_prompt
-            self.user_defined_user_prompt = None
-        else:
-            self.user_prompt = user_prompt
-            self.user_defined_user_prompt = user_prompt
-
+    def __init__(self, system_prompt: Union[str, None] = None, user_prompt: Union[str, None] = None):
+        config = PromptConfiguration(system_prompt=system_prompt, user_prompt=user_prompt)
+        self.system_prompt = config.system_prompt
+        self.user_prompt_template = config.user_prompt
         self.prompt_func: Callable[[str], Tuple[List[str], str]] = self.one_shot_prompt
-        self.user_defined_ids = []
-        self.user_defined_values = []
-        self.use_user_defined_ids = False
-
-    def set_default_prompts(self):
-        self.system_prompt = DEFAULT_SYSTEM_PROMPT
-        self.user_prompt = self.default_user_prompt
-
+    
+    def set_default_prompts(self) -> None:
+        """
+        Set the default system and user prompts.
+        """
+        config = PromptConfiguration(system_prompt=None, user_prompt=None)
+        self.system_prompt = config.system_prompt
+        self.user_prompt_template = config.user_prompt
 
     def default_user_prompt(self, message: str) -> str:
-        return DEFAULT_USER_PROMPT.format(question=message)
+        """
+        Compose the default user prompt.
+
+        :param message: A string representing the user message.
+        """
+        return self.user_prompt_template.format(question=message)
 
     def one_shot_prompt(self, message: str) -> Tuple[List[str], str]:
         """
@@ -60,7 +55,7 @@ class Prompter:
         :param message: A string representing the user message.
         :return: A tuple containing a list of strings representing the prompt and a string representing the marked question.
         """
-        marked_question = mark_question(self.user_prompt(message))
+        marked_question = mark_question(self.default_user_prompt(message))
         prompt = [mark_system(self.system_prompt)] + [marked_question]
         return prompt, marked_question
 
@@ -70,15 +65,15 @@ class Prompter:
 
         :param new_prompt: A string representing the new system prompt.
         """
-        self.system_prompt = new_prompt
+        self.system_prompt = PromptConfiguration(system_prompt=new_prompt).system_prompt
 
-    def update_user_prompt(self, new_prompt ) -> None:
+    def update_user_prompt(self, new_prompt: str) -> None:
         """
         Update the user prompt.
 
         :param new_prompt: A string representing the new user prompt.
         """
-        self.user_prompt = new_prompt
+        self.user_prompt_template = PromptConfiguration(user_prompt=new_prompt).user_prompt
 
 
 class BaseChat:
@@ -233,22 +228,3 @@ class BaseChat:
         print("Outputs:", state)
         return state, state
 
-    def gradio(self):
-        """
-        Create and launch a Gradio interface for the chatbot.
-        """
-        with gr.Blocks(css="#chatbot .overflow-y-auto{height:500px}") as demo:
-            chatbot = gr.Chatbot(elem_id="chatbot", label="NeuralDragonAI Alpha-V0.1")
-            state = gr.State([])
-            with gr.Row():
-                with gr.Column(scale=1):
-                    txt = gr.Textbox(
-                        show_label=False,
-                        placeholder="Enter text and press enter, or upload an image",
-                    ).style(container=False)
-                with gr.Column(scale=0.15, min_width=0):
-                    clear = gr.Button("Clear️")
-
-            txt.submit(lambda text, state: self.run_text(text, state), [txt, state], [chatbot, state])
-            txt.submit(lambda: "", None, txt)
-            demo.launch(server_name="localhost", server_port=7860)
