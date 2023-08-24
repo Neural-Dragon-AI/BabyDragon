@@ -166,14 +166,20 @@ class BaseThread:
         else:
             return self.memory_thread.lazy().filter((pl.col("content") == message["content"]) & (pl.col("role") == message['role'])).collect()
 
-    def last_message(self, role: Union[str, None] = None) -> pl.DataFrame:
+    def last_message(self, role: Union[str, None] = None) -> Optional[pl.DataFrame]:
         """
         Get the last message in the memory thread with a specific role.
         """
+        if self.memory_thread.shape[0] == 0:
+            return None # No messages in the thread
+
         if role is None:
-            return self.memory_thread[self.memory_thread.shape[0] - 1]
+            return self.memory_thread.tail(1) # Return the last row as a DataFrame
         else:
-            return self.memory_thread.lazy().filter(pl.col("role") == role).collect()[self.memory_thread.shape[0] - 1]
+            filtered_messages = self.memory_thread.filter(pl.col("role") == role)
+            if filtered_messages.shape[0] == 0:
+                return None # No messages with the specified role
+            return filtered_messages.tail(1) # Return the last row of the filtered DataFrame as a DataFrame
 
 
     def first_message(self, role: Union[str, None] = None) -> pl.DataFrame: 
