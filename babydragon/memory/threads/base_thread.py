@@ -6,6 +6,7 @@ import polars as pl
 import requests
 from bs4 import BeautifulSoup
 import json
+import uuid
 from babydragon.utils.chatml import check_dict
 
 
@@ -35,12 +36,13 @@ class BaseThread:
         """
         self.name = name
         self.max_memory = max_memory
-        self.memory_schema = {"role": pl.Utf8, "content": pl.Utf8,"timestamp":pl.Float64,"tokens_count":pl.UInt16}
+        self.memory_schema = {"conversation_id": pl.Utf8, "message_id": pl.Utf8, "parent_id": pl.Utf8, "role": pl.Utf8, "content": pl.Utf8,"timestamp":pl.Float64,"tokens_count":pl.UInt16}
         self.memory_thread: pl.DataFrame = pl.DataFrame(schema=self.memory_schema)
         """ self.time_stamps = [] """
         """ self.message_tokens = [] """
         self.total_tokens = self.get_total_tokens_from_thread()
         self.save_path = save_path
+        self.conversation_id = str(uuid.uuid4())
         if tokenizer is None:
             self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
@@ -77,14 +79,19 @@ class BaseThread:
     def reset_memory(self) -> None:
         self.memory_thread = pl.DataFrame(schema=self.memory_schema) 
 
-    def dict_to_row(self, message_dict:Dict[str,str]) -> pl.DataFrame:
-        timestamp = message_dict['timestamp'] if 'timestamp' in message_dict else [now()]
+    def dict_to_row(self, message_dict: Dict[str, Any]) -> pl.DataFrame:
+        timestamp = message_dict.get('timestamp', now())
         return pl.DataFrame(schema=self.memory_schema,
-                            data={ "role":[message_dict["role"]],
-                                  "content":[message_dict["content"]],
-                                  "timestamp": timestamp,
-                                  "tokens_count":[len(self.tokenizer.encode(message_dict["content"]))+7]
-                                  })
+                            data={
+                                "conversation_id": [message_dict.get("conversation_id")],
+                                "message_id": [message_dict.get("message_id")],
+                                "parent_id": [message_dict.get("parent_id")],
+                                "role": [message_dict["role"]],
+                                "content": [message_dict["content"]],
+                                "timestamp": [timestamp],
+                                "tokens_count": [len(self.tokenizer.encode(message_dict["content"])) + 7]
+                                })
+
 
     def get_message_tokens_from_dict(self, message_dict: dict) -> int:
         """
@@ -114,7 +121,20 @@ class BaseThread:
         :param message_dict: A dictionary containing the role and content of the message.
         """
         
-        new_message_row = self.dict_to_row(message_dict)
+        # Generate a new unique message_id (assuming UUIDs here)
+        new_message_id = str(uuid.uuid4())
+
+        # If there are previous messages, the parent_id is set to the message_id of the last message.
+        last_message = self.last_message()
+        parent_id = None if last_message is None else last_message['message_id'][0]
+
+        # Create a new message row with parent_id and message_id
+        new_message_row = self.dict_to_row({
+            'conversation_id': self.conversation_id,
+            'message_id': new_message_id,
+            'parent_id': parent_id,
+            **message_dict,
+        })
 
         new_tokens_count = new_message_row['tokens_count'][0]
         if (
@@ -124,7 +144,8 @@ class BaseThread:
             self.memory_thread = pl.concat([self.memory_thread, new_message_row], rechunk=True)
             self.total_tokens = self.get_total_tokens_from_thread()
         else:
-            print("The memory BaseThread is full, the last message was not added")
+            print("The memory BaseThread is full; the last message was not added")
+
 
             
 
