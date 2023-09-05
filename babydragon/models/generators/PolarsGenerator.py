@@ -79,6 +79,10 @@ class PolarsGenerator:
         self.api_key =  os.getenv("OPENAI_API_KEY")
         self.request_header = {"Authorization": f"Bearer {self.api_key}"}
     
+        self.total_tokens = 0
+        self.total_estimated_cost = 0
+        self.enqueue_objects()
+
         logging.debug(f"Initialization complete.")
 
     def enqueue_objects(self):
@@ -90,6 +94,8 @@ class PolarsGenerator:
                     continue
                 json_obj = json.loads(line)
                 request = OpenaiRequest(**json_obj)
+                self.total_tokens += request.total_tokens
+                self.total_estimated_cost += request.estimated_cost
                 self.requests_queue.put_nowait((id,request))
                 id += 1
                 self.len_queue = self.requests_queue.qsize()
@@ -207,7 +213,7 @@ class PolarsGenerator:
                                             'end_time': response['created'],
                                             'remaining_token_capacity': int(headers['x-ratelimit-remaining-tokens']),
                                         }   
-                                    elif next_request[1].request_type == 'embedding':
+                                    elif next_request[1].request_type == 'embeddings':
 
                                         output = {
                                             'id': next_request[0],
@@ -277,14 +283,9 @@ class PolarsGenerator:
                             if source_queue is not None:
                                     source_queue.task_done()
 
-                            
-                    
-
-
 
     async def main(self):
         logging.debug(f"Entering main loop")
-        self.enqueue_objects()
         self.consumers = [asyncio.create_task(self.process_objects()) for _ in range(self.process_objects_number)]
         await self.requests_queue.join()
         await self.retries_queue.join()
@@ -308,7 +309,7 @@ class OpenaiRequest:
         ) -> None:
 
         if ('input' in parameters):  
-            self.request_type = 'embedding'
+            self.request_type = 'embeddings'
         else:
             self.request_type = 'chat'
         
@@ -367,22 +368,26 @@ class OpenaiRequest:
 
                     self.max_requests_per_minute = 3500
                     self.max_tokens_per_minute= 90000
+                    self.estimated_cost = (self.total_tokens/1000)*0.0015
                     self.url = 'https://api.openai.com/v1/chat/completions'
 
             case 'gpt-3.5-turbo-16k':
 
                     self.max_requests_per_minute = 3500
                     self.max_tokens_per_minute= 180000
+                    self.estimated_cost = (self.total_tokens/1000)*0.003
                     self.url = 'https://api.openai.com/v1/chat/completions'
 
             case 'gpt-4':
 
                     self.max_requests_per_minute = 3500
                     self.max_tokens_per_minute= 90000
-                    self.url = 'https://api.openai.com/v1/chat/completions'
+                    self.estimated_cost = (self.total_tokens/1000)*0.03
 
+                    self.url = 'https://api.openai.com/v1/chat/completions'
 
             case 'text-embedding-ada-002':
 
                     self.max_requests_per_minute = 3000
+                    self.estimated_cost = (self.total_tokens/1000)*0.0001
                     self.url = 'https://api.openai.com/v1/embeddings'
