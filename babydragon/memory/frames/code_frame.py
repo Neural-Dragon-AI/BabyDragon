@@ -1,4 +1,4 @@
-from typing import  List, Optional, Union
+from typing import  List, Optional
 from babydragon.utils.main_logger import logger
 from babydragon.utils.pythonparser import extract_values_python, traverse_and_collect_rtd
 from babydragon.models.generators.PolarsGenerator import PolarsGenerator
@@ -9,7 +9,6 @@ from babydragon.memory.frames.visitors.node_type_counters import *
 from babydragon.memory.frames.visitors.operator_counters import *
 import polars as pl
 import os
-import json
 from pydantic import ConfigDict, BaseModel
 import libcst as cst
 
@@ -27,18 +26,17 @@ class CodeFramePydantic(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 class CodeFrame(BaseFrame):
-    def __init__(self, df: pl.DataFrame, context_columns: Optional[List[str]] = None, embeddable_columns: Optional[List[str]] = None, embedding_columns: Optional[List[str]] = None, name: str = "code_frame", save_path: Optional[str] = "./storage", text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = None, markdown: str = "text/markdown"):
-        BaseFrame.__init__(context_columns=..., embeddable_columns=..., embedding_columns=..., name=..., save_path=..., text_embedder=..., markdown=...)
+    def __init__(self, df: pl.DataFrame, context_columns: Optional[List[str]] = None, embeddable_columns: Optional[List[str]] = None, embedding_columns: Optional[List[str]] = None, name: str = "code_frame", save_path: Optional[str] = "./storage", markdown: str = "text/markdown"):
+        BaseFrame.__init__(self, context_columns=..., embeddable_columns=..., embedding_columns=..., name=..., save_path=..., markdown=...)
         self.df = df
         self.context_columns = context_columns
         self.embeddable_columns = embeddable_columns
         self.embedding_columns = embedding_columns
         self.name = name
         self.save_path = save_path
-        self.text_embedder = text_embedder
         self.markdown = markdown
         self.save_dir = f'{self.save_path}/{self.name}'
-        self.frame_template = CodeFramePydantic(df_path=f'{self.save_dir}/{self.name}.parquet', context_columns=self.context_columns, embeddable_columns=self.embeddable_columns, embedding_columns=self.embedding_columns, name=self.name, save_path=self.save_path, save_dir=self.save_dir, load=True, text_embedder=self.text_embedder, markdown=self.markdown)
+        self.frame_template = CodeFramePydantic(df_path=f'{self.save_dir}/{self.name}.parquet', context_columns=self.context_columns, embeddable_columns=self.embeddable_columns, embedding_columns=self.embedding_columns, name=self.name, save_path=self.save_path, save_dir=self.save_dir, load=True,markdown=self.markdown)
 
     def __getattr__(self, name: str):
         if "df" in self.__dict__:

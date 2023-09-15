@@ -28,11 +28,7 @@ class BaseFrame(ABC):
         pass
 
     @abstractmethod
-    def embed_columns(self, embeddable_columns: List):
-        pass
-
-    @abstractmethod
-    def _embed_column(self, column, embedder):
+    def embed_column(self, column, embedder):
         pass
 
     @abstractmethod

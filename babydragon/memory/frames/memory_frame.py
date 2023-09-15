@@ -2,9 +2,6 @@ from babydragon.bd_types import infer_embeddable_type
 
 from typing import  List, Optional, Union
 from babydragon.memory.frames.base_frame import BaseFrame
-
-from babydragon.models.embedders.ada2 import OpenAiEmbedder
-from babydragon.models.embedders.cohere import CohereEmbedder
 from babydragon.utils.main_logger import logger
 from babydragon.utils.dataframes import extract_values_and_embeddings_pd, extract_values_and_embeddings_hf, extract_values_and_embeddings_polars, get_context_from_hf, get_context_from_pandas, get_context_from_polars
 from datasets import load_dataset
@@ -21,7 +18,6 @@ class MemoryFramePydantic(BaseModel):
     name: str
     save_path: Optional[str]
     save_dir: str
-    text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder
     markdown: str
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -34,9 +30,8 @@ class MemoryFrame(BaseFrame):
                 time_series_columns: List = [],
                 name: str = "memory_frame",
                 save_path: Optional[str] = None,
-                text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder,
                 markdown: str = "text/markdown",):
-        super().__init__(context_columns=..., embeddable_columns=..., embedding_columns=..., name=..., save_path=..., text_embedder=..., markdown=...)
+        BaseFrame.__init__(self, context_columns=..., embeddable_columns=..., embedding_columns=..., name=..., save_path=..., markdown=...)
         self.df = df
         self.context_columns = context_columns
         self.time_series_columns = time_series_columns
@@ -45,7 +40,6 @@ class MemoryFrame(BaseFrame):
         self.embedding_columns = embedding_columns
         self.name = name
         self.save_path = save_path
-        self.text_embedder = text_embedder
         self.markdown = markdown
 
 
@@ -174,7 +168,6 @@ class MemoryFrame(BaseFrame):
         time_series_columns: List = [],
         name: str = "memory_frame",
         save_path: Optional[str] = None,
-        embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
         markdown: str = "text/markdown",
         token_overflow_strategy: str = "ignore",
     ) -> "MemoryFrame":
@@ -194,4 +187,4 @@ class MemoryFrame(BaseFrame):
         df = pl.concat([df, context_df], how='horizontal')
         if value_column not in embeddable_columns:
             embeddable_columns.append(value_column)
-        return cls(df, context_columns, embeddable_columns, time_series_columns, name, save_path, embedder, markdown, token_overflow_strategy)
+        return cls(df, context_columns, embeddable_columns, time_series_columns, name, save_path, markdown, token_overflow_strategy)
