@@ -1,0 +1,6 @@
+{"id": 0, "start_time": 1694460453, "output": "Science and Physics", "prompt_tokens": 819, "completion_tokens": 3, "total_tokens": 822, "end_time": 1694460453, "remaining_token_capacity": 172760}
+{"id": 1, "start_time": 1694460453, "output": "Miscellaneous", "prompt_tokens": 3499, "completion_tokens": 2, "total_tokens": 3501, "end_time": 1694460453, "remaining_token_capacity": 164125}
+{"id": 2, "start_time": 1694460453, "output": "Electricity Generation Methods and Applications", "prompt_tokens": 482, "completion_tokens": 6, "total_tokens": 488, "end_time": 1694460453, "remaining_token_capacity": 174863}
+{"id": 3, "start_time": 1694460453, "output": "Linux commands", "prompt_tokens": 2041, "completion_tokens": 2, "total_tokens": 2043, "end_time": 1694460453, "remaining_token_capacity": 176536}
+{"id": 4, "start_time": 1694460453, "output": "Programming Paradigms", "prompt_tokens": 2592, "completion_tokens": 4, "total_tokens": 2596, "end_time": 1694460453, "remaining_token_capacity": 168726}
+{"id": 5, "start_time": 1694460453, "output": "Topics: Cynicism, YouTube reliance, sad love story poem, intense metal song lyrics, children's song about garbage disposal, rewriting sad love story as a cat and mouse story", "prompt_tokens": 3916, "completion_tokens": 36, "total_tokens": 3952, "end_time": 1694460454, "remaining_token_capacity": 158861}
