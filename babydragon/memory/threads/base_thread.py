@@ -36,7 +36,20 @@ class BaseThread:
         """
         self.name = name
         self.max_memory = max_memory
-        self.memory_schema = {"conversation_id": pl.Utf8, "message_id": pl.Utf8, "parent_id": pl.Utf8, "role": pl.Utf8, "content": pl.Utf8,"timestamp":pl.Float64,"tokens_count":pl.UInt16}
+        self.memory_schema = {
+
+            "conversation_id": pl.Utf8,
+            "conversation_title": pl.Utf8,
+            "message_id": pl.Utf8,
+            "parent_id": pl.Utf8,
+            "upload_time":pl.Float64,
+            "create_time":pl.Float64,
+            "update_time":pl.Float64,
+            "role": pl.Utf8,
+            "content": pl.Utf8,
+            "tokens_count":pl.UInt16
+
+        }
         self.memory_thread: pl.DataFrame = pl.DataFrame(schema=self.memory_schema)
         """ self.time_stamps = [] """
         """ self.message_tokens = [] """
@@ -80,15 +93,17 @@ class BaseThread:
         self.memory_thread = pl.DataFrame(schema=self.memory_schema) 
 
     def dict_to_row(self, message_dict: Dict[str, Any]) -> pl.DataFrame:
-        timestamp = message_dict.get('timestamp', now())
         return pl.DataFrame(schema=self.memory_schema,
                             data={
                                 "conversation_id": [message_dict.get("conversation_id")],
+                                "conversation_title": [message_dict.get("conversation_title")],
                                 "message_id": [message_dict.get("message_id")],
                                 "parent_id": [message_dict.get("parent_id")],
                                 "role": [message_dict["role"]],
                                 "content": [message_dict["content"]],
-                                "timestamp": [timestamp],
+                                "upload_time": [now()],
+                                "create_time": [message_dict["create_time"]],
+                                "update_time": [message_dict["update_time"]],
                                 "tokens_count": [len(self.tokenizer.encode(message_dict["content"])) + 7]
                                 })
 
@@ -114,7 +129,7 @@ class BaseThread:
         message_dict = check_dict(message_dict)
         return message_dict["role"]
 
-    def add_dict_to_thread(self, message_dict: dict) -> None:
+    def add_dict_to_thread(self, message_dict: dict, conversation_id: str = None) -> None:
         """
         Add a message to the memory thread.
 
@@ -129,8 +144,9 @@ class BaseThread:
         parent_id = None if last_message is None else last_message['message_id'][0]
 
         # Create a new message row with parent_id and message_id
+        conv_id = self.conversation_id if conversation_id is None else conversation_id
         new_message_row = self.dict_to_row({
-            'conversation_id': self.conversation_id,
+            'conversation_id': conv_id,
             'message_id': new_message_id,
             'parent_id': parent_id,
             **message_dict,
@@ -302,24 +318,52 @@ class BaseThread:
 
             json_obj = json.loads(data_string)  # pyright: ignore
 
-            conversation_data = json_obj['props']['pageProps']['serverResponse']['data']
+            c = json_obj['props']['pageProps']['serverResponse']['data']
 
-            messages = conversation_data['mapping']
+            conversation_id =  str(uuid.uuid4())
 
-            for _, value in messages.items():
-                if ('parent' in value.keys()) and (value['message']['content']['parts'][0] != ''):
-                    try:
-                        timestamp = value['message']['create_time']
-                    except KeyError:
-                        timestamp = None # or some default value
+            for m in c['mapping']:
+                try:
+                    if c['mapping'][m]['message'] is not None:
+                            new_row = {
 
-                    message_dict = {'role': value['message']['author']['role'],
-                                    'content': value['message']['content']['parts'][0],
-                                    'timestamp': timestamp}
-                    self.add_dict_to_thread(message_dict)
+                            'conversation_id': conversation_id,
+                            'conversation_title': c['title'],
+                            'create_time': c['mapping'][m]['message']['create_time'],
+                            'update_time': 0,
+                            'role': c['mapping'][m]['message']['author']['role'],
+                            'content': c['mapping'][m]['message']['content']['parts'][0]
+                            }
+                            self.add_dict_to_thread(new_row)
+                except Exception as e:
+                    print(e)
+                    
             print("Conversation loaded successfully")
         else:
             raise ValueError(f"Nessuna conversazione trovata a questo link!")
+
+
+    def load_from_backup(self, data: Any):
+        for c in data:
+            for m in c['mapping']:
+
+                if c['mapping'][m]['message'] is not None:
+                    try:
+                        new_row = {
+
+                            'conversation_id': c['id'],
+                            'conversation_title': c['title'],
+                            'create_time': c['mapping'][m]['message']['create_time'],
+                            'update_time': c['mapping'][m]['message']['update_time'],
+                            'role': c['mapping'][m]['message']['author']['role'],
+                            'content': c['mapping'][m]['message']['content']['parts'][0]
+                        }
+
+                        self.add_dict_to_thread(new_row)
+                    except Exception as e:
+                        print(e)
+                        print( c['mapping'][m]['message'])
+                        print('\n\n') 
 
 
 

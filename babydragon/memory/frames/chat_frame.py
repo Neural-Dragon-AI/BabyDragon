@@ -5,6 +5,10 @@ from babydragon.models.embedders.cohere import CohereEmbedder
 from babydragon.models.generators.PolarsGenerator import PolarsGenerator
 import json
 import polars as pl
+import numpy as np
+from umap import UMAP
+from hdbscan import HDBSCAN
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 
 class ChatFrame(BaseThread):
@@ -95,5 +99,55 @@ class ChatFrame(BaseThread):
         output = output[::-1]
         output = pl.DataFrame(output)
         self.memory_thread = self.memory_thread.with_columns(output)
+    
+    def reduce_dimensionality(self):
+        umap_model = UMAP(n_neighbors=5, n_components=5, min_dist=0.0, metric='cosine')
+        embeddings = np.stack(self.memory_thread['embedding|content'].to_list())
+        reduced_embeddings = umap_model.fit_transform(embeddings)
+        self.memory_thread = self.memory_thread.with_columns(pl.Series('reduced_embedding', reduced_embeddings.tolist()))
+    
+    def cluster_data(self):
+        hdbscan_model = HDBSCAN(min_cluster_size=5, metric='euclidean', cluster_selection_method='eom', prediction_data=True)
+        reduced_embeddings = np.stack(self.memory_thread['reduced_embedding'].to_list())
+        cluster_labels = hdbscan_model.fit_predict(reduced_embeddings)
+        self.memory_thread = self.memory_thread.with_columns(pl.Series('cluster_labels', cluster_labels))
+    
+    def vectorize_topics(self):
+        vectorizer_model = CountVectorizer(stop_words="english")
+        # Concatenate texts within each cluster and then vectorize
+        df = self.memory_thread.sort('cluster_labels')
+        # Step 2: Initialize an empty list and DataFrame to hold the results
+        concatenated_contents = []
+        unique_labels = []
+
+        # Step 3: Iterate through unique 'cluster_labels' to perform the custom aggregation
+        for label in df["cluster_labels"].unique():
+            subset = df.filter(df["cluster_labels"] == label)
+            concatenated_content = " ".join(subset["content"].to_list())
+            
+            concatenated_contents.append(concatenated_content)
+            unique_labels.append(label)
+
+        # Step 4: Create the output DataFrame
+        final_df = pl.DataFrame({
+            "cluster_labels": unique_labels,
+            "concatenated_content": concatenated_contents
+        })
+        concatenated_texts = final_df["concatenated_content"].to_list()
+        self.token_matrix = vectorizer_model.fit_transform(concatenated_texts)
+    
+    def create_topic_representation(self):
+        tfidf_transformer = TfidfTransformer()
+        self.topic_representations = tfidf_transformer.fit_transform(self.token_matrix)
+    
+    def execute_tagging_pipeline(self):
+        self.reduce_dimensionality()
+        self.cluster_data()
+        self.vectorize_topics()
+        self.create_topic_representation()
+
+
+
+
 
 

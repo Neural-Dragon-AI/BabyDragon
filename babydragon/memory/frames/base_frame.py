@@ -40,14 +40,6 @@ class BaseFrame(ABC):
         pass
 
     @abstractmethod
-    def search_column_with_sql_polar(self, sql_query, query, embeddable_column_name, top_k):
-        pass
-
-    @abstractmethod
-    def search_column_polar(self, query, embeddable_column_name, top_k):
-        pass
-
-    @abstractmethod
     def save(self):
         pass
 
@@ -58,4 +50,86 @@ class BaseFrame(ABC):
 
     @abstractmethod
     def generate_column(self, row_generator, new_column_name):
+        pass
+
+    
+    def create_stratas(self):
+        """
+        Creates stratas for all columns in the DataFrame by calling _create_strata on each column.
+        """
+        pass
+
+    def _create_strata(self, column_name: str):
+        """
+        Determine the correct strata creation function to call based on the column's data type,
+        and then calls the corresponding function.
+
+        Args:
+            column_name (str): The name of the column.
+        """
+        pass
+
+    def _create_strata_from_categorical(self, column_name: str):
+        """
+        Create strata for a categorical column.
+
+        Args:
+            column_name (str): The name of the column.
+        """
+        pass
+
+    def _create_strata_from_real(self, column_name: str):
+        """
+        Create strata for a real valued column.
+
+        Args:
+            column_name (str): The name of the column.
+        """
+        pass
+
+    def _create_strata_from_embeddings(self, column_name: str):
+        """
+        Create strata for a column with embeddings.
+
+        Args:
+            column_name (str): The name of the column.
+        """
+        pass
+
+    def _create_strata_from_episodic_time_series(self, column_name: str):
+        """
+        Create strata for a column with episodic time series.
+
+        Args:
+            column_name (str): The name of the column.
+        """
+        pass
+
+    def create_joint_strata(self, column_names: list):
+        """
+        Create strata based on the unique combinations of values across given columns.
+        
+        Args:
+            column_names (list): The names of the columns.
+        """
+        pass
+
+    def stratified_sampling(self, strata_columns: list, n_samples: int):
+        """
+        Perform stratified sampling on given stratum columns.
+        
+        Args:
+            strata_columns (list): The names of the stratum columns.
+            n_samples (int): The number of samples to draw.
+        """
+        pass
+
+    def stratified_cross_validation(self, strata_columns: list, n_folds: int):
+        """
+        Perform stratified cross-validation on given stratum columns.
+        
+        Args:
+            strata_columns (list): The names of the stratum columns.
+            n_folds (int): The number of folds for the cross-validation.
+        """
         pass

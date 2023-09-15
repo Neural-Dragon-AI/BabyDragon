@@ -1,45 +1,73 @@
-from _types import infer_embeddable_type
+from babydragon.bd_types import infer_embeddable_type
+
 from typing import  List, Optional, Union
+from babydragon.memory.frames.base_frame import BaseFrame
+
 from babydragon.models.embedders.ada2 import OpenAiEmbedder
 from babydragon.models.embedders.cohere import CohereEmbedder
 from babydragon.utils.main_logger import logger
 from babydragon.utils.dataframes import extract_values_and_embeddings_pd, extract_values_and_embeddings_hf, extract_values_and_embeddings_polars, get_context_from_hf, get_context_from_pandas, get_context_from_polars
-from babydragon.utils.pythonparser import extract_values_and_embeddings_python
 from datasets import load_dataset
 import polars as pl
-import numpy as np
-class MemoryFrame:
+import os
+from pydantic import ConfigDict, BaseModel
+
+class MemoryFramePydantic(BaseModel):
+    df_path: str
+    context_columns: List[str]
+    embeddable_columns: List[str]
+    embedding_columns: List[str]
+    time_series_columns: List[str]
+    name: str
+    save_path: Optional[str]
+    save_dir: str
+    text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder
+    markdown: str
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+
+class MemoryFrame(BaseFrame):
     def __init__(self, df: pl.DataFrame,
                 context_columns: List = [],
                 embeddable_columns: List = [],
+                embedding_columns: List = [],
                 time_series_columns: List = [],
                 name: str = "memory_frame",
                 save_path: Optional[str] = None,
-                load: bool = False,
                 text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder,
                 markdown: str = "text/markdown",):
+        super().__init__(context_columns=..., embeddable_columns=..., embedding_columns=..., name=..., save_path=..., text_embedder=..., markdown=...)
         self.df = df
         self.context_columns = context_columns
         self.time_series_columns = time_series_columns
         self.embeddable_columns = embeddable_columns
         self.meta_columns = ['ID', 'Name', 'Source', 'Author', 'Created At', 'Last Modified At']
-        self.embedding_columns = []
+        self.embedding_columns = embedding_columns
         self.name = name
         self.save_path = save_path
-        self.load = load
         self.text_embedder = text_embedder
         self.markdown = markdown
 
 
     def __getattr__(self, name: str):
-        # delegate to the self.df object
-        return getattr(self.df, name)
+        if "df" in self.__dict__:
+            return getattr(self.df.lazy(), name)
+        raise AttributeError(f"{self.__class__.__name__} object has no attribute {name}")
 
     def get_overwritten_attr(self):
         df_methods = [method for method in dir(self.df) if callable(getattr(self.df, method))]
         memory_frame_methods = [method for method in dir(MemoryFrame) if callable(getattr(MemoryFrame, method))]
         common_methods = list(set(df_methods) & set(memory_frame_methods))
         return common_methods
+
+    def tokenize_column(self, column_name: str):
+        new_values = self.tokenizer.encode_batch(self.df[column_name].to_list())
+        new_series = pl.Series(f'tokens|{column_name}', new_values)
+        len_values = [len(x) for x in new_values]
+        new_series_len = pl.Series(f'tokens_len|{column_name}', len_values)
+        self.df = self.df.with_columns(new_series)
+        self.df = self.df.with_columns(new_series_len)
+        return self
 
     def embed_columns(self, embeddable_columns: List):
         for column_name in embeddable_columns:
@@ -56,8 +84,36 @@ class MemoryFrame:
         new_series = pl.Series(new_column_name, new_values)
         self.df = self.df.with_columns(new_series)
         self.embedding_columns.append(new_column_name)
+    
+    def apply_validator_to_column(self, column_name: str, validator: type):
+        # Ensure the validator is a subclass of BaseModel from Pydantic
+        if not issubclass(validator, BaseModel):
+            raise TypeError('validator must be a subclass of BaseModel from Pydantic')
+        if column_name not in self.df.columns:
+            raise ValueError(f"Column '{column_name}' does not exist.")
+        if column_name not in self.embeddable_columns:
+            raise ValueError(f"Column '{column_name}' is not set to embeddable.")
+        # Iterate over the specified column
+        for text in self.df[column_name]:
+            # Create a validator instance and validate the text
+            try:
+                _ = validator(text=text).text
+            except Exception as e:
+                raise ValueError(f"Failed to validate text in column '{column_name}'.") from e
 
+        return self
 
+    def convert_column_to_messages(self, column_name, model_name = "gpt-3.5-turbo-16k", system_prompt = "Youre a Helpful Summarizer!"):
+        df = self.df.select(column_name).with_columns(pl.lit(model_name).alias("model"))
+
+        def create_content(value):
+            return ([{"role": "system", "content":system_prompt},
+                        {"role": "user", "content": f"{value}"}])
+
+        input_df = df.with_columns(df[column_name].apply(create_content, return_dtype=pl.List).alias('messages')).drop(column_name)
+        self.df = self.df.with_columns(input_df)
+        return self
+    
     def search_column_with_sql_polar(self, sql_query, query, embeddable_column_name, top_k):
         df = self.df.filter(sql_query)
         embedding_column_name = 'embedding|' + embeddable_column_name
@@ -68,7 +124,6 @@ class MemoryFrame:
         result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
         return result
 
-
     def search_column_polar(self, query, embeddable_column_name, top_k):
         embedding_column_name = 'embedding|' + embeddable_column_name
 
@@ -78,33 +133,24 @@ class MemoryFrame:
         result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
         return result
 
-    def search_column_numpy(self, query, embeddable_column_name, top_k):
-        embedding_column_name = 'embedding|' + embeddable_column_name
-        #convert query and column to numpy arrays
-        column_np = self.df[embedding_column_name].to_numpy()
-        #calculate dot product
-        dot_product = np.dot(column_np, query)
-        #add dot products as column to dataframe
-        dot_product_frame = self.df.with_columns(dot_product)
-        # Sort by dot product and select top_k rows
-        result = dot_product_frame.sort('dot_product', descending=True).slice(0, top_k)
-        return result
 
-    def save_parquet(self):
-        #save to arrow
-        self.full_save_path = self.save_path + self.name + '.parquet'
+    def save(self):
+        #create dir in storage if not exists
+        if not os.path.exists(self.save_dir):
+            os.makedirs(self.save_dir)
+        self.full_save_path = f'{self.save_path}/{self.name}/{self.name}.parquet'
         self.df.write_parquet(self.full_save_path)
+        frame_template_json = self.frame_template.json()
+        with open(f'{self.save_dir}/{self.name}.json', 'w') as f:
+            f.write(frame_template_json)
 
-    def load_parquet(self):
-        self.full_save_path = self.save_path + self.name + '.parquet'
-        self.df = pl.read_parquet(self.full_save_path)
+    @classmethod
+    def load(cls, frame_path, name):
+        df = pl.read_parquet(f'{frame_path}/{name}.parquet')
+        with open(f'{frame_path}/{name}.json', 'r') as f:
+            frame_template = MemoryFramePydantic.parse_raw(f.read())
+        return cls(df=df, context_columns=frame_template.context_columns, embeddable_columns=frame_template.embeddable_columns, embedding_columns=frame_template.embedding_columns, name=frame_template.name, save_path=frame_template.save_path, text_embedder=frame_template.text_embedder, markdown=frame_template.markdown)
 
-
-    def search_time_series_column(self, query, embeddable_column_name, top_k):
-        ## uses dtw to match any sub-sequence of the query to the time series in the column
-        ## time series column have a date o time or delta time column associated with them 
-        ## each row-value is a list of across rows variable length for both the time series and the date or time column
-        pass
 
     def generate_column(self, row_generator, new_column_name):
         # Generate new values
@@ -115,86 +161,6 @@ class MemoryFrame:
         # Concatenate horizontally
         self.df = self.df.hstack([new_df])
     
-    def create_stratas(self):
-        """
-        Creates stratas for all columns in the DataFrame by calling _create_strata on each column.
-        """
-        pass
-
-    def _create_strata(self, column_name: str):
-        """
-        Determine the correct strata creation function to call based on the column's data type,
-        and then calls the corresponding function.
-
-        Args:
-            column_name (str): The name of the column.
-        """
-        pass
-
-    def _create_strata_from_categorical(self, column_name: str):
-        """
-        Create strata for a categorical column.
-
-        Args:
-            column_name (str): The name of the column.
-        """
-        pass
-
-    def _create_strata_from_real(self, column_name: str):
-        """
-        Create strata for a real valued column.
-
-        Args:
-            column_name (str): The name of the column.
-        """
-        pass
-
-    def _create_strata_from_embeddings(self, column_name: str):
-        """
-        Create strata for a column with embeddings.
-
-        Args:
-            column_name (str): The name of the column.
-        """
-        pass
-
-    def _create_strata_from_episodic_time_series(self, column_name: str):
-        """
-        Create strata for a column with episodic time series.
-
-        Args:
-            column_name (str): The name of the column.
-        """
-        pass
-
-    def create_joint_strata(self, column_names: list):
-        """
-        Create strata based on the unique combinations of values across given columns.
-        
-        Args:
-            column_names (list): The names of the columns.
-        """
-        pass
-
-    def stratified_sampling(self, strata_columns: list, n_samples: int):
-        """
-        Perform stratified sampling on given stratum columns.
-        
-        Args:
-            strata_columns (list): The names of the stratum columns.
-            n_samples (int): The number of samples to draw.
-        """
-        pass
-
-    def stratified_cross_validation(self, strata_columns: list, n_folds: int):
-        """
-        Perform stratified cross-validation on given stratum columns.
-        
-        Args:
-            strata_columns (list): The names of the stratum columns.
-            n_folds (int): The number of folds for the cross-validation.
-        """
-        pass
 
     @classmethod
     def from_hf_dataset(
@@ -223,35 +189,6 @@ class MemoryFrame:
             df = pl.DataFrame({value_column: values, embeddings_column: embeddings})
         else:
             df = pl.DataFrame({value_column: values})
-        context_df = pl.DataFrame(context)
-        #merge context columns with dataframe
-        df = pl.concat([df, context_df], how='horizontal')
-        if value_column not in embeddable_columns:
-            embeddable_columns.append(value_column)
-        return cls(df, context_columns, embeddable_columns, time_series_columns, name, save_path, embedder, markdown, token_overflow_strategy)
-
-    @classmethod
-    def from_python(
-        cls,
-        directory_path: str,
-        value_column: str,
-        minify_code: bool = False,
-        remove_docstrings: bool = False,
-        resolution: str = "both",
-        embeddings_column: Optional[str] = None,
-        embeddable_columns: List = [],
-        context_columns: Optional[List[str]] = None,
-        time_series_columns: List = [],
-        name: str = "memory_frame",
-        save_path: Optional[str] = None,
-        embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= OpenAiEmbedder,
-        markdown: str = "text/markdown",
-        token_overflow_strategy: str = "ignore",
-    ) -> "MemoryFrame":
-        values, context = extract_values_and_embeddings_python(directory_path, minify_code, remove_docstrings, resolution)
-        logger.info(f"Found {len(values)} values in the directory {directory_path}")
-        #convert retrieved data to polars dataframe
-        df = pl.DataFrame({value_column: values})
         context_df = pl.DataFrame(context)
         #merge context columns with dataframe
         df = pl.concat([df, context_df], how='horizontal')

@@ -9,6 +9,7 @@ from babydragon.chat.prompts.default_prompts import (DEFAULT_SYSTEM_PROMPT,
 from babydragon.utils.chatml import (get_mark_from_response,
                                   get_str_from_response, mark_question,
                                   mark_system)
+from babydragon.memory.threads.base_thread import BaseThread
 import logging
 
 from pydantic import BaseModel, validator
@@ -67,6 +68,32 @@ class Prompter:
         prompt = [mark_system(self.system_prompt)] + [marked_question]
         return prompt, marked_question
 
+    def one_shot_prompt_with_thread(self, message: str, thread: BaseThread) -> Tuple[List[str], str]:
+        """
+        Compose the prompt for the chat-gpt API, including conversation history from the thread.
+
+        :param message: A string representing the user message.
+        :param thread: An instance of BaseThread containing conversation history.
+        :return: A tuple containing a list of strings representing the prompt and a string representing the marked question.
+        """
+        # Validate and handle the user's current message
+        message = MessageHandler(content=message).content
+        marked_question = mark_question(self.default_user_prompt(message))
+
+        # Retrieve conversation history from the thread (modify as needed to get the desired context)
+        conversation_history = thread.memory_thread
+
+        # Construct the prompt using the system prompt, conversation history, and marked question
+        prompt = [mark_system(self.system_prompt)]
+        for index in range(len(conversation_history)):
+            role = conversation_history["role"][index]
+            content = conversation_history["content"][index]
+            prompt.append(mark_system(content) if role == 'system' else mark_question(content))
+
+        prompt.append(marked_question)
+
+        return prompt, marked_question
+
     def update_system_prompt(self, new_prompt: str) -> None:
         """
         Update the system prompt.
@@ -84,13 +111,11 @@ class Prompter:
         self.user_prompt_template = PromptConfiguration(user_prompt=new_prompt).user_prompt
 
 
-class BaseChat:
-    """
-    This is the base class for chatbots, defining the basic functions that a chatbot should have, mainly the calls to
-    chat-gpt API, and a basic Gradio interface. It has a prompt_func that acts as a placeholder for a call to chat-gpt
-    API without any additional messages. It can be overridden by subclasses to add additional messages to the prompt.
-    """
+class ChatModelConfiguration(BaseModel):
+    model: str = "gpt-3.5-turbo"
+    max_output_tokens: int = 200
 
+class BaseChat:
     def __init__(self, model: Union[str,None] = None, max_output_tokens: int = 200):
         """
         Initialize the BaseChat with a model and max_output_tokens.
@@ -98,27 +123,21 @@ class BaseChat:
         :param model: A string representing the chat model to be used.
         :param max_output_tokens: An integer representing the maximum number of output tokens.
         """
-        if model is None:
-            self.model = "gpt-3.5-turbo"
-        else:
-            self.model = model
+        config = ChatModelConfiguration(model=model, max_output_tokens=max_output_tokens)
+        self.model = config.model
+        self.max_output_tokens = config.max_output_tokens
+
         self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
-        self.max_output_tokens = max_output_tokens
-        self.failed_responses = []
-        self.outputs = []
-        self.inputs = []
-        self.prompts = []
+        self.reset_logs()
         self.prompt_func = self.identity_prompter
 
     def __getstate__(self):
         state = self.__dict__.copy()
-        # Remove the tokenizer attribute from the state
         del state["tokenizer"]
         return state
 
     def __setstate__(self, state):
         self.__dict__.update(state)
-        # Reinitialize the tokenizer attribute after unpickling
         self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
     def identity_prompter(self, message: str) -> Tuple[List[Dict], str]:
@@ -130,27 +149,20 @@ class BaseChat:
         """
         return [mark_question(message)], mark_question(message)
 
-    def chat_response( self, prompt: List[dict], max_tokens: Union[int,None] = None, stream:bool = False ) -> Union[Generator,Tuple[Dict, bool]]:
+    def chat_response(self, prompt: List[dict], max_tokens: Union[int, None] = None, stream: bool = False) -> Union[Generator, Tuple[Dict, bool]]:
         if max_tokens is None:
             max_tokens = self.max_output_tokens
+
         if "gpt" in self.model:
-            logging.info(prompt)
-            response, status = chatgpt_response(prompt=prompt,model=self.model, max_tokens = 1000, stream=stream)
-            if status:
-                return response, True
-            else:
-                self.failed_responses.append(response)
-                return response, False
+            response, status = chatgpt_response(prompt=prompt, model=self.model, max_tokens=max_tokens, stream=stream)
+            return response, status if status else self.handle_failure(response)
 
         elif "command" in self.model:
-            response, status = cohere_response(prompt=prompt,model=self.model, max_tokens = 1000)  
-            if status:
-                return response, True
-            else:
-                self.failed_responses.append(response)
-                return response, False
+            response, status = cohere_response(prompt=prompt, model=self.model, max_tokens=max_tokens)
+            return response, status if status else self.handle_failure(response)
+
         else:
-            return {}, False 
+            return {}, False
 
     def reply(self, message: str, verbose: bool = True, stream: bool = False) -> Union[Generator, str]:
         """
@@ -198,6 +210,10 @@ class BaseChat:
         else:
             raise Exception("OpenAI API Error inside query function")
 
+    def handle_failure(self, response):
+        self.failed_responses.append(response)
+        return response, False
+
     def reset_logs(self):
         """
         Reset the chatbot's memory.
@@ -205,6 +221,7 @@ class BaseChat:
         self.outputs = []
         self.inputs = []
         self.prompts = []
+        self.failed_responses = []
 
     def get_logs(self):
         """
