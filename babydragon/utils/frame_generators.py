@@ -59,6 +59,7 @@ def cluster_summaries(embeddings):
     new_series = pl.Series(new_column_name, labels)
     return new_series
 
+
 def load_generated_content(out_path):
     with open(out_path) as f:
             output = f.readlines()
