@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional, Union
-from babydragon.models.embedders.ada2 import OpenAiEmbedder
-from babydragon.models.embedders.cohere import CohereEmbedder
 import tiktoken
 class BaseFrame(ABC):
     def __init__(self,
@@ -10,7 +8,6 @@ class BaseFrame(ABC):
                 embedding_columns: List = [],
                 name: str = "base_frame",
                 save_path: Optional[str] = "/storage",
-                text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder,
                 markdown: str = "text/markdown",):
         self.tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
         self.meta_columns = ['ID', 'Name', 'Source', 'Author', 'Created At', 'Last Modified At']
@@ -20,7 +17,6 @@ class BaseFrame(ABC):
         self.name = name
         self.save_path = save_path
         self.save_dir = f'{self.save_path}/{self.name}'
-        self.text_embedder = text_embedder
         self.markdown = markdown
 
     @abstractmethod
