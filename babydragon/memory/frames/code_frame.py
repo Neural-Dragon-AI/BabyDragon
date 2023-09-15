@@ -4,7 +4,7 @@ from babydragon.utils.pythonparser import extract_values_python, traverse_and_co
 from babydragon.models.generators.PolarsGenerator import PolarsGenerator
 from babydragon.memory.frames.visitors.module_augmenters import CodeReplacerVisitor
 from babydragon.memory.frames.base_frame import BaseFrame
-from babydragon.utils.frame_generators import generate_summary_column, embed_summary_column, generate_topic_label_column, cluster_summaries, load_generated_content
+from babydragon.utils.frame_generators import load_generated_content
 from babydragon.memory.frames.visitors.node_type_counters import *
 from babydragon.memory.frames.visitors.operator_counters import *
 import polars as pl
@@ -142,7 +142,7 @@ class CodeFrame(BaseFrame):
         df = pl.read_parquet(f'{frame_path}/{name}.parquet')
         with open(f'{frame_path}/{name}.json', 'r') as f:
             frame_template = CodeFramePydantic.parse_raw(f.read())
-        return cls(df=df, context_columns=frame_template.context_columns, embeddable_columns=frame_template.embeddable_columns, embedding_columns=frame_template.embedding_columns, name=frame_template.name, save_path=frame_template.save_path, text_embedder=frame_template.text_embedder, markdown=frame_template.markdown)
+        return cls(df=df, context_columns=frame_template.context_columns, embeddable_columns=frame_template.embeddable_columns, embedding_columns=frame_template.embedding_columns, name=frame_template.name, save_path=frame_template.save_path, markdown=frame_template.markdown)
 
 
     def apply_visitor_to_column(self, column_name: str, visitor_class: type, new_column_prefix: Optional[str] = None):
@@ -193,66 +193,6 @@ class CodeFrame(BaseFrame):
                 row[original_code_column] = modified_code
 
         return self
-    
-    def pipeline(self, name):
-        grouped_df = self.df.groupby('conversation_id').agg(pl.col('content').alias('content'))
-        # convert content column to str
-        grouped_df = grouped_df.with_columns(
-            pl.col("content").apply(lambda x: ' '.join(x), return_dtype=pl.Utf8).alias("concatenated_content")
-        )
-        # tokenize
-        grouped_df = self.tokenize_column(input_df = grouped_df, column_name="concatenated_content")
-
-        #summarize
-        out_path = f"./batch_generator/{name}_output.ndjson"
-        conv_id_column = grouped_df.select("conversation_id")
-        if os.path.exists(out_path):
-            output = load_generated_content(out_path)
-            summary_column = output.select("output")
-            grouped_df = grouped_df.with_columns(summary_column)
-            grouped_df = grouped_df.rename({"output": "summary"})
-        else:
-            summary_column = generate_summary_column(grouped_df, name = name)
-            grouped_df = grouped_df.with_columns(summary_column)
-            grouped_df = grouped_df.rename({"output": "summary"})
-
-        #embed Summary
-        out_path = f"./batch_generator/{name}_text-embedding-ada-002_output.ndjson"
-        if os.path.exists(out_path):
-            output = load_generated_content(out_path)
-            emb_column = output.select("output")
-            grouped_df = grouped_df.with_columns(emb_column)
-            grouped_df = grouped_df.rename({"output": "summary_embedding"})
-        else:
-            emb_column = embed_summary_column(df=grouped_df, name = name)
-            grouped_df = grouped_df.with_columns(emb_column)
-            grouped_df = grouped_df.rename({"output": "summary_embedding"})
-
-
-        #cluster
-        embeddings = grouped_df["summary_embedding"].to_list()
-        new_series = cluster_summaries(embeddings)
-        grouped_df = grouped_df.with_columns(new_series)
-        grouped_df = grouped_df.with_columns(conv_id_column)
-        cluster_df = grouped_df.groupby('cluster|summary').agg(pl.col('summary').alias('summary'))
-        # convert content column to str
-        cluster_df = cluster_df.with_columns(
-            pl.col("summary").apply(lambda x: ' '.join(x), return_dtype=pl.Utf8).alias("concatenated_summary")
-        )
-        cluster_id_column = cluster_df.select("cluster|summary")
-        # tokenize
-        cluster_df = self.tokenize_column(input_df = cluster_df, column_name="concatenated_summary")
-
-        summary_column = generate_topic_label_column(df=cluster_df, name = name)
-        cluster_df = cluster_df.with_columns(summary_column)
-        cluster_df = cluster_df.with_columns(cluster_id_column)
-        cluster_df = cluster_df.rename({"output": "topic_label"})
-
-        joined_df1 = grouped_df.join(cluster_df, left_on="cluster|summary", right_on="cluster|summary", how="inner")
-        joined_df2 = self.df.join(joined_df1, left_on="conversation_id", right_on="conversation_id", how="inner")
-        
-
-        return grouped_df, cluster_df, joined_df2
 
     @classmethod
     def from_python(

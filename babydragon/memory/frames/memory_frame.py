@@ -1,9 +1,10 @@
-from babydragon.bd_types import infer_embeddable_type
-
 from typing import  List, Optional, Union
 from babydragon.memory.frames.base_frame import BaseFrame
 from babydragon.utils.main_logger import logger
-from babydragon.utils.dataframes import extract_values_and_embeddings_pd, extract_values_and_embeddings_hf, extract_values_and_embeddings_polars, get_context_from_hf, get_context_from_pandas, get_context_from_polars
+from babydragon.utils.dataframes import extract_values_and_embeddings_hf, get_context_from_hf
+from babydragon.models.generators.PolarsGenerator import PolarsGenerator
+from babydragon.utils.frame_generators import load_generated_content
+
 from datasets import load_dataset
 import polars as pl
 import os
@@ -63,21 +64,38 @@ class MemoryFrame(BaseFrame):
         self.df = self.df.with_columns(new_series_len)
         return self
 
-    def embed_columns(self, embeddable_columns: List):
-        for column_name in embeddable_columns:
-            column = self.df[column_name]
-            _, embedder = infer_embeddable_type(column)
-            self._embed_column(column, embedder)
+    def prepare_column_for_embeddings(self, column_name="content"):
+        df = self.df.select(column_name).with_columns(pl.lit("text-embedding-ada-002").alias("model"))
+        input_df = df.with_columns(df[column_name].alias('input')).drop(column_name)
+        return input_df
+    
+    def embed_column(self, column="content", generator_log_name="memory_embedding"):
+        input_df = self.prepare_column_for_embeddings(column)
+        embedder = PolarsGenerator(input_df = input_df, name = f"{generator_log_name}_text-embedding-ada-002")
+        embedder.execute()
+        out_path = f"./batch_generator/{generator_log_name}_text-embedding-ada-002.ndjson"
+        output = load_generated_content(out_path)
+        self.df = self.df.with_columns(output)
 
-    def _embed_column(self, column, embedder):
-        # Add the embeddings as a new column
-        # Generate new values
-        new_values = embedder.embed(self.df[column.name].to_list())
-        # Add new column to DataFrame
-        new_column_name = f'embedding|{column.name}'
-        new_series = pl.Series(new_column_name, new_values)
-        self.df = self.df.with_columns(new_series)
-        self.embedding_columns.append(new_column_name)
+    
+    def convert_column_to_messages(self, column_name, model_name = "gpt-3.5-turbo-16k", system_prompt = "Youre a Helpful Summarizer!"):
+        df = self.df.select(column_name).with_columns(pl.lit(model_name).alias("model"))
+
+        def create_content(value):
+            return ([{"role": "system", "content":system_prompt},
+                        {"role": "user", "content": f"{value}"}])
+
+        input_df = df.with_columns(df[column_name].apply(create_content, return_dtype=pl.List).alias('messages')).drop(column_name)
+        self.df = self.df.with_columns(input_df)
+
+    def generate_column(self, column_name, generator_log_name="memory_summary",  model_name = "gpt-3.5-turbo-16k", system_prompt = "Youre a Helpful Summarizer!"):
+        #TODO: Generate column with OpenAI functionAPI
+        self.convert_column_to_messages(column_name = column_name, model_name = model_name, system_prompt = system_prompt)
+        generator = PolarsGenerator( input_df = self.df, name = generator_log_name)
+        generator.execute()
+        out_path = f"./batch_generator/{generator_log_name}_output.ndjson"
+        output = load_generated_content(out_path)
+        self.df = self.df.with_columns(output)
     
     def apply_validator_to_column(self, column_name: str, validator: type):
         # Ensure the validator is a subclass of BaseModel from Pydantic
@@ -97,17 +115,6 @@ class MemoryFrame(BaseFrame):
 
         return self
 
-    def convert_column_to_messages(self, column_name, model_name = "gpt-3.5-turbo-16k", system_prompt = "Youre a Helpful Summarizer!"):
-        df = self.df.select(column_name).with_columns(pl.lit(model_name).alias("model"))
-
-        def create_content(value):
-            return ([{"role": "system", "content":system_prompt},
-                        {"role": "user", "content": f"{value}"}])
-
-        input_df = df.with_columns(df[column_name].apply(create_content, return_dtype=pl.List).alias('messages')).drop(column_name)
-        self.df = self.df.with_columns(input_df)
-        return self
-    
     def search_column_with_sql_polar(self, sql_query, query, embeddable_column_name, top_k):
         df = self.df.filter(sql_query)
         embedding_column_name = 'embedding|' + embeddable_column_name
@@ -143,18 +150,7 @@ class MemoryFrame(BaseFrame):
         df = pl.read_parquet(f'{frame_path}/{name}.parquet')
         with open(f'{frame_path}/{name}.json', 'r') as f:
             frame_template = MemoryFramePydantic.parse_raw(f.read())
-        return cls(df=df, context_columns=frame_template.context_columns, embeddable_columns=frame_template.embeddable_columns, embedding_columns=frame_template.embedding_columns, name=frame_template.name, save_path=frame_template.save_path, text_embedder=frame_template.text_embedder, markdown=frame_template.markdown)
-
-
-    def generate_column(self, row_generator, new_column_name):
-        # Generate new values
-        new_values = row_generator.generate(self.df)
-        # Add new column to DataFrame
-        new_df = pl.DataFrame({ new_column_name: new_values })
-
-        # Concatenate horizontally
-        self.df = self.df.hstack([new_df])
-    
+        return cls(df=df, context_columns=frame_template.context_columns, embeddable_columns=frame_template.embeddable_columns, embedding_columns=frame_template.embedding_columns, name=frame_template.name, save_path=frame_template.save_path,  markdown=frame_template.markdown)
 
     @classmethod
     def from_hf_dataset(
