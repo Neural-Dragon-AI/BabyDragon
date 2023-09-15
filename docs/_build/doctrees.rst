@@ -1,4 +1,0 @@
-doctrees
-========
-
-.. toctree::

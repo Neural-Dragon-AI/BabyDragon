@@ -1,4 +1,0 @@
-chat
-====
-
-.. toctree::

@@ -1,4 +1,0 @@
-prompts
-=======
-
-.. toctree::
