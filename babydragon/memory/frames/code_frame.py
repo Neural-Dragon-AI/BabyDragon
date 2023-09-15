@@ -1,16 +1,12 @@
-from babydragon.bd_types import infer_embeddable_type
-from typing import  List, Optional, Union
-from babydragon.models.embedders.ada2 import OpenAiEmbedder
-from babydragon.models.embedders.cohere import CohereEmbedder
+from typing import  List, Optional
 from babydragon.utils.main_logger import logger
 from babydragon.utils.pythonparser import extract_values_python, traverse_and_collect_rtd
-from babydragon.processors.github_processors import GithubProcessor
+from babydragon.models.generators.PolarsGenerator import PolarsGenerator
 from babydragon.memory.frames.visitors.module_augmenters import CodeReplacerVisitor
 from babydragon.memory.frames.base_frame import BaseFrame
+from babydragon.utils.frame_generators import load_generated_content
 from babydragon.memory.frames.visitors.node_type_counters import *
 from babydragon.memory.frames.visitors.operator_counters import *
-import hdbscan
-import umap
 import polars as pl
 import os
 from pydantic import ConfigDict, BaseModel
@@ -26,23 +22,21 @@ class CodeFramePydantic(BaseModel):
     name: str
     save_path: Optional[str]
     save_dir: str
-    text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = OpenAiEmbedder
     markdown: str
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 class CodeFrame(BaseFrame):
-    def __init__(self, df: pl.DataFrame, context_columns: Optional[List[str]] = None, embeddable_columns: Optional[List[str]] = None, embedding_columns: Optional[List[str]] = None, name: str = "code_frame", save_path: Optional[str] = "./storage", text_embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]] = None, markdown: str = "text/markdown"):
-        super().__init__(context_columns=..., embeddable_columns=..., embedding_columns=..., name=..., save_path=..., text_embedder=..., markdown=...)
+    def __init__(self, df: pl.DataFrame, context_columns: Optional[List[str]] = None, embeddable_columns: Optional[List[str]] = None, embedding_columns: Optional[List[str]] = None, name: str = "code_frame", save_path: Optional[str] = "./storage", markdown: str = "text/markdown"):
+        BaseFrame.__init__(self, context_columns=..., embeddable_columns=..., embedding_columns=..., name=..., save_path=..., markdown=...)
         self.df = df
         self.context_columns = context_columns
         self.embeddable_columns = embeddable_columns
         self.embedding_columns = embedding_columns
         self.name = name
         self.save_path = save_path
-        self.text_embedder = text_embedder
         self.markdown = markdown
         self.save_dir = f'{self.save_path}/{self.name}'
-        self.frame_template = CodeFramePydantic(df_path=f'{self.save_dir}/{self.name}.parquet', context_columns=self.context_columns, embeddable_columns=self.embeddable_columns, embedding_columns=self.embedding_columns, name=self.name, save_path=self.save_path, save_dir=self.save_dir, load=True, text_embedder=self.text_embedder, markdown=self.markdown)
+        self.frame_template = CodeFramePydantic(df_path=f'{self.save_dir}/{self.name}.parquet', context_columns=self.context_columns, embeddable_columns=self.embeddable_columns, embedding_columns=self.embedding_columns, name=self.name, save_path=self.save_path, save_dir=self.save_dir, load=True,markdown=self.markdown)
 
     def __getattr__(self, name: str):
         if "df" in self.__dict__:
@@ -64,22 +58,6 @@ class CodeFrame(BaseFrame):
         self.df = self.df.with_columns(new_series_len)
         return self
 
-    def embed_columns(self, embeddable_columns: List):
-        for column_name in embeddable_columns:
-            column = self.df[column_name]
-            _, embedder = infer_embeddable_type(column)
-            self._embed_column(column, embedder)
-
-    def _embed_column(self, column, embedder):
-        # Add the embeddings as a new column
-        # Generate new values
-        new_values = embedder.embed(self.df[column.name].to_list())
-        # Add new column to DataFrame
-        new_column_name = f'embedding|{column.name}'
-        new_series = pl.Series(new_column_name, new_values)
-        self.df = self.df.with_columns(new_series)
-        self.embedding_columns.append(new_column_name)
-
     def apply_validator_to_column(self, column_name: str, validator: type):
         # Ensure the validator is a subclass of BaseModel from Pydantic
         if not issubclass(validator, BaseModel):
@@ -97,8 +75,21 @@ class CodeFrame(BaseFrame):
                 raise ValueError(f"Failed to validate text in column '{column_name}'.") from e
 
         return self
+    
+    def prepare_column_for_embeddings(self, column_name="content"):
+        df = self.df.select(column_name).with_columns(pl.lit("text-embedding-ada-002").alias("model"))
+        input_df = df.with_columns(df[column_name].alias('input')).drop(column_name)
+        return input_df
+    
+    def embed_column(self, column="content", generator_log_name="code_embedding"):
+        input_df = self.prepare_column_for_embeddings(column)
+        embedder = PolarsGenerator(input_df = input_df, name = f"{generator_log_name}_text-embedding-ada-002")
+        embedder.execute()
+        out_path = f"./batch_generator/{generator_log_name}_text-embedding-ada-002.ndjson"
+        output = load_generated_content(out_path)
+        self.df = self.df.with_columns(output)
 
-    def convert_column_to_messages(self, column_name, model_name = "gpt-3.5-turbo-16k-0613", system_prompt = "Youre a Helpful Summarizer!"):
+    def convert_column_to_messages(self, column_name, model_name = "gpt-3.5-turbo-16k", system_prompt = "Youre a Helpful Summarizer!"):
         df = self.df.select(column_name).with_columns(pl.lit(model_name).alias("model"))
 
         def create_content(value):
@@ -107,7 +98,15 @@ class CodeFrame(BaseFrame):
 
         input_df = df.with_columns(df[column_name].apply(create_content, return_dtype=pl.List).alias('messages')).drop(column_name)
         self.df = self.df.with_columns(input_df)
-        return self
+
+    def generate_column(self, column_name, generator_log_name="code_summary",  model_name = "gpt-3.5-turbo-16k", system_prompt = "Youre a Helpful Summarizer!"):
+        #TODO: Generate column with OpenAI functionAPI
+        self.convert_column_to_messages(column_name = column_name, model_name = model_name, system_prompt = system_prompt)
+        generator = PolarsGenerator( input_df = self.df, name = generator_log_name)
+        generator.execute()
+        out_path = f"./batch_generator/{generator_log_name}_output.ndjson"
+        output = load_generated_content(out_path)
+        self.df = self.df.with_columns(output)
 
     def search_column_with_sql_polar(self, sql_query, query, embeddable_column_name, top_k):
         df = self.df.filter(sql_query)
@@ -143,15 +142,8 @@ class CodeFrame(BaseFrame):
         df = pl.read_parquet(f'{frame_path}/{name}.parquet')
         with open(f'{frame_path}/{name}.json', 'r') as f:
             frame_template = CodeFramePydantic.parse_raw(f.read())
-        return cls(df=df, context_columns=frame_template.context_columns, embeddable_columns=frame_template.embeddable_columns, embedding_columns=frame_template.embedding_columns, name=frame_template.name, save_path=frame_template.save_path, text_embedder=frame_template.text_embedder, markdown=frame_template.markdown)
+        return cls(df=df, context_columns=frame_template.context_columns, embeddable_columns=frame_template.embeddable_columns, embedding_columns=frame_template.embedding_columns, name=frame_template.name, save_path=frame_template.save_path, markdown=frame_template.markdown)
 
-    def generate_column(self, row_generator, new_column_name):
-        # Generate new values
-        new_values = row_generator.generate(self.df)
-        # Add new column to DataFrame
-        new_df = pl.DataFrame({ new_column_name: new_values })
-        # Concatenate horizontally
-        self.df = self.df.hstack([new_df])
 
     def apply_visitor_to_column(self, column_name: str, visitor_class: type, new_column_prefix: Optional[str] = None):
         # Ensure the visitor_class is a subclass of PythonCodeVisitor
@@ -182,18 +174,6 @@ class CodeFrame(BaseFrame):
             self.apply_visitor_to_column(column_name, globals()[operator_counter], new_column_prefix)
         return self
 
-    def cluster_embeddings(self, column_name: str, dim_reduction_model, cluster_model):
-        embeddings = self.df[column_name].to_list()
-        if dim_reduction_model is None:
-            dim_reduction_model = umap.UMAP()
-        if cluster_model is None:
-            cluster_model = hdbscan.HDBSCAN()
-        reduced_embeddings = dim_reduction_model.fit_transform(embeddings)
-        labels = cluster_model.fit_predict(reduced_embeddings)
-        new_column_name = f'cluster|{column_name}'
-        new_series = pl.Series(new_column_name, labels)
-        self.df = self.df.with_columns(new_series)
-        return self
 
     def replace_code_in_files(self, filename_column: str, original_code_column: str, replacing_code_column: str):
         visitor = CodeReplacerVisitor(filename_column, original_code_column, replacing_code_column)
@@ -227,7 +207,6 @@ class CodeFrame(BaseFrame):
         context_columns: Optional[List[str]] = None,
         name: str = "code_frame",
         save_path: Optional[str] = "./storage",
-        embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= None,
         markdown: str = "text/markdown",
     ) -> "CodeFrame":
         values, context = extract_values_python(directory_path, minify_code, remove_docstrings, resolution)
@@ -245,7 +224,6 @@ class CodeFrame(BaseFrame):
             "embedding_columns": embeddings_column,
             "name": name,
             "save_path": save_path,
-            "text_embedder": embedder,
             "markdown": markdown
         }
         return cls(df, **kwargs)
@@ -258,7 +236,6 @@ class CodeFrame(BaseFrame):
                            embeddable_columns: List[str] = [],
                            name: str = "documentation_frame",
                            save_path: Optional[str] = "./storage",
-                           embedder: Optional[Union[OpenAiEmbedder,CohereEmbedder]]= None,
                            markdown: str = "text/markdown") -> "CodeFrame":
         # Get the data from the directory
         data = traverse_and_collect_rtd(directory_path)
@@ -276,7 +253,6 @@ class CodeFrame(BaseFrame):
             "embedding_columns": embedding_columns,
             "name": name,
             "save_path": save_path,
-            "text_embedder": embedder,
             "markdown": markdown
         }
         return cls(df, **kwargs)

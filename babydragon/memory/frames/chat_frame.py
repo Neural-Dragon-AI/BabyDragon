@@ -1,14 +1,9 @@
 from typing import Any, Optional, List, Union, Dict
 from babydragon.memory.threads.base_thread import BaseThread
-from babydragon.models.embedders.ada2 import OpenAiEmbedder
-from babydragon.models.embedders.cohere import CohereEmbedder
 from babydragon.models.generators.PolarsGenerator import PolarsGenerator
-import json
+import os
 import polars as pl
-import numpy as np
-from umap import UMAP
-from hdbscan import HDBSCAN
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from babydragon.utils.frame_generators import generate_summary_column, embed_summary_column, generate_topic_label_column, cluster_summaries, load_generated_content
 
 
 class ChatFrame(BaseThread):
@@ -16,7 +11,6 @@ class ChatFrame(BaseThread):
                  context_columns: List[str] = [],
                  embeddable_columns: List[str] = ['content'],
                  embedding_columns: List[str] = [],
-                 text_embedder: Optional[Union[OpenAiEmbedder, CohereEmbedder]] = OpenAiEmbedder,
                  markdown: str = "text/markdown",
                  max_memory: int | None = None,
                  tokenizer: Any | None = None,
@@ -26,14 +20,12 @@ class ChatFrame(BaseThread):
         self.context_columns = context_columns
         self.embeddable_columns = embeddable_columns
         self.embedding_columns = embedding_columns
-        self.text_embedder = text_embedder
         self.markdown = markdown
 
 
     # Dot Product Query
     def search_column_with_dot_product(self, query: str, embeddable_column_name: str, top_k: int) -> pl.DataFrame:
         embedding_column_name = 'embedding|' + embeddable_column_name
-
         query_as_series = pl.Series(query)
         dot_product_frame = self.memory_thread.with_columns(self.memory_thread[embedding_column_name].list.eval(pl.element().explode().dot(query_as_series),parallel=True).list.first().alias("dot_product"))
         # Sort by dot product and select top_k rows
@@ -41,35 +33,33 @@ class ChatFrame(BaseThread):
         return result
 
     # Tokenization
-    def tokenize_column(self, column_name: str):
-        new_values = self.tokenizer.encode_batch(self.memory_thread[column_name].to_list())
+    def tokenize_column(self, input_df = None, column_name: str = "content"):
+        if input_df is None:
+            input_df = self.memory_thread
+        new_values = self.tokenizer.encode_batch(input_df[column_name].to_list())
         new_series = pl.Series(f'tokens|{column_name}', new_values)
         len_values = [len(x) for x in new_values]
         new_series_len = pl.Series(f'tokens_len|{column_name}', len_values)
-        self.memory_thread = self.memory_thread.with_columns(new_series)
-        self.memory_thread = self.memory_thread.with_columns(new_series_len)
+        input_df = input_df.with_columns(new_series)
+        input_df = input_df.with_columns(new_series_len)
+        if input_df is None:
+            self.memory_thread = input_df
+            return self.memory_thread
+        else:
+            return input_df
+        
     
-    def prepare_column_for_embeddings(self, column_name):
-
+    def prepare_column_for_embeddings(self, column_name="content"):
         df = self.memory_thread.select(column_name).with_columns(pl.lit("text-embedding-ada-002").alias("model"))
         input_df = df.with_columns(df[column_name].alias('input')).drop(column_name)
-
         return input_df
     
-    def embed_column(self, column, generator_log_name="chat_embedding"):
+    def embed_column(self, column="content", generator_log_name="chat_embedding"):
         input_df = self.prepare_column_for_embeddings(column)
         embedder = PolarsGenerator(input_df = input_df, name = f"{generator_log_name}_text-embedding-ada-002")
         embedder.execute()
         out_path = f"./batch_generator/{generator_log_name}_text-embedding-ada-002.ndjson"
-        #load output file to list
-        with open(out_path) as f:
-            output = f.readlines()
-        #add to memory
-        output = [x.strip() for x in output]
-        output = [json.loads(x) for x in output]
-        #reverse order
-        output = output[::-1]
-        output = pl.DataFrame(output)
+        output = load_generated_content(out_path)
         self.memory_thread = self.memory_thread.with_columns(output)
 
 
@@ -89,65 +79,67 @@ class ChatFrame(BaseThread):
         generator = PolarsGenerator( input_df = self.memory_thread, name = generator_log_name)
         generator.execute()
         out_path = f"./batch_generator/{generator_log_name}_output.ndjson"
-        #load output file to list
-        with open(out_path) as f:
-            output = f.readlines()
-        #add to memory
-        output = [x.strip() for x in output]
-        output = [json.loads(x) for x in output]
-        #reverse order
-        output = output[::-1]
-        output = pl.DataFrame(output)
+        output = load_generated_content(out_path)
         self.memory_thread = self.memory_thread.with_columns(output)
-    
-    def reduce_dimensionality(self):
-        umap_model = UMAP(n_neighbors=5, n_components=5, min_dist=0.0, metric='cosine')
-        embeddings = np.stack(self.memory_thread['embedding|content'].to_list())
-        reduced_embeddings = umap_model.fit_transform(embeddings)
-        self.memory_thread = self.memory_thread.with_columns(pl.Series('reduced_embedding', reduced_embeddings.tolist()))
-    
-    def cluster_data(self):
-        hdbscan_model = HDBSCAN(min_cluster_size=5, metric='euclidean', cluster_selection_method='eom', prediction_data=True)
-        reduced_embeddings = np.stack(self.memory_thread['reduced_embedding'].to_list())
-        cluster_labels = hdbscan_model.fit_predict(reduced_embeddings)
-        self.memory_thread = self.memory_thread.with_columns(pl.Series('cluster_labels', cluster_labels))
-    
-    def vectorize_topics(self):
-        vectorizer_model = CountVectorizer(stop_words="english")
-        # Concatenate texts within each cluster and then vectorize
-        df = self.memory_thread.sort('cluster_labels')
-        # Step 2: Initialize an empty list and DataFrame to hold the results
-        concatenated_contents = []
-        unique_labels = []
-
-        # Step 3: Iterate through unique 'cluster_labels' to perform the custom aggregation
-        for label in df["cluster_labels"].unique():
-            subset = df.filter(df["cluster_labels"] == label)
-            concatenated_content = " ".join(subset["content"].to_list())
-            
-            concatenated_contents.append(concatenated_content)
-            unique_labels.append(label)
-
-        # Step 4: Create the output DataFrame
-        final_df = pl.DataFrame({
-            "cluster_labels": unique_labels,
-            "concatenated_content": concatenated_contents
-        })
-        concatenated_texts = final_df["concatenated_content"].to_list()
-        self.token_matrix = vectorizer_model.fit_transform(concatenated_texts)
-    
-    def create_topic_representation(self):
-        tfidf_transformer = TfidfTransformer()
-        self.topic_representations = tfidf_transformer.fit_transform(self.token_matrix)
-    
-    def execute_tagging_pipeline(self):
-        self.reduce_dimensionality()
-        self.cluster_data()
-        self.vectorize_topics()
-        self.create_topic_representation()
 
 
+    def pipeline(self, name):
+        grouped_df = self.memory_thread.groupby('conversation_id').agg(pl.col('content').alias('content'))
+        # convert content column to str
+        grouped_df = grouped_df.with_columns(
+            pl.col("content").apply(lambda x: ' '.join(x), return_dtype=pl.Utf8).alias("concatenated_content")
+        )
+        # tokenize
+        grouped_df = self.tokenize_column(input_df = grouped_df, column_name="concatenated_content")
+
+        #summarize
+        out_path = f"./batch_generator/{name}_output.ndjson"
+        conv_id_column = grouped_df.select("conversation_id")
+        if os.path.exists(out_path):
+            output = load_generated_content(out_path)
+            summary_column = output.select("output")
+            grouped_df = grouped_df.with_columns(summary_column)
+            grouped_df = grouped_df.rename({"output": "summary"})
+        else:
+            summary_column = generate_summary_column(grouped_df, name = name)
+            grouped_df = grouped_df.with_columns(summary_column)
+            grouped_df = grouped_df.rename({"output": "summary"})
+
+        #embed Summary
+        out_path = f"./batch_generator/{name}_text-embedding-ada-002_output.ndjson"
+        if os.path.exists(out_path):
+            output = load_generated_content(out_path)
+            emb_column = output.select("output")
+            grouped_df = grouped_df.with_columns(emb_column)
+            grouped_df = grouped_df.rename({"output": "summary_embedding"})
+        else:
+            emb_column = embed_summary_column(df=grouped_df, name = name)
+            grouped_df = grouped_df.with_columns(emb_column)
+            grouped_df = grouped_df.rename({"output": "summary_embedding"})
 
 
+        #cluster
+        embeddings = grouped_df["summary_embedding"].to_list()
+        new_series = cluster_summaries(embeddings)
+        grouped_df = grouped_df.with_columns(new_series)
+        grouped_df = grouped_df.with_columns(conv_id_column)
+        cluster_df = grouped_df.groupby('cluster|summary').agg(pl.col('summary').alias('summary'))
+        # convert content column to str
+        cluster_df = cluster_df.with_columns(
+            pl.col("summary").apply(lambda x: ' '.join(x), return_dtype=pl.Utf8).alias("concatenated_summary")
+        )
+        cluster_id_column = cluster_df.select("cluster|summary")
+        # tokenize
+        cluster_df = self.tokenize_column(input_df = cluster_df, column_name="concatenated_summary")
 
+        summary_column = generate_topic_label_column(df=cluster_df, name = name)
+        cluster_df = cluster_df.with_columns(summary_column)
+        cluster_df = cluster_df.with_columns(cluster_id_column)
+        cluster_df = cluster_df.rename({"output": "topic_label"})
+
+        joined_df1 = grouped_df.join(cluster_df, left_on="cluster|summary", right_on="cluster|summary", how="inner")
+        joined_df2 = self.memory_thread.join(joined_df1, left_on="conversation_id", right_on="conversation_id", how="inner")
+        self.memory_thread = joined_df2
+
+        return grouped_df, cluster_df, joined_df2
 
