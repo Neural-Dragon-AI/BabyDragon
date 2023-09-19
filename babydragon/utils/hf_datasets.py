@@ -1,14 +1,15 @@
-
-import numpy as np
-from typing import List, Optional, Tuple, Union, Dict, Any
+from typing import List, Optional, Tuple, Union
 
 import datasets
+import numpy as np
+
 
 def concat_columns(example, index=None):
-    column1='title'
-    column2='text'
-    example['merged_column'] = example[column1] +" - " + example[column2]
+    column1 = "title"
+    column2 = "text"
+    example["merged_column"] = example[column1] + " - " + example[column2]
     return example
+
 
 def extract_values_and_embeddings_hf(
     dataset: datasets.Dataset,
@@ -31,11 +32,14 @@ def extract_values_and_embeddings_hf(
     print("Merging values: Start")
     merged_docs = dataset.map(concat_columns, with_indices=True)
     print("Merging values: Done")
-    values = merged_docs['merged_column']
+    values = merged_docs["merged_column"]
     embeddings = dataset[embeddings_column]
     return values, embeddings if embeddings_column is not None else None
 
-def extract_values_hf(dataset: datasets.Dataset, value_column: Union[str, List[str]]) -> List[str]:
+
+def extract_values_hf(
+    dataset: datasets.Dataset, value_column: Union[str, List[str]]
+) -> List[str]:
     """
     Extract values from a Hugging Face dataset.
 
@@ -55,4 +59,3 @@ def extract_values_hf(dataset: datasets.Dataset, value_column: Union[str, List[s
         return merged_docs
     else:
         raise ValueError("No value column specified.")
-

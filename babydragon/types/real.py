@@ -1,10 +1,17 @@
-from pydantic import BaseModel, Field, FieldValidationInfo, field_validator
-from typing import Union, Optional, Tuple, List
+from typing import List, Optional, Tuple, Union
+
+from pydantic import Field, field_validator
+
 from babydragon.types.base import BDType
 
+
 class RealData(BDType):
-    range: Optional[Tuple[Union[float, int], Union[float, int]]] = Field(None, description="An optional inclusive range (min, max) for the value.")
-    value: Union[float, int] = Field(..., description="The real value data. It should be a float or an integer.")
+    range: Optional[Tuple[Union[float, int], Union[float, int]]] = Field(
+        None, description="An optional inclusive range (min, max) for the value."
+    )
+    value: Union[float, int] = Field(
+        ..., description="The real value data. It should be a float or an integer."
+    )
 
     @field_validator("value")
     def validate_value(cls, v, values):
@@ -12,12 +19,20 @@ class RealData(BDType):
         if value_range is not None:
             min_value, max_value = value_range
             if not min_value <= v <= max_value:
-                raise ValueError(f"Value {v} is not within the specified range {value_range}.")
+                raise ValueError(
+                    f"Value {v} is not within the specified range {value_range}."
+                )
         return v
 
+
 class RealDataList(BDType):
-    range: Optional[Tuple[Union[float, int], Union[float, int]]] = Field(None, description="An optional inclusive range (min, max) for the values.")
-    values: List[RealData] = Field(..., description="The list of real value data. Each should be a RealeData object.")
+    range: Optional[Tuple[Union[float, int], Union[float, int]]] = Field(
+        None, description="An optional inclusive range (min, max) for the values."
+    )
+    values: List[RealData] = Field(
+        ...,
+        description="The list of real value data. Each should be a RealeData object.",
+    )
 
     @field_validator("values")
     def validate_values(cls, values, values_dict):
@@ -26,17 +41,25 @@ class RealDataList(BDType):
             min_value, max_value = list_range
             for value in values:
                 if not min_value <= value.value <= max_value:
-                    raise ValueError(f"Value {value.value} of RealData object is not within the specified range {list_range}.")
+                    raise ValueError(
+                        f"Value {value.value} of RealData object is not within the specified range {list_range}."
+                    )
         return values
 
+
 class MultiDimensionalReal(BDType):
-    range: Optional[Union[Tuple[Union[float, int], Union[float, int]], List[Tuple[Union[float, int], Union[float, int]]]]] = Field(
-        None, 
-        description="An optional inclusive range (min, max) for the values. If a tuple, applies to all dimensions. If a list, it must match the dimension length."
+    range: Optional[
+        Union[
+            Tuple[Union[float, int], Union[float, int]],
+            List[Tuple[Union[float, int], Union[float, int]]],
+        ]
+    ] = Field(
+        None,
+        description="An optional inclusive range (min, max) for the values. If a tuple, applies to all dimensions. If a list, it must match the dimension length.",
     )
     values: List[RealData] = Field(
-        ..., 
-        description="The list of real data for each dimension. Each should be a RealData object."
+        ...,
+        description="The list of real data for each dimension. Each should be a RealData object.",
     )
 
     @field_validator("values")
@@ -48,24 +71,36 @@ class MultiDimensionalReal(BDType):
                 min_value, max_value = range_values
                 for value in values:
                     if not min_value <= value.value <= max_value:
-                        raise ValueError(f"Value {value.value} of RealData object is not within the specified range {range_values}.")
+                        raise ValueError(
+                            f"Value {value.value} of RealData object is not within the specified range {range_values}."
+                        )
             # If range is a list, it must have the same length as values
             elif isinstance(range_values, list):
                 if len(values) != len(range_values):
-                    raise ValueError("If range is a list, it must have the same length as values.")
+                    raise ValueError(
+                        "If range is a list, it must have the same length as values."
+                    )
                 for value, (min_value, max_value) in zip(values, range_values):
                     if not min_value <= value.value <= max_value:
-                        raise ValueError(f"Value {value.value} of RealData object is not within the specified range ({min_value}, {max_value}).")
+                        raise ValueError(
+                            f"Value {value.value} of RealData object is not within the specified range ({min_value}, {max_value})."
+                        )
         return values
 
+
 class MultiDimensionalRealList(BDType):
-    range: Optional[Union[Tuple[Union[float, int], Union[float, int]], List[Tuple[Union[float, int], Union[float, int]]]]] = Field(
-        None, 
-        description="An optional inclusive range (min, max) for the values in all dimensions. If a tuple, applies to all dimensions. If a list, it must match the dimension length."
+    range: Optional[
+        Union[
+            Tuple[Union[float, int], Union[float, int]],
+            List[Tuple[Union[float, int], Union[float, int]]],
+        ]
+    ] = Field(
+        None,
+        description="An optional inclusive range (min, max) for the values in all dimensions. If a tuple, applies to all dimensions. If a list, it must match the dimension length.",
     )
     values: List[MultiDimensionalReal] = Field(
-        ..., 
-        description="The list of multi-dimensional real data. Each should be a MultiDimensionalReal object."
+        ...,
+        description="The list of multi-dimensional real data. Each should be a MultiDimensionalReal object.",
     )
 
     @field_validator("values")
@@ -78,19 +113,30 @@ class MultiDimensionalRealList(BDType):
                 min_value, max_value = range_values
                 for multi_real in values:
                     if len(multi_real.values) != dimension_length:
-                        raise ValueError("All MultiDimensionalReal in the list must have the same length.")
+                        raise ValueError(
+                            "All MultiDimensionalReal in the list must have the same length."
+                        )
                     for value in multi_real.values:
                         if not min_value <= value.value <= max_value:
-                            raise ValueError(f"Value {value.value} of RealData object is not within the specified range {range_values}.")
+                            raise ValueError(
+                                f"Value {value.value} of RealData object is not within the specified range {range_values}."
+                            )
             # If range is a list, it must have the same length as values in each dimension
             elif isinstance(range_values, list):
                 if len(range_values) != dimension_length:
-                    raise ValueError("If range is a list, it must have the same length as values in each dimension.")
+                    raise ValueError(
+                        "If range is a list, it must have the same length as values in each dimension."
+                    )
                 for multi_real in values:
                     if len(multi_real.values) != dimension_length:
-                        raise ValueError("All MultiDimensionalReal in the list must have the same length.")
-                    for value, (min_value, max_value) in zip(multi_real.values, range_values):
+                        raise ValueError(
+                            "All MultiDimensionalReal in the list must have the same length."
+                        )
+                    for value, (min_value, max_value) in zip(
+                        multi_real.values, range_values
+                    ):
                         if not min_value <= value.value <= max_value:
-                            raise ValueError(f"Value {value.value} of RealData object is not within the specified range ({min_value}, {max_value}).")
+                            raise ValueError(
+                                f"Value {value.value} of RealData object is not within the specified range ({min_value}, {max_value})."
+                            )
         return values
-

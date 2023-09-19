@@ -1,18 +1,23 @@
-from typing import Callable, Dict, List, Tuple, Union, Generator
-import openai
+from typing import Callable, Dict, Generator, List, Tuple, Union
+
 import tiktoken
 from IPython.display import Markdown, display
+from pydantic import BaseModel, validator
+
+from babydragon.chat.prompts.default_prompts import (
+    DEFAULT_SYSTEM_PROMPT,
+    DEFAULT_USER_PROMPT,
+)
+from babydragon.memory.threads.base_thread import BaseThread
 from babydragon.models.generators.chatgpt import chatgpt_response
 from babydragon.models.generators.cohere import cohere_response
-from babydragon.chat.prompts.default_prompts import (DEFAULT_SYSTEM_PROMPT,
-                                                     DEFAULT_USER_PROMPT)
-from babydragon.utils.chatml import (get_mark_from_response,
-                                  get_str_from_response, mark_question,
-                                  mark_system)
-from babydragon.memory.threads.base_thread import BaseThread
-import logging
+from babydragon.utils.chatml import (
+    get_mark_from_response,
+    get_str_from_response,
+    mark_question,
+    mark_system,
+)
 
-from pydantic import BaseModel, validator
 
 class PromptConfiguration(BaseModel):
     system_prompt: Union[str, None] = None
@@ -26,6 +31,7 @@ class PromptConfiguration(BaseModel):
     def validate_user_prompt(cls, value):
         return value if value is not None else DEFAULT_USER_PROMPT
 
+
 class MessageHandler(BaseModel):
     content: str
 
@@ -33,13 +39,20 @@ class MessageHandler(BaseModel):
     def validate_content(cls, value):
         return value if value is not None else ""
 
+
 class Prompter:
-    def __init__(self, system_prompt: Union[str, None] = None, user_prompt: Union[str, None] = None):
-        config = PromptConfiguration(system_prompt=system_prompt, user_prompt=user_prompt)
+    def __init__(
+        self,
+        system_prompt: Union[str, None] = None,
+        user_prompt: Union[str, None] = None,
+    ):
+        config = PromptConfiguration(
+            system_prompt=system_prompt, user_prompt=user_prompt
+        )
         self.system_prompt = config.system_prompt
         self.user_prompt_template = config.user_prompt
         self.prompt_func: Callable[[str], Tuple[List[str], str]] = self.one_shot_prompt
-    
+
     def set_default_prompts(self) -> None:
         """
         Set the default system and user prompts.
@@ -68,7 +81,9 @@ class Prompter:
         prompt = [mark_system(self.system_prompt)] + [marked_question]
         return prompt, marked_question
 
-    def one_shot_prompt_with_thread(self, message: str, thread: BaseThread) -> Tuple[List[str], str]:
+    def one_shot_prompt_with_thread(
+        self, message: str, thread: BaseThread
+    ) -> Tuple[List[str], str]:
         """
         Compose the prompt for the chat-gpt API, including conversation history from the thread.
 
@@ -88,7 +103,9 @@ class Prompter:
         for index in range(len(conversation_history)):
             role = conversation_history["role"][index]
             content = conversation_history["content"][index]
-            prompt.append(mark_system(content) if role == 'system' else mark_question(content))
+            prompt.append(
+                mark_system(content) if role == "system" else mark_question(content)
+            )
 
         prompt.append(marked_question)
 
@@ -108,22 +125,27 @@ class Prompter:
 
         :param new_prompt: A string representing the new user prompt.
         """
-        self.user_prompt_template = PromptConfiguration(user_prompt=new_prompt).user_prompt
+        self.user_prompt_template = PromptConfiguration(
+            user_prompt=new_prompt
+        ).user_prompt
 
 
 class ChatModelConfiguration(BaseModel):
     model: str = "gpt-3.5-turbo"
     max_output_tokens: int = 200
 
+
 class BaseChat:
-    def __init__(self, model: Union[str,None] = None, max_output_tokens: int = 200):
+    def __init__(self, model: Union[str, None] = None, max_output_tokens: int = 200):
         """
         Initialize the BaseChat with a model and max_output_tokens.
 
         :param model: A string representing the chat model to be used.
         :param max_output_tokens: An integer representing the maximum number of output tokens.
         """
-        config = ChatModelConfiguration(model=model, max_output_tokens=max_output_tokens)
+        config = ChatModelConfiguration(
+            model=model, max_output_tokens=max_output_tokens
+        )
         self.model = config.model
         self.max_output_tokens = config.max_output_tokens
 
@@ -149,22 +171,33 @@ class BaseChat:
         """
         return [mark_question(message)], mark_question(message)
 
-    def chat_response(self, prompt: List[dict], max_tokens: Union[int, None] = None, stream: bool = False) -> Union[Generator, Tuple[Dict, bool]]:
+    def chat_response(
+        self,
+        prompt: List[dict],
+        max_tokens: Union[int, None] = None,
+        stream: bool = False,
+    ) -> Union[Generator, Tuple[Dict, bool]]:
         if max_tokens is None:
             max_tokens = self.max_output_tokens
 
         if "gpt" in self.model:
-            response, status = chatgpt_response(prompt=prompt, model=self.model, max_tokens=max_tokens, stream=stream)
+            response, status = chatgpt_response(
+                prompt=prompt, model=self.model, max_tokens=max_tokens, stream=stream
+            )
             return response, status if status else self.handle_failure(response)
 
         elif "command" in self.model:
-            response, status = cohere_response(prompt=prompt, model=self.model, max_tokens=max_tokens)
+            response, status = cohere_response(
+                prompt=prompt, model=self.model, max_tokens=max_tokens
+            )
             return response, status if status else self.handle_failure(response)
 
         else:
             return {}, False
 
-    def reply(self, message: str, verbose: bool = True, stream: bool = False) -> Union[Generator, str]:
+    def reply(
+        self, message: str, verbose: bool = True, stream: bool = False
+    ) -> Union[Generator, str]:
         """
         Reply to a given message using the chatbot.
 
@@ -176,7 +209,9 @@ class BaseChat:
         else:
             return self.query(message, verbose)["content"]
 
-    def query(self, message: str, verbose: bool = True, stream: bool = False) -> Union[Generator, str]:
+    def query(
+        self, message: str, verbose: bool = True, stream: bool = False
+    ) -> Union[Generator, str]:
         """
         Query the chatbot with a given message, optionally showing the input and output messages as Markdown.
 
@@ -252,4 +287,3 @@ class BaseChat:
         state = state + [(text, response)]
         print("Outputs:", state)
         return state, state
-

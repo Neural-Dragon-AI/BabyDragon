@@ -1,7 +1,6 @@
 import os
 import shutil
 import subprocess
-from typing import List
 
 from github import Github
 
@@ -76,7 +75,6 @@ class GithubProcessor(OsProcessor):
         return user.get_repo(repo_name)
 
     def process_single_repo(self):
-
         repo = self.get_repo(self.repo_name)
         print(f"Processing repo: {self.repo_name}")
         repo_path = self.clone_repo(repo.clone_url)
