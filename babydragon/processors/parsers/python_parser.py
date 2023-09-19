@@ -1,6 +1,5 @@
-import os
 import subprocess
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple
 
 import libcst as cst
 from python_minifier import minify
@@ -10,7 +9,6 @@ from babydragon.processors.os_processor import OsProcessor
 
 class PythonMinifier:
     def __init__(self, code: str = None):
-
         self.code = code
         self.output_code = None
 
@@ -62,7 +60,6 @@ class FunctionAndClassVisitor(cst.CSTVisitor):
         self.filename_map = []
         self.full_source_list = []
         self.full_node_list = []
-
 
     def visit_FunctionDef(self, node: cst.FunctionDef) -> None:
         """This method is called for every FunctionDef node in the tree.
@@ -147,7 +144,7 @@ class PythonParser(OsProcessor):
         2. Parses the file
         3. Visits the file with the visitor
         """
-        #get current number of nodes in visitor
+        # get current number of nodes in visitor
         current_node_count = self.visitor.function_count + self.visitor.class_count
         with open(file_path, "r", encoding="utf-8") as file:
             source_code = file.read()
@@ -159,9 +156,11 @@ class PythonParser(OsProcessor):
             return
 
         tree.visit(self.visitor)
-        #calculate how many new nodes were added
-        new_node_counter = self.visitor.function_count + self.visitor.class_count - current_node_count
-        self.visitor.filename_map.extend([file_path]*new_node_counter)
+        # calculate how many new nodes were added
+        new_node_counter = (
+            self.visitor.function_count + self.visitor.class_count - current_node_count
+        )
+        self.visitor.filename_map.extend([file_path] * new_node_counter)
         # Remove docstrings if specified
         if self.remove_docstrings:
             source_code = self.remove_docstring(source_code, tree)
@@ -219,14 +218,13 @@ class PythonParser(OsProcessor):
             self._process_file(file_path)
 
         result_dict = {
-            'function_source_codes': self.visitor.function_source_codes,
-            'function_nodes': self.visitor.function_nodes,
-            'class_source_codes': self.visitor.class_source_codes,
-            'class_nodes': self.visitor.class_nodes,
-            'file_map': self.visitor.filename_map,
-            'full_nodes': self.visitor.full_node_list,
-            'full_source': self.visitor.full_source_list
+            "function_source_codes": self.visitor.function_source_codes,
+            "function_nodes": self.visitor.function_nodes,
+            "class_source_codes": self.visitor.class_source_codes,
+            "class_nodes": self.visitor.class_nodes,
+            "file_map": self.visitor.filename_map,
+            "full_nodes": self.visitor.full_node_list,
+            "full_source": self.visitor.full_source_list,
         }
-
 
         return result_dict

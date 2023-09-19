@@ -1,5 +1,5 @@
 import os
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin
 
 import requests
 from bs4 import BeautifulSoup
@@ -79,7 +79,7 @@ class ArxivParser:
                 paper_dict["title"] = entry.title.string
                 paper_dict["summary"] = entry.summary.string
                 paper_dict["content"] = self.vanity_parser.parse_paper(str(arxiv_id))
-                if paper_dict["content"] == None:
+                if paper_dict["content"] is None:
                     continue
                 paper_list.append(paper_dict)
             return paper_list
