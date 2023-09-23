@@ -32,6 +32,9 @@ class ChatFrame(BaseThread):
         self.embedding_columns = embedding_columns
         self.markdown = markdown
 
+    def apply_expression(self, expression: pl.Expr) -> pl.DataFrame:
+        return self.memory_thread.filter(expression)
+
     # Dot Product Query
     def search_column_with_dot_product(
         self, query: str, embeddable_column_name: str, top_k: int

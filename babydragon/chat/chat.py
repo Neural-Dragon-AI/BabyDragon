@@ -1,7 +1,7 @@
 from typing import Dict, Generator, List, Optional, Tuple, Union
 
 import polars as pl
-from dragon.memory.chat_frame import ChatFrame
+from babydragon.memory.frames.chat_frame import ChatFrame
 
 from babydragon.chat.base_chat import BaseChat, Prompter
 from babydragon.utils.chatml import (
@@ -30,6 +30,7 @@ class MemoryChat(BaseChat):
         return [mark_question(message)], mark_question(message)
 
     def add_message_to_thread(self, role: str, content: str):
+        # TODO Thread population
         message_dict = {"role": role, "content": content}
         self.chat_frame.add_dict_to_thread(message_dict)
 

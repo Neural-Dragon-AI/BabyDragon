@@ -65,6 +65,13 @@ class CodeFrame(BaseFrame):
         raise AttributeError(
             f"{self.__class__.__name__} object has no attribute {name}"
         )
+    
+    def set_embeddable_columns(self, *column_names):
+        for column_name in column_names:
+            if column_name not in self.df.columns:
+                raise ValueError(f"Column '{column_name}' does not exist.")
+        self.embeddable_columns = set(column_names)
+        return self
 
     def get_overwritten_attr(self):
         df_methods = [
