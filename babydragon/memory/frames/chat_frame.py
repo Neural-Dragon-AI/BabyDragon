@@ -85,7 +85,7 @@ class ChatFrame(BaseThread):
         )
         embedder.execute()
         out_path = (
-            f"./batch_generator/{generator_log_name}_text-embedding-ada-002.ndjson"
+            f"./batch_generator/{generator_log_name}_text-embedding-ada-002_output.ndjson"
         )
         output = load_generated_content(out_path)
         self.memory_thread = self.memory_thread.with_columns(output)

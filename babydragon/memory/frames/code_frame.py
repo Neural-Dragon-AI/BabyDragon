@@ -7,7 +7,6 @@ from pydantic import BaseModel
 
 from babydragon.memory.frames.base_frame import BaseFrame
 from babydragon.memory.frames.frame_models import CodeFramePydantic
-from babydragon.processors.parsers.visitors.module_augmenters import CodeReplacerVisitor
 from babydragon.models.generators.PolarsGenerator import PolarsGenerator
 from babydragon.utils.frame_generators import load_generated_content
 from babydragon.utils.main_logger import logger
@@ -267,36 +266,7 @@ class CodeFrame(BaseFrame):
             )
         return self
 
-    def replace_code_in_files(
-        self,
-        filename_column: str,
-        original_code_column: str,
-        replacing_code_column: str,
-    ):
-        visitor = CodeReplacerVisitor(
-            filename_column, original_code_column, replacing_code_column
-        )
-        for row in self.df.rows():
-            filename = row[filename_column]
-            original_code = row[original_code_column]
-            replacing_code = row[replacing_code_column]
 
-            if (
-                filename
-                and original_code
-                and replacing_code
-                and os.path.isfile(filename)
-            ):
-                node = cst.parse_module(original_code)
-                node.metadata[original_code_column] = original_code
-                node.metadata[replacing_code_column] = replacing_code
-                node.metadata[filename_column] = filename
-
-                modified_node = node.visit(visitor)
-                modified_code = cst.Module(body=modified_node.body).code
-                row[original_code_column] = modified_code
-
-        return self
 
     @classmethod
     def from_python(
