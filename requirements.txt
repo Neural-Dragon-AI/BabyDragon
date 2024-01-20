@@ -4,3 +4,5 @@ tiktoken
 openai
 libcst
 ipykernel
+instructor
+setuptools
