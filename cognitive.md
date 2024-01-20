@@ -21,7 +21,7 @@ The BabyDragon MemoryLoop framework is designed to develop an advanced conversat
 
 The Interaction Loop Process in the BabyDragon MemoryLoop framework is a sequential procedure that enables the AI to process user inputs, access and utilize stored information, and generate responses. This process integrates the functionalities of Short-Term Memory (STM), Episodic Memory (EM), and Associative Memory (AM) to handle and respond to user queries efficiently. The following sections detail each step of this process, providing a clear understanding of how the AI operates within this framework.
 
-<img src="adjusted_ai_action_loop_diagram_with_loop.svg" alt="memoryloop" width="90%" />
+<img src="adjusted_ai_action_loop_diagram_with_loop.svg" alt="memoryloop" width="50%" />
 
 
 #### 1. Perceptual Memory (PM)
