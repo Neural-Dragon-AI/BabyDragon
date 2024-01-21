@@ -1,0 +1,57 @@
+// State Action Graph
+digraph {
+	node [shape=plaintext]
+	rankdir=TB
+	start [style=invisible]
+	subgraph cluster_1 {
+		label="Time Step 0"
+		color=lightgrey style=filled
+		invisible_1 [style=invisible]
+		entity_1_1 [label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2'><b>Margaret</b></td></tr><tr><td>state</td><td>None</td></tr></table>>]
+		entity_2_1 [label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2'><b>Chocolate Cake</b></td></tr><tr><td>state</td><td>None</td></tr></table>>]
+		entity_1_1 -> entity_2_1 [label="Decide to cook
+Margaret decided to cook a chocolate cake."]
+	}
+	invisible_1 -> invisible_2 [style=invis]
+	subgraph cluster_2 {
+		label="Time Step 1"
+		color=lightgrey style=filled
+		invisible_2 [style=invisible]
+		entity_1_2 [label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2'><b>Margaret</b></td></tr><tr><td>state</td><td>None</td></tr></table>>]
+		entity_2_2 [label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2'><b>Chocolate Cake</b></td></tr><tr><td>state</td><td>Ingredients Prepared</td></tr></table>>]
+		entity_1_2 -> entity_2_2 [label="Prepare and mix ingredients
+Margaret prepared the ingredients and mixed them together."]
+	}
+	invisible_2 -> invisible_3 [style=invis]
+	subgraph cluster_3 {
+		label="Time Step 2"
+		color=lightgrey style=filled
+		invisible_3 [style=invisible]
+		entity_1_3 [label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2'><b>Margaret</b></td></tr><tr><td>state</td><td>None</td></tr></table>>]
+		entity_2_3 [label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2'><b>Chocolate Cake</b></td></tr><tr><td>state</td><td>Baking</td></tr></table>>]
+		entity_1_3 -> entity_2_3 [label="Bake
+She put the cake in the oven and waited for it to bake."]
+	}
+	invisible_3 -> invisible_4 [style=invis]
+	subgraph cluster_4 {
+		label="Time Step 3"
+		color=lightgrey style=filled
+		invisible_4 [style=invisible]
+		entity_1_4 [label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2'><b>Margaret</b></td></tr><tr><td>state</td><td>None</td></tr></table>>]
+		entity_2_4 [label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2'><b>Chocolate Cake</b></td></tr><tr><td>state</td><td>Baked</td></tr></table>>]
+		entity_1_4 -> entity_2_4 [label="Remove and cool
+She took the cake out of the oven and let it cool."]
+	}
+	invisible_4 -> invisible_5 [style=invis]
+	subgraph cluster_5 {
+		label="Time Step 4"
+		color=lightgrey style=filled
+		invisible_5 [style=invisible]
+		entity_1_5 [label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2'><b>Margaret</b></td></tr><tr><td>emotion</td><td>Happy</td></tr></table>>]
+		entity_2_5 [label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2'><b>Chocolate Cake</b></td></tr><tr><td>state</td><td>Decorated</td></tr></table>>]
+		entity_1_5 -> entity_2_5 [label="Decorate and evaluate
+She decorated the cake with icing and sprinkles. Margaret was very happy with how the cake turned out."]
+	}
+	start -> invisible_1 [style=invis]
+	label="Margaret decided to cook a chocolate cake. She prepared the ingredients and mixed them together. She then put the cake in the oven and waited for it to bake. After 30 minutes, she took the cake out of the oven and let it cool. She then decorated the cake with icing and sprinkles. Margaret was very happy with how the cake turned out." labelloc=t
+}
